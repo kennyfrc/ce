@@ -116,7 +116,7 @@ export const insertColumn = function (
   columnNumber: number,
   insertBefore: boolean,
   properties: any
-) {
+): void {
   const obj = this;
 
   // Configuration
@@ -397,7 +397,7 @@ export const insertColumn = function (
  *
  * @return void
  */
-export const moveColumn = function (o, d) {
+export const moveColumn = function (this: any, o: any, d: any): void {
   const obj = this;
 
   if (
@@ -517,7 +517,11 @@ export const moveColumn = function (o, d) {
  * @param integer numOfColumns - number of columns to be excluded from the reference column
  * @return void
  */
-export const deleteColumn = function (columnNumber, numOfColumns) {
+export const deleteColumn = function (
+  this: any,
+  columnNumber: any,
+  numOfColumns: any
+): void {
   const obj = this;
 
   // Global Configuration
@@ -735,7 +739,7 @@ export const deleteColumn = function (columnNumber, numOfColumns) {
  * @param int column column number (first column is: 0)
  * @return int current width
  */
-export const getWidth = function (column) {
+export const getWidth = function (this: any, column: any): number {
   const obj = this;
 
   let data;
@@ -766,7 +770,12 @@ export const getWidth = function (column) {
  * @param int new column width
  * @param int old column width
  */
-export const setWidth = function (column, width, oldWidth) {
+export const setWidth = function (
+  this: any,
+  column: any,
+  width: any,
+  oldWidth: any
+): void {
   const obj = this;
 
   if (width) {
@@ -833,7 +842,7 @@ export const setWidth = function (column, width, oldWidth) {
 /**
  * Show column
  */
-export const showColumn = function (colNumber) {
+export const showColumn = function (this: any, colNumber: any): void {
   const obj = this;
 
   if (!Array.isArray(colNumber)) {
@@ -864,7 +873,7 @@ export const showColumn = function (colNumber) {
 /**
  * Hide column
  */
-export const hideColumn = function (colNumber) {
+export const hideColumn = function (this: any, colNumber: any): void {
   const obj = this;
 
   if (!Array.isArray(colNumber)) {
@@ -895,7 +904,11 @@ export const hideColumn = function (colNumber) {
 /**
  * Get a column data by columnNumber
  */
-export const getColumnData = function (columnNumber, processed) {
+export const getColumnData = function (
+  this: any,
+  columnNumber: any,
+  processed: any
+): any[] {
   const obj = this;
 
   const dataset = [];
@@ -913,7 +926,12 @@ export const getColumnData = function (columnNumber, processed) {
 /**
  * Set a column data by colNumber
  */
-export const setColumnData = function (colNumber, data, force) {
+export const setColumnData = function (
+  this: any,
+  colNumber: any,
+  data: any,
+  force: any
+): void {
   const obj = this;
 
   for (let j = 0; j < obj.rows.length; j++) {
