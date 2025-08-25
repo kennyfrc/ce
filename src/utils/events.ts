@@ -20,9 +20,9 @@ import { moveRow, setHeight } from "./rows";
 import version from "./version";
 import { getCellNameFromCoords } from "./helpers";
 
-const getElement = function (element: any) {
+const getElement = function (element: any): [HTMLElement | null, number] {
   let jssSection = 0;
-  let jssElement = 0;
+  let jssElement: HTMLElement | null = null;
 
   function path(element: any) {
     if (element.className) {
@@ -472,7 +472,8 @@ const mouseDownControls = function (e: any) {
             info.width - e.offsetX < 6
           ) {
             if (
-              isRowMerged.call(libraryBase.jspreadsheet.current, rowId).length
+              isRowMerged.call(libraryBase.jspreadsheet.current, rowId, false)
+                .length
             ) {
               console.error("Jspreadsheet: This row is part of a merged cell");
             } else if (
@@ -514,9 +515,9 @@ const mouseDownControls = function (e: any) {
             // Update selection
             updateSelectionFromCoords.call(
               libraryBase.jspreadsheet.current,
-              null,
+              0,
               o,
-              null,
+              libraryBase.jspreadsheet.current.options.data[0].length - 1,
               d,
               e
             );
@@ -534,22 +535,25 @@ const mouseDownControls = function (e: any) {
               true
             );
           } else {
-            const getCellCoords = function (element) {
+            const getCellCoords = function (
+              element: HTMLElement
+            ): [string, string] | undefined {
               const x = element.getAttribute("data-x");
               const y = element.getAttribute("data-y");
               if (x && y) {
                 return [x, y];
               } else {
                 if (element.parentNode) {
-                  return getCellCoords(element.parentNode);
+                  return getCellCoords(element.parentNode as HTMLElement);
                 }
+                return undefined;
               }
             };
 
             const position = getCellCoords(e.target);
             if (position) {
-              const columnId = position[0];
-              const rowId = position[1];
+              const columnId = parseInt(position[0]);
+              const rowId = parseInt(position[1]);
               // Close edition
               if (libraryBase.jspreadsheet.current.edition) {
                 if (
@@ -566,7 +570,10 @@ const mouseDownControls = function (e: any) {
 
               if (!libraryBase.jspreadsheet.current.edition) {
                 // Update cell selection
-                if (e.shiftKey) {
+                if (
+                  e.shiftKey &&
+                  libraryBase.jspreadsheet.current.selectedCell
+                ) {
                   updateSelectionFromCoords.call(
                     libraryBase.jspreadsheet.current,
                     libraryBase.jspreadsheet.current.selectedCell[0],
@@ -580,8 +587,8 @@ const mouseDownControls = function (e: any) {
                     libraryBase.jspreadsheet.current,
                     columnId,
                     rowId,
-                    undefined,
-                    undefined,
+                    columnId,
+                    rowId,
                     e
                   );
                 }
@@ -735,7 +742,8 @@ const mouseMoveControls = function (e: any) {
           const rowId = e.target.getAttribute("data-y");
           if (rowId) {
             if (
-              isRowMerged.call(libraryBase.jspreadsheet.current, rowId).length
+              isRowMerged.call(libraryBase.jspreadsheet.current, rowId, false)
+                .length
             ) {
               console.error("Jspreadsheet: This row is part of a merged cell.");
             } else {
@@ -813,7 +821,7 @@ const mouseMoveControls = function (e: any) {
  * @param int x, y
  * @return void
  */
-const updateCopySelection = function (x3, y3) {
+const updateCopySelection = function (this: any, x3: number, y3: number) {
   const obj = this;
 
   // Remove selection
@@ -829,21 +837,21 @@ const updateCopySelection = function (x3, y3) {
     let px, ux;
 
     if (x3 - x2 > 0) {
-      px = parseInt(x2) + 1;
-      ux = parseInt(x3);
+      px = x2 + 1;
+      ux = x3;
     } else {
-      px = parseInt(x3);
-      ux = parseInt(x1) - 1;
+      px = x3;
+      ux = x1 - 1;
     }
 
     let py, uy;
 
     if (y3 - y2 > 0) {
-      py = parseInt(y2) + 1;
-      uy = parseInt(y3);
+      py = y2 + 1;
+      uy = y3;
     } else {
-      py = parseInt(y3);
-      uy = parseInt(y1) - 1;
+      py = y3;
+      uy = y1 - 1;
     }
 
     if (ux - px <= uy - py) {
@@ -875,7 +883,7 @@ const updateCopySelection = function (x3, y3) {
   }
 };
 
-const mouseOverControls = function (e) {
+const mouseOverControls = function (this: any, e: any): boolean | void {
   e = e || window.event;
 
   let mouseButton;
@@ -985,7 +993,7 @@ const mouseOverControls = function (e) {
   }
 };
 
-const doubleClickControls = function (e) {
+const doubleClickControls = function (this: any, e: any): void {
   // Jss is selected
   if (libraryBase.jspreadsheet.current) {
     // Corner action
@@ -1043,25 +1051,23 @@ const doubleClickControls = function (e) {
         libraryBase.jspreadsheet.current.options.editable != false
       ) {
         if (!libraryBase.jspreadsheet.current.edition) {
-          const getCellCoords = function (element) {
+          const getCellCoords = function (
+            element: HTMLElement
+          ): HTMLElement | undefined {
             if (element.parentNode) {
               const x = element.getAttribute("data-x");
               const y = element.getAttribute("data-y");
               if (x && y) {
                 return element;
               } else {
-                return getCellCoords(element.parentNode);
+                return getCellCoords(element.parentNode as HTMLElement);
               }
             }
+            return undefined;
           };
           const cell = getCellCoords(e.target);
           if (cell && cell.classList.contains("highlight")) {
-            openEditor.call(
-              libraryBase.jspreadsheet.current,
-              cell,
-              undefined,
-              e
-            );
+            openEditor.call(libraryBase.jspreadsheet.current, cell, false, e);
           }
         }
       }
@@ -1069,7 +1075,7 @@ const doubleClickControls = function (e) {
   }
 };
 
-const pasteControls = function (e) {
+const pasteControls = function (this: any, e: any): void {
   if (
     libraryBase.jspreadsheet.current &&
     libraryBase.jspreadsheet.current.selectedCell
@@ -1097,7 +1103,7 @@ const pasteControls = function (e) {
   }
 };
 
-const getRole = function (element) {
+const getRole = function (element: HTMLElement): string {
   if (element.classList.contains("jss_selectall")) {
     return "select-all";
   }
@@ -1106,9 +1112,9 @@ const getRole = function (element) {
     return "fill-handle";
   }
 
-  let tempElement = element;
+  let tempElement: HTMLElement | null = element;
 
-  while (!tempElement.classList.contains("jss_spreadsheet")) {
+  while (tempElement && !tempElement.classList.contains("jss_spreadsheet")) {
     if (tempElement.classList.contains("jss_row")) {
       return "row";
     }
@@ -1147,7 +1153,12 @@ const getRole = function (element) {
   return "applications";
 };
 
-const defaultContextMenu = function (worksheet, x, y, role) {
+const defaultContextMenu = function (
+  worksheet: any,
+  x: number,
+  y: number,
+  role: string
+): any[] {
   const items = [];
 
   if (role === "header") {
@@ -1156,7 +1167,7 @@ const defaultContextMenu = function (worksheet, x, y, role) {
       items.push({
         title: jSuites.translate("Insert a new column before"),
         onclick: function () {
-          worksheet.insertColumn(1, parseInt(x), 1);
+          worksheet.insertColumn(1, x, 1);
         },
       });
     }
@@ -1165,7 +1176,7 @@ const defaultContextMenu = function (worksheet, x, y, role) {
       items.push({
         title: jSuites.translate("Insert a new column after"),
         onclick: function () {
-          worksheet.insertColumn(1, parseInt(x), 0);
+          worksheet.insertColumn(1, x, 0);
         },
       });
     }
@@ -1176,7 +1187,7 @@ const defaultContextMenu = function (worksheet, x, y, role) {
         title: jSuites.translate("Delete selected columns"),
         onclick: function () {
           worksheet.deleteColumn(
-            worksheet.getSelectedColumns().length ? undefined : parseInt(x)
+            worksheet.getSelectedColumns().length ? undefined : x
           );
         },
       });
@@ -1222,14 +1233,14 @@ const defaultContextMenu = function (worksheet, x, y, role) {
       items.push({
         title: jSuites.translate("Insert a new row before"),
         onclick: function () {
-          worksheet.insertRow(1, parseInt(y), 1);
+          worksheet.insertRow(1, y, 1);
         },
       });
 
       items.push({
         title: jSuites.translate("Insert a new row after"),
         onclick: function () {
-          worksheet.insertRow(1, parseInt(y));
+          worksheet.insertRow(1, y);
         },
       });
     }
@@ -1239,7 +1250,7 @@ const defaultContextMenu = function (worksheet, x, y, role) {
         title: jSuites.translate("Delete selected rows"),
         onclick: function () {
           worksheet.deleteRow(
-            worksheet.getSelectedRows().length ? undefined : parseInt(y)
+            worksheet.getSelectedRows().length ? undefined : y
           );
         },
       });
@@ -1342,8 +1353,10 @@ const defaultContextMenu = function (worksheet, x, y, role) {
   return items;
 };
 
-const getElementIndex = function (element) {
-  const parentChildren = element.parentElement.children;
+const getElementIndex = function (element: HTMLElement): number {
+  const parentChildren = element.parentElement?.children;
+
+  if (!parentChildren) return -1;
 
   for (let i = 0; i < parentChildren.length; i++) {
     const currentElement = parentChildren[i];
@@ -1356,7 +1369,7 @@ const getElementIndex = function (element) {
   return -1;
 };
 
-const contextMenuControls = function (e) {
+const contextMenuControls = function (this: any, e: any): void {
   e = e || window.event;
   if ("buttons" in e) {
     var mouseButton = e.buttons;
@@ -1444,9 +1457,9 @@ const contextMenuControls = function (e) {
             updateSelectionFromCoords.call(
               libraryBase.jspreadsheet.current,
               columns[0],
-              null,
+              0,
               columns[columns.length - 1],
-              null,
+              libraryBase.jspreadsheet.current.options.data.length - 1,
               e
             );
           }
@@ -1487,7 +1500,10 @@ const contextMenuControls = function (e) {
         }
 
         if (typeof spreadsheet.plugins === "object") {
-          Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
+          Object.entries(spreadsheet.plugins).forEach(function ([, plugin]: [
+            string,
+            any
+          ]) {
             if (typeof plugin.contextMenu === "function") {
               const result = plugin.contextMenu(
                 libraryBase.jspreadsheet.current,
@@ -1516,7 +1532,7 @@ const contextMenuControls = function (e) {
   }
 };
 
-const touchStartControls = function (e) {
+const touchStartControls = function (this: any, e: any): void {
   const jssTable = getElement(e.target);
 
   if (jssTable[0]) {
@@ -1543,8 +1559,8 @@ const touchStartControls = function (e) {
           libraryBase.jspreadsheet.current,
           columnId,
           rowId,
-          undefined,
-          undefined,
+          columnId,
+          rowId,
           e
         );
 
@@ -1565,7 +1581,7 @@ const touchStartControls = function (e) {
   }
 };
 
-const touchEndControls = function (e) {
+const touchEndControls = function (this: any, e: any): void {
   // Clear any time control
   if (libraryBase.jspreadsheet.timeControl) {
     clearTimeout(libraryBase.jspreadsheet.timeControl);
@@ -1581,7 +1597,7 @@ const touchEndControls = function (e) {
   }
 };
 
-export const cutControls = function (e) {
+export const cutControls = function (this: any, e: any): void {
   if (libraryBase.jspreadsheet.current) {
     if (!libraryBase.jspreadsheet.current.edition) {
       copy.call(
@@ -1595,7 +1611,9 @@ export const cutControls = function (e) {
       );
       if (libraryBase.jspreadsheet.current.options.editable != false) {
         libraryBase.jspreadsheet.current.setValue(
-          libraryBase.jspreadsheet.current.highlighted.map(function (record) {
+          libraryBase.jspreadsheet.current.highlighted.map(function (
+            record: any
+          ) {
             return record.element;
           }),
           ""
@@ -1605,8 +1623,8 @@ export const cutControls = function (e) {
   }
 };
 
-const copyControls = function (e) {
-  if (libraryBase.jspreadsheet.current && copyControls.enabled) {
+const copyControls = function (this: any, e: any): void {
+  if (libraryBase.jspreadsheet.current) {
     if (!libraryBase.jspreadsheet.current.edition) {
       copy.call(libraryBase.jspreadsheet.current, true);
     }
@@ -1617,7 +1635,7 @@ const isMac = function () {
   return navigator.platform.toUpperCase().indexOf("MAC") >= 0;
 };
 
-const isCtrl = function (e) {
+const isCtrl = function (e: any): boolean {
   if (isMac()) {
     return e.metaKey;
   } else {
@@ -1625,7 +1643,7 @@ const isCtrl = function (e) {
   }
 };
 
-const keyDownControls = function (e) {
+const keyDownControls = function (this: any, e: any): void {
   if (libraryBase.jspreadsheet.current) {
     if (libraryBase.jspreadsheet.current.edition) {
       if (e.which == 27) {
@@ -1783,7 +1801,7 @@ const keyDownControls = function (e) {
             // Change value
             libraryBase.jspreadsheet.current.setValue(
               libraryBase.jspreadsheet.current.highlighted.map(function (
-                record
+                record: any
               ) {
                 return record.element;
               }),
@@ -1794,7 +1812,7 @@ const keyDownControls = function (e) {
       } else if (e.which == 13) {
         // Move cursor
         if (e.shiftKey) {
-          up.call(libraryBase.jspreadsheet.current);
+          up.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
         } else {
           if (
             libraryBase.jspreadsheet.current.options.allowInsertRow != false
@@ -1813,13 +1831,13 @@ const keyDownControls = function (e) {
             }
           }
 
-          down.call(libraryBase.jspreadsheet.current);
+          down.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
         }
         e.preventDefault();
       } else if (e.which == 9) {
         // Tab
         if (e.shiftKey) {
-          left.call(libraryBase.jspreadsheet.current);
+          left.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
         } else {
           if (
             libraryBase.jspreadsheet.current.options.allowInsertColumn != false
@@ -1838,7 +1856,7 @@ const keyDownControls = function (e) {
             }
           }
 
-          right.call(libraryBase.jspreadsheet.current);
+          right.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
         }
         e.preventDefault();
       } else {
@@ -1866,14 +1884,14 @@ const keyDownControls = function (e) {
           } else if (e.which == 88) {
             // Ctrl + X
             if (libraryBase.jspreadsheet.current.options.editable != false) {
-              cutControls();
+              cutControls.call(libraryBase.jspreadsheet.current, e);
             } else {
-              copyControls();
+              copyControls.call(libraryBase.jspreadsheet.current, e);
             }
             e.preventDefault();
           } else if (e.which == 86) {
             // Ctrl + V
-            pasteControls();
+            pasteControls.call(libraryBase.jspreadsheet.current, e);
           }
         } else {
           if (libraryBase.jspreadsheet.current.selectedCell) {
@@ -1951,7 +1969,7 @@ const keyDownControls = function (e) {
   }
 };
 
-export const wheelControls = function (e) {
+export const wheelControls = function (this: any, e: any): void {
   const obj = this;
 
   if (obj.options.lazyLoading == true) {
@@ -1989,7 +2007,7 @@ export const wheelControls = function (e) {
 
 let scrollLeft = 0;
 
-const updateFreezePosition = function () {
+const updateFreezePosition = function (this: any): void {
   const obj = this;
 
   scrollLeft = obj.content.scrollLeft;
@@ -2017,7 +2035,7 @@ const updateFreezePosition = function () {
                 : 100;
           }
 
-          width += parseInt(columnWidth);
+          width += columnWidth;
         }
       }
       obj.headers[i].classList.add("jss_freezed");
@@ -2051,10 +2069,10 @@ const updateFreezePosition = function () {
   updateCornerPosition.call(obj);
 };
 
-export const scrollControls = function (e) {
+export const scrollControls = function (this: any, e: any): void {
   const obj = this;
 
-  wheelControls.call(obj);
+  wheelControls.call(obj, e);
 
   if (obj.options.freezeColumns > 0 && obj.content.scrollLeft != scrollLeft) {
     updateFreezePosition.call(obj);
@@ -2068,7 +2086,7 @@ export const scrollControls = function (e) {
   }
 };
 
-export const setEvents = function (root) {
+export const setEvents = function (root: HTMLElement): void {
   destroyEvents(root);
   root.addEventListener("mouseup", mouseUpControls);
   root.addEventListener("mousedown", mouseDownControls);
@@ -2084,7 +2102,7 @@ export const setEvents = function (root) {
   document.addEventListener("keydown", keyDownControls);
 };
 
-export const destroyEvents = function (root) {
+export const destroyEvents = function (root: HTMLElement): void {
   root.removeEventListener("mouseup", mouseUpControls);
   root.removeEventListener("mousedown", mouseDownControls);
   root.removeEventListener("mousemove", mouseMoveControls);
