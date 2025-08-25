@@ -48,7 +48,8 @@ export const setFooter = function (this: any, data?: any) {
           obj,
           +obj.records.length + i,
           j,
-          obj.options.footers[j][i]
+          obj.options.footers[j][i],
+          td
         );
 
         // Hide/Show with hideColumn()/showColumn()

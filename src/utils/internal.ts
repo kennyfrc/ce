@@ -10,7 +10,7 @@ import { updatePagination } from "./pagination";
 import { setFooter } from "./footer";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 
-export const updateTable = function () {
+export const updateTable = function (this: any) {
   const obj = this;
 
   // Check for spare
@@ -70,7 +70,7 @@ export const updateTable = function () {
 /**
  * Trying to extract a number from a string
  */
-const parseNumber = function (value, columnNumber) {
+const parseNumber = function (this: any, value: any, columnNumber: any) {
   const obj = this;
 
   // Decimal point
@@ -80,22 +80,22 @@ const parseNumber = function (value, columnNumber) {
       : ".";
 
   // Parse both parts of the number
-  let number = "" + value;
-  number = number.split(decimal);
-  number[0] = number[0].match(/[+-]?[0-9]/g);
-  if (number[0]) {
-    number[0] = number[0].join("");
-  }
-  if (number[1]) {
-    number[1] = number[1].match(/[0-9]*/g).join("");
+  const numberStr = "" + value;
+  const numberParts = numberStr.split(decimal);
+  const matchResult0 = numberParts[0].match(/[+-]?[0-9]/g);
+  const number0 = matchResult0 ? matchResult0.join("") : "";
+  let number1 = "";
+  if (numberParts[1]) {
+    const matchResult1 = numberParts[1].match(/[0-9]*/g);
+    number1 = matchResult1 ? matchResult1.join("") : "";
   }
 
   // Is a valid number
-  if (number[0] && Number.isInteger(Number(number[0]))) {
-    if (!number[1]) {
-      value = Number(number[0] + ".00");
+  if (number0 && Number.isInteger(Number(number0))) {
+    if (!number1) {
+      value = Number(number0 + ".00");
     } else {
-      value = Number(number[0] + "." + number[1]);
+      value = Number(number0 + "." + number1);
     }
   } else {
     value = null;
@@ -107,19 +107,24 @@ const parseNumber = function (value, columnNumber) {
 /**
  * Parse formulas
  */
-export const executeFormula = function (expression, x, y) {
+export const executeFormula = function (
+  this: any,
+  expression: any,
+  x: any,
+  y: any
+) {
   const obj = this;
 
-  const formulaResults = [];
-  const formulaLoopProtection = [];
+  const formulaResults: any[] = [];
+  const formulaLoopProtection: Record<string, boolean> = {};
 
   // Execute formula with loop protection
-  const execute = function (expression, x, y) {
+  const execute = function (expression: any, x: any, y: any) {
     // Parent column identification
     const parentId = getColumnNameFromId([x, y]);
 
     // Code protection
-    if (formulaLoopProtection[parentId]) {
+    if (formulaLoopProtection.hasOwnProperty(parentId)) {
       console.error("Reference loop detected");
       return "#ERROR";
     }
@@ -127,12 +132,12 @@ export const executeFormula = function (expression, x, y) {
     formulaLoopProtection[parentId] = true;
 
     // Convert range tokens
-    const tokensUpdate = function (tokens) {
+    const tokensUpdate = function (tokens: any) {
       for (let index = 0; index < tokens.length; index++) {
         const f = [];
         const token = tokens[index].split(":");
-        const e1 = getIdFromColumnName(token[0], true);
-        const e2 = getIdFromColumnName(token[1], true);
+        const e1 = getIdFromColumnName(token[0], true) as number[];
+        const e2 = getIdFromColumnName(token[1], true) as number[];
 
         let x1, x2;
 
@@ -181,7 +186,7 @@ export const executeFormula = function (expression, x, y) {
       return "#ERROR";
     } else {
       // Expressions to be used in the parsing
-      const formulaExpressions = {};
+      const formulaExpressions: Record<string, any> = {};
 
       if (tokens) {
         for (let i = 0; i < tokens.length; i++) {
@@ -197,7 +202,7 @@ export const executeFormula = function (expression, x, y) {
           // Do not calculate again
           if (eval("typeof(" + tokens[i] + ') == "undefined"')) {
             // Coords
-            const position = getIdFromColumnName(tokens[i], 1);
+            const position = getIdFromColumnName(tokens[i], true);
             // Get value
             let value;
 
@@ -274,7 +279,13 @@ export const executeFormula = function (expression, x, y) {
   return execute(expression, x, y);
 };
 
-export const parseValue = function (i, j, value, cell) {
+export const parseValue = function (
+  this: any,
+  i: any,
+  j: any,
+  value: any,
+  cell: any
+) {
   const obj = this;
 
   if (
@@ -330,7 +341,7 @@ export const parseValue = function (i, j, value, cell) {
 /**
  * Get dropdown value from key
  */
-const getDropDownValue = function (column, key) {
+const getDropDownValue = function (this: any, column: any, key: any) {
   const obj = this;
 
   const value = [];
@@ -371,7 +382,7 @@ const getDropDownValue = function (column, key) {
   return value.length > 0 ? value.join("; ") : "";
 };
 
-const validDate = function (date) {
+const validDate = function (date: any) {
   date = "" + date;
   if (date.substr(4, 1) == "-" && date.substr(7, 1) == "-") {
     return true;
@@ -392,7 +403,7 @@ const validDate = function (date) {
 /**
  * Strip tags
  */
-const stripScript = function (a) {
+const stripScript = function (a: any) {
   const b = new Option();
   b.innerHTML = a;
   let c = null;
@@ -401,7 +412,7 @@ const stripScript = function (a) {
   return b.innerHTML;
 };
 
-export const createCell = function (i, j, value) {
+export const createCell = function (this: any, i: any, j: any, value: any) {
   const obj = this;
 
   // Create cell and properties
@@ -464,7 +475,7 @@ export const createCell = function (i, j, value) {
       element.checked =
         value == 1 || value == true || value == "true" ? true : false;
       element.onclick = function () {
-        obj.setValue(td, this.checked);
+        obj.setValue(td, (this as HTMLInputElement).checked);
       };
 
       if (
@@ -667,8 +678,8 @@ export const updateCell = function (
       const result = obj.options.columns[x].type.updateCell(
         obj.records[y][x].element,
         value,
-        parseInt(x),
-        parseInt(y),
+        "" + x,
+        "" + y,
         obj,
         obj.options.columns[x]
       );
@@ -799,7 +810,7 @@ export const updateCell = function (
           obj.options.columns[x].type == "html"
         ) {
           obj.records[y][x].element.innerHTML = stripScript(
-            parseValue.call(obj, x, y, value)
+            parseValue.call(obj, x, y, value, obj.records[y][x].element)
           );
         } else {
           if (obj.parent.config.parseHTML === true) {
@@ -851,8 +862,8 @@ export const updateCell = function (
       obj.options.columns[x].render(
         obj.records[y] && obj.records[y][x] ? obj.records[y][x].element : null,
         value,
-        parseInt(x),
-        parseInt(y),
+        "" + x,
+        "" + y,
         obj,
         obj.options.columns[x]
       );
@@ -877,7 +888,7 @@ export const updateCell = function (
 /**
  * The value is a formula
  */
-export const isFormula = function (value) {
+export const isFormula = function (value: any) {
   const v = ("" + value)[0];
   return v == "=" || v == "#" ? true : false;
 };
@@ -885,9 +896,9 @@ export const isFormula = function (value) {
 /**
  * Get the mask in the jSuites.mask format
  */
-export const getMask = function (o) {
+export const getMask = function (o: any) {
   if (o.format || o.mask || o.locale) {
-    const opt = {};
+    const opt: Record<string, any> = {};
     if (o.mask) {
       opt.mask = o.mask;
     } else if (o.format) {
@@ -912,7 +923,7 @@ export const getMask = function (o) {
 /**
  * Secure formula
  */
-const secureFormula = function (oldValue) {
+const secureFormula = function (oldValue: any) {
   let newValue = "";
   let inside = 0;
 
@@ -938,7 +949,7 @@ const secureFormula = function (oldValue) {
 /**
  * Update all related cells in the chain
  */
-let chainLoopProtection = [];
+let chainLoopProtection: Record<string, boolean> = {};
 
 export const updateFormulaChain = function (
   this: any,
@@ -950,7 +961,7 @@ export const updateFormulaChain = function (
 
   const cellId = getColumnNameFromId([x, y]);
   if (obj.formula[cellId] && obj.formula[cellId].length > 0) {
-    if (chainLoopProtection[cellId]) {
+    if (chainLoopProtection.hasOwnProperty(cellId)) {
       obj.records[y][x].element.innerHTML = "#ERROR";
       obj.formula[cellId] = "";
     } else {
@@ -958,27 +969,30 @@ export const updateFormulaChain = function (
       chainLoopProtection[cellId] = true;
 
       for (let i = 0; i < obj.formula[cellId].length; i++) {
-        const cell = getIdFromColumnName(obj.formula[cellId][i], true);
+        const cell = getIdFromColumnName(
+          obj.formula[cellId][i],
+          true
+        ) as number[];
         // Update cell
         const value = "" + obj.options.data[cell[1]][cell[0]];
         if (value.substr(0, 1) == "=") {
           records.push(updateCell.call(obj, cell[0], cell[1], value, true));
         } else {
           // No longer a formula, remove from the chain
-          Object.keys(obj.formula)[i] = null;
+          delete obj.formula[Object.keys(obj.formula)[i]];
         }
         updateFormulaChain.call(obj, cell[0], cell[1], records);
       }
     }
   }
 
-  chainLoopProtection = [];
+  chainLoopProtection = {};
 };
 
 /**
  * Update formula
  */
-export const updateFormula = function (formula, referencesToUpdate) {
+export const updateFormula = function (formula: any, referencesToUpdate: any) {
   const testLetter = /[A-Z]/;
   const testNumber = /[0-9]/;
 
@@ -1020,7 +1034,7 @@ export const updateFormula = function (formula, referencesToUpdate) {
 /**
  * Update formulas
  */
-const updateFormulas = function (referencesToUpdate) {
+const updateFormulas = function (this: any, referencesToUpdate: any) {
   const obj = this;
 
   // Update formulas
@@ -1039,7 +1053,7 @@ const updateFormulas = function (referencesToUpdate) {
   }
 
   // Update formula chain
-  const formula = [];
+  const formula: Record<string, any[]> = {};
   const keys = Object.keys(obj.formula);
   for (let j = 0; j < keys.length; j++) {
     // Current key and values
@@ -1067,7 +1081,7 @@ const updateFormulas = function (referencesToUpdate) {
  *
  * @return void
  */
-export const updateTableReferences = function () {
+export const updateTableReferences = function (this: any) {
   const obj = this;
   if (obj.skipUpdateTableReferences) {
     return;
@@ -1103,11 +1117,11 @@ export const updateTableReferences = function () {
   }
 
   // Regular cells affected by this change
-  const affectedTokens = [];
-  const mergeCellUpdates = [];
+  const affectedTokens: Record<string, any> = {};
+  const mergeCellUpdates: Record<string, any> = {};
 
   // Update cell
-  const updatePosition = function (x, y, i, j) {
+  const updatePosition = function (x: any, y: any, i: any, j: any) {
     if (x != i) {
       obj.records[j][i].element.setAttribute("data-x", i);
     }
@@ -1138,8 +1152,8 @@ export const updateTableReferences = function () {
             if (columnIdFrom == columnIdTo) {
               mergeCellUpdates[columnIdFrom] = false;
             } else {
-              const totalX = parseInt(i - x);
-              const totalY = parseInt(j - y);
+              const totalX = i - x;
+              const totalY = j - y;
               mergeCellUpdates[columnIdFrom] = [columnIdTo, totalX, totalY];
             }
           }
@@ -1211,7 +1225,7 @@ export const updateTableReferences = function () {
 /**
  * Update scroll position based on the selection
  */
-export const updateScroll = function (direction) {
+export const updateScroll = function (this: any, direction: any) {
   const obj = this;
 
   // Jspreadsheet Container information
@@ -1276,7 +1290,7 @@ export const updateScroll = function (direction) {
   }
 };
 
-export const updateResult = function () {
+export const updateResult = function (this: any) {
   const obj = this;
 
   let total = 0;
@@ -1329,7 +1343,7 @@ export const updateResult = function () {
  * @param object cell
  * @return string value
  */
-export const getCell = function (x, y) {
+export const getCell = function (this: any, x: any, y: any) {
   const obj = this;
 
   if (typeof x === "string") {
@@ -1349,7 +1363,7 @@ export const getCell = function (x, y) {
  * @param object cell
  * @return string value
  */
-export const getCellFromCoords = function (x, y) {
+export const getCellFromCoords = function (this: any, x: any, y: any) {
   const obj = this;
 
   return obj.records[y][x].element;
@@ -1361,7 +1375,7 @@ export const getCellFromCoords = function (x, y) {
  * @param object cell
  * @return string value
  */
-export const getLabel = function (x, y) {
+export const getLabel = function (this: any, x: any, y: any) {
   const obj = this;
 
   if (typeof x === "string") {
@@ -1380,7 +1394,7 @@ export const getLabel = function (x, y) {
  * use programmatically : table.fullscreen(); or table.fullscreen(true); or table.fullscreen(false);
  * @Param {boolean} activate
  */
-export const fullscreen = function (activate) {
+export const fullscreen = function (this: any, activate: any) {
   const spreadsheet = this;
 
   // If activate not defined, get reverse options.fullscreen
@@ -1404,7 +1418,7 @@ export const fullscreen = function (activate) {
 /**
  * Show index column
  */
-export const showIndex = function () {
+export const showIndex = function (this: any) {
   const obj = this;
 
   obj.table.classList.remove("jss_hidden_index");
@@ -1413,7 +1427,7 @@ export const showIndex = function () {
 /**
  * Hide index column
  */
-export const hideIndex = function () {
+export const hideIndex = function (this: any) {
   const obj = this;
 
   obj.table.classList.add("jss_hidden_index");
@@ -1422,7 +1436,7 @@ export const hideIndex = function () {
 /**
  * Create a nested header object
  */
-export const createNestedHeader = function (nestedInformation) {
+export const createNestedHeader = function (this: any, nestedInformation: any) {
   const obj = this;
 
   const tr = document.createElement("tr");
@@ -1477,7 +1491,7 @@ export const createNestedHeader = function (nestedInformation) {
   return tr;
 };
 
-export const getWorksheetActive = function () {
+export const getWorksheetActive = function (this: any) {
   const spreadsheet = this.parent ? this.parent : this;
 
   return spreadsheet.element.tabs ? spreadsheet.element.tabs.getActive() : 0;
