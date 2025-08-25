@@ -2,7 +2,11 @@ import jSuites from "jsuites";
 import { getCellNameFromCoords } from "./helpers";
 import { getWorksheetInstance } from "./internal";
 
-const setItemStatus = function (toolbarItem: HTMLElement, worksheet: any) {
+const setItemStatus = function (
+  this: any,
+  toolbarItem: HTMLElement,
+  worksheet: any
+) {
   if (worksheet.options.editable != false) {
     toolbarItem.classList.remove("jtoolbar-disabled");
   } else {
@@ -587,7 +591,7 @@ export const createToolbar = function (this: any, toolbar: any) {
   return toolbarElement;
 };
 
-export const updateToolbar = function (worksheet: any) {
+export const updateToolbar = function (this: any, worksheet: any) {
   if (worksheet.parent.toolbar) {
     worksheet.parent.toolbar.toolbar.update(worksheet);
   }

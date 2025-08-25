@@ -54,6 +54,8 @@ declare module "jsuites" {
     tabs: (element: HTMLElement, options: any) => any;
     contextmenu: (element: HTMLElement, options: any) => any;
     ajax: (options: any) => any;
+    picker: (element: HTMLElement, options: any) => any;
+    toolbar: (element: HTMLElement, options: any) => any;
   };
   export default jSuites;
 }
