@@ -54,8 +54,10 @@ describe('Use the data method', () => {
         
         const data = instance[0].setData([['Hello', 'World'], ['Testing', 'CE']])
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 
@@ -82,8 +84,10 @@ describe('Use the data method', () => {
             ]
         })
         
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+        
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 
@@ -121,8 +125,10 @@ describe('Use the data method', () => {
             ]
         })
         
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+        
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 
@@ -144,8 +150,10 @@ describe('Use the data method', () => {
             ]
         })
         
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+        
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 
@@ -167,8 +175,10 @@ describe('Use the data method', () => {
             ]
         })
         
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+        
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 
@@ -190,8 +200,10 @@ describe('Use the data method', () => {
             ]
         })
         
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+        
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 
@@ -229,8 +241,10 @@ describe('Use the data method', () => {
             ]
         })
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
 
         instance[0].setValueFromCoords(0, 0, 'New Value')

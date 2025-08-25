@@ -24,9 +24,10 @@ describe('Use search', () => {
 
         expect(instance[0].searchInput.value).to.equal('Honda')
 
-        const bodyTag = root.querySelector('tbody')
+        const bodyTag = root.querySelector('tbody');
 
-        expect(bodyTag.children.length).to.equal(2)
+
+        if (!bodyTag) throw new Error('Element not found');expect(bodyTag.children.length).to.equal(2)
 
         expect(bodyTag.children[0].getAttribute('data-y')).to.equal('2')
         expect(bodyTag.children[1].getAttribute('data-y')).to.equal('3')

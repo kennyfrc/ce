@@ -14,8 +14,10 @@ describe('Use the columns method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[1].innerHTML).to.include(9)
 
@@ -41,8 +43,10 @@ describe('Use the columns method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[2].innerHTML).to.include(9)
 
@@ -70,8 +74,10 @@ describe('Use the columns method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[1].innerHTML).to.include(3)
         expect(rows[0].children[2].innerHTML).to.include(6)
@@ -103,8 +109,10 @@ describe('Use the columns method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[1].innerHTML).to.include(3)
         expect(rows[0].children[2].innerHTML).to.include(6)
@@ -135,8 +143,10 @@ describe('Use the columns method', () => {
             ]
         })
 
-        let table = root.querySelector('thead')
-        let headers = table.children[0].children
+        let table = root.querySelector('thead');
+
+
+        if (!table) throw new Error('Element not found');let headers = table.children[0].children
 
         expect(headers[1].innerHTML).to.include('A')
         expect(window.getComputedStyle(headers[1]).display).not.to.include('none')
@@ -169,8 +179,10 @@ describe('Use the columns method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[1].innerHTML).to.include(9)
 
@@ -199,8 +211,10 @@ describe('Use the columns method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[1].innerHTML).to.include(1)
         expect(rows[0].children[2].innerHTML).to.include(2)

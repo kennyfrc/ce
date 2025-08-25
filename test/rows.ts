@@ -15,8 +15,11 @@ describe('Use the rows method', () => {
         })
 
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
         let firstRow = rows[0]
         
         // Check that first row has the value of [1, 2, 3]
@@ -49,8 +52,11 @@ describe('Use the rows method', () => {
         })
 
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
         let firstRow = rows[0]
         
         // Check that first row has the value of [1, 2, 3]
@@ -82,8 +88,10 @@ describe('Use the rows method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
         let firstRow = rows[0]
         let secondRow = rows[1]
         let A1 = firstRow.children[1]
@@ -116,8 +124,10 @@ describe('Use the rows method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[1].innerHTML).to.include(1)
         expect(rows[0].children[2].innerHTML).to.include(2)
@@ -153,8 +163,10 @@ describe('Use the rows method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
-        let rows = table.children
+        let table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');let rows = table.children
 
         expect(rows[0].children[1].innerHTML).to.include(1)
         expect(rows[0].children[2].innerHTML).to.include(2)
@@ -190,9 +202,10 @@ describe('Use the rows method', () => {
             ]
         })
 
-        let table = root.querySelector('tbody')
+        let table = root.querySelector('tbody');
 
-        expect(table.children[0].children[1].innerHTML).to.include(1)
+
+        if (!table) throw new Error('Element not found');expect(table.children[0].children[1].innerHTML).to.include(1)
         expect(table.children[1].children[1].innerHTML).to.include(4)
 
         instance[0].moveRow(0, 1)

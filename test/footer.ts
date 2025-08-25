@@ -24,6 +24,9 @@ describe('Use footers', () => {
 
         const footerTag = root.querySelector('tfoot');
 
+
+        if (!footerTag) throw new Error('Element not found');
+
         const firstRow = footerTag.children[0];
 
         expect(firstRow.children[1].innerHTML).to.equal('a');

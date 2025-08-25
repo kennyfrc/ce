@@ -15,8 +15,10 @@ describe('Use the redo method', () => {
             ]
         })
         
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+        
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 
@@ -55,8 +57,10 @@ describe('Use the redo method', () => {
             ]
         })
         
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+        
+        if (!table) throw new Error('Element not found');const rows = table.children
         const firstRow = rows[0]
         const secondRow = rows[1]
 

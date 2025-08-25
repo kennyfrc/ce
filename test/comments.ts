@@ -23,8 +23,10 @@ describe('Comment tests', () => {
             ],
         })
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
 
         instance[0].setComments('C2', 'Test')
 
@@ -80,8 +82,10 @@ describe('Comment tests', () => {
             ],
         })
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
 
         instance[0].setComments('C2', 'Test')
 

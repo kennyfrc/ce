@@ -27,9 +27,10 @@ describe('Use pagination', () => {
 
         expect(instance[0].quantiyOfPages()).to.equal(4)
 
-        const bodyTag = root.querySelector('tbody')
+        const bodyTag = root.querySelector('tbody');
 
-        expect(bodyTag.children.length).to.equal(3)
+
+        if (!bodyTag) throw new Error('Element not found');expect(bodyTag.children.length).to.equal(3)
 
         expect(bodyTag.children[0].getAttribute('data-y')).to.equal('0')
         expect(bodyTag.children[1].getAttribute('data-y')).to.equal('1')
@@ -62,9 +63,10 @@ describe('Use pagination', () => {
 
         expect(instance[0].quantiyOfPages()).to.equal(4)
 
-        const bodyTag = root.querySelector('tbody')
+        const bodyTag = root.querySelector('tbody');
 
-        expect(bodyTag.children.length).to.equal(3)
+
+        if (!bodyTag) throw new Error('Element not found');expect(bodyTag.children.length).to.equal(3)
 
         expect(bodyTag.children[0].getAttribute('data-y')).to.equal('6')
         expect(bodyTag.children[1].getAttribute('data-y')).to.equal('7')

@@ -105,8 +105,10 @@ describe('Merge tests', () => {
 
         instance[0].setMerge('A3', 2, 3)
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')
@@ -144,8 +146,10 @@ describe('Merge tests', () => {
             }]
         })
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
 
         instance[0].removeMerge('A1')
 
@@ -188,8 +192,10 @@ describe('Merge tests', () => {
             }]
         })
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
 
         instance[0].destroyMerge()
 
@@ -230,8 +236,10 @@ describe('Merge tests', () => {
 
         instance[0].setMerge('A3', 2, 3)
 
-        const table = root.querySelector('tbody')
-        const rows = table.children
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')
