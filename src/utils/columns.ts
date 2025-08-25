@@ -116,7 +116,7 @@ export const insertColumn = function (
   columnNumber: number,
   insertBefore: boolean,
   properties: any
-): void {
+): boolean | void {
   const obj = this;
 
   // Configuration
@@ -145,7 +145,7 @@ export const insertColumn = function (
     // Current column number
     const currentNumOfColumns = Math.max(
       obj.options.columns.length,
-      ...obj.options.data.map(function (row) {
+      ...obj.options.data.map(function (row: any[]) {
         return row.length;
       })
     );
@@ -155,7 +155,7 @@ export const insertColumn = function (
     // Confirm position
     if (
       columnNumber == undefined ||
-      columnNumber >= parseInt(lastColumn) ||
+      columnNumber >= lastColumn ||
       columnNumber < 0
     ) {
       columnNumber = lastColumn;
@@ -238,10 +238,10 @@ export const insertColumn = function (
 
     // History
     const historyHeaders = [];
-    const historyColgroup = [];
-    const historyRecords = [];
-    const historyData = [];
-    const historyFooters = [];
+    const historyColgroup: any[] = [];
+    const historyRecords: any[] = [];
+    const historyData: any[] = [];
+    const historyFooters: any[][] = [];
 
     // Add new headers
     for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
@@ -306,8 +306,8 @@ export const insertColumn = function (
           obj.options.columns[col].render(
             td,
             value,
-            parseInt(col),
-            parseInt(row),
+            col,
+            row,
             obj,
             obj.options.columns[col]
           );
@@ -397,7 +397,7 @@ export const insertColumn = function (
  *
  * @return void
  */
-export const moveColumn = function (this: any, o: any, d: any): void {
+export const moveColumn = function (this: any, o: any, d: any): boolean | void {
   const obj = this;
 
   if (
@@ -521,7 +521,7 @@ export const deleteColumn = function (
   this: any,
   columnNumber: any,
   numOfColumns: any
-): void {
+): boolean | void {
   const obj = this;
 
   // Global Configuration
@@ -739,7 +739,7 @@ export const deleteColumn = function (
  * @param int column column number (first column is: 0)
  * @return int current width
  */
-export const getWidth = function (this: any, column: any): number {
+export const getWidth = function (this: any, column: any): number | number[] {
   const obj = this;
 
   let data;
