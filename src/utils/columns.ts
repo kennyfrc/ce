@@ -417,7 +417,7 @@ export const moveColumn = function (
 
     if (
       isColMerged.call(obj, o).length ||
-      isColMerged.call(obj, d, insertBefore).length
+      isColMerged.call(obj, d, !!insertBefore).length
     ) {
       if (
         !confirm(

@@ -216,20 +216,30 @@ export const setValue = function (
 
   if (typeof cell == "string") {
     const columnId = getIdFromColumnName(cell, true);
-    const x = columnId[0];
-    const y = columnId[1];
+    if (Array.isArray(columnId) && columnId.length >= 2) {
+      const x = columnId[0] as number;
+      const y = columnId[1] as number;
+
+      // Update cell
+      records.push(updateCell.call(obj, x, y, value, force));
+
+      // Update all formulas in the chain
+      updateFormulaChain.call(obj, x, y, records);
+    }
+  } else {
+    let x: number | null = null;
+    let y: number | null = null;
+    if (cell && cell.getAttribute) {
+      x = parseInt(cell.getAttribute("data-x") || "", 10);
+      y = parseInt(cell.getAttribute("data-y") || "", 10);
+    }
 
     // Update cell
-    records.push(updateCell.call(obj, x, y, value, force));
+    if (x !== null && y !== null && !isNaN(x) && !isNaN(y)) {
+      records.push(updateCell.call(obj, x, y, value, force));
 
-    // Update all formulas in the chain
-    updateFormulaChain.call(obj, x, y, records);
-  } else {
-    let x = null;
-    let y = null;
-    if (cell && cell.getAttribute) {
-      x = cell.getAttribute("data-x");
-      y = cell.getAttribute("data-y");
+      // Update all formulas in the chain
+      updateFormulaChain.call(obj, x, y, records);
     }
 
     // Update cell
@@ -305,7 +315,13 @@ export const setValue = function (
  * @param string value
  * @return void
  */
-export const setValueFromCoords = function (x, y, value, force) {
+export const setValueFromCoords = function (
+  this: any,
+  x: number,
+  y: number,
+  value: any,
+  force?: boolean
+) {
   const obj = this;
 
   const records = [];
