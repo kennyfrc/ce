@@ -1,6 +1,6 @@
-const { expect } = require('chai');
+import { expect } from 'chai';
 
-const jspreadsheet = require('../dist/index.js');
+import jspreadsheet from '../src/index';
 
 describe('Use the columns method', () => {
     it('insertColumn and column is inserted in the position 0', () => {

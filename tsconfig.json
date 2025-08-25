@@ -31,6 +31,6 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "test/**/*", "src/types/**/*"],
   "exclude": ["node_modules", "dist", "test"]
 }

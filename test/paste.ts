@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 
-const jspreadsheet = require('../dist/index.js');
+import jspreadsheet from '../src/index';
 
 global.document.execCommand = function execCommandMock() { };
 

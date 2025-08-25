@@ -1,6 +1,6 @@
-const { expect } = require('chai');
+import { expect } from 'chai';
 
-const jspreadsheet = require('../dist/index.js');
+import jspreadsheet from '../src/index';
 
 describe('Meta tests', () => {
     describe('Set meta information', () => {

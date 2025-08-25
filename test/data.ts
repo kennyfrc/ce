@@ -1,6 +1,6 @@
-const { expect } = require('chai');
+import { expect } from 'chai';
 
-const jspreadsheet = require('../dist/index.js');
+import jspreadsheet from '../src/index';
 
 describe('Use the data method', () => {
     it('getData and it returns the data properly', () => {
