@@ -96,7 +96,7 @@ export const isRowMerged = function (this: any, y: any, insertBefore: any) {
 export const getMerge = function (this: any, cellName: any) {
   const obj = this;
 
-  let data = {};
+  let data: any = {};
   if (cellName) {
     if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
       data = [
@@ -131,14 +131,14 @@ export const getMerge = function (this: any, cellName: any) {
  */
 export const setMerge = function (
   this: any,
-  cellName,
-  colspan,
-  rowspan,
-  ignoreHistoryAndEvents
-) {
+  cellName: any,
+  colspan: any,
+  rowspan: any,
+  ignoreHistoryAndEvents: any
+): void {
   const obj = this;
 
-  let test = false;
+  let test: string | boolean = false;
 
   if (!cellName) {
     if (!obj.highlighted.length) {
