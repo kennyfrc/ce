@@ -431,7 +431,7 @@ export const deleteRow = function (
     ) {
       // Delete row definitions
       if (rowNumber == undefined) {
-        const number = getSelectedRows.call(obj, undefined);
+        const number = getSelectedRows.call(obj, false);
 
         if (number.length === 0) {
           rowNumber = obj.options.data.length - 1;
