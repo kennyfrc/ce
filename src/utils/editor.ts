@@ -127,29 +127,29 @@ export const openEditor = function (
       } else if (
         obj.options.columns &&
         x &&
-        obj.options.columns[x] &&
-        obj.options.columns[x].type == "dropdown" &&
+        obj.options.columns[xNum] &&
+        obj.options.columns[xNum].type == "dropdown" &&
         y
       ) {
         // Get current value
-        let value = obj.options.data[y][x];
-        if (obj.options.columns[x].multiple && !Array.isArray(value)) {
+        let value = obj.options.data[yNum][xNum];
+        if (obj.options.columns[xNum].multiple && !Array.isArray(value)) {
           value = value.split(";");
         }
 
         // Create dropdown
         let source;
 
-        if (typeof obj.options.columns[x].filter == "function") {
-          source = obj.options.columns[x].filter(
+        if (typeof obj.options.columns[xNum].filter == "function") {
+          source = obj.options.columns[xNum].filter(
             obj.element,
             cell,
             x,
             y,
-            obj.options.columns[x].source
+            obj.options.columns[xNum].source
           );
         } else {
-          source = obj.options.columns[x].source;
+          source = obj.options.columns[xNum].source;
         }
 
         // Do not change the original source
@@ -172,13 +172,14 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[x] : null
+          x ? obj.options.columns[xNum] : null
         );
 
         const options: any = {
           data: data,
-          multiple: x && obj.options.columns[x].multiple ? true : false,
-          autocomplete: x && obj.options.columns[x].autocomplete ? true : false,
+          multiple: x && obj.options.columns[xNum].multiple ? true : false,
+          autocomplete:
+            x && obj.options.columns[xNum].autocomplete ? true : false,
           opened: true,
           value: value,
           width: "100%",
@@ -193,10 +194,10 @@ export const openEditor = function (
           },
         };
         if (
-          obj.options.columns[x].options &&
-          obj.options.columns[x].options.type
+          obj.options.columns[xNum].options &&
+          obj.options.columns[xNum].options.type
         ) {
-          options.type = obj.options.columns[x].options.type;
+          options.type = obj.options.columns[xNum].options.type;
         }
         jSuites.dropdown(editor, options);
       } else if (
@@ -218,14 +219,14 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[x] : null
+          x ? obj.options.columns[xNum] : null
         );
 
         (editor as HTMLInputElement).value = value;
 
         const options =
-          x && obj.options.columns[x].options
-            ? { ...obj.options.columns[x].options }
+          x && obj.options.columns[xNum].options
+            ? { ...obj.options.columns[xNum].options }
             : {};
 
         if (
@@ -234,9 +235,9 @@ export const openEditor = function (
         ) {
           options.position = true;
         }
-        options.value = obj.options.data[y][x];
+        options.value = obj.options.data[yNum][xNum];
         options.opened = true;
-        options.onclose = function (el, value) {
+        options.onclose = function (el: any, value: any) {
           closeEditor.call(obj, cell, true);
         };
         // Current value
@@ -252,8 +253,9 @@ export const openEditor = function (
           ) {
             const nextSibling = editor.nextSibling as HTMLElement;
             if (nextSibling.children && nextSibling.children[1]) {
-              nextSibling.children[1].style.top = rect.top + rect.height + "px";
-              nextSibling.children[1].style.left = rect.left + "px";
+              const childElement = nextSibling.children[1] as HTMLElement;
+              childElement.style.top = rect.top + rect.height + "px";
+              childElement.style.left = rect.left + "px";
             }
           }
         } else {
@@ -267,10 +269,10 @@ export const openEditor = function (
         editor.focus();
       } else if (
         obj.options.columns &&
-        obj.options.columns[x] &&
-        obj.options.columns[x].type == "html"
+        obj.options.columns[xNum] &&
+        obj.options.columns[xNum].type == "html"
       ) {
-        const value = x && y ? obj.options.data[y][x] : "";
+        const value = x && y ? obj.options.data[yNum][xNum] : "";
         // Create editor
         const editor = createEditor("div");
 
@@ -282,7 +284,7 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[x] : null
+          x ? obj.options.columns[xNum] : null
         );
 
         editor.style.position = "relative";
@@ -308,8 +310,8 @@ export const openEditor = function (
         }
       } else if (
         obj.options.columns &&
-        obj.options.columns[x] &&
-        obj.options.columns[x].type == "image"
+        obj.options.columns[xNum] &&
+        obj.options.columns[xNum].type == "image"
       ) {
         // Value
         const img = cell.children[0] as HTMLImageElement;
@@ -324,7 +326,7 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[x] : null
+          x ? obj.options.columns[xNum] : null
         );
 
         editor.style.position = "relative";
@@ -334,7 +336,7 @@ export const openEditor = function (
           div.appendChild(img);
         }
         editor.appendChild(div);
-        jSuites.image(div, obj.options.columns[x]);
+        jSuites.image(div, obj.options.columns[xNum]);
         const rect = cell.getBoundingClientRect();
         const rectContent = div.getBoundingClientRect();
         if (window.innerHeight < rect.bottom + rectContent.height) {
@@ -346,19 +348,19 @@ export const openEditor = function (
         div.style.left = rect.left + "px";
       } else {
         // Value
-        const value = empty == true ? "" : obj.options.data[y][x];
+        const value = empty == true ? "" : obj.options.data[yNum][xNum];
 
         // Basic editor
         let editor;
 
         if (
           (!obj.options.columns ||
-            !obj.options.columns[x] ||
-            obj.options.columns[x].wordWrap != false) &&
+            !obj.options.columns[xNum] ||
+            obj.options.columns[xNum].wordWrap != false) &&
           (obj.options.wordWrap == true ||
             (obj.options.columns &&
               obj.options.columns[xNum] &&
-              obj.options.columns[x].wordWrap == true))
+              obj.options.columns[xNum].wordWrap == true))
         ) {
           editor = createEditor("textarea");
         } else {
@@ -373,14 +375,14 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[x] : null
+          x ? obj.options.columns[xNum] : null
         );
 
         editor.focus();
         (editor as HTMLInputElement).value = value;
 
         // Column options
-        const options = obj.options.columns && obj.options.columns[x];
+        const options = obj.options.columns && obj.options.columns[xNum];
 
         // Apply format when is not a formula
         if (!isFormula(value)) {
@@ -399,9 +401,9 @@ export const openEditor = function (
                 }
               }
               // Input
-              opt.input = editor;
+              (opt as any).input = editor;
               // Configuration
-              editor.mask = opt;
+              (editor as any).mask = opt;
               // Do not treat the decimals
               jSuites.mask.render(value, opt, false);
             }
@@ -462,7 +464,7 @@ export const closeEditor = function (
         obj.options.columns[x] &&
         (obj.options.columns[x].type == "checkbox" ||
           obj.options.columns[x].type == "radio" ||
-          obj.options.columns[parseInt(x || "0")].type == "hidden")
+          obj.options.columns[x].type == "hidden")
       ) {
         // Do nothing
       } else if (
@@ -600,7 +602,7 @@ export const closeEditor = function (
 /**
  * Toogle
  */
-export const setCheckRadioValue = function () {
+export const setCheckRadioValue = function (this: any) {
   const obj = this;
 
   const records = [];
