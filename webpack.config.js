@@ -44,7 +44,7 @@ let isProduction = process.env.NODE_ENV === "production";
 
 const webpack = {
   target: ["web", "es5"],
-  entry: isProduction ? "./src/index.ts" : "./src/test.js",
+  entry: isProduction ? "./src/index.ts" : "./src/test.ts",
   mode: isProduction ? "production" : "development",
   externals: {},
   output: {
