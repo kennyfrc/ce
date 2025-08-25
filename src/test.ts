@@ -1,15 +1,17 @@
-import jspreadsheet from './index.js';
+import jspreadsheet from "./index";
 
-import './jspreadsheet.css';
-import 'jsuites/dist/jsuites.css';
+import "./jspreadsheet.css";
+import "jsuites/dist/jsuites.css";
 
-window.jss = jspreadsheet;
+(window as any).jss = jspreadsheet;
 
-window.instance = jspreadsheet(root, {
-    tabs: true,
-    toolbar: true,
-    worksheets: [{
-        minDimensions: [6,6],
-    }],
-})
-
+const root = document.getElementById("root");
+(window as any).instance = jspreadsheet(root, {
+  tabs: true,
+  toolbar: true,
+  worksheets: [
+    {
+      minDimensions: [6, 6],
+    },
+  ],
+});

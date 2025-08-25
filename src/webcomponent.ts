@@ -1,59 +1,65 @@
+declare const jspreadsheet: any;
+
 class Jspreadsheet extends HTMLElement {
-    constructor() {
-        super();
-    }
+  el: any;
 
-    init(o) {
-        // Shadow root
-        const shadowRoot = this.attachShadow({mode: 'open'});
+  constructor() {
+    super();
+  }
 
-        // Style
-        const css = document.createElement('link');
-        css.rel = 'stylesheet';
-        css.type = 'text/css'
-        css.href = 'https://cdn.jsdelivr.net/npm/jspreadsheet-ce/dist/jspreadsheet.min.css';
-        shadowRoot.appendChild(css);
+  init(o: any) {
+    // Shadow root
+    const shadowRoot = this.attachShadow({ mode: "open" });
 
-        const cssJsuites = document.createElement('link');
-        cssJsuites.rel = 'stylesheet';
-        cssJsuites.type = 'text/css'
-        cssJsuites.href = 'https://cdn.jsdelivr.net/npm/jsuites/dist/jsuites.min.css';
-        shadowRoot.appendChild(cssJsuites);
+    // Style
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.type = "text/css";
+    css.href =
+      "https://cdn.jsdelivr.net/npm/jspreadsheet-ce/dist/jspreadsheet.min.css";
+    shadowRoot.appendChild(css);
 
-        const cssMaterial = document.createElement('link');
-        cssMaterial.rel = 'stylesheet';
-        cssMaterial.type = 'text/css'
-        cssMaterial.href = 'https://fonts.googleapis.com/css?family=Material+Icons';
-        shadowRoot.appendChild(cssMaterial);
+    const cssJsuites = document.createElement("link");
+    cssJsuites.rel = "stylesheet";
+    cssJsuites.type = "text/css";
+    cssJsuites.href =
+      "https://cdn.jsdelivr.net/npm/jsuites/dist/jsuites.min.css";
+    shadowRoot.appendChild(cssJsuites);
 
-        // JSS container
-        var container = document.createElement('div');
-        shadowRoot.appendChild(container);
+    const cssMaterial = document.createElement("link");
+    cssMaterial.rel = "stylesheet";
+    cssMaterial.type = "text/css";
+    cssMaterial.href = "https://fonts.googleapis.com/css?family=Material+Icons";
+    shadowRoot.appendChild(cssMaterial);
 
-        // Properties
-        var toolbar = this.getAttribute('toolbar') == "true" ? true : false;
+    // JSS container
+    var container = document.createElement("div");
+    shadowRoot.appendChild(container);
 
-        // Create jexcel element
-        this.el = jspreadsheet(container, {
-            tabs: true,
-            toolbar: toolbar,
-            root: shadowRoot,
-            worksheets: [{
-                filters: true,
-                minDimensions: [6,6],
-            }],
-        });
-    }
+    // Properties
+    var toolbar = this.getAttribute("toolbar") == "true" ? true : false;
 
-    connectedCallback() {
-        this.init(this);
-    }
+    // Create jexcel element
+    this.el = jspreadsheet(container, {
+      tabs: true,
+      toolbar: toolbar,
+      root: shadowRoot,
+      worksheets: [
+        {
+          filters: true,
+          minDimensions: [6, 6],
+        },
+      ],
+    });
+  }
 
-    disconnectedCallback() {
-    }
+  connectedCallback() {
+    this.init(this);
+  }
 
-    attributeChangedCallback() {
-    }
+  disconnectedCallback() {}
+
+  attributeChangedCallback() {}
 }
 
-window.customElements.define('j-spreadsheet-ce', Jspreadsheet);
+window.customElements.define("j-spreadsheet-ce", Jspreadsheet);
