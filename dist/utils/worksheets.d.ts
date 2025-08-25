@@ -1,6 +1,6 @@
-export function getNextDefaultWorksheetName(spreadsheet: any): string;
-export function buildWorksheet(): Promise<void>;
-export function createWorksheetObj(options: any): {
+export declare const getNextDefaultWorksheetName: (spreadsheet: any) => string;
+export declare const buildWorksheet: (this: any) => Promise<void>;
+export declare const createWorksheetObj: (this: any, options: any) => {
     parent: any;
     options: any;
     filters: never[];
@@ -9,7 +9,7 @@ export function createWorksheetObj(options: any): {
     selection: never[];
     historyIndex: number;
 };
-export function createWorksheet(options: any): void;
-export function openWorksheet(position: any): void;
-export function deleteWorksheet(position: any): void;
+export declare const createWorksheet: (this: any, options: any) => void;
+export declare const openWorksheet: (this: any, position: any) => void;
+export declare const deleteWorksheet: (this: any, position: any) => void;
 //# sourceMappingURL=worksheets.d.ts.map

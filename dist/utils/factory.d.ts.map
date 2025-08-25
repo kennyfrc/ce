@@ -1,1 +1,1 @@
-{"version":3,"file":"factory.d.ts","sourceRoot":"","sources":["../../src/utils/factory.js"],"names":[],"mappings":";AAWA,iCAA6B;;IAwG7B;;;;;OAsFC;IAED;;;MAmBC"}
+{"version":3,"file":"factory.d.ts","sourceRoot":"","sources":["../../src/utils/factory.ts"],"names":[],"mappings":"AAeA,QAAA,MAAM,OAAO;;sBA4HL,GAAG,MACL,GAAG,WACE,GAAG,cACA,GAAG;oBA6FT,GAAG,eACI,GAAG,WACP,GAAG,YACF,GAAG;;;;CA/Ne,CAAC;AAqP/B,eAAe,OAAO,CAAC"}

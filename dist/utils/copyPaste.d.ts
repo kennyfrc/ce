@@ -1,8 +1,18 @@
-export function copy(highlighted: any, delimiter: any, returnData: any, includeHeaders: any, download: any, isCut: any, processed: any): any;
-export class copy {
-    constructor(highlighted: any, delimiter: any, returnData: any, includeHeaders: any, download: any, isCut: any, processed: any);
-    style: any[];
-    hashString: number;
-}
-export function paste(x: any, y: any, data: any): false | undefined;
+/**
+ * Copy method
+ *
+ * @param bool highlighted - Get only highlighted cells
+ * @param delimiter - \t default to keep compatibility with excel
+ * @return string value
+ */
+export declare const copy: (this: any, highlighted?: boolean, delimiter?: string, returnData?: boolean, includeHeaders?: boolean, download?: boolean, isCut?: boolean, processed?: boolean) => any;
+/**
+ * Jspreadsheet paste method
+ *
+ * @param x target column
+ * @param y target row
+ * @param data paste data. if data hash is the same as the copied data, apply style from copied cells
+ * @return string value
+ */
+export declare const paste: (this: any, x: number, y: number, data: any) => boolean;
 //# sourceMappingURL=copyPaste.d.ts.map

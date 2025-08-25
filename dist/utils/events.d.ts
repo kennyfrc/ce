@@ -1,6 +1,6 @@
-export function cutControls(e: any): void;
-export function wheelControls(e: any): void;
-export function scrollControls(e: any): void;
-export function setEvents(root: any): void;
-export function destroyEvents(root: any): void;
+export declare const cutControls: (this: any, e: any) => void;
+export declare const wheelControls: (this: any, e: any) => void;
+export declare const scrollControls: (this: any, e: any) => void;
+export declare const setEvents: (root: HTMLElement) => void;
+export declare const destroyEvents: (root: HTMLElement) => void;
 //# sourceMappingURL=events.d.ts.map

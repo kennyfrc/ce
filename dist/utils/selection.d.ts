@@ -1,32 +1,46 @@
-export function updateCornerPosition(): void;
-export function resetSelection(blur: any): number;
-export class resetSelection {
-    constructor(blur: any);
-    highlighted: any[];
-    selectedCell: any;
-}
-export function updateSelection(el1: any, el2: any, origin: any): void;
-export function removeCopyingSelection(): void;
-export function updateSelectionFromCoords(x1: any, y1: any, x2: any, y2: any, origin: any): false | undefined;
-export class updateSelectionFromCoords {
-    constructor(x1: any, y1: any, x2: any, y2: any, origin: any);
-    selectedCell: any[];
-    selectedContainer: (number | null)[];
-}
-export function getSelectedColumns(visibleOnly: any): number[];
-export function refreshSelection(): void;
-export function removeCopySelection(): void;
-export class removeCopySelection {
-    selection: any[];
-}
-export function copyData(o: any, d: any): void;
-export function hash(str: any): number;
-export function conditionalSelectionUpdate(type: any, o: any, d: any): void;
-export function getSelectedRows(visibleOnly: any): number[];
-export function selectAll(): void;
-export function getSelection(): number[] | null;
-export function getSelected(columnNameOnly: any): any[];
-export function getRange(): string;
-export function isSelected(x: any, y: any): boolean;
-export function getHighlighted(): number[][];
+export declare const updateCornerPosition: (this: any) => void;
+export declare const resetSelection: (this: any, blur: boolean) => number;
+/**
+ * Update selection based on two cells
+ */
+export declare const updateSelection: (this: any, el1: any, el2: any, origin: any) => void;
+export declare const removeCopyingSelection: (this: any) => void;
+export declare const updateSelectionFromCoords: (this: any, x1: number, y1: number, x2: number, y2: number, origin?: any) => boolean | void;
+/**
+ * Get selected column numbers
+ *
+ * @return array
+ */
+export declare const getSelectedColumns: (this: any, visibleOnly: boolean) => any[];
+/**
+ * Refresh current selection
+ */
+export declare const refreshSelection: (this: any) => void;
+/**
+ * Remove copy selection
+ *
+ * @return void
+ */
+export declare const removeCopySelection: (this: any) => void;
+/**
+ * Helper function to copy data using the corner icon
+ */
+export declare const copyData: (this: any, o: any, d: any) => void;
+export declare const hash: (str: string) => number;
+/**
+ * Move coords to A1 in case overlaps with an excluded cell
+ */
+export declare const conditionalSelectionUpdate: (this: any, type: number, o: number, d: number) => void;
+/**
+ * Get selected rows numbers
+ *
+ * @return array
+ */
+export declare const getSelectedRows: (this: any, visibleOnly: boolean) => number[];
+export declare const selectAll: (this: any) => void;
+export declare const getSelection: (this: any) => number[] | null;
+export declare const getSelected: (this: any, columnNameOnly: boolean) => any[];
+export declare const getRange: (this: any) => string;
+export declare const isSelected: (this: any, x: number, y: number) => boolean;
+export declare const getHighlighted: (this: any) => number[][];
 //# sourceMappingURL=selection.d.ts.map

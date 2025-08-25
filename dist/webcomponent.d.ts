@@ -1,6 +1,8 @@
+declare const jspreadsheet: any;
 declare class Jspreadsheet extends HTMLElement {
-    init(o: any): void;
     el: any;
+    constructor();
+    init(o: any): void;
     connectedCallback(): void;
     disconnectedCallback(): void;
     attributeChangedCallback(): void;

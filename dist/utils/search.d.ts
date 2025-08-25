@@ -1,11 +1,9 @@
-export function search(query: any): void;
-export class search {
-    constructor(query: any);
-    pageNumber: number;
-    results: any[];
-}
-export function resetSearch(): void;
-export class resetSearch {
-    results: any;
-}
+/**
+ * Search
+ */
+export declare const search: (this: any, query: string) => void;
+/**
+ * Reset search
+ */
+export declare const resetSearch: (this: any) => void;
 //# sourceMappingURL=search.d.ts.map

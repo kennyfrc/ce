@@ -1,7 +1,7 @@
 /**
  * Get carret position for one element
  */
-export declare const getCaretIndex: (e: HTMLElement) => number;
+export declare const getCaretIndex: (this: any, e: HTMLElement) => number;
 /**
  * Invert keys and values
  */
@@ -17,11 +17,11 @@ export declare const getColumnName: (columnNumber: number) => string;
  * Get column name from coords
  */
 export declare const getCellNameFromCoords: (x: number | string, y: number | string) => string;
-export declare const getCoordsFromCellName: (columnName: string) => (number | null)[] | undefined;
-export declare const getCoordsFromRange: (range: string) => any[];
+export declare const getCoordsFromCellName: (columnName: string) => (number | null)[];
+export declare const getCoordsFromRange: (range: string) => number[];
 /**
  * From stack overflow contributions
  */
-export declare const parseCSV: (str: string, delimiter?: string) => any[];
+export declare const parseCSV: (str: string, delimiter?: string) => any[][];
 export declare const createFromTable: (el: HTMLElement, options?: any) => any;
 //# sourceMappingURL=helpers.d.ts.map

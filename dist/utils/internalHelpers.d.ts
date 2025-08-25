@@ -8,7 +8,7 @@ export declare const injectArray: (o: any[], idx: number, arr: any[]) => any[];
  * @param string id
  * @return string id
  */
-export declare const getIdFromColumnName: (id: string, arr?: boolean) => string;
+export declare const getIdFromColumnName: (id: string, arr?: boolean) => string | number[];
 /**
  * Convert jss id to excel like column name
  *

@@ -1,11 +1,7 @@
-export function openFilter(columnId: any): void;
-export function closeFilter(columnId: any): void;
-export class closeFilter {
-    constructor(columnId: any);
-    results: any[];
-}
-export function resetFilters(): void;
-export class resetFilters {
-    results: any;
-}
+/**
+ * Open the column filter
+ */
+export declare const openFilter: (this: any, columnId: string | number) => void;
+export declare const closeFilter: (this: any, columnId?: number) => void;
+export declare const resetFilters: (this: any) => void;
 //# sourceMappingURL=filter.d.ts.map

@@ -1,1 +1,1 @@
-{"version":3,"file":"download.d.ts","sourceRoot":"","sources":["../../src/utils/download.js"],"names":[],"mappings":"AAOO,oEA8BN"}
+{"version":3,"file":"download.d.ts","sourceRoot":"","sources":["../../src/utils/download.ts"],"names":[],"mappings":"AAEA;;;;GAIG;AACH,eAAO,MAAM,QAAQ,GACnB,MAAM,GAAG,EACT,gBAAgB,OAAO,EACvB,YAAY,OAAO,SAkDpB,CAAC"}

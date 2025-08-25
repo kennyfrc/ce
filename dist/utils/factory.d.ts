@@ -1,15 +1,10 @@
-export default factory;
-declare function factory(): void;
-declare namespace factory {
-    function spreadsheet(el: any, options: any, worksheets: any): Promise<{
-        worksheets: any;
-        config: any;
-        element: any;
-        el: any;
-    }>;
-    function worksheet(spreadsheet: any, options: any, position: any): {
+declare const factory: {
+    (): void;
+    spreadsheet(this: any, el: any, options: any, worksheets: any): Promise<any>;
+    worksheet(this: any, spreadsheet: any, options: any, position: any): {
         parent: any;
         options: {};
     };
-}
+};
+export default factory;
 //# sourceMappingURL=factory.d.ts.map
