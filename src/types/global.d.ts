@@ -12,3 +12,13 @@ interface HTMLElement {
 interface Window {
   clipboardData?: any;
 }
+
+declare function $(element: any): {
+  getAttribute: (name: string) => string | null;
+};
+
+declare module "jsuites" {
+  interface JSuites {
+    translate: (text: string) => string;
+  }
+}
