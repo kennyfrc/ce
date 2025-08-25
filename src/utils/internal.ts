@@ -1483,7 +1483,7 @@ export const getWorksheetActive = function () {
   return spreadsheet.element.tabs ? spreadsheet.element.tabs.getActive() : 0;
 };
 
-export const getWorksheetInstance = function (index) {
+export const getWorksheetInstance = function (this: any, index?: number): any {
   const spreadsheet = this;
 
   const worksheetIndex =
