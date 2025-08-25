@@ -22,6 +22,7 @@ export const isColMerged = function (
     const keys = Object.keys(obj.options.mergeCells);
     for (let i = 0; i < keys.length; i++) {
       const info = getIdFromColumnName(keys[i], true);
+      if (typeof info === "string") return cols;
       const colspan = obj.options.mergeCells[keys[i]][0];
       const x1 = info[0];
       const x2 = info[0] + (colspan > 1 ? colspan - 1 : 0);
@@ -50,7 +51,7 @@ export const isColMerged = function (
 /**
  * Is rows merged
  */
-export const isRowMerged = function (y, insertBefore) {
+export const isRowMerged = function (this: any, y: any, insertBefore: any) {
   const obj = this;
 
   const rows = [];
@@ -59,6 +60,7 @@ export const isRowMerged = function (y, insertBefore) {
     const keys = Object.keys(obj.options.mergeCells);
     for (let i = 0; i < keys.length; i++) {
       const info = getIdFromColumnName(keys[i], true);
+      if (typeof info === "string") return [];
       const rowspan = obj.options.mergeCells[keys[i]][1];
       const y1 = info[1];
       const y2 = info[1] + (rowspan > 1 ? rowspan - 1 : 0);
@@ -91,7 +93,7 @@ export const isRowMerged = function (y, insertBefore) {
  * @param rowspan
  * @param ignoreHistoryAndEvents
  */
-export const getMerge = function (cellName) {
+export const getMerge = function (this: any, cellName: any) {
   const obj = this;
 
   let data = {};
@@ -128,6 +130,7 @@ export const getMerge = function (cellName) {
  * @param ignoreHistoryAndEvents
  */
 export const setMerge = function (
+  this: any,
   cellName,
   colspan,
   rowspan,
@@ -159,6 +162,7 @@ export const setMerge = function (
   }
 
   const cell = getIdFromColumnName(cellName, true);
+  if (typeof cell === "string") return null;
 
   if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
     if (obj.records[cell[1]][cell[0]].element.getAttribute("data-merged")) {
@@ -237,11 +241,17 @@ export const setMerge = function (
  * Remove merge by cellname
  * @param cellName
  */
-export const removeMerge = function (cellName, data, keepOptions) {
+export const removeMerge = function (
+  this: any,
+  cellName: any,
+  data: any,
+  keepOptions: any
+) {
   const obj = this;
 
   if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
     const cell = getIdFromColumnName(cellName, true);
+    if (typeof cell === "string") return;
     obj.records[cell[1]][cell[0]].element.removeAttribute("colspan");
     obj.records[cell[1]][cell[0]].element.removeAttribute("rowspan");
     obj.records[cell[1]][cell[0]].element.removeAttribute("data-merged");
@@ -281,7 +291,7 @@ export const removeMerge = function (cellName, data, keepOptions) {
 /**
  * Remove all merged cells
  */
-export const destroyMerge = function (keepOptions) {
+export const destroyMerge = function (this: any, keepOptions: any) {
   const obj = this;
 
   // Remove any merged cells
