@@ -52,10 +52,10 @@ export const search = function (this: any, query: string): void {
     const parsedQuery = new RegExp(parsedQueryStr, "i");
 
     // Filter
-    obj.options.data.forEach(function (v, k) {
+    obj.options.data.forEach(function (v: any, k: any) {
       if (search(v, parsedQuery, k)) {
         // Merged rows found
-        const rows = isRowMerged.call(obj, k);
+        const rows = isRowMerged.call(obj, k, undefined);
         if (rows.length) {
           for (let i = 0; i < rows.length; i++) {
             const row = getIdFromColumnName(rows[i], true);

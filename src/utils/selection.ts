@@ -11,7 +11,7 @@ import {
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 import { updateToolbar } from "./toolbar";
 
-export const updateCornerPosition = function () {
+export const updateCornerPosition = function (this: any): void {
   const obj = this;
 
   // If any selected cells
@@ -60,7 +60,7 @@ export const updateCornerPosition = function () {
   updateToolbar(obj);
 };
 
-export const resetSelection = function (blur) {
+export const resetSelection = function (this: any, blur: boolean): number {
   const obj = this;
 
   let previousStatus;
@@ -140,7 +140,7 @@ export const updateSelection = function (
   el1: any,
   el2: any,
   origin: any
-) {
+): void {
   const obj = this;
 
   const x1 = el1.getAttribute("data-x");
@@ -158,7 +158,7 @@ export const updateSelection = function (
   updateSelectionFromCoords.call(obj, x1, y1, x2, y2, origin);
 };
 
-export const removeCopyingSelection = function () {
+export const removeCopyingSelection = function (this: any): void {
   const copying = document.querySelectorAll(".jss_worksheet .copying");
   for (let i = 0; i < copying.length; i++) {
     copying[i].classList.remove("copying");
@@ -176,7 +176,7 @@ export const updateSelectionFromCoords = function (
   x2: number,
   y2: number,
   origin?: any
-) {
+): boolean | void {
   const obj = this;
 
   // select column
@@ -224,22 +224,22 @@ export const updateSelectionFromCoords = function (
   // Origin & Destination
   let px, ux;
 
-  if (parseInt(x1) < parseInt(x2)) {
-    px = parseInt(x1);
-    ux = parseInt(x2);
+  if (x1 < x2) {
+    px = x1;
+    ux = x2;
   } else {
-    px = parseInt(x2);
-    ux = parseInt(x1);
+    px = x2;
+    ux = x1;
   }
 
   let py, uy;
 
-  if (parseInt(y1) < parseInt(y2)) {
-    py = parseInt(y1);
-    uy = parseInt(y2);
+  if (y1 < y2) {
+    py = y1;
+    uy = y2;
   } else {
-    py = parseInt(y2);
-    uy = parseInt(y1);
+    py = y2;
+    uy = y1;
   }
 
   // Verify merged columns
@@ -412,7 +412,10 @@ export const updateSelectionFromCoords = function (
  *
  * @return array
  */
-export const getSelectedColumns = function (visibleOnly) {
+export const getSelectedColumns = function (
+  this: any,
+  visibleOnly: boolean
+): any[] {
   const obj = this;
 
   if (!obj.selectedCell) {
@@ -437,7 +440,7 @@ export const getSelectedColumns = function (visibleOnly) {
 /**
  * Refresh current selection
  */
-export const refreshSelection = function () {
+export const refreshSelection = function (this: any): void {
   const obj = this;
 
   if (obj.selectedCell) {
@@ -470,7 +473,7 @@ export const removeCopySelection = function () {
   obj.selection = [];
 };
 
-const doubleDigitFormat = function (v) {
+const doubleDigitFormat = function (v: number): string {
   v = "" + v;
   if (v.length == 1) {
     v = "0" + v;
@@ -481,7 +484,7 @@ const doubleDigitFormat = function (v) {
 /**
  * Helper function to copy data using the corner icon
  */
-export const copyData = function (o, d) {
+export const copyData = function (this: any, o: any, d: any): void {
   const obj = this;
 
   // Get data from all selected cells

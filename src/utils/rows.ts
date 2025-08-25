@@ -67,7 +67,7 @@ export const createRow = function (this: any, j: number, data?: any[]) {
   for (let i = 0; i < numberOfColumns; i++) {
     // New column of data to be append in the line
     obj.records[j][i] = {
-      element: createCell.call(this, i, j, data[i]),
+      element: createCell.call(this, i, j, data ? data[i] : undefined),
       x: i,
       y: j,
     };
@@ -81,7 +81,7 @@ export const createRow = function (this: any, j: number, data?: any[]) {
     ) {
       obj.options.columns[i].render(
         obj.records[j][i].element,
-        data[i],
+        data ? data[i] : undefined,
         "" + i,
         "" + j,
         obj,
@@ -296,7 +296,12 @@ export const insertRow = function (
  *
  * @return void
  */
-export const moveRow = function (o, d, ignoreDom) {
+export const moveRow = function (
+  this: any,
+  o: any,
+  d: any,
+  ignoreDom: any
+): boolean | void {
   const obj = this;
 
   if (
@@ -312,7 +317,7 @@ export const moveRow = function (o, d, ignoreDom) {
     }
 
     if (
-      isRowMerged.call(obj, o).length ||
+      isRowMerged.call(obj, o, undefined).length ||
       isRowMerged.call(obj, d, insertBefore).length
     ) {
       if (
@@ -411,7 +416,11 @@ export const moveRow = function (o, d, ignoreDom) {
  * @param integer numOfRows - number of lines
  * @return void
  */
-export const deleteRow = function (rowNumber, numOfRows) {
+export const deleteRow = function (
+  this: any,
+  rowNumber: any,
+  numOfRows: any
+): boolean | void {
   const obj = this;
 
   // Global Configuration
@@ -422,7 +431,7 @@ export const deleteRow = function (rowNumber, numOfRows) {
     ) {
       // Delete row definitions
       if (rowNumber == undefined) {
-        const number = getSelectedRows.call(obj);
+        const number = getSelectedRows.call(obj, undefined);
 
         if (number.length === 0) {
           rowNumber = obj.options.data.length - 1;
@@ -596,7 +605,7 @@ export const deleteRow = function (rowNumber, numOfRows) {
  * @param row - row number (first row is: 0)
  * @return height - current row height
  */
-export const getHeight = function (row) {
+export const getHeight = function (this: any, row: any) {
   const obj = this;
 
   let data;
@@ -629,7 +638,12 @@ export const getHeight = function (row) {
  * @param height - new row height
  * @param oldHeight - old row height
  */
-export const setHeight = function (row, height, oldHeight) {
+export const setHeight = function (
+  this: any,
+  row: any,
+  height: any,
+  oldHeight: any
+) {
   const obj = this;
 
   if (height > 0) {
@@ -678,14 +692,14 @@ export const setHeight = function (row, height, oldHeight) {
 /**
  * Show row
  */
-export const showRow = function (rowNumber) {
+export const showRow = function (this: any, rowNumber: any) {
   const obj = this;
 
   if (!Array.isArray(rowNumber)) {
     rowNumber = [rowNumber];
   }
 
-  rowNumber.forEach(function (rowIndex) {
+  rowNumber.forEach(function (rowIndex: any) {
     obj.rows[rowIndex].element.style.display = "";
   });
 };
@@ -693,14 +707,14 @@ export const showRow = function (rowNumber) {
 /**
  * Hide row
  */
-export const hideRow = function (rowNumber) {
+export const hideRow = function (this: any, rowNumber: any) {
   const obj = this;
 
   if (!Array.isArray(rowNumber)) {
     rowNumber = [rowNumber];
   }
 
-  rowNumber.forEach(function (rowIndex) {
+  rowNumber.forEach(function (rowIndex: any) {
     obj.rows[rowIndex].element.style.display = "none";
   });
 };
@@ -708,11 +722,11 @@ export const hideRow = function (rowNumber) {
 /**
  * Get a row data by rowNumber
  */
-export const getRowData = function (rowNumber, processed) {
+export const getRowData = function (this: any, rowNumber: any, processed: any) {
   const obj = this;
 
   if (processed) {
-    return obj.records[rowNumber].map(function (record) {
+    return obj.records[rowNumber].map(function (record: any) {
       return record.element.innerHTML;
     });
   } else {
@@ -723,7 +737,12 @@ export const getRowData = function (rowNumber, processed) {
 /**
  * Set a row data by rowNumber
  */
-export const setRowData = function (rowNumber, data, force) {
+export const setRowData = function (
+  this: any,
+  rowNumber: any,
+  data: any,
+  force: any
+) {
   const obj = this;
 
   for (let i = 0; i < obj.headers.length; i++) {
