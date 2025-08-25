@@ -8,9 +8,10 @@ import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
  */
 export const getComments = function (
   this: any,
-  cell?: string
+  cellParam?: string
 ): string | Record<string, string> {
   const obj = this;
+  let cell = cellParam;
 
   if (cell) {
     if (typeof cell !== "string") {
@@ -19,9 +20,10 @@ export const getComments = function (
 
     cell = getIdFromColumnName(cell, true);
 
+    if (!cell) return "";
     return obj.records[cell[1]][cell[0]].element.getAttribute("title") || "";
   } else {
-    const data = {};
+    const data: Record<string, string> = {};
     for (let j = 0; j < obj.options.data.length; j++) {
       for (let i = 0; i < obj.options.columns.length; i++) {
         const comments = obj.records[j][i].element.getAttribute("title");
@@ -38,7 +40,7 @@ export const getComments = function (
 /**
  * Set cell comments
  */
-export const setComments = function (cellId, comments) {
+export const setComments = function (this: any, cellId: any, comments: any) {
   const obj = this;
 
   let commentsObj;
@@ -53,6 +55,7 @@ export const setComments = function (cellId, comments) {
 
   Object.entries(commentsObj).forEach(function ([cellName, comment]) {
     const cellCoords = getCoordsFromCellName(cellName);
+    if (!cellCoords[0] || !cellCoords[1]) return;
 
     // Keep old value
     oldValue[cellName] =
