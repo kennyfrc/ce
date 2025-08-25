@@ -375,7 +375,7 @@ export const getData = function (
 
   // Column and row length
   const x = Math.max(
-    ...obj.options.data.map(function (row) {
+    ...obj.options.data.map(function (row: any[]) {
       return row.length;
     })
   );
@@ -419,7 +419,7 @@ export const getData = function (
 
   if (asJson) {
     return dataset.map(function (row) {
-      const resultRow = {};
+      const resultRow: Record<number, any> = {};
 
       row.forEach(function (item, index) {
         resultRow[index] = item;
