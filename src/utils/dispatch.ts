@@ -3,7 +3,7 @@ import jSuites from "jsuites";
 /**
  * Prepare JSON in the correct format
  */
-const prepareJson = function (data: any[]) {
+const prepareJson = function (this: any, data: any[]) {
   const obj = this;
 
   const rows = [];
@@ -19,7 +19,9 @@ const prepareJson = function (data: any[]) {
         data: {},
       };
     }
-    rows[y].data[k] = data[i].value;
+    if (rows[y] && rows[y].data) {
+      (rows[y].data as any)[k] = data[i].value;
+    }
   }
 
   // Filter rows
@@ -31,7 +33,7 @@ const prepareJson = function (data: any[]) {
 /**
  * Post json to a remote server
  */
-const save = function (url: string, data: any[]) {
+const save = function (this: any, url: string, data: any[]) {
   const obj = this;
 
   // Parse anything in the data before sending to the server
@@ -42,6 +44,7 @@ const save = function (url: string, data: any[]) {
     if (ret === false) {
       return false;
     }
+    return undefined;
   }
 
   // Remove update
@@ -50,17 +53,19 @@ const save = function (url: string, data: any[]) {
     method: "POST",
     dataType: "json",
     data: { data: JSON.stringify(data) },
-    success: function (result) {
+    success: function (result: any) {
       // Event
       dispatch.call(obj, "onsave", obj.parent, obj, data);
     },
   });
+
+  return true;
 };
 
 /**
  * Trigger events
  */
-const dispatch = function (event: string) {
+const dispatch = function (this: any, event: string, ...args: any[]) {
   const obj = this;
   let ret = null;
 
@@ -70,14 +75,11 @@ const dispatch = function (event: string) {
   if (!spreadsheet.ignoreEvents) {
     // Call global event
     if (typeof spreadsheet.config.onevent == "function") {
-      ret = spreadsheet.config.onevent.apply(this, arguments);
+      ret = spreadsheet.config.onevent.apply(this, [event, ...args]);
     }
     // Call specific events
-    if (typeof spreadsheet.config[event] == "function") {
-      ret = spreadsheet.config[event].apply(
-        this,
-        Array.prototype.slice.call(arguments, 1)
-      );
+    if (typeof (spreadsheet.config as any)[event] == "function") {
+      ret = spreadsheet.config[event].apply(this, args);
     }
 
     if (typeof spreadsheet.plugins === "object") {
@@ -89,9 +91,9 @@ const dispatch = function (event: string) {
         pluginKeyIndex++
       ) {
         const key = pluginKeys[pluginKeyIndex];
-        const plugin = spreadsheet.plugins[key];
+        const plugin = (spreadsheet.plugins as any)[key];
 
-        if (typeof plugin.onevent === "function") {
+        if (typeof (plugin as any).onevent === "function") {
           ret = plugin.onevent.apply(this, arguments);
         }
       }
@@ -102,8 +104,11 @@ const dispatch = function (event: string) {
     const scope = arguments;
 
     if (typeof spreadsheet.plugins === "object") {
-      Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
-        if (typeof plugin.persistence === "function") {
+      Object.entries(spreadsheet.plugins as any).forEach(function ([, plugin]: [
+        string,
+        any
+      ]) {
+        if (typeof (plugin as any).persistence === "function") {
           plugin.persistence(obj, "setValue", { data: scope[2] });
         }
       });

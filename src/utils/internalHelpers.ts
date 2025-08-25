@@ -23,7 +23,10 @@ export const injectArray = function (o: any[], idx: number, arr: any[]) {
  * @param string id
  * @return string id
  */
-export const getIdFromColumnName = function (id: string, arr?: boolean) {
+export const getIdFromColumnName = function (
+  id: string,
+  arr?: boolean
+): string | number[] {
   // Get the letters
   const t = /^[a-zA-Z]+/.exec(id);
 
@@ -32,7 +35,8 @@ export const getIdFromColumnName = function (id: string, arr?: boolean) {
     let code = 0;
     for (let i = 0; i < t[0].length; i++) {
       code +=
-        parseInt(t[0].charCodeAt(i) - 64) * Math.pow(26, t[0].length - 1 - i);
+        parseInt(String(t[0].charCodeAt(i) - 64)) *
+        Math.pow(26, t[0].length - 1 - i);
     }
     code--;
     // Make sure jss starts on zero
@@ -41,18 +45,18 @@ export const getIdFromColumnName = function (id: string, arr?: boolean) {
     }
 
     // Number
-    let number = parseInt(/[0-9]+$/.exec(id));
+    const numberMatch = /[0-9]+$/.exec(id);
+    let number = numberMatch ? parseInt(numberMatch[0]) : 0;
     if (number > 0) {
       number--;
     }
 
     if (arr == true) {
-      id = [code, number];
+      return [code, number];
     } else {
-      id = code + "-" + number;
+      return code + "-" + number;
     }
   }
-
   return id;
 };
 
@@ -62,10 +66,19 @@ export const getIdFromColumnName = function (id: string, arr?: boolean) {
  * @param string id
  * @return string id
  */
-export const getColumnNameFromId = function (cellId: string | number[]) {
+export const getColumnNameFromId = function (
+  cellId: string | number[]
+): string {
   if (!Array.isArray(cellId)) {
-    cellId = cellId.split("-");
+    const parts = cellId.split("-");
+    return (
+      getColumnName(parseInt(String(parts[0]))) +
+      (parseInt(String(parts[1])) + 1)
+    );
   }
 
-  return getColumnName(parseInt(cellId[0])) + (parseInt(cellId[1]) + 1);
+  return (
+    getColumnName(parseInt(String(cellId[0]))) +
+    (parseInt(String(cellId[1])) + 1)
+  );
 };
