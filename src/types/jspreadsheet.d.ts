@@ -5,8 +5,17 @@ declare namespace jspreadsheet {
     worksheets: any[];
   }
 
+  interface NestedHeader {
+    colspan?: string | number;
+    title?: string;
+    [key: string]: any;
+  }
+
   interface WorksheetInstance {
-    options: any;
+    options: {
+      nestedHeaders?: NestedHeader[][];
+      [key: string]: any;
+    };
   }
 
   interface JSpreadsheet {

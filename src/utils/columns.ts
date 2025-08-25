@@ -397,7 +397,11 @@ export const insertColumn = function (
  *
  * @return void
  */
-export const moveColumn = function (this: any, o: any, d: any): boolean | void {
+export const moveColumn = function (
+  this: any,
+  o: number,
+  d: number
+): boolean | void {
   const obj = this;
 
   if (
@@ -429,8 +433,7 @@ export const moveColumn = function (this: any, o: any, d: any): boolean | void {
     }
   }
 
-  o = parseInt(o);
-  d = parseInt(d);
+  // o and d are already numbers, no need for parseInt
 
   if (o > d) {
     obj.headerContainer.insertBefore(obj.headers[o], obj.headers[d]);
@@ -589,7 +592,7 @@ export const deleteColumn = function (
             col < columnNumber + numOfColumns;
             col++
           ) {
-            if (isColMerged.call(obj, col, null).length) {
+            if (isColMerged.call(obj, col, undefined).length) {
               mergeExists = true;
             }
           }

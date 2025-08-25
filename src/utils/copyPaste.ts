@@ -50,7 +50,7 @@ export const copy = function (
   const rowLabel = [];
   const x = obj.options.data[0].length;
   const y = obj.options.data.length;
-  let tmp = "";
+  let tmp: any = "";
   let copyHeader = false;
   let headers = "";
   let nestedHeaders = "";
@@ -93,8 +93,8 @@ export const copy = function (
       for (let j = 0; j < tmp.length; j++) {
         const nested = [];
         for (let i = 0; i < tmp[j].length; i++) {
-          const colspan = parseInt(tmp[j][i].colspan);
-          nested.push(tmp[j][i].title);
+          const colspan = parseInt((tmp[j][i] as any).colspan);
+          nested.push((tmp[j][i] as any).title);
           for (let c = 0; c < colspan - 1; c++) {
             nested.push("");
           }
@@ -269,7 +269,7 @@ export const copy = function (
  * @param data paste data. if data hash is the same as the copied data, apply style from copied cells
  * @return string value
  */
-export const paste = function (x, y, data) {
+export const paste = function (this: any, x: number, y: number, data: any) {
   const obj = this;
 
   // Controls
@@ -292,7 +292,7 @@ export const paste = function (x, y, data) {
 
   // Modify data to allow wor extending paste range in multiples of input range
   const srcW = data[0].length;
-  if ((w > 1) & Number.isInteger(w / srcW)) {
+  if (w > 1 && Number.isInteger(w / srcW)) {
     const repeats = w / srcW;
     if (style) {
       const newStyle = [];
@@ -305,18 +305,16 @@ export const paste = function (x, y, data) {
       style = newStyle;
     }
 
-    const arrayB = data.map(function (row, i) {
-      const arrayC = Array.apply(null, { length: repeats * row.length }).map(
-        function (e, i) {
-          return row[i % row.length];
-        }
-      );
+    const arrayB = data.map(function (row: any[], i: number) {
+      const arrayC = Array.from({ length: repeats * row.length }, (e, i) => {
+        return row[i % row.length];
+      });
       return arrayC;
     });
     data = arrayB;
   }
   const srcH = data.length;
-  if ((h > 1) & Number.isInteger(h / srcH)) {
+  if (h > 1 && Number.isInteger(h / srcH)) {
     const repeats = h / srcH;
     if (style) {
       const newStyle = [];
@@ -325,10 +323,7 @@ export const paste = function (x, y, data) {
       }
       style = newStyle;
     }
-    const arrayB = Array.apply(null, { length: repeats * srcH }).map(function (
-      e,
-      i
-    ) {
+    const arrayB = Array.from({ length: repeats * srcH }, (e, i) => {
       return data[i % srcH];
     });
     data = arrayB;
@@ -339,8 +334,8 @@ export const paste = function (x, y, data) {
     obj,
     "onbeforepaste",
     obj,
-    data.map(function (row) {
-      return row.map(function (item) {
+    data.map(function (row: any[]) {
+      return row.map(function (item: any) {
         return { value: item };
       });
     }),
@@ -359,18 +354,18 @@ export const paste = function (x, y, data) {
     let i = 0;
     let j = 0;
     const records = [];
-    const newStyle = {};
-    const oldStyle = {};
+    const newStyle: Record<string, any> = {};
+    const oldStyle: Record<string, any> = {};
     let styleIndex = 0;
 
     // Index
-    let colIndex = parseInt(x);
-    let rowIndex = parseInt(y);
+    let colIndex = x;
+    let rowIndex = y;
     let row = null;
 
     const hiddenColCount = obj.headers
       .slice(colIndex)
-      .filter((x) => x.style.display === "none").length;
+      .filter((x: any) => x.style.display === "none").length;
     const expandedColCount = colIndex + hiddenColCount + data[0].length;
     const currentColCount = obj.headers.length;
     if (expandedColCount > currentColCount) {
@@ -379,7 +374,7 @@ export const paste = function (x, y, data) {
     }
     const hiddenRowCount = obj.rows
       .slice(rowIndex)
-      .filter((x) => x.element.style.display === "none").length;
+      .filter((x: any) => x.element.style.display === "none").length;
     const expandedRowCount = rowIndex + hiddenRowCount + data.length;
     const currentRowCount = obj.rows.length;
     if (expandedRowCount > currentRowCount) {
@@ -395,7 +390,7 @@ export const paste = function (x, y, data) {
     // Go through the columns to get the data
     while ((row = data[j])) {
       i = 0;
-      colIndex = parseInt(x);
+      colIndex = x;
 
       while (row[i] != null) {
         let value = row[i];
@@ -504,4 +499,5 @@ export const paste = function (x, y, data) {
   }
 
   removeCopyingSelection();
+  return true;
 };

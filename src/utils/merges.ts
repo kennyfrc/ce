@@ -16,7 +16,7 @@ export const isColMerged = function (
 ) {
   const obj = this;
 
-  const cols = [];
+  const cols: string[] = [];
   // Remove any merged cells
   if (obj.options.mergeCells) {
     const keys = Object.keys(obj.options.mergeCells);

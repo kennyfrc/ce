@@ -18,10 +18,13 @@ export const getComments = function (
       return getComments.call(obj) as Record<string, string>;
     }
 
-    cell = getIdFromColumnName(cell, true);
+    const cellCoords = getIdFromColumnName(cell, true);
 
-    if (!cell) return "";
-    return obj.records[cell[1]][cell[0]].element.getAttribute("title") || "";
+    if (!cellCoords || typeof cellCoords === "string") return "";
+    return (
+      obj.records[cellCoords[1]][cellCoords[0]].element.getAttribute("title") ||
+      ""
+    );
   } else {
     const data: Record<string, string> = {};
     for (let j = 0; j < obj.options.data.length; j++) {
@@ -51,7 +54,7 @@ export const setComments = function (this: any, cellId: any, comments: any) {
     commentsObj = cellId;
   }
 
-  const oldValue = {};
+  const oldValue: Record<string, any> = {};
 
   Object.entries(commentsObj).forEach(function ([cellName, comment]) {
     const cellCoords = getCoordsFromCellName(cellName);
