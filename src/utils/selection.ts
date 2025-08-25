@@ -135,7 +135,12 @@ export const resetSelection = function (blur) {
 /**
  * Update selection based on two cells
  */
-export const updateSelection = function (el1, el2, origin) {
+export const updateSelection = function (
+  this: any,
+  el1: any,
+  el2: any,
+  origin: any
+) {
   const obj = this;
 
   const x1 = el1.getAttribute("data-x");

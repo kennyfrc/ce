@@ -143,7 +143,7 @@ export const setMerge = function (
   if (!cellName) {
     if (!obj.highlighted.length) {
       alert(jSuites.translate("No cells selected"));
-      return null;
+      return;
     } else {
       const x1 = parseInt(obj.highlighted[0].getAttribute("data-x"));
       const y1 = parseInt(obj.highlighted[0].getAttribute("data-y"));
@@ -158,11 +158,11 @@ export const setMerge = function (
       rowspan = y2 - y1 + 1;
     }
   } else if (typeof cellName !== "string") {
-    return null;
+    return;
   }
 
   const cell = getIdFromColumnName(cellName, true);
-  if (typeof cell === "string") return null;
+  if (typeof cell === "string") return;
 
   if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
     if (obj.records[cell[1]][cell[0]].element.getAttribute("data-merged")) {
@@ -221,7 +221,12 @@ export const setMerge = function (
       }
     }
     // In the initialization is not necessary keep the history
-    updateSelection.call(obj, obj.records[cell[1]][cell[0]].element);
+    updateSelection.call(
+      obj,
+      obj.records[cell[1]][cell[0]].element,
+      undefined,
+      undefined
+    );
 
     if (!ignoreHistoryAndEvents) {
       setHistory.call(obj, {
@@ -259,12 +264,13 @@ export const removeMerge = function (
 
     let index = 0;
 
-    let j, i;
+    let j = 0,
+      i = 0;
 
     for (j = 0; j < info[1]; j++) {
       for (i = 0; i < info[0]; i++) {
         if (j > 0 || i > 0) {
-          obj.records[cell[1] + j][cell[0] + i].element = info[2][index];
+          obj.records[cell[1] + j][cell[0] + i].element = info[2][index!];
           obj.records[cell[1] + j][cell[0] + i].element.style.display = "";
           // Recover data
           if (data && data[index]) {
@@ -279,7 +285,8 @@ export const removeMerge = function (
     updateSelection.call(
       obj,
       obj.records[cell[1]][cell[0]].element,
-      obj.records[cell[1] + j - 1][cell[0] + i - 1].element
+      obj.records[cell[1] + j - 1][cell[0] + i - 1].element,
+      undefined
     );
 
     if (!keepOptions) {
