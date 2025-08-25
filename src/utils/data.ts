@@ -359,11 +359,17 @@ export const setValueFromCoords = function (
  * @param bool get highlighted cells only
  * @return array data
  */
-export const getData = function (highlighted, processed, delimiter, asJson) {
+export const getData = function (
+  this: any,
+  highlighted: boolean,
+  processed: boolean,
+  delimiter: string,
+  asJson: boolean
+) {
   const obj = this;
 
   // Control vars
-  const dataset = [];
+  const dataset: any[][] = [];
   let px = 0;
   let py = 0;
 
@@ -426,12 +432,16 @@ export const getData = function (highlighted, processed, delimiter, asJson) {
   return dataset;
 };
 
-export const getDataFromRange = function (range, processed) {
+export const getDataFromRange = function (
+  this: any,
+  range: string,
+  processed: boolean
+) {
   const obj = this;
 
   const coords = getCoordsFromRange(range);
 
-  const dataset = [];
+  const dataset: any[][] = [];
 
   for (let y = coords[1]; y <= coords[3]; y++) {
     dataset.push([]);
