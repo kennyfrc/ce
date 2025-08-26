@@ -36,8 +36,11 @@ export const download = function (
     });
 
     // IE Compatibility
-    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveOrOpenBlob(
+    const navigator = window.navigator as Navigator & {
+      msSaveOrOpenBlob?: (blob: Blob, defaultName?: string) => boolean;
+    };
+    if (navigator && navigator.msSaveOrOpenBlob) {
+      navigator.msSaveOrOpenBlob(
         blob,
         (obj.options.csvFileName || obj.options.worksheetName) + ".csv"
       );

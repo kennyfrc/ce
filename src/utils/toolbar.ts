@@ -208,14 +208,14 @@ export const getDefault = function (this: any) {
 
   items.push({
     content: "web",
-    tooltip: jSuites.translate("Merge the selected cells"),
+    tooltip: (jSuites as any).translate("Merge the selected cells"),
     onclick: function () {
       const worksheet = getActive();
 
       if (
         worksheet.selectedCell &&
         confirm(
-          jSuites.translate(
+          (jSuites as any).translate(
             "The merged cells will retain the value of the top-left cell only. Are you sure?"
           )
         )

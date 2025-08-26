@@ -46,8 +46,9 @@ export const updatePagination = function (this: any): void {
 
     if (!results) {
       // No records found
-      obj.pagination.children[0].innerHTML =
-        jSuites.translate("No records found");
+      obj.pagination.children[0].innerHTML = (jSuites as any).translate(
+        "No records found"
+      );
     } else {
       // Pagination container
       const quantyOfPages = Math.ceil(results / obj.options.pagination);
@@ -106,7 +107,7 @@ export const updatePagination = function (this: any): void {
       };
 
       obj.pagination.children[0].innerHTML = format(
-        jSuites.translate("Showing page {0} of {1} entries"),
+        (jSuites as any).translate("Showing page {0} of {1} entries"),
         (obj.pageNumber + 1).toString(),
         quantyOfPages.toString()
       );

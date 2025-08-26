@@ -142,7 +142,7 @@ export const setMerge = function (
 
   if (!cellName) {
     if (!obj.highlighted.length) {
-      alert(jSuites.translate("No cells selected"));
+      alert((jSuites as any).translate("No cells selected"));
       return;
     } else {
       const x1 = parseInt(obj.highlighted[0].getAttribute("data-x"));
@@ -183,7 +183,7 @@ export const setMerge = function (
   }
 
   if (test) {
-    alert(jSuites.translate(test));
+    alert((jSuites as any).translate(test));
   } else {
     // Add property
     if (colspan > 1) {

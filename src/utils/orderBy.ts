@@ -100,7 +100,7 @@ export const orderBy = function (this: any, column: any, order: any): boolean {
     ) {
       if (
         !confirm(
-          jSuites.translate(
+          (jSuites as any).translate(
             "This action will destroy any existing merged cells. Are you sure?"
           )
         )

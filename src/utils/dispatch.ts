@@ -48,7 +48,7 @@ const save = function (this: any, url: string, data: any[]) {
   }
 
   // Remove update
-  jSuites.ajax({
+  (jSuites as any).ajax({
     url: url,
     method: "POST",
     dataType: "json",

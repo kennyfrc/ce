@@ -5,6 +5,8 @@ declare global {
     }
   }
 
+  var root: HTMLDivElement;
+
   interface Navigator {
     msSaveOrOpenBlob?: (blob: Blob, defaultName?: string) => boolean;
   }
@@ -49,6 +51,8 @@ declare module "jsuites" {
   interface JSuitesMask {
     render: (value: any, options: any, skipDecimals: boolean) => string;
     extract: () => any;
+    extractDateFromString: (dateString: string, format?: string) => any;
+    getDateString: (date: any, format?: string) => string;
   }
 
   interface JSuitesMaskStatic {
@@ -60,6 +64,8 @@ declare module "jsuites" {
   interface JSuitesCalendar {
     extractDateFromString: (dateString: string, format?: string) => any;
     getDateString: (date: any, format?: string) => string;
+    render: (value: any, options: any, skipDecimals?: boolean) => string;
+    extract: (value: any, options: any, skipDecimals?: boolean) => any;
   }
 
   interface JSuitesCalendarStatic {
@@ -82,8 +88,12 @@ declare module "jsuites" {
   interface ColorOptions {
     value?: string;
     closeOnChange?: boolean;
+    opened?: boolean;
+    position?: boolean;
     onchange?: (o: any, v: string) => void;
     onopen?: (o: any) => void;
+    onclose?: (el: any, value: any) => void;
+    [key: string]: any;
   }
 
   interface PickerOptions {
@@ -113,7 +123,10 @@ declare module "jsuites" {
     url?: string;
     data?: any[];
     type?: string;
+    allowCreate?: boolean;
+    hideHeaders?: boolean;
     onchange?: (tab: any, index: number) => void;
+    onbeforecreate?: (element: any, title: any) => void;
   }
 
   const jSuites: {
@@ -133,6 +146,12 @@ declare module "jsuites" {
     ajax: (options: AjaxOptions) => any;
     picker: (element: HTMLElement, options: PickerOptions) => any;
     toolbar: (element: HTMLElement, options: ToolbarOptions) => any;
+    // Additional properties used in the codebase
+    render: (value: any, options: any, skipDecimals?: boolean) => string;
+    extract: (value: any, options: any, skipDecimals?: boolean) => any;
+    extractDateFromString: (dateString: string, format?: string) => any;
+    getDateString: (date: any, format?: string) => string;
+    [key: string]: any;
   };
   export default jSuites;
 }
