@@ -12,146 +12,192 @@ declare global {
   }
 
   interface HTMLElement {
-    jssWorksheet?: any;
-    jspreadsheet?: any;
+    jssWorksheet?: jspreadsheet.WorksheetInstance;
+    jspreadsheet?: jspreadsheet.SpreadsheetInstance;
   }
 
   interface Window {
-    clipboardData?: any;
+    clipboardData?: DataTransfer;
   }
 
-  function $(element: any): {
+  function $(element: HTMLElement | string): {
     getAttribute: (name: string) => string | null;
   };
 }
 
-interface Navigator {
-  msSaveOrOpenBlob?: (blob: Blob, defaultName?: string) => boolean;
-}
-
 interface HTMLElement {
-  jssWorksheet?: any;
-  jspreadsheet?: any;
+  jssWorksheet?: jspreadsheet.WorksheetInstance;
+  jspreadsheet?: jspreadsheet.SpreadsheetInstance;
 }
 
 interface Window {
-  clipboardData?: any;
+  clipboardData?: DataTransfer;
 }
 
-declare function $(element: any): {
+declare function $(element: HTMLElement | string): {
   getAttribute: (name: string) => string | null;
 };
 
 declare module "jsuites" {
   interface JSuitesDropdown {
     render: () => void;
-    extract: () => any;
-  }
-
-  interface JSuitesMask {
-    render: (value: any, options: any, skipDecimals: boolean) => string;
-    extract: () => any;
-    extractDateFromString: (dateString: string, format?: string) => any;
-    getDateString: (date: any, format?: string) => string;
-  }
-
-  interface JSuitesMaskStatic {
-    (element: HTMLElement, options: any): JSuitesMask;
-    render: (value: any, options: any, skipDecimals: boolean) => string;
-    extract: (value: any, options: any, skipDecimals?: boolean) => any;
+    extract: () => string | number | boolean | null;
+    open: () => void;
+    close: () => void;
+    getValue: (asArray?: boolean) => any;
+    getText: () => string;
   }
 
   interface JSuitesCalendar {
-    extractDateFromString: (dateString: string, format?: string) => any;
-    getDateString: (date: any, format?: string) => string;
-    render: (value: any, options: any, skipDecimals?: boolean) => string;
-    extract: (value: any, options: any, skipDecimals?: boolean) => any;
+    render: () => void;
+    extract: () => Date | string | null;
+    extractDateFromString: (dateString: string) => Date | null;
+    getDateString: (date: Date) => string;
   }
 
   interface JSuitesCalendarStatic {
-    (element: HTMLElement, options: any): JSuitesCalendar;
-    extractDateFromString: (dateString: string, format?: string) => any;
-    getDateString: (date: any, format?: string) => string;
+    (element: HTMLElement, options: CalendarOptions): JSuitesCalendar;
+    extractDateFromString: (dateString: string, format?: string) => Date | null;
+    getDateString: (date: Date, format?: string) => string;
   }
 
-  interface DropdownOptions {
-    data?: any[];
-    multiple?: boolean;
-    autocomplete?: boolean;
-    opened?: boolean;
-    value?: any;
-    width?: number | string;
-    position?: boolean;
-    onclose?: (o: any) => void;
+  interface JSuitesColor {
+    render: () => void;
+    extract: () => string | null;
+    open: () => void;
   }
 
-  interface ColorOptions {
-    value?: string;
-    closeOnChange?: boolean;
-    opened?: boolean;
-    position?: boolean;
-    onchange?: (o: any, v: string) => void;
-    onopen?: (o: any) => void;
-    onclose?: (el: any, value: any) => void;
+  interface JSuitesEditor {
+    render: () => void;
+    extract: () => string | null;
+  }
+
+  interface JSuitesTabs {
+    render: () => void;
     [key: string]: any;
   }
 
-  interface PickerOptions {
-    type?: string;
-    value?: any;
-    data?: any[];
-    width?: string;
-    render?: (e: string) => string;
-    onchange?: (o: any, v: any, c?: any, d?: any) => void;
+  interface JSuitesContextMenu {
+    render: () => void;
+    [key: string]: any;
+  }
+
+  interface JSuitesToolbar {
+    render: () => void;
+    [key: string]: any;
+  }
+
+  interface JSuitesPicker {
+    render: () => void;
+    [key: string]: any;
+  }
+
+  interface JSuitesImage {
+    render: () => void;
+    [key: string]: any;
+  }
+
+  interface JSuitesMask {
+    render: () => void;
+    extract: () => string | null;
+    [key: string]: any;
+  }
+
+  interface JSuitesMaskStatic {
+    (element: HTMLElement, options: MaskOptions): JSuitesMask;
+    render: (value: any, options: any, skipDecimals?: boolean) => string;
+    extract: (value: any, options: any, skipDecimals?: boolean) => any;
   }
 
   interface AjaxOptions {
     url: string;
     method?: string;
     data?: any;
-    dataType?: string;
-    success?: (response: any) => void;
+    success?: (data: any) => void;
     error?: (error: any) => void;
+    [key: string]: any;
   }
 
-  interface ToolbarOptions {
-    items?: any[];
-    oninsert?: (item: any) => void;
+  interface DropdownOptions {
+    data?: Array<
+      | string
+      | number
+      | { value: string | number; text: string }
+      | { id: string | number; name: string }
+    >;
+    url?: string;
+    multiple?: boolean;
+    autocomplete?: boolean;
+    opened?: boolean;
+    value?: any;
+    width?: string;
+    position?: boolean;
+    onclose?: (o: any) => void;
+    [key: string]: any;
+  }
+
+  interface CalendarOptions {
+    type?: string;
+    format?: string;
+    [key: string]: any;
+  }
+
+  interface ColorOptions {
+    value?: string;
+    [key: string]: any;
+  }
+
+  interface EditorOptions {
+    type?: string;
+    [key: string]: any;
   }
 
   interface TabsOptions {
-    url?: string;
-    data?: any[];
-    type?: string;
-    allowCreate?: boolean;
-    hideHeaders?: boolean;
-    onchange?: (tab: any, index: number) => void;
-    onbeforecreate?: (element: any, title: any) => void;
+    [key: string]: any;
   }
 
-  const jSuites: {
-    translate: (text: string) => string;
-    setDictionary: (dictionary: any) => void;
+  interface ContextMenuOptions {
+    [key: string]: any;
+  }
+
+  interface ToolbarOptions {
+    [key: string]: any;
+  }
+
+  interface PickerOptions {
+    [key: string]: any;
+  }
+
+  interface ImageOptions {
+    [key: string]: any;
+  }
+
+  interface MaskOptions {
+    [key: string]: any;
+  }
+
+  interface JSuites {
     dropdown: (
       element: HTMLElement,
       options: DropdownOptions
     ) => JSuitesDropdown;
-    color: (element: HTMLElement, options: ColorOptions) => any;
     calendar: JSuitesCalendarStatic;
-    editor: (element: HTMLElement, options: any) => any;
-    image: (element: HTMLElement, options: any) => any;
+    color: (element: HTMLElement, options: ColorOptions) => JSuitesColor;
+    editor: (element: HTMLElement, options: EditorOptions) => JSuitesEditor;
+    tabs: (element: HTMLElement, options: TabsOptions) => JSuitesTabs;
+    contextmenu: (
+      element: HTMLElement,
+      options: ContextMenuOptions
+    ) => JSuitesContextMenu;
+    toolbar: (element: HTMLElement, options: ToolbarOptions) => JSuitesToolbar;
+    picker: (element: HTMLElement, options: PickerOptions) => JSuitesPicker;
+    image: (element: HTMLElement, options: ImageOptions) => JSuitesImage;
     mask: JSuitesMaskStatic;
-    tabs: (element: HTMLElement, options: TabsOptions) => any;
-    contextmenu: (element: HTMLElement, options: any) => any;
-    ajax: (options: AjaxOptions) => any;
-    picker: (element: HTMLElement, options: PickerOptions) => any;
-    toolbar: (element: HTMLElement, options: ToolbarOptions) => any;
-    // Additional properties used in the codebase
-    render: (value: any, options: any, skipDecimals?: boolean) => string;
-    extract: (value: any, options: any, skipDecimals?: boolean) => any;
-    extractDateFromString: (dateString: string, format?: string) => any;
-    getDateString: (date: any, format?: string) => string;
-    [key: string]: any;
-  };
-  export default jSuites;
+    ajax: (options: AjaxOptions) => void;
+    translate: (key: string) => string;
+    setDictionary: (dictionary: Record<string, string>) => void;
+  }
+
+  const jSuites: JSuites;
+  export = jSuites;
 }
