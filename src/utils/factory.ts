@@ -1,0 +1,261 @@
+import jSuites from "jsuites";
+
+import libraryBase from "./libraryBase";
+import { setEvents } from "./events";
+import { fullscreen, getWorksheetActive } from "./internal";
+import { hideToolbar, showToolbar, updateToolbar } from "./toolbar";
+import {
+  buildWorksheet,
+  createWorksheetObj,
+  getNextDefaultWorksheetName,
+} from "./worksheets";
+import dispatch from "./dispatch";
+import { createFromTable } from "./helpers";
+import { getSpreadsheetConfig, setConfig } from "./config";
+
+const factory = function () {};
+
+const createWorksheets = async function (
+  this: any,
+  spreadsheet: any,
+  options: any,
+  el: any
+) {
+  // Create worksheets
+  let o = options.worksheets;
+  if (o) {
+    let tabsOptions: Record<string, any> = {
+      animation: true,
+      onbeforecreate: function (this: any, element: any, title: any) {
+        if (title) {
+          return title;
+        } else {
+          return getNextDefaultWorksheetName(spreadsheet);
+        }
+      },
+      oncreate: function (this: any, element: any, newTabContent: any) {
+        if (!spreadsheet.creationThroughJss) {
+          const worksheetName =
+            element.tabs.headers.children[
+              element.tabs.headers.children.length - 2
+            ].innerHTML;
+
+          createWorksheetObj.call(spreadsheet.worksheets[0], {
+            minDimensions: [10, 15],
+            worksheetName: worksheetName,
+          });
+        } else {
+          spreadsheet.creationThroughJss = false;
+        }
+
+        const newWorksheet =
+          spreadsheet.worksheets[spreadsheet.worksheets.length - 1];
+
+        newWorksheet.element = newTabContent;
+
+        buildWorksheet.call(newWorksheet).then(function () {
+          updateToolbar(newWorksheet);
+
+          dispatch.call(
+            newWorksheet,
+            "oncreateworksheet",
+            newWorksheet,
+            options,
+            spreadsheet.worksheets.length - 1
+          );
+        });
+      },
+      onchange: function (
+        this: any,
+        element: any,
+        instance: any,
+        tabIndex: any
+      ) {
+        if (
+          spreadsheet.worksheets.length != 0 &&
+          spreadsheet.worksheets[tabIndex]
+        ) {
+          updateToolbar(spreadsheet.worksheets[tabIndex]);
+        }
+      },
+    };
+
+    if (options.tabs == true) {
+      tabsOptions.allowCreate = true;
+    } else {
+      tabsOptions.hideHeaders = true;
+    }
+
+    tabsOptions.data = [];
+
+    let sheetNumber = 1;
+
+    for (let i = 0; i < o.length; i++) {
+      if (!o[i].worksheetName) {
+        o[i].worksheetName = "Sheet" + sheetNumber++;
+      }
+
+      tabsOptions.data.push({
+        title: o[i].worksheetName,
+        content: "",
+      });
+    }
+
+    el.classList.add("jss_spreadsheet");
+    el.tabIndex = 0;
+
+    const tabs = jSuites.tabs(el, tabsOptions);
+
+    const spreadsheetStyles = options.style;
+    delete options.style;
+
+    for (let i = 0; i < o.length; i++) {
+      if (o[i].style) {
+        Object.entries(o[i].style).forEach(function ([cellName, value]) {
+          if (typeof value === "number") {
+            o[i].style[cellName] = spreadsheetStyles[value];
+          }
+        });
+      }
+
+      spreadsheet.worksheets.push({
+        parent: spreadsheet,
+        element: tabs.content.children[i],
+        options: o[i],
+        filters: [],
+        formula: [],
+        history: [],
+        selection: [],
+        historyIndex: -1,
+      });
+
+      await buildWorksheet.call(spreadsheet.worksheets[i]);
+    }
+  } else {
+    throw new Error("JSS: worksheets are not defined");
+  }
+};
+
+factory.spreadsheet = async function (
+  this: any,
+  el: any,
+  options: any,
+  worksheets: any
+) {
+  if (el.tagName == "TABLE") {
+    if (!options) {
+      options = {};
+    }
+
+    if (!options.worksheets) {
+      options.worksheets = [];
+    }
+
+    const tableOptions = createFromTable(el, options.worksheets[0]);
+
+    options.worksheets[0] = tableOptions;
+
+    const div = document.createElement("div");
+    el.parentNode.insertBefore(div, el);
+    el.remove();
+    el = div;
+  }
+
+  let spreadsheet: any = {
+    worksheets: worksheets,
+    config: options,
+    element: el,
+    el,
+  };
+
+  // Contextmenu container
+  spreadsheet.contextMenu = document.createElement("div");
+  spreadsheet.contextMenu.className = "jss_contextmenu";
+
+  spreadsheet.getWorksheetActive = getWorksheetActive.bind(spreadsheet);
+  spreadsheet.fullscreen = fullscreen.bind(spreadsheet);
+  spreadsheet.showToolbar = showToolbar.bind(spreadsheet);
+  spreadsheet.hideToolbar = hideToolbar.bind(spreadsheet);
+  spreadsheet.getConfig = getSpreadsheetConfig.bind(spreadsheet);
+  spreadsheet.setConfig = setConfig.bind(spreadsheet);
+
+  spreadsheet.setPlugins = function (newPlugins: any) {
+    if (!spreadsheet.plugins) {
+      spreadsheet.plugins = {};
+    }
+
+    if (typeof newPlugins == "object") {
+      Object.entries(newPlugins).forEach(function ([pluginName, plugin]: [
+        string,
+        any
+      ]) {
+        spreadsheet.plugins[pluginName] = plugin.call(
+          libraryBase.jspreadsheet,
+          spreadsheet,
+          {},
+          spreadsheet.config
+        );
+      });
+    }
+  };
+
+  spreadsheet.setPlugins(options.plugins);
+
+  // Create as worksheets
+  await createWorksheets(spreadsheet, options, el);
+
+  spreadsheet.element.appendChild(spreadsheet.contextMenu);
+
+  // Create element
+  jSuites.contextmenu(spreadsheet.contextMenu, {
+    onclick: function (this: any) {
+      spreadsheet.contextMenu.contextmenu.close(false);
+    },
+  });
+
+  // Fullscreen
+  if (spreadsheet.config.fullscreen == true) {
+    spreadsheet.element.classList.add("fullscreen");
+  }
+
+  showToolbar.call(spreadsheet);
+
+  // Build handlers
+  if (options.root) {
+    setEvents(options.root);
+  } else {
+    setEvents(document.body);
+  }
+
+  el.spreadsheet = spreadsheet;
+
+  return spreadsheet;
+};
+
+factory.worksheet = function (
+  this: any,
+  spreadsheet: any,
+  options: any,
+  position: any
+) {
+  // Worksheet object
+  let w = {
+    // Parent of a worksheet is always the spreadsheet
+    parent: spreadsheet,
+    // Options for this worksheet
+    options: {},
+  };
+
+  // Create the worksheets object
+  if (typeof position === "undefined") {
+    spreadsheet.worksheets.push(w);
+  } else {
+    spreadsheet.worksheets.splice(position, 0, w);
+  }
+  // Keep configuration used
+  Object.assign(w.options, options);
+
+  return w;
+};
+
+export default factory;

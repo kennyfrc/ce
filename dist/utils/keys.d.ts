@@ -1,0 +1,9 @@
+export declare const up: (this: any, shiftKey: any, ctrlKey: any) => void;
+export declare const rightGet: (this: any, x: any, y: any) => any;
+export declare const right: (this: any, shiftKey: any, ctrlKey: any) => void;
+export declare const downGet: (this: any, x: any, y: any) => any;
+export declare const down: (this: any, shiftKey: any, ctrlKey: any) => void;
+export declare const left: (this: any, shiftKey: any, ctrlKey: any) => void;
+export declare const first: (this: any, shiftKey: any, ctrlKey: any) => void;
+export declare const last: (this: any, shiftKey: any, ctrlKey: any) => void;
+//# sourceMappingURL=keys.d.ts.map

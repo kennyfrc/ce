@@ -1,0 +1,12 @@
+--- a/src/utils/editor.ts
++++ b/src/utils/editor.ts
+@@ -74,8 +74,8 @@ export const openEditor = function (
+   } else {
+     // If there is a custom editor for it
+     if (
+       obj.options.columns &&
+-      obj.options.columns[x] &&
+-      typeof obj.options.columns[x].type === "object"
++      obj.options.columns[parseInt(x || "0")] &&
++      typeof obj.options.columns[parseInt(x || "0")].type === "object"
+     ) {

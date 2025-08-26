@@ -1,0 +1,102 @@
+import { expect } from 'chai';
+
+import jspreadsheet from '../src/index';
+
+describe('Comment tests', () => {
+    it('Set comment', () => {
+        const instance = jspreadsheet(root, {
+            worksheets: [
+                {
+                    data: [
+                        ['US', 'Cheese', '2019-02-12'],
+                        ['CA', 'Apples', '2019-03-01'],
+                        ['CA', 'Carrots', '2018-11-10'],
+                        ['BR', 'Oranges', '2019-01-12'],
+                    ],
+                    columns: [
+                        { width: '300px' },
+                        { width: '200px' },
+                        { width: '200px' },
+                    ],
+                    allowComments: true,
+                }
+            ],
+        })
+
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
+
+        instance[0].setComments('C2', 'Test')
+
+        expect(rows[1].children[3].getAttribute('title')).to.equal('Test')
+
+        instance[0].setComments('C2', '')
+
+        expect(rows[1].children[3].getAttribute('title')).to.equal('')
+    });
+
+    it('Get comment', () => {
+        const instance = jspreadsheet(root, {
+            worksheets: [
+                {
+                    data: [
+                        ['US', 'Cheese', '2019-02-12'],
+                        ['CA', 'Apples', '2019-03-01'],
+                        ['CA', 'Carrots', '2018-11-10'],
+                        ['BR', 'Oranges', '2019-01-12'],
+                    ],
+                    columns: [
+                        { width: '300px' },
+                        { width: '200px' },
+                        { width: '200px' },
+                    ],
+                    allowComments: true,
+                }
+            ],
+        })
+
+        instance[0].setComments('B3', 'something')
+
+        expect(instance[0].getComments('B3')).to.equal('something')
+    });
+
+    it('setComments history', () => {
+        const instance = jspreadsheet(root, {
+            worksheets: [
+                {
+                    data: [
+                        ['US', 'Cheese', '2019-02-12'],
+                        ['CA', 'Apples', '2019-03-01'],
+                        ['CA', 'Carrots', '2018-11-10'],
+                        ['BR', 'Oranges', '2019-01-12'],
+                    ],
+                    columns: [
+                        { width: '300px' },
+                        { width: '200px' },
+                        { width: '200px' },
+                    ],
+                    allowComments: true,
+                }
+            ],
+        })
+
+        const table = root.querySelector('tbody');
+
+
+        if (!table) throw new Error('Element not found');const rows = table.children
+
+        instance[0].setComments('C2', 'Test')
+
+        expect(rows[1].children[3].getAttribute('title')).to.equal('Test')
+
+        instance[0].undo()
+
+        expect(rows[1].children[3].getAttribute('title')).to.equal('')
+
+        instance[0].redo()
+
+        expect(rows[1].children[3].getAttribute('title')).to.equal('Test')
+    });
+});
