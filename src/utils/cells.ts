@@ -1,7 +1,8 @@
 import { getCoordsFromCellName } from "./helpers";
+import { SpreadsheetContext } from "../types/core";
 
 export const setReadOnly = function (
-  this: any,
+  this: SpreadsheetContext,
   cell: string | HTMLElement,
   state: boolean
 ) {
@@ -42,7 +43,11 @@ export const setReadOnly = function (
   }
 };
 
-export const isReadOnly = function (this: any, x: string | number, y?: number) {
+export const isReadOnly = function (
+  this: SpreadsheetContext,
+  x: string | number,
+  y?: number
+) {
   const obj = this;
 
   if (typeof x === "string" && typeof y === "undefined") {
@@ -55,8 +60,8 @@ export const isReadOnly = function (this: any, x: string | number, y?: number) {
     [x, y] = coords as [number, number];
   }
 
-  if (y !== undefined && obj.records[y] && obj.records[y][x]) {
-    return obj.records[y][x].element.classList.contains("readonly");
+  if (y !== undefined && obj.records[y] && obj.records[y][x as number]) {
+    return obj.records[y][x as number].element.classList.contains("readonly");
   }
   return false;
 };

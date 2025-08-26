@@ -44,7 +44,7 @@ declare module "jsuites" {
     extract: () => string | number | boolean | null;
     open: () => void;
     close: () => void;
-    getValue: (asArray?: boolean) => any;
+    getValue: (asArray?: boolean) => string | number | boolean | (string | number | boolean)[] | null;
     getText: () => string;
   }
 
@@ -74,33 +74,33 @@ declare module "jsuites" {
 
   interface JSuitesTabs {
     render: () => void;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface JSuitesContextMenu {
     render: () => void;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface JSuitesToolbar {
     render: () => void;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface JSuitesPicker {
     render: () => void;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface JSuitesImage {
     render: () => void;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface JSuitesMask {
     render: () => void;
     extract: () => string | null;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface JSuitesMaskStatic {
@@ -164,27 +164,27 @@ declare module "jsuites" {
   }
 
   interface TabsOptions {
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface ContextMenuOptions {
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface ToolbarOptions {
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface PickerOptions {
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface ImageOptions {
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface MaskOptions {
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   interface JSuites {

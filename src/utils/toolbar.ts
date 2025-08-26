@@ -1,11 +1,17 @@
 import jSuites from "jsuites";
 import { getCellNameFromCoords } from "./helpers";
 import { getWorksheetInstance } from "./internal";
+import { SpreadsheetContext, WorksheetInstance } from "../types/core";
+
+interface BorderOptions {
+  thickness?: number;
+  color?: string;
+  style?: string;
+}
 
 const setItemStatus = function (
-  this: any,
   toolbarItem: HTMLElement,
-  worksheet: any
+  worksheet: WorksheetInstance
 ) {
   if (worksheet.options.editable != false) {
     toolbarItem.classList.remove("jtoolbar-disabled");
@@ -14,11 +20,11 @@ const setItemStatus = function (
   }
 };
 
-export const getDefault = function (this: any) {
-  const items: any[] = [];
-  const spreadsheet: any = this;
+export const getDefault = function (this: SpreadsheetContext) {
+  const items: Array<Record<string, unknown>> = [];
+  const spreadsheet: SpreadsheetContext = this;
 
-  const getActive = function (): any {
+  const getActive = function (): WorksheetInstance {
     return getWorksheetInstance.call(spreadsheet);
   };
 
@@ -62,7 +68,13 @@ export const getDefault = function (this: any) {
     render: function (e: string) {
       return '<span style="font-family:' + e + '">' + e + "</span>";
     },
-    onchange: function (a: any, b: any, c: any, d: any, e: any) {
+    onchange: function (
+      a: unknown,
+      b: unknown,
+      c: unknown,
+      d: unknown,
+      e: unknown
+    ) {
       const worksheet = getActive();
 
       let cells: string[] = worksheet.getSelected(true);
@@ -78,7 +90,7 @@ export const getDefault = function (this: any) {
         );
       }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -91,7 +103,7 @@ export const getDefault = function (this: any) {
     render: function (e: string) {
       return '<span style="font-size:' + e + '">' + e + "</span>";
     },
-    onchange: function (a: any, b: any, c: any, value: any) {
+    onchange: function (a: unknown, b: unknown, c: unknown, value: unknown) {
       const worksheet = getActive();
 
       let cells: string[] = worksheet.getSelected(true);
@@ -105,7 +117,7 @@ export const getDefault = function (this: any) {
         );
       }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -116,7 +128,7 @@ export const getDefault = function (this: any) {
     render: function (e: string) {
       return '<i class="material-icons">format_align_' + e + "</i>";
     },
-    onchange: function (a: any, b: any, c: any, value: any) {
+    onchange: function (a: unknown, b: unknown, c: unknown, value: unknown) {
       const worksheet = getActive();
 
       let cells: string[] = worksheet.getSelected(true);
@@ -130,14 +142,14 @@ export const getDefault = function (this: any) {
         );
       }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
 
   items.push({
     content: "format_bold",
-    onclick: function (a: any, b: any, c: any) {
+    onclick: function (a: unknown, b: unknown, c: unknown) {
       const worksheet = getActive();
 
       let cells: string[] = worksheet.getSelected(true);
@@ -151,7 +163,7 @@ export const getDefault = function (this: any) {
         );
       }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -160,7 +172,7 @@ export const getDefault = function (this: any) {
     type: "color",
     content: "format_color_text",
     k: "color",
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -169,7 +181,12 @@ export const getDefault = function (this: any) {
     type: "color",
     content: "format_color_fill",
     k: "background-color",
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement, d: any) {
+    updateState: function (
+      a: unknown,
+      b: unknown,
+      toolbarItem: HTMLElement,
+      d: unknown
+    ) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -187,7 +204,13 @@ export const getDefault = function (this: any) {
       return '<i class="material-icons">' + e + "</i>";
     },
     value: 1,
-    onchange: function (a: any, b: any, c: any, d: any, value: any) {
+    onchange: function (
+      a: unknown,
+      b: unknown,
+      c: unknown,
+      d: unknown,
+      value: unknown
+    ) {
       const worksheet = getActive();
 
       let cells: string[] = worksheet.getSelected(true);
@@ -195,13 +218,16 @@ export const getDefault = function (this: any) {
         worksheet.setStyle(
           Object.fromEntries(
             cells.map(function (cellName) {
-              return [cellName, "vertical-align: " + verticalAlign[value]];
+              return [
+                cellName,
+                "vertical-align: " + verticalAlign[value as number],
+              ];
             })
           )
         );
       }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -244,7 +270,7 @@ export const getDefault = function (this: any) {
         }
       }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -268,7 +294,7 @@ export const getDefault = function (this: any) {
       return '<i class="material-icons">' + e + "</i>";
     },
     right: true,
-    onchange: function (a: any, b: any, c: any, d: any) {
+    onchange: function (a: unknown, b: BorderOptions, c: unknown, d: unknown) {
       const worksheet = getActive();
 
       if (worksheet.selectedCell) {
@@ -473,10 +499,10 @@ export const getDefault = function (this: any) {
     tooltip: "Toggle Fullscreen",
     onclick: function (a: any, b: any, c: any) {
       if (c.children[0].textContent === "fullscreen") {
-        spreadsheet.fullscreen(true);
+        spreadsheet.fullscreen?.(true);
         c.children[0].textContent = "fullscreen_exit";
       } else {
-        spreadsheet.fullscreen(false);
+        spreadsheet.fullscreen?.(false);
         c.children[0].textContent = "fullscreen";
       }
     },
@@ -597,8 +623,8 @@ export const updateToolbar = function (this: any, worksheet: any) {
   }
 };
 
-export const showToolbar = function (this: any) {
-  const spreadsheet: any = this;
+export const showToolbar = function (this: SpreadsheetContext) {
+  const spreadsheet: SpreadsheetContext = this;
 
   if (spreadsheet.config.toolbar && !spreadsheet.toolbar) {
     let toolbar;
@@ -626,11 +652,11 @@ export const showToolbar = function (this: any) {
   }
 };
 
-export const hideToolbar = function (this: any) {
-  const spreadsheet: any = this;
+export const hideToolbar = function (this: SpreadsheetContext) {
+  const spreadsheet: SpreadsheetContext = this;
 
   if (spreadsheet.toolbar) {
-    spreadsheet.toolbar.parentNode.removeChild(spreadsheet.toolbar);
+    spreadsheet.toolbar.parentNode?.removeChild(spreadsheet.toolbar);
 
     delete spreadsheet.toolbar;
   }

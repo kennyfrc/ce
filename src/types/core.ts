@@ -8,9 +8,15 @@ export interface SpreadsheetOptions {
   nestedHeaders?: NestedHeader[][];
   columns?: ColumnDefinition[];
   meta?: Record<string, Record<string, unknown>>;
+  pagination?: number;
   style?: Record<string, CSSStyleDeclaration>;
   onload?: () => void;
   onchange?: (cell: string, value: CellValue, oldValue: CellValue) => void;
+  csvDelimiter?: string;
+  csvFileName?: string;
+  worksheetName?: string;
+  freezeColumns?: number;
+  defaultColWidth?: string | number;
   [key: string]: unknown;
 }
 
@@ -50,6 +56,23 @@ export interface WorksheetInstance {
   deleteColumn: (index: number) => void;
   getValue: (cell: string) => CellValue;
   setValue: (cell: string, value: CellValue) => void;
+  undo: () => void;
+  redo: () => void;
+  download: () => void;
+  getSelected: (asArray: boolean) => string[];
+  setStyle: (styles: Record<string, string>) => void;
+  removeMerge: (cell: string) => void;
+  setMerge: (cell: string, colspan: number, rowspan: number) => void;
+  selectedCell?: number[];
+  records: Array<
+    Array<{
+      element: HTMLElement;
+      x: number;
+      y: number;
+      colspan?: number;
+      rowspan?: number;
+    }>
+  >;
   [key: string]: unknown;
 }
 
@@ -68,6 +91,13 @@ export interface SpreadsheetContext {
   element: HTMLElement;
   config: Record<string, unknown>;
   worksheets: WorksheetInstance[];
+  results?: number[];
+  tbody: HTMLTableSectionElement;
+  table: HTMLElement;
+  parent: SpreadsheetInstance;
+  records: Array<Array<{ element: HTMLElement; x: number; y: number }>>;
+  fullscreen?: (enabled: boolean) => void;
+  toolbar?: HTMLElement;
 }
 
 export type CellValue = string | number | boolean | Date | null;

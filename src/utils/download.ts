@@ -1,4 +1,5 @@
 import { copy } from "./copyPaste";
+ import { SpreadsheetContext } from "../types/core";
 
 /**
  * Download CSV table
@@ -6,7 +7,7 @@ import { copy } from "./copyPaste";
  * @return null
  */
 export const download = function (
-  this: any,
+  this: SpreadsheetContext,
   includeHeaders: boolean,
   processed?: boolean
 ) {

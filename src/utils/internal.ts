@@ -6,6 +6,7 @@ import { refreshSelection, updateCornerPosition } from "./selection";
 import { getColumnName } from "./helpers";
 import { updateMeta } from "./meta";
 import { getFreezeWidth } from "./freeze";
+import { SpreadsheetContext, WorksheetInstance } from "../types/core";
 import { updatePagination } from "./pagination";
 import { setFooter } from "./footer";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
@@ -1290,7 +1291,7 @@ export const updateScroll = function (this: any, direction: any) {
   }
 };
 
-export const updateResult = function (this: any) {
+export const updateResult = function (this: SpreadsheetContext) {
   const obj = this;
 
   let total = 0;
@@ -1299,7 +1300,7 @@ export const updateResult = function (this: any) {
   // Page 1
   if (obj.options.lazyLoading == true) {
     total = 100;
-  } else if (obj.options.pagination > 0) {
+  } else if (obj.options.pagination && obj.options.pagination > 0) {
     total = obj.options.pagination;
   } else {
     if (obj.results) {
@@ -1328,7 +1329,7 @@ export const updateResult = function (this: any) {
   }
 
   // Update pagination
-  if (obj.options.pagination > 0) {
+  if (obj.options.pagination && obj.options.pagination > 0) {
     updatePagination.call(obj);
   }
 
@@ -1418,7 +1419,7 @@ export const fullscreen = function (this: any, activate: any) {
 /**
  * Show index column
  */
-export const showIndex = function (this: any) {
+export const showIndex = function (this: SpreadsheetContext) {
   const obj = this;
 
   obj.table.classList.remove("jss_hidden_index");
@@ -1427,7 +1428,7 @@ export const showIndex = function (this: any) {
 /**
  * Hide index column
  */
-export const hideIndex = function (this: any) {
+export const hideIndex = function (this: SpreadsheetContext) {
   const obj = this;
 
   obj.table.classList.add("jss_hidden_index");
@@ -1497,7 +1498,10 @@ export const getWorksheetActive = function (this: any) {
   return spreadsheet.element.tabs ? spreadsheet.element.tabs.getActive() : 0;
 };
 
-export const getWorksheetInstance = function (this: any, index?: number): any {
+export const getWorksheetInstance = function (
+  this: any,
+  index?: number
+): WorksheetInstance {
   const spreadsheet = this;
 
   const worksheetIndex =

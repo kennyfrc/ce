@@ -1,21 +1,23 @@
+import { SpreadsheetContext } from "../types/core";
+
 // Get width of all freezed cells together
-export const getFreezeWidth = function (this: any) {
+export const getFreezeWidth = function (this: SpreadsheetContext) {
   const obj = this;
 
   let width = 0;
-  if (obj.options.freezeColumns > 0) {
-    for (let i = 0; i < obj.options.freezeColumns; i++) {
+  if (obj.options.freezeColumns && obj.options.freezeColumns > 0) {
+    for (let i = 0; i < obj.options.freezeColumns!; i++) {
       let columnWidth;
       if (
         obj.options.columns &&
         obj.options.columns[i] &&
         obj.options.columns[i].width !== undefined
       ) {
-        columnWidth = parseInt(obj.options.columns[i].width);
+        columnWidth = parseInt(obj.options.columns[i].width!.toString());
       } else {
         columnWidth =
           obj.options.defaultColWidth !== undefined
-            ? parseInt(obj.options.defaultColWidth)
+            ? parseInt(obj.options.defaultColWidth.toString())
             : 100;
       }
 

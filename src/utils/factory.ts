@@ -104,7 +104,7 @@ const createWorksheets = async function (
     el.classList.add("jss_spreadsheet");
     el.tabIndex = 0;
 
-    const tabs = jSuites.tabs(el, tabsOptions);
+    const tabs = jSuites.tabs(el, tabsOptions) as { render: () => void; content: HTMLElement; [key: string]: unknown };
 
     const spreadsheetStyles = options.style;
     delete options.style;
