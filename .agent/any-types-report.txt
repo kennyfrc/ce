@@ -1,6 +1,6 @@
-Any Types Analysis Report - 2025-08-26T06:16:17.027Z
-Total any types: 653
-Files with any types: 39
+Any Types Analysis Report - 2025-08-26T06:29:22.205Z
+Total any types: 615
+Files with any types: 36
 
 src/utils/toolbar.ts: 91 any types
   Line 6: this: any,
@@ -366,36 +366,6 @@ src/utils/events.ts: 35 any types
   Line 2072: export const scrollControls = function (this: any, e: any): void {
   Line 2072: export const scrollControls = function (this: any, e: any): void {
 
-src/types/global.d.ts: 28 any types
-  Line 47: getValue: (asArray?: boolean) => any;
-  Line 77: [key: string]: any;
-  Line 82: [key: string]: any;
-  Line 87: [key: string]: any;
-  Line 92: [key: string]: any;
-  Line 97: [key: string]: any;
-  Line 103: [key: string]: any;
-  Line 108: render: (value: any, options: any, skipDecimals?: boolean) => string;
-  Line 108: render: (value: any, options: any, skipDecimals?: boolean) => string;
-  Line 109: extract: (value: any, options: any, skipDecimals?: boolean) => any;
-  Line 109: extract: (value: any, options: any, skipDecimals?: boolean) => any;
-  Line 109: extract: (value: any, options: any, skipDecimals?: boolean) => any;
-  Line 115: data?: any;
-  Line 116: success?: (data: any) => void;
-  Line 117: error?: (error: any) => void;
-  Line 118: [key: string]: any;
-  Line 132: value?: any;
-  Line 135: onclose?: (o: any) => void;
-  Line 136: [key: string]: any;
-  Line 142: [key: string]: any;
-  Line 147: [key: string]: any;
-  Line 152: [key: string]: any;
-  Line 156: [key: string]: any;
-  Line 160: [key: string]: any;
-  Line 164: [key: string]: any;
-  Line 168: [key: string]: any;
-  Line 172: [key: string]: any;
-  Line 176: [key: string]: any;
-
 src/utils/factory.ts: 27 any types
   Line 19: this: any,
   Line 20: spreadsheet: any,
@@ -510,6 +480,21 @@ src/utils/dispatch.ts: 15 any types
   Line 109: any
   Line 111: if (typeof (plugin as any).persistence === "function") {
 
+src/types/global.d.ts: 13 any types
+  Line 47: getValue: (asArray?: boolean) => any;
+  Line 77: [key: string]: any;
+  Line 82: [key: string]: any;
+  Line 87: [key: string]: any;
+  Line 92: [key: string]: any;
+  Line 97: [key: string]: any;
+  Line 103: [key: string]: any;
+  Line 167: [key: string]: any;
+  Line 171: [key: string]: any;
+  Line 175: [key: string]: any;
+  Line 179: [key: string]: any;
+  Line 183: [key: string]: any;
+  Line 187: [key: string]: any;
+
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
   Line 53: let tmp: any = "";
@@ -610,18 +595,6 @@ src/utils/style.ts: 11 any types
   Line 150: this: any,
   Line 151: o: Record<string, any>,
 
-src/types/core.ts: 10 any types
-  Line 4: data?: any[][];
-  Line 9: [key: string]: any;
-  Line 15: [key: string]: any;
-  Line 20: headers: any[];
-  Line 21: rows: any[];
-  Line 23: [key: string]: any;
-  Line 27: config: Record<string, any>;
-  Line 51: headers: any[];
-  Line 52: rows: any[];
-  Line 53: [key: string]: any;
-
 src/utils/helpers.ts: 9 any types
   Line 6: export const getCaretIndex = function (this: any, e: HTMLElement) {
   Line 31: export const invert = function (o: Record<string, any>) {
@@ -643,15 +616,6 @@ src/index.ts: 8 any types
   Line 61: libraryBase.jspreadsheet.setDictionary = function (o: any) {
   Line 66: element: HTMLElement & { spreadsheet?: any },
 
-src/types/jspreadsheet.d.ts: 7 any types
-  Line 3: config: Record<string, any>;
-  Line 12: [key: string]: any;
-  Line 16: data?: any[][];
-  Line 21: [key: string]: any;
-  Line 26: headers: any[];
-  Line 27: rows: any[];
-  Line 28: [key: string]: any;
-
 src/utils/headers.ts: 7 any types
   Line 11: export const getHeader = function (this: any, column: any) {
   Line 11: export const getHeader = function (this: any, column: any) {
@@ -660,14 +624,6 @@ src/utils/headers.ts: 7 any types
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
-
-src/types/formula.d.ts: 6 any types
-  Line 5: data?: any[][] | Record<string, any>,
-  Line 5: data?: any[][] | Record<string, any>,
-  Line 8: context?: any
-  Line 9: ): any;
-  Line 10: parse: (expression: string) => any;
-  Line 11: [key: string]: any;
 
 src/utils/comments.ts: 5 any types
   Line 10: this: any,

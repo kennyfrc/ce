@@ -105,17 +105,25 @@ declare module "jsuites" {
 
   interface JSuitesMaskStatic {
     (element: HTMLElement, options: MaskOptions): JSuitesMask;
-    render: (value: any, options: any, skipDecimals?: boolean) => string;
-    extract: (value: any, options: any, skipDecimals?: boolean) => any;
+    render: (
+      value: string | number,
+      options: MaskOptions,
+      skipDecimals?: boolean
+    ) => string;
+    extract: (
+      value: string,
+      options: MaskOptions,
+      skipDecimals?: boolean
+    ) => { value: string | number };
   }
 
   interface AjaxOptions {
     url: string;
-    method?: string;
-    data?: any;
-    success?: (data: any) => void;
-    error?: (error: any) => void;
-    [key: string]: any;
+    method?: "GET" | "POST" | "PUT" | "DELETE";
+    data?: Record<string, unknown> | FormData;
+    success?: (data: unknown) => void;
+    error?: (error: Error | string) => void;
+    [key: string]: unknown;
   }
 
   interface DropdownOptions {
@@ -129,27 +137,30 @@ declare module "jsuites" {
     multiple?: boolean;
     autocomplete?: boolean;
     opened?: boolean;
-    value?: any;
+    value?: string | number | Array<string | number>;
     width?: string;
     position?: boolean;
-    onclose?: (o: any) => void;
-    [key: string]: any;
+    onclose?: (element: HTMLElement, instance: JSuitesDropdown) => void;
+    [key: string]: unknown;
   }
 
   interface CalendarOptions {
-    type?: string;
+    type?: "date" | "datetime" | "time";
     format?: string;
-    [key: string]: any;
+    value?: Date | string;
+    [key: string]: unknown;
   }
 
   interface ColorOptions {
     value?: string;
-    [key: string]: any;
+    palette?: string[];
+    [key: string]: unknown;
   }
 
   interface EditorOptions {
-    type?: string;
-    [key: string]: any;
+    type?: "text" | "textarea" | "number" | "email" | "url";
+    value?: string;
+    [key: string]: unknown;
   }
 
   interface TabsOptions {
