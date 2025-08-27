@@ -1,15 +1,21 @@
 import { updateScroll } from "./internal";
 import { loadDown, loadPage, loadUp, loadValidation } from "./lazyLoading";
+import { SpreadsheetContext } from "../types/core";
 
-const upGet = function (this: any, x: any, y: any) {
+const upGet = function (this: SpreadsheetContext, x: number | string, y: number | string): number {
   const obj = this;
 
-  x = parseInt(x);
-  y = parseInt(y);
+  // Convert string parameters to numbers
+  x = typeof x === 'string' ? parseInt(x) : x;
+  y = typeof y === 'string' ? parseInt(y) : y;
   for (let j = y - 1; j >= 0; j--) {
     if (
-      obj.records[j][x].element.style.display != "none" &&
-      obj.rows[j].element.style.display != "none"
+      obj.records[j] &&
+      obj.records[j][x] &&
+      obj.records[j][x].element &&
+      obj.records[j][x].element.style.display !== "none" &&
+      obj.rows[j].element &&
+      obj.rows[j].element!.style.display !== "none"
     ) {
       if (obj.records[j][x].element.getAttribute("data-merged")) {
         if (obj.records[j][x].element == obj.records[y][x].element) {
@@ -24,24 +30,24 @@ const upGet = function (this: any, x: any, y: any) {
   return y;
 };
 
-const upVisible = function (this: any, group: any, direction: any) {
+const upVisible = function (this: SpreadsheetContext, group: number, direction: number): void {
   const obj = this;
 
   let x, y;
 
-  if (group == 0) {
-    x = parseInt(obj.selectedCell[0]);
-    y = parseInt(obj.selectedCell[1]);
-  } else {
-    x = parseInt(obj.selectedCell[2]);
-    y = parseInt(obj.selectedCell[3]);
-  }
+   if (group == 0) {
+     x = obj.selectedCell[0];
+     y = obj.selectedCell[1];
+   } else {
+     x = obj.selectedCell[2];
+     y = obj.selectedCell[3];
+   }
 
   if (direction == 0) {
     for (let j = 0; j < y; j++) {
       if (
-        obj.records[j][x].element.style.display != "none" &&
-        obj.rows[j].element.style.display != "none"
+        obj.records[j][x] && obj.records[j][x].element && obj.records[j][x].element.style.display !== "none" &&
+        obj.rows[j].element && obj.rows[j].element!.style.display !== "none"
       ) {
         y = j;
         break;
@@ -60,7 +66,7 @@ const upVisible = function (this: any, group: any, direction: any) {
   }
 };
 
-export const up = function (this: any, shiftKey: any, ctrlKey: any) {
+export const up = function (this: SpreadsheetContext, shiftKey: boolean, ctrlKey: boolean): void {
   const obj = this;
 
   if (shiftKey) {
@@ -102,33 +108,36 @@ export const up = function (this: any, shiftKey: any, ctrlKey: any) {
           obj.selectedCell[3]
         );
       } else {
-        const item = parseInt(obj.tbody.firstChild.getAttribute("data-y"));
-        if (obj.selectedCell[1] - item < 30) {
-          loadUp.call(obj);
-          obj.updateSelectionFromCoords(
-            obj.selectedCell[0],
-            obj.selectedCell[1],
-            obj.selectedCell[2],
-            obj.selectedCell[3]
-          );
+        if (obj.tbody.firstChild && obj.tbody.firstChild instanceof HTMLElement) {
+          const dataY = parseInt(obj.tbody.firstChild.getAttribute("data-y") || '0');
+          if (obj.selectedCell[1] - dataY < 30) {
+            loadUp.call(obj);
+            obj.updateSelectionFromCoords(
+              obj.selectedCell[0],
+              obj.selectedCell[1],
+              obj.selectedCell[2],
+              obj.selectedCell[3]
+            );
+          }
         }
       }
     }
-  } else if (obj.options.pagination > 0) {
+   } else if (obj.options.pagination && obj.options.pagination > 0) {
     const pageNumber = obj.whichPage(obj.selectedCell[3]);
     if (pageNumber != obj.pageNumber) {
       obj.page(pageNumber);
     }
   }
 
-  updateScroll.call(obj, 1);
+  updateScroll.call(obj, "down");
 };
 
-export const rightGet = function (this: any, x: any, y: any) {
+export const rightGet = function (this: SpreadsheetContext, x: number | string, y: number | string): number {
   const obj = this;
 
-  x = parseInt(x);
-  y = parseInt(y);
+  // Convert string parameters to numbers
+  x = typeof x === 'string' ? parseInt(x) : x;
+  y = typeof y === 'string' ? parseInt(y) : y;
 
   for (let i = x + 1; i < obj.headers.length; i++) {
     if (obj.records[y][i].element.style.display != "none") {
@@ -145,18 +154,18 @@ export const rightGet = function (this: any, x: any, y: any) {
   return x;
 };
 
-const rightVisible = function (this: any, group: any, direction: any) {
+const rightVisible = function (this: SpreadsheetContext, group: number, direction: number): void {
   const obj = this;
 
   let x, y;
 
   if (group == 0) {
-    x = parseInt(obj.selectedCell[0]);
-    y = parseInt(obj.selectedCell[1]);
-  } else {
-    x = parseInt(obj.selectedCell[2]);
-    y = parseInt(obj.selectedCell[3]);
-  }
+     x = obj.selectedCell[0];
+     y = obj.selectedCell[1];
+   } else {
+     x = obj.selectedCell[2];
+     y = obj.selectedCell[3];
+   }
 
   if (direction == 0) {
     for (let i = obj.headers.length - 1; i > x; i--) {
@@ -178,7 +187,7 @@ const rightVisible = function (this: any, group: any, direction: any) {
   }
 };
 
-export const right = function (this: any, shiftKey: any, ctrlKey: any) {
+export const right = function (this: SpreadsheetContext, shiftKey: boolean, ctrlKey: boolean): void {
   const obj = this;
 
   if (shiftKey) {
@@ -199,18 +208,23 @@ export const right = function (this: any, shiftKey: any, ctrlKey: any) {
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, 2);
+  updateScroll.call(obj, "down");
 };
 
-export const downGet = function (this: any, x: any, y: any) {
+export const downGet = function (this: SpreadsheetContext, x: number | string, y: number | string): number {
   const obj = this;
 
-  x = parseInt(x);
-  y = parseInt(y);
+  // Convert string parameters to numbers
+  x = typeof x === 'string' ? parseInt(x) : x;
+  y = typeof y === 'string' ? parseInt(y) : y;
   for (let j = y + 1; j < obj.rows.length; j++) {
     if (
-      obj.records[j][x].element.style.display != "none" &&
-      obj.rows[j].element.style.display != "none"
+      obj.records[j] &&
+      obj.records[j][x] &&
+      obj.records[j][x].element &&
+      obj.records[j][x] && obj.records[j][x].element && obj.records[j][x].element.style.display !== "none" &&
+      obj.rows[j].element &&
+      obj.rows[j].element && obj.rows[j].element!.style.display !== "none"
     ) {
       if (obj.records[j][x].element.getAttribute("data-merged")) {
         if (obj.records[j][x].element == obj.records[y][x].element) {
@@ -225,24 +239,24 @@ export const downGet = function (this: any, x: any, y: any) {
   return y;
 };
 
-const downVisible = function (this: any, group: any, direction: any) {
+const downVisible = function (this: SpreadsheetContext, group: number, direction: number): void {
   const obj = this;
 
   let x, y;
 
   if (group == 0) {
-    x = parseInt(obj.selectedCell[0]);
-    y = parseInt(obj.selectedCell[1]);
-  } else {
-    x = parseInt(obj.selectedCell[2]);
-    y = parseInt(obj.selectedCell[3]);
-  }
+     x = obj.selectedCell[0];
+     y = obj.selectedCell[1];
+   } else {
+     x = obj.selectedCell[2];
+     y = obj.selectedCell[3];
+   }
 
   if (direction == 0) {
     for (let j = obj.rows.length - 1; j > y; j--) {
       if (
-        obj.records[j][x].element.style.display != "none" &&
-        obj.rows[j].element.style.display != "none"
+        obj.records[j][x] && obj.records[j][x].element && obj.records[j][x].element.style.display !== "none" &&
+        obj.rows[j].element && obj.rows[j].element!.style.display !== "none"
       ) {
         y = j;
         break;
@@ -261,7 +275,7 @@ const downVisible = function (this: any, group: any, direction: any) {
   }
 };
 
-export const down = function (this: any, shiftKey: any, ctrlKey: any) {
+export const down = function (this: SpreadsheetContext, shiftKey: boolean, ctrlKey: boolean): void {
   const obj = this;
 
   if (shiftKey) {
@@ -305,33 +319,36 @@ export const down = function (this: any, shiftKey: any, ctrlKey: any) {
           obj.selectedCell[3]
         );
       } else {
-        const item = parseInt(obj.tbody.lastChild.getAttribute("data-y"));
-        if (item - obj.selectedCell[3] < 30) {
-          loadDown.call(obj);
-          obj.updateSelectionFromCoords(
-            obj.selectedCell[0],
-            obj.selectedCell[1],
-            obj.selectedCell[2],
-            obj.selectedCell[3]
-          );
+        if (obj.tbody.lastChild && obj.tbody.lastChild instanceof HTMLElement) {
+          const dataY = parseInt(obj.tbody.lastChild.getAttribute("data-y") || '0');
+          if (dataY - obj.selectedCell[3] < 30) {
+            loadDown.call(obj);
+            obj.updateSelectionFromCoords(
+              obj.selectedCell[0],
+              obj.selectedCell[1],
+              obj.selectedCell[2],
+              obj.selectedCell[3]
+            );
+          }
         }
       }
     }
-  } else if (obj.options.pagination > 0) {
+   } else if (obj.options.pagination && obj.options.pagination > 0) {
     const pageNumber = obj.whichPage(obj.selectedCell[3]);
     if (pageNumber != obj.pageNumber) {
       obj.page(pageNumber);
     }
   }
 
-  updateScroll.call(obj, 3);
+  updateScroll.call(obj, "down");
 };
 
-const leftGet = function (this: any, x: any, y: any) {
+const leftGet = function (this: SpreadsheetContext, x: number | string, y: number | string): number {
   const obj = this;
 
-  x = parseInt(x);
-  y = parseInt(y);
+  // Convert string parameters to numbers
+  x = typeof x === 'string' ? parseInt(x) : x;
+  y = typeof y === 'string' ? parseInt(y) : y;
   for (let i = x - 1; i >= 0; i--) {
     if (obj.records[y][i].element.style.display != "none") {
       if (obj.records[y][i].element.getAttribute("data-merged")) {
@@ -347,18 +364,18 @@ const leftGet = function (this: any, x: any, y: any) {
   return x;
 };
 
-const leftVisible = function (this: any, group: any, direction: any) {
+const leftVisible = function (this: SpreadsheetContext, group: number, direction: number): void {
   const obj = this;
 
   let x, y;
 
   if (group == 0) {
-    x = parseInt(obj.selectedCell[0]);
-    y = parseInt(obj.selectedCell[1]);
-  } else {
-    x = parseInt(obj.selectedCell[2]);
-    y = parseInt(obj.selectedCell[3]);
-  }
+     x = obj.selectedCell[0];
+     y = obj.selectedCell[1];
+   } else {
+     x = obj.selectedCell[2];
+     y = obj.selectedCell[3];
+   }
 
   if (direction == 0) {
     for (let i = 0; i < x; i++) {
@@ -380,7 +397,7 @@ const leftVisible = function (this: any, group: any, direction: any) {
   }
 };
 
-export const left = function (this: any, shiftKey: any, ctrlKey: any) {
+export const left = function (this: SpreadsheetContext, shiftKey: boolean, ctrlKey: boolean): void {
   const obj = this;
 
   if (shiftKey) {
@@ -401,10 +418,10 @@ export const left = function (this: any, shiftKey: any, ctrlKey: any) {
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, 0);
+  updateScroll.call(obj, "up");
 };
 
-export const first = function (this: any, shiftKey: any, ctrlKey: any) {
+export const first = function (this: SpreadsheetContext, shiftKey: boolean, ctrlKey: boolean): void {
   const obj = this;
 
   if (shiftKey) {
@@ -429,7 +446,7 @@ export const first = function (this: any, shiftKey: any, ctrlKey: any) {
     (obj.selectedCell[1] == 0 || obj.selectedCell[3] == 0)
   ) {
     loadPage.call(obj, 0);
-  } else if (obj.options.pagination > 0) {
+   } else if (obj.options.pagination && obj.options.pagination > 0) {
     const pageNumber = obj.whichPage(obj.selectedCell[3]);
     if (pageNumber != obj.pageNumber) {
       obj.page(pageNumber);
@@ -442,10 +459,10 @@ export const first = function (this: any, shiftKey: any, ctrlKey: any) {
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, 1);
+  updateScroll.call(obj, "down");
 };
 
-export const last = function (this: any, shiftKey: any, ctrlKey: any) {
+export const last = function (this: SpreadsheetContext, shiftKey: boolean, ctrlKey: boolean): void {
   const obj = this;
 
   if (shiftKey) {
@@ -471,7 +488,7 @@ export const last = function (this: any, shiftKey: any, ctrlKey: any) {
       obj.selectedCell[3] == obj.records.length - 1)
   ) {
     loadPage.call(obj, -1);
-  } else if (obj.options.pagination > 0) {
+   } else if (obj.options.pagination && obj.options.pagination > 0) {
     const pageNumber = obj.whichPage(obj.selectedCell[3]);
     if (pageNumber != obj.pageNumber) {
       obj.page(pageNumber);
@@ -484,5 +501,5 @@ export const last = function (this: any, shiftKey: any, ctrlKey: any) {
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, 3);
+  updateScroll.call(obj, "down");
 };
