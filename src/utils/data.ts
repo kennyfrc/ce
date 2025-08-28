@@ -124,7 +124,7 @@ export const setData = function (this: any, data: any) {
     const keys = Object.keys(obj.options.mergeCells);
     for (let i = 0; i < keys.length; i++) {
       const num = obj.options.mergeCells[keys[i]];
-      setMerge.call(obj, keys[i], num[0], num[1], 1);
+      setMerge.call(obj, keys[i], num[0], num[1], true);
     }
   }
 

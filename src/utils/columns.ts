@@ -7,10 +7,10 @@ import { createCell, updateTableReferences } from "./internal";
 import { conditionalSelectionUpdate, updateCornerPosition } from "./selection";
 import { setFooter } from "./footer";
 import { getColumnNameFromId, injectArray } from "./internalHelpers";
-import type { ColumnDefinition } from "../types/core";
+import type { ColumnDefinition, WorksheetInstance, SpreadsheetInstance, SpreadsheetContext } from "../types/core";
 
 export const getNumberOfColumns = function (
-  this: import("../types/core").SpreadsheetContext
+  this: WorksheetInstance | SpreadsheetInstance | SpreadsheetContext
 ) {
   const obj = this;
 
@@ -37,7 +37,7 @@ export const getNumberOfColumns = function (
 };
 
 export const createCellHeader = function (
-  this: import("../types/core").SpreadsheetContext,
+  this: WorksheetInstance | SpreadsheetContext,
   colNumber: number
 ) {
   const obj = this;
@@ -215,7 +215,7 @@ export const insertColumn = function (
       obj.options.mergeCells &&
       Object.keys(obj.options.mergeCells).length > 0
     ) {
-      if (isColMerged.call(obj, columnNumber, insertBefore).length) {
+      if (isColMerged.call(obj.worksheets[0], columnNumber, insertBefore).length) {
         if (
           !confirm(
             jSuites.translate(
@@ -431,10 +431,10 @@ export const moveColumn = function (
     insertBefore = 0;
   }
 
-  if (
-    isColMerged.call(obj, o).length ||
-    isColMerged.call(obj, d, !!insertBefore).length
-  ) {
+    if (
+      isColMerged.call(obj.worksheets[0], o).length ||
+      isColMerged.call(obj.worksheets[0], d, !!insertBefore).length
+    ) {
     if (
       !confirm(
         jSuites.translate(
@@ -614,7 +614,7 @@ export const deleteColumn = function (
             col < columnNumber + numOfColumns;
             col++
           ) {
-            if (isColMerged.call(obj, col, undefined).length) {
+          if (isColMerged.call(obj.worksheets[0], col, undefined).length) {
               mergeExists = true;
             }
           }

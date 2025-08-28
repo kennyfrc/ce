@@ -108,7 +108,7 @@ export interface SpreadsheetContext {
   resetSelection?: (blur?: boolean) => number;
   getSelectedColumns?: (includeAll?: boolean) => number[];
   setValue?: (
-    cell: string,
+    cell: string | HTMLElement[] | Array<{ element: HTMLElement }> ,
     value: string | number | boolean | null,
     force?: boolean
   ) => void;

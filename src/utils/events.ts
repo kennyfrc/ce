@@ -301,8 +301,8 @@ const mouseDownControls = function (e: MouseEvent) {
             if (isColMerged.call(current, columnId).length) {
               console.error("Jspreadsheet: This column is part of a merged cell.");
             } else {
-              // Reset selection
-              current.resetSelection();
+               // Reset selection
+               current.resetSelection?.();
               // Drag helper
               current.dragging = {
                 element: target,
@@ -410,7 +410,7 @@ const mouseDownControls = function (e: MouseEvent) {
               );
             } else {
               // Reset selection
-              current.resetSelection();
+              current.resetSelection?.();
               // Drag helper
               current.dragging = {
                 element: target.parentElement as HTMLElement,
@@ -513,12 +513,12 @@ const mouseDownControls = function (e: MouseEvent) {
       // Pagination
       if (target.classList.contains("jss_page")) {
         if (target.textContent == "<") {
-          current.page(0);
+          current.page?.(0);
         } else if (target.textContent == ">") {
           const titleAttr = target.getAttribute("title");
-          current.page(titleAttr !== null ? parseInt(titleAttr, 10) - 1 : 0);
+          current.page?.(titleAttr !== null ? parseInt(titleAttr, 10) - 1 : 0);
         } else {
-          current.page(target.textContent ? parseInt(target.textContent, 10) - 1 : 0);
+          current.page?.(target.textContent ? parseInt(target.textContent, 10) - 1 : 0);
         }
       }
     }
@@ -1434,7 +1434,7 @@ const touchStartControls = function (e: TouchEvent): void {
     }
   }
 
-  const current = libraryBase.jspreadsheet.current;
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current) {
     if (!current.edition) {
       const target = getHTMLElement(e.target);
@@ -1533,7 +1533,7 @@ const isCtrl = function (e: KeyboardEvent): boolean {
 };
 
 const keyDownControls = function (e: KeyboardEvent): void {
-  const current = libraryBase.jspreadsheet.current;
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current) {
     // Local alias for dataset dimensions
     const data = current.options.data ?? [];
@@ -1638,13 +1638,13 @@ const keyDownControls = function (e: KeyboardEvent): void {
         if (current.options.editable != false) {
           if (current.selectedRow != null) {
             if (current.options.allowDeleteRow != false) {
-              if (
-                confirm(
-                  jSuites.translate("Are you sure to delete the selected rows?")
-                )
-              ) {
-                current.deleteRow();
-              }
+                if (
+                 confirm(
+                   jSuites.translate("Are you sure to delete the selected rows?")
+                 )
+               ) {
+                 current.deleteRow?.();
+               }
             }
           } else if (current.selectedHeader) {
             if (current.options.allowDeleteColumn != false) {
@@ -1654,13 +1654,13 @@ const keyDownControls = function (e: KeyboardEvent): void {
                     "Are you sure to delete the selected columns?"
                   )
                 )
-              ) {
-                current.deleteColumn();
-              }
+               ) {
+                 current.deleteColumn?.();
+               }
             }
           } else {
             // Change value
-            current.setValue(
+            current.setValue?.(
               current.highlighted.map(function (record: { element: HTMLElement }) {
                 return record.element;
               }),
@@ -1675,10 +1675,10 @@ const keyDownControls = function (e: KeyboardEvent): void {
         } else {
           if (current.options.allowInsertRow != false) {
             if (current.options.allowManualInsertRow != false) {
-               if (current.selectedCell[1] == dataRows - 1) {
-                // New record in case selectedCell in the last row
-                current.insertRow();
-              }
+                 if (current.selectedCell[1] == dataRows - 1) {
+                 // New record in case selectedCell in the last row
+                 current.insertRow?.();
+               }
             }
           }
 
@@ -1692,10 +1692,10 @@ const keyDownControls = function (e: KeyboardEvent): void {
         } else {
           if (current.options.allowInsertColumn != false) {
             if (current.options.allowManualInsertColumn != false) {
-               if (current.selectedCell[0] == dataCols - 1) {
-                // New record in case selectedCell in the last column
-                current.insertColumn();
-              }
+                 if (current.selectedCell[0] == dataCols - 1) {
+                 // New record in case selectedCell in the last column
+                 current.insertColumn?.();
+               }
             }
           }
 
@@ -1710,15 +1710,15 @@ const keyDownControls = function (e: KeyboardEvent): void {
             e.preventDefault();
           } else if (e.which == 83) {
             // Ctrl + S
-            current.download();
+             current.download?.();
             e.preventDefault();
           } else if (e.which == 89) {
             // Ctrl + Y
-            current.redo();
+             current.redo?.();
             e.preventDefault();
           } else if (e.which == 90) {
             // Ctrl + Z
-            current.undo();
+             current.undo?.();
             e.preventDefault();
           } else if (e.which == 67) {
             // Ctrl + C

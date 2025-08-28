@@ -1,17 +1,24 @@
 import jSuites from "jsuites";
-import type { WorksheetInstance, SpreadsheetInstance } from "../types/core";
+import type {
+  WorksheetInstance,
+  SpreadsheetInstance,
+  SpreadsheetContext,
+} from "../types/core";
 
 /**
  * Prepare JSON in the correct format
  */
-const prepareJson = function (this: WorksheetInstance, data: any[]) {
+const prepareJson = function (this: WorksheetInstance, data: unknown) {
   const obj = this;
 
+  // Narrow unknown to an array for internal processing
+  const arr = (data as any[]) || [];
   const rows = [];
-  for (let i = 0; i < data.length; i++) {
-    const x = data[i].x;
-    const y = data[i].y;
-    const k = obj.options.columns[x].name ? obj.options.columns[x].name : x;
+  for (let i = 0; i < arr.length; i++) {
+    const x = arr[i].x;
+    const y = arr[i].y;
+    const col = obj.options.columns && obj.options.columns[x];
+    const k = col && (col as any).name ? (col as any).name : x;
 
     // Create row
     if (!rows[y]) {
@@ -21,7 +28,7 @@ const prepareJson = function (this: WorksheetInstance, data: any[]) {
       };
     }
     if (rows[y] && rows[y].data) {
-      (rows[y].data as any)[k] = data[i].value;
+      (rows[y].data as any)[k] = arr[i].value;
     }
   }
 
@@ -67,30 +74,28 @@ const save = function (this: WorksheetInstance, url: string, data: any[]) {
  * Trigger events
  */
 const dispatch = function (
-  this: WorksheetInstance | SpreadsheetInstance,
+  this: WorksheetInstance | SpreadsheetInstance | SpreadsheetContext,
   event: string,
   ...args: any[]
 ) {
   const obj = this as WorksheetInstance;
   let ret = null as any;
 
-  const spreadsheet: WorksheetInstance | SpreadsheetInstance = (obj as any).parent
-    ? (obj as any).parent
-    : (obj as any);
+  const spreadsheet: any = (obj as any).parent ? (obj as any).parent : (obj as any);
 
   // Dispatch events
   if (!spreadsheet.ignoreEvents) {
     // Call global event
-    if (typeof spreadsheet.config.onevent == "function") {
-      ret = spreadsheet.config.onevent.apply(this, [event, ...args]);
+    if (typeof (spreadsheet.config as any).onevent == "function") {
+      ret = (spreadsheet.config as any).onevent.apply(this, [event, ...args]);
     }
     // Call specific events
     if (typeof (spreadsheet.config as any)[event] == "function") {
-      ret = spreadsheet.config[event].apply(this, args);
+      ret = (spreadsheet.config as any)[event].apply(this, args);
     }
 
     if (typeof spreadsheet.plugins === "object") {
-      const pluginKeys = Object.keys(spreadsheet.plugins);
+      const pluginKeys = Object.keys(spreadsheet.plugins || {});
 
       for (
         let pluginKeyIndex = 0;
@@ -101,7 +106,7 @@ const dispatch = function (
         const plugin = (spreadsheet.plugins as any)[key];
 
         if (typeof (plugin as any).onevent === "function") {
-          ret = plugin.onevent.apply(this, arguments);
+          ret = (plugin as any).onevent.apply(this, arguments as any);
         }
       }
     }
@@ -122,12 +127,14 @@ const dispatch = function (
     }
 
     if (obj.options.persistence) {
-      const url =
+      const rawUrl =
         obj.options.persistence == true
           ? obj.options.url
           : obj.options.persistence;
-      const data = prepareJson.call(obj, arguments[2]);
-      save.call(obj, url, data);
+      if (typeof rawUrl === "string") {
+        const data = prepareJson.call(obj, arguments[2]);
+        save.call(obj, rawUrl, data);
+      }
     }
   }
 

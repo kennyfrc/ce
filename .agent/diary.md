@@ -1717,3 +1717,20 @@ Done: ran baseline checks, added a follow-up task, and made initial type-safe fi
 
 Summary: patched src/types/core.ts (typed insertColumn/deleteColumn), added guards/optional-chaining and a local current alias in parts of src/utils/events.ts, re-ran npx tsc (errors remain) and node .agent/find-any-types.js (216 any), added plan task ts-zero-20250829-0002 (in_progress), updated plan.json and porting notes, and committed maintenance artifacts.=== Fri Aug 29 02:23:17 PST 2025 ===
 Ran tsc + any-types (988 TS errors, 216 any); added in_progress task ts-fix-events-20250829-0001, applied safe fixes to src/utils/dispatch.ts and src/utils/events.ts, appended snapshot to porting-notes.md, updated plan.json, and committed maintenance files (commit 2155339f). Next: continue narrowing events.ts hotspots and then tackle internal.ts.=== Fri Aug 29 02:31:40 PST 2025 ===
+Done — quick summary:
+Ran tsc and the any-types analyzer (outputs saved to .agent/ts-errors.txt and .agent/any-types-report.txt), patched src/utils/events.ts to guard selection and use a local sel alias, re-ran type-check (TS errors reduced 988 → 981; any count 216), updated plan.json metadata/results and appended a snapshot + learnings to porting-notes.md, and committed the maintenance artifacts (plan.json + .agent/* + porting-notes.md). src/utils/events.ts remains modified but not committed due to the pre-commit any-types enforcement.=== Fri Aug 29 02:40:55 PST 2025 ===
+Baseline run: tsc -> 980 errors; explicit any count -> 216.  
+Added plan task ts-fix-20250829-1001, patched src/utils/events.ts (use local columns alias instead of direct current.options.columns), updated porting-notes.md, and committed changes (9bfbef78).=== Fri Aug 29 02:49:11 PST 2025 ===
+<commit_analysis>
+- Files changed/committed:
+  - src/utils/events.ts
+  - src/types/core.ts
+  - plan.json
+  - porting-notes.md
+  - .agent/any-types-report.txt
+  - .agent/any-types-run-latest.txt
+- Summary: applied optional chaining and runtime guards to several method calls in events.ts (resetSelection, setHeader, orderBy, getSelectedColumns/getSelectedRows, setComments), guarded prompt result before setHeader, and made orderBy's direction parameter optional in src/types/core.ts; updated plan metadata and appended a new snapshot to porting-notes.md; refreshed any-types report.
+- Purpose: reduce 'possibly undefined' invocation errors (TS2722/TS2554) in events.ts hotspots and record metrics; keep changes minimal and safe.
+- Impact: type-safety improvements only (no behavior-changing casts); TypeScript errors decreased (980 → 959) and explicit-any count remains 216.
+- Commit message: "fix(types): optional-safe method calls in events.ts; make orderBy direction optional; update plan and notes"
+</commit_analysis>=== Fri Aug 29 02:59:29 PST 2025 ===

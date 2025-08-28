@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-    "metadata": {
+  "metadata": {
     "currentBranch": "ts2",
     "updatedAt": "2025-08-29T14:15:00Z"
   },
@@ -2156,6 +2156,36 @@
       ],
       "createdAt": "2025-08-28T18:43:39Z",
       "updatedAt": "2025-08-28T18:46:20Z"
+    },
+    {
+      "id": "ts-work-20250829-0001",
+      "name": "events.ts: alias current and guard optionals in hotspots",
+      "description": "Alias libraryBase.jspreadsheet.current to local current and add null/undefined guards in events.ts hotspots",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 60
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "null-safety"
+      ],
+      "acceptanceCriteria": [
+        "No libraryBase.jspreadsheet.current direct usages left in events.ts",
+        "Optional property accesses guarded to satisfy tsc"
+      ],
+      "createdAt": "2025-08-28T19:01:25Z",
+      "updatedAt": "2025-08-28T19:01:25Z"
     }
   ]
 }
