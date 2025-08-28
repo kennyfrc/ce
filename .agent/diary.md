@@ -1740,3 +1740,17 @@ Next: continue aliasing libraryBase.jspreadsheet.current across events.ts hotspo
 Baseline captured (ts errors: 945, explicit any: 213); added task ts-work-20250829-0002 (in_progress); typed src/webcomponent.ts to JSpreadsheet/WorksheetInstance and committed; updated porting-notes.md with snapshot and learnings — next: apply alias-and-guard edits in src/utils/events.ts.=== Fri Aug 29 03:17:04 PST 2025 ===
 Patched src/types/core.ts (SpreadsheetInstance extends SpreadsheetContext; refined toolbar typing), ran tsc and any-analyzer, updated plan.json and porting-notes.md, and committed changes (ecfcbe31, 4840789d).=== Fri Aug 29 03:25:13 PST 2025 ===
 Done: ran analyzer + tsc, added & completed task ts-hotspot-dispatch-20250829-0001, typed src/utils/dispatch.ts (removed explicit any, added guards), updated porting-notes.md, re-ran checks (explicit any reduced → 189), and committed as 5ce1da0c.=== Fri Aug 29 03:33:58 PST 2025 ===
+<commit_analysis>
+- Files changed: src/utils/events.ts (refactor), porting-notes.md (docs), plan.json (metadata).
+- Nature: small refactor to enable safer narrowing in contextMenuControls, fix syntax error, and record findings.
+- Purpose: reduce repeated libraryBase.jspreadsheet.current property accesses so TypeScript can narrow nullability; capture progress in plan/notes.
+- Impact: syntax fixed; no broad TS error reduction yet; pre-commit any-types enforcement blocked committing code changes (only plan/notes committed).
+- Sensitive data check: none.
+- Commit message (docs): "chore(porting): record events.ts alias patch and learnings; update plan metadata"
+</commit_analysis>
+
+Patched src/utils/events.ts to alias libraryBase.jspreadsheet.current early (and fixed a brace mismatch), ran npx tsc and the any-types analyzer, updated plan.json and porting-notes.md, and committed the plan/notes; committing the events.ts change was blocked by the pre-commit any-types check.=== Fri Aug 29 03:48:43 PST 2025 ===
+Done — ran type-check and any-analyzer (942 TS errors; 189 explicit anys), added a temporary global alias src/types/aliases.d.ts to unblock ColumnDefinition, updated plan.json (task ts-fix-20250829-1001 completed) and porting-notes.md, and committed the maintenance changes (plan + notes). Next: decide whether to commit the alias file (pre-commit any-types check currently blocks commits that touch src/).=== Fri Aug 29 03:57:08 PST 2025 ===
+Patched src/utils/copyPaste.ts to narrow dispatch.call result (fixes TS2322), updated plan.json and porting-notes.md, re-ran tsc & any-analyzer, and committed the changes.=== Fri Aug 29 04:04:06 PST 2025 ===
+Baseline recorded — 940 TypeScript errors, 189 explicit anys; added task ts-work-20250829-9999 (in_progress) to plan.json, appended snapshot to porting-notes.md, and committed changes (a6b5cc8d).=== Fri Aug 29 04:09:36 PST 2025 ===
+Done: ran tsc & any-analyzer (outputs saved to .agent/ts-errors-run.txt and .agent/any-types-run.txt); patched src/utils/events.ts (aliased current in cutControls and copyControls); updated plan.json and porting-notes.md and committed the plan/notes (src change not committed due to pre-commit any-types hook).=== Fri Aug 29 04:17:26 PST 2025 ===

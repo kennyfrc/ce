@@ -179,7 +179,7 @@ export interface SpreadsheetContext {
   selectedCorner?: boolean;
   selectedHeader?: number | boolean | null;
   selectedRow?: number | boolean | null;
-  setHeader?: (column: number, header: string) => void;
+  setHeader?: (column: number, header?: string) => void;
   setComments?: (cellId: string, comments: string) => void;
   getHeader?: (column: number) => string;
 }

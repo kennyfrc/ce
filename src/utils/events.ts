@@ -342,12 +342,13 @@ const mouseDownControls = function (e: MouseEvent) {
               d = columnId;
             }
 
-            // Update selection
+            const oNum = typeof o === "number" ? o : 0;
+            const dNum = typeof d === "number" ? d : 0;
             updateSelectionFromCoords.call(
               current,
-              o,
+              oNum,
               0,
-              d,
+              dNum,
               dataRows - 1,
               e
             );
@@ -1226,23 +1227,22 @@ const contextMenuControls = function (e: MouseEvent): void {
   e = e || (window.event as unknown as MouseEvent);
   const mouseButton = getMouseButton(e) ?? 0;
 
-      if (libraryBase.jspreadsheet.current) {
-        const spreadsheet = libraryBase.jspreadsheet.current.parent;
+      const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+      if (current) {
+        const spreadsheet = current.parent;
 
-        if (libraryBase.jspreadsheet.current.edition) {
+        if (current.edition) {
           e.preventDefault();
         } else {
           spreadsheet.contextMenu!.contextmenu!.close();
 
-            if (libraryBase.jspreadsheet.current) {
-              const targetEl = getHTMLElement(e.target);
-              if (!targetEl) return;
-              // Local alias for current spreadsheet and its data
-              const current = libraryBase.jspreadsheet.current as WorksheetInstance;
-              const data = current.options.data ?? [];
-              const dataRows = data.length;
-              const dataCols = (data[0] ? data[0].length : 0) as number;
-            const role = getRole(targetEl);
+          const targetEl = getHTMLElement(e.target);
+          if (!targetEl) return;
+          // Local alias for current spreadsheet and its data
+          const data = current.options.data ?? [];
+          const dataRows = data.length;
+          const dataCols = (data[0] ? data[0].length : 0) as number;
+          const role = getRole(targetEl);
 
             let xStr: string | null = null,
               yStr: string | null = null;
@@ -1412,7 +1412,6 @@ const contextMenuControls = function (e: MouseEvent): void {
         spreadsheet.contextMenu!.contextmenu!.open(e, items);
         // Avoid the real one
         e.preventDefault();
-      }
     }
   }
 };
@@ -1487,36 +1486,26 @@ const touchEndControls = function (e: TouchEvent): void {
 };
 
 export const cutControls = function (this: WorksheetInstance, e: Event): void {
-  if (libraryBase.jspreadsheet.current) {
-    if (!libraryBase.jspreadsheet.current.edition) {
-      copy.call(
-        libraryBase.jspreadsheet.current,
-        true,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        true
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (!current) return;
+  if (!current.edition) {
+    copy.call(current, true, undefined, undefined, undefined, undefined, true);
+    if (current.options.editable != false) {
+      current.setValue(
+        current.highlighted.map(function (record: { element: HTMLElement }) {
+          return record.element;
+        }),
+        ""
       );
-  if (libraryBase.jspreadsheet.current.options.editable != false) {
-        libraryBase.jspreadsheet.current.setValue(
-          libraryBase.jspreadsheet.current.highlighted.map(function (
-            record: { element: HTMLElement }
-          ) {
-            return record.element;
-          }),
-          ""
-        );
-      }
     }
   }
 };
 
 const copyControls = function (this: WorksheetInstance, e: Event): void {
-  if (libraryBase.jspreadsheet.current) {
-    if (!libraryBase.jspreadsheet.current.edition) {
-      copy.call(libraryBase.jspreadsheet.current, true);
-    }
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (!current) return;
+  if (!current.edition) {
+    copy.call(current, true);
   }
 };
 

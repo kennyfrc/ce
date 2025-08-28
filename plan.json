@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T15:41:00Z"
+    "updatedAt": "2025-08-28T20:34:55Z"
   },
   "tasks": [
     {
@@ -2330,30 +2330,54 @@
       ],
       "createdAt": "2025-08-29T15:30:00Z",
       "updatedAt": "2025-08-29T15:30:00Z"
+    },
+    {
+      "id": "ts-work-20250829-99910",
+      "name": "events.ts: apply next alias-and-guard batch",
+      "description": "Apply local current alias and guards to remaining events.ts hotspots (automated small patches).",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "events",
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No repeated libraryBase.jspreadsheet.current accesses remain in targeted hotspots",
+        "TypeScript error count reduced by >=5"
+      ],
+      "createdAt": "2025-08-29T15:40:00Z",
+      "updatedAt": "2025-08-29T15:41:00Z"
+    },
+    {
+      "id": "ts-work-20250829-1001",
+      "name": "events.ts: apply alias-and-guard small batch",
+      "description": "Apply local current alias and guards to remaining hotspots in events.ts",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "events",
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "Alias current applied to targeted hotspots",
+        "No new explicit any introduced"
+      ],
+      "createdAt": "2025-08-28T20:27:00Z",
+      "updatedAt": "2025-08-28T20:27:00Z"
     }
-  ,
-  {
-    "id": "ts-work-20250829-99910",
-    "name": "events.ts: apply next alias-and-guard batch",
-    "description": "Apply local current alias and guards to remaining events.ts hotspots (automated small patches).",
-    "phase": 3,
-    "state": "completed",
-    "candidateFiles": [
-      "src/utils/events.ts"
-    ],
-    "owners": [
-      "@team/types"
-    ],
-    "labels": [
-      "events",
-      "hotspot",
-      "types"
-    ],
-    "acceptanceCriteria": [
-      "No repeated libraryBase.jspreadsheet.current accesses remain in targeted hotspots",
-      "TypeScript error count reduced by >=5"
-    ],
-    "createdAt": "2025-08-29T15:40:00Z",
-    "updatedAt": "2025-08-29T15:41:00Z"
   ]
 }
