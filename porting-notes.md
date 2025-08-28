@@ -258,3 +258,9 @@ Learnings:
 - Replaced numeric flag `1` with boolean `true` in `src/utils/data.ts` for `setMerge.call`.
 - Adjusted imports and narrowed `this` typing for `createCellHeader` in `src/utils/columns.ts` to `WorksheetInstance | SpreadsheetContext`.
 - Ran `npx tsc` to measure impact; remaining hotspots persist in `columns.ts`, `events.ts`, and `internal.ts` for follow-up.
+
+### 2025-08-29 — Core type unification
+
+- Made WorksheetInstance an alias of SpreadsheetContext and merged worksheet-specific members into SpreadsheetContext to reduce assignment mismatches across utils (columns/merges/dispatch).
+- Updated dispatch.ts to safely access spreadsheet config/plugins and fixed merges call-sites in columns.ts to use worksheet instances where appropriate.
+- Next: narrow nullability and parameter types in src/utils/events.ts and src/utils/internal.ts (guard optional fields, fix argument type mismatches).

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T14:00:00Z"
+    "updatedAt": "2025-08-29T01:50:00Z"
   },
   "tasks": [
     {
@@ -1987,13 +1987,41 @@
       "owners": [
         "@team/types"
       ],
-      "labels": ["hotspot","types","columns"],
+      "labels": [
+        "hotspot",
+        "types",
+        "columns"
+      ],
       "acceptanceCriteria": [
         "No TS2345/TS2339 related to SpreadsheetContext/WorksheetInstance in src/utils/columns.ts",
         "TypeScript error count reduced by >=5"
       ],
       "createdAt": "2025-08-29T14:00:00Z",
       "updatedAt": "2025-08-29T14:00:00Z"
+    },
+    {
+      "id": "ts-auto-20250829-0002",
+      "name": "Unify core types: WorksheetInstance/SpreadsheetContext",
+      "description": "Make WorksheetInstance and SpreadsheetContext compatible to reduce cross-type assignment errors",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/types/core.ts",
+        "src/utils/events.ts",
+        "src/utils/internal.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "core"
+      ],
+      "acceptanceCriteria": [
+        "Reduce assignment/type mismatch errors between WorksheetInstance and SpreadsheetContext"
+      ],
+      "createdAt": "2025-08-29T01:50:00Z",
+      "updatedAt": "2025-08-29T01:50:00Z"
     }
   ]
 }
