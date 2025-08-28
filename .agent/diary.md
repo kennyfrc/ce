@@ -1679,3 +1679,8 @@ Done — updated .husky/pre-commit to whitelist maintenance files (.agent/, .hus
 Patched src/utils/events.ts (alias current + guards), added in_progress task ts-auto-20250829-0001, updated plan.json and porting-notes.md, and re-ran tsc + any-analyzer.  
 Git commit failed due to pre-commit any-types check (232 anys remain); next step: continue removing explicit anys in hotspot files to allow commit.=== Fri Aug 29 00:27:30 PST 2025 ===
 Patched src/utils/events.ts (added local data/columns aliases, guarded optional calls), updated plan.json and porting-notes.md, re-ran type-check (still failing in other hotspots), and committed the changes as 3d8bdfc1.=== Fri Aug 29 00:42:22 PST 2025 ===
+Done: typed 'this' contexts in merges/orderBy/dispatch, updated plan/notes, re-ran analyzers, and committed progress (fa751db9).
+
+Metrics: explicit any 232 → 208, TypeScript errors ~544 (see .agent/any-types-latest.txt and .agent/tsc-latest.txt).
+
+Next: focus on events.ts null-safety and unifying WorksheetInstance/SpreadsheetContext.=== Fri Aug 29 00:51:59 PST 2025 ===

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T12:00:00Z"
+    "updatedAt": "2025-08-29T12:55:00Z"
   },
   "tasks": [
     {
@@ -1899,6 +1899,37 @@
       ],
       "createdAt": "2025-08-29T12:00:00Z",
       "updatedAt": "2025-08-29T12:00:00Z"
+    },
+    {
+      "id": "ts-auto-20250829-0003",
+      "name": "events.ts: apply local current alias to remaining hotspots",
+      "description": "Replace inline libraryBase.jspreadsheet.current uses with local `current` alias and guard optionals across events.ts hotspots",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 2200
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "events",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No repeated libraryBase.jspreadsheet.current property accesses in events.ts hot functions",
+        "TypeScript error count reduced by >=5"
+      ],
+      "createdAt": "2025-08-29T12:55:00Z",
+      "updatedAt": "2025-08-29T12:55:00Z"
     }
   ]
 }

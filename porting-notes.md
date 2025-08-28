@@ -217,3 +217,19 @@ Learnings:
 - Replaced one `as any` length-check with a runtime guard + `ArrayLike<unknown>` cast to avoid increasing explicit `any` counts.
 - Next: apply the aliasing pattern to other hotspots (mouse handlers, internal.ts) and unify WorksheetInstance/SpreadsheetContext in `src/types/core.ts`.
 
+### Snapshot: 2025-08-29T12:55:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 544 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 208 (saved to .agent/any-types-report.txt)
+
+Learnings:
+
+- Small, targeted replacements of direct references to libraryBase.jspreadsheet.current with a local `current` alias reduce repeated property access and enable narrowing; continue applying this pattern across remaining hotspots.
+
+Learnings (2025-08-29):
+
+- Replacing repeated property access with a local `current` alias in hot functions enables TypeScript to narrow optional fields and avoids many `possibly null` diagnostics.
+- Apply the same alias-and-guard pattern to internal.ts and factory.ts next, then reconcile WorksheetInstance vs SpreadsheetContext shapes.
+- Prefer small, reviewable patches that change call sites to use local aliases rather than broad type casts.
+
+
