@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T19:23:24Z"
+    "updatedAt": "2025-08-29T14:20:00Z"
   },
   "tasks": [
     {
@@ -2229,6 +2229,38 @@
       ],
       "createdAt": "2025-08-28T19:23:24Z",
       "updatedAt": "2025-08-28T19:23:24Z"
+    },
+    {
+      "id": "ts-hotspot-dispatch-20250829-0001",
+      "name": "Hotspot: Type src/utils/dispatch.ts",
+      "description": "Replace any usages and type the dispatch utilities and their public API to reduce explicit any count and enable stricter checks",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/dispatch.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/dispatch.ts",
+          "lineStart": 1,
+          "lineEnd": 200
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "public-api"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in src/utils/dispatch.ts public API",
+        "Type errors in affected module resolved"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T14:06:00Z",
+      "updatedAt": "2025-08-29T14:20:00Z"
     }
   ]
 }

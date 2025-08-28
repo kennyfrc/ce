@@ -8,6 +8,12 @@
 
 - Updated .husky/pre-commit to allow commits that only modify maintenance files (\.agent/, .husky/, plan.json, porting-notes.md) so metrics and plan updates can be committed without being blocked by the any-types analyzer.
 
+### 2025-08-29 — Dispatch typing
+
+- Typed src/utils/dispatch.ts: replaced explicit `any` with `unknown` and rest-only function types, added runtime guards for plugins/config handlers.
+- Resolved tuple/spread issues by using rest signatures and guarded applies; dispatch no longer reports explicit `any` in the any-types scan.
+- Next: target src/utils/data.ts and src/utils/events.ts (largest remaining hotspots).
+
 ### 2025-08-28 — Core types
 
 ### Snapshot: 2025-08-29T14:40:00Z
