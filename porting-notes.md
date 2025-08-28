@@ -1,4 +1,23 @@
+### Snapshot: 2025-08-29T15:40:00Z — automated run
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1066 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 154 (saved to .agent/any-types-run.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+
+Learnings:
+
+- Ran automated tsc and any-analyzer; outputs saved to .agent for traceability.
+- Next: apply alias-and-guard edits to remaining events.ts hotspots to reduce soft nullability diagnostics.
+
 -### 2025-08-29T15:05:00Z — CopyPaste fix
+
+### 2025-08-29T15:41:00Z — events.ts small patch
+
+- Patched src/utils/events.ts: aliased current in cutControls and copyControls to avoid repeated libraryBase.jspreadsheet.current property access.
+- Reran tsc and any-analyzer: no measurable change in global diagnostics; recorded outputs to .agent and updated plan.json (ts-work-20250829-99910 completed).
+- Next: apply alias-and-guard pattern to remaining hotspots in events.ts and reconcile core WorksheetInstance shapes.
+
+ -### 2025-08-29T15:05:00Z — CopyPaste fix
 
 - Narrowed dispatch.call result in src/utils/copyPaste.ts before assigning to strLabel; prevents non-string assignment and fixes TS2322 at that site.
 - Reran tsc and any-analyzer: copyPaste.ts error cleared; events.ts and internal.ts remain primary hotspots; next focus events.ts hotspots.
