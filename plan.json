@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T14:06:00Z"
+    "updatedAt": "2025-08-28T18:25:42Z"
   },
   "tasks": [
     {
@@ -2112,6 +2112,28 @@
       "links": [],
       "createdAt": "2025-08-29T14:20:00Z",
       "updatedAt": "2025-08-29T14:20:00Z"
+    },
+    {
+      "id": "ts-fix-events-20250829-0001",
+      "name": "Fix events.ts: narrow types and remove anys",
+      "description": "Address top tsc errors in src/utils/events.ts (undefined checks, param types)",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "bug",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2722/TS2345 errors in events.ts on type-check"
+      ],
+      "createdAt": "2025-08-28T18:25:42Z",
+      "updatedAt": "2025-08-28T18:25:42Z"
     }
   ]
 }

@@ -270,3 +270,13 @@ Learnings:
 - Replaced repeated libraryBase.jspreadsheet.current references in src/utils/events.ts (pasteControls) with a local `current` alias to enable safer narrowing.
 - Ran type-check; change is local and did not introduce new regressions attributable to pasteControls.
 
+
+### Snapshot: 2025-08-29T14:30:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 988 (saved to .agent/ts-errors-latest.txt)
+- Explicit any count (find-any-types): 216 (saved to .agent/any-types-report.txt)
+
+Learnings:
+
+- Applied initial safe fixes: dispatch.prepareJson now accepts unknown with internal narrowing, persistence URL guarded, and optional moveColumn calls made safe in events.ts.
+- Next: continue the alias-and-guard pattern across events.ts hotspots and begin targeted unification/typing work in src/utils/internal.ts to reduce remaining strict-mode diagnostics.
