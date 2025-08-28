@@ -159,6 +159,15 @@ Learnings:
 - Introduced a targeted task and small patch to alias `libraryBase.jspreadsheet.current` to a local `current` variable in hotspots (events.ts) to allow safe narrowing and reduce strict-null diagnostics.
 - Plan: continue replacing repeated property accesses with local aliases in events.ts, then propagate similar patterns to other hotspot files (internal.ts, factory.ts).
 
+### Snapshot: 2025-08-28T15:45:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 546 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 294 (saved to .agent/any-types-report.txt)
+
+Learnings / Next steps:
+
+- Created focused task `ts-fix-20250828-3001` (in_progress): alias `libraryBase.jspreadsheet.current` to a local `current` in `src/utils/events.ts` and add guards; will iterate in small patches.
+
 ### Snapshot: 2025-08-28T15:40:00Z
 
 - TypeScript errors (tsconfig.test.json --noEmit): 694 (saved to .agent/ts-errors.txt)

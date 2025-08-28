@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T15:42:00Z"
+    "updatedAt": "2025-08-28T15:46:24Z"
   },
   "tasks": [
     {
@@ -1733,6 +1733,72 @@
       ],
       "createdAt": "2025-08-28T15:40:00Z",
       "updatedAt": "2025-08-28T15:42:00Z"
+    },
+    {
+      "id": "ts-fix-20250828-3001",
+      "name": "events: alias libraryBase.jspreadsheet.current to local current",
+      "description": "Alias libraryBase.jspreadsheet.current to local current in hot functions to enable narrowing and reduce TS18047 diagnostics",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 2000
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "events"
+      ],
+      "acceptanceCriteria": [
+        "Reduce TS18047 diagnostics in events.ts by introducing local alias and guards"
+      ],
+      "createdAt": "2025-08-28T15:45:00Z",
+      "updatedAt": "2025-08-28T15:45:00Z"
+    },
+    {
+      "id": "ts-fix-20250828-4002",
+      "name": "Unify WorksheetInstance/SpreadsheetContext",
+      "description": "Unify WorksheetInstance and SpreadsheetContext in src/types/core.ts and update src/utils/events.ts to use precise types and null-guards.",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/types/core.ts",
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/types/core.ts",
+          "lineStart": 1,
+          "lineEnd": 400
+        },
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 200
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "events"
+      ],
+      "acceptanceCriteria": [
+        "WorksheetInstance and SpreadsheetContext unified",
+        "events.ts uses precise types and removes null-safety anys"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T15:46:24Z",
+      "updatedAt": "2025-08-28T15:46:24Z"
     }
   ]
 }

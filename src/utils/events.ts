@@ -278,90 +278,65 @@ const mouseDownControls = function (e: MouseEvent) {
           // Update cursor
           const info = target.getBoundingClientRect();
           if (
-            libraryBase.jspreadsheet.current.options.columnResize != false &&
+            current.options.columnResize != false &&
             info.width - e.offsetX < 6
           ) {
             // Resize helper
-            libraryBase.jspreadsheet.current.resizing = {
+            current.resizing = {
               mousePosition: e.pageX,
               column: columnId,
               width: info.width,
             };
 
             // Border indication
-            libraryBase.jspreadsheet.current.headers[columnId].classList.add(
-              "resizing"
-            );
-            for (
-              let j = 0;
-              j < libraryBase.jspreadsheet.current.records.length;
-              j++
-            ) {
-              if (libraryBase.jspreadsheet.current.records[j][columnId]) {
-                libraryBase.jspreadsheet.current.records[j][
-                  columnId
-                ].element.classList.add("resizing");
+            current.headers[columnId].classList.add("resizing");
+            for (let j = 0; j < current.records.length; j++) {
+              if (current.records[j][columnId]) {
+                current.records[j][columnId].element.classList.add("resizing");
               }
             }
           } else if (
-            libraryBase.jspreadsheet.current.options.columnDrag != false &&
+            current.options.columnDrag != false &&
             info.height - e.offsetY < 6
           ) {
-            if (
-              isColMerged.call(libraryBase.jspreadsheet.current, columnId)
-                .length
-            ) {
-              console.error(
-                "Jspreadsheet: This column is part of a merged cell."
-              );
+            if (isColMerged.call(current, columnId).length) {
+              console.error("Jspreadsheet: This column is part of a merged cell.");
             } else {
               // Reset selection
-              libraryBase.jspreadsheet.current.resetSelection();
+              current.resetSelection();
               // Drag helper
-              libraryBase.jspreadsheet.current.dragging = {
+              current.dragging = {
                 element: target,
                 column: columnId,
                 destination: columnId,
               };
               // Border indication
-              libraryBase.jspreadsheet.current.headers[columnId].classList.add(
-                "dragging"
-              );
-              for (
-                let j = 0;
-                j < libraryBase.jspreadsheet.current.records.length;
-                j++
-              ) {
-                if (libraryBase.jspreadsheet.current.records[j][columnId]) {
-                  libraryBase.jspreadsheet.current.records[j][
-                    columnId
-                  ].element.classList.add("dragging");
+              current.headers[columnId].classList.add("dragging");
+              for (let j = 0; j < current.records.length; j++) {
+                if (current.records[j][columnId]) {
+                  current.records[j][columnId].element.classList.add("dragging");
                 }
               }
             }
           } else {
             let o, d;
 
-            if (
-              libraryBase.jspreadsheet.current.selectedHeader &&
-              (e.shiftKey || e.ctrlKey)
-            ) {
-              o = libraryBase.jspreadsheet.current.selectedHeader;
+            if (current.selectedHeader && (e.shiftKey || e.ctrlKey)) {
+              o = current.selectedHeader;
               d = columnId;
             } else {
               // Press to rename
               if (
-                libraryBase.jspreadsheet.current.selectedHeader == columnId &&
-                libraryBase.jspreadsheet.current.options.allowRenameColumn !=
-                  false
+                current.selectedHeader == columnId &&
+                current.options.allowRenameColumn != false
               ) {
                 libraryBase.jspreadsheet.timeControl = setTimeout(function () {
-                  libraryBase.jspreadsheet.current.setHeader(columnId);
+                  current.setHeader(columnId);
                 }, 800);
               }
 
               // Keep track of which header was selected first
-              libraryBase.jspreadsheet.current.selectedHeader = columnId;
+              current.selectedHeader = columnId;
 
               // Update selection single column
               o = columnId;
@@ -370,11 +345,11 @@ const mouseDownControls = function (e: MouseEvent) {
 
             // Update selection
             updateSelectionFromCoords.call(
-              libraryBase.jspreadsheet.current,
+              current,
               o,
               0,
               d,
-              libraryBase.jspreadsheet.current.options.data.length - 1,
+              current.options.data.length - 1,
               e
             );
           }
@@ -388,20 +363,20 @@ const mouseDownControls = function (e: MouseEvent) {
               c2 = parseInt(column[column.length - 1]);
             } else {
               c1 = 0;
-              c2 = libraryBase.jspreadsheet.current.options.columns.length - 1;
+              c2 = current.options.columns.length - 1;
             }
             updateSelectionFromCoords.call(
-              libraryBase.jspreadsheet.current,
+              current,
               c1,
               0,
               c2,
-              libraryBase.jspreadsheet.current.options.data.length - 1,
+              current.options.data.length - 1,
               e
             );
           }
         }
       } else {
-        libraryBase.jspreadsheet.current.selectedHeader = false;
+        current.selectedHeader = false;
       }
 
       // Body found
@@ -412,11 +387,11 @@ const mouseDownControls = function (e: MouseEvent) {
         if (target.classList.contains("jss_row")) {
           const info = target.getBoundingClientRect();
           if (
-            libraryBase.jspreadsheet.current.options.rowResize != false &&
+            current.options.rowResize != false &&
             info.height - e.offsetY < 6
           ) {
             // Resize helper
-            libraryBase.jspreadsheet.current.resizing = {
+            current.resizing = {
               element: target.parentElement as HTMLElement,
               mousePosition: e.pageY,
               row: rowId,
@@ -425,44 +400,35 @@ const mouseDownControls = function (e: MouseEvent) {
             // Border indication
             target.parentElement?.classList.add("resizing");
           } else if (
-            libraryBase.jspreadsheet.current.options.rowDrag != false &&
+            current.options.rowDrag != false &&
             info.width - e.offsetX < 6
           ) {
-            if (
-              isRowMerged.call(libraryBase.jspreadsheet.current, rowId, false)
-                .length
-            ) {
+            if (isRowMerged.call(current, rowId, false).length) {
               console.error("Jspreadsheet: This row is part of a merged cell");
-            } else if (
-              libraryBase.jspreadsheet.current.options.search == true &&
-              libraryBase.jspreadsheet.current.results
-            ) {
+            } else if (current.options.search == true && current.results) {
               console.error(
                 "Jspreadsheet: Please clear your search before perform this action"
               );
             } else {
               // Reset selection
-              libraryBase.jspreadsheet.current.resetSelection();
-                // Drag helper
-                libraryBase.jspreadsheet.current.dragging = {
-                  element: target.parentElement as HTMLElement,
-                  row: rowId,
-                  destination: rowId,
-                };
-                // Border indication
-                target.parentElement?.classList.add("dragging");
+              current.resetSelection();
+              // Drag helper
+              current.dragging = {
+                element: target.parentElement as HTMLElement,
+                row: rowId,
+                destination: rowId,
+              };
+              // Border indication
+              target.parentElement?.classList.add("dragging");
             }
           } else {
             let o, d;
-            if (
-              libraryBase.jspreadsheet.current.selectedRow != null &&
-              (e.shiftKey || e.ctrlKey)
-            ) {
-              o = libraryBase.jspreadsheet.current.selectedRow;
+            if (current.selectedRow != null && (e.shiftKey || e.ctrlKey)) {
+              o = current.selectedRow;
               d = rowId;
             } else {
               // Keep track of which header was selected first
-              libraryBase.jspreadsheet.current.selectedRow = rowId;
+              current.selectedRow = rowId;
 
               // Update selection single column
               o = rowId;
@@ -471,30 +437,24 @@ const mouseDownControls = function (e: MouseEvent) {
 
             // Update selection
             updateSelectionFromCoords.call(
-              libraryBase.jspreadsheet.current,
+              current,
               0,
               o,
-              libraryBase.jspreadsheet.current.options.data[0].length - 1,
+              current.options.data[0].length - 1,
               d,
               e
             );
           }
         } else {
           // Jclose
-            if (
-              target.classList.contains("jclose") &&
-              target.clientWidth - e.offsetX < 50 &&
-              e.offsetY < 50
-            ) {
-            closeEditor.call(
-              libraryBase.jspreadsheet.current,
-              libraryBase.jspreadsheet.current.edition[0],
-              true
-            );
+          if (
+            target.classList.contains("jclose") &&
+            target.clientWidth - e.offsetX < 50 &&
+            e.offsetY < 50
+          ) {
+            closeEditor.call(current, current.edition![0], true);
           } else {
-            const getCellCoords = function (
-              element: HTMLElement
-            ): [string, string] | undefined {
+            const getCellCoords = function (element: HTMLElement): [string, string] | undefined {
               const x = element.getAttribute("data-x");
               const y = element.getAttribute("data-y");
               if (x && y) {
@@ -512,36 +472,26 @@ const mouseDownControls = function (e: MouseEvent) {
               const columnId = parseInt(position[0]);
               const rowId = parseInt(position[1]);
               // Close edition
-              if (libraryBase.jspreadsheet.current.edition) {
-                if (
-                  libraryBase.jspreadsheet.current.edition[2] != columnId ||
-                  libraryBase.jspreadsheet.current.edition[3] != rowId
-                ) {
-                  closeEditor.call(
-                    libraryBase.jspreadsheet.current,
-                    libraryBase.jspreadsheet.current.edition[0],
-                    true
-                  );
+              if (current.edition) {
+                if (current.edition[2] != columnId || current.edition[3] != rowId) {
+                  closeEditor.call(current, current.edition[0], true);
                 }
               }
 
-              if (!libraryBase.jspreadsheet.current.edition) {
+              if (!current.edition) {
                 // Update cell selection
-                if (
-                  e.shiftKey &&
-                  libraryBase.jspreadsheet.current.selectedCell
-                ) {
+                if (e.shiftKey && current.selectedCell) {
                   updateSelectionFromCoords.call(
-                    libraryBase.jspreadsheet.current,
-                    libraryBase.jspreadsheet.current.selectedCell[0],
-                    libraryBase.jspreadsheet.current.selectedCell[1],
+                    current,
+                    current.selectedCell[0],
+                    current.selectedCell[1],
                     columnId,
                     rowId,
                     e
                   );
                 } else {
                   updateSelectionFromCoords.call(
-                    libraryBase.jspreadsheet.current,
+                    current,
                     columnId,
                     rowId,
                     columnId,
@@ -552,33 +502,29 @@ const mouseDownControls = function (e: MouseEvent) {
               }
 
               // No full row selected
-              libraryBase.jspreadsheet.current.selectedHeader = null;
-              libraryBase.jspreadsheet.current.selectedRow = null;
+              current.selectedHeader = null;
+              current.selectedRow = null;
             }
           }
         }
       } else {
-        libraryBase.jspreadsheet.current.selectedRow = false;
+        current.selectedRow = false;
       }
 
       // Pagination
       if (target.classList.contains("jss_page")) {
         if (target.textContent == "<") {
-          libraryBase.jspreadsheet.current.page(0);
+          current.page(0);
         } else if (target.textContent == ">") {
           const titleAttr = target.getAttribute("title");
-          libraryBase.jspreadsheet.current.page(
-            titleAttr !== null ? parseInt(titleAttr, 10) - 1 : 0
-          );
+          current.page(titleAttr !== null ? parseInt(titleAttr, 10) - 1 : 0);
         } else {
-          libraryBase.jspreadsheet.current.page(
-            target.textContent ? parseInt(target.textContent, 10) - 1 : 0
-          );
+          current.page(target.textContent ? parseInt(target.textContent, 10) - 1 : 0);
         }
       }
     }
 
-    if (libraryBase.jspreadsheet.current.edition) {
+    if (current.edition) {
       libraryBase.jspreadsheet.isMouseAction = false;
     } else {
       libraryBase.jspreadsheet.isMouseAction = true;

@@ -1663,3 +1663,5 @@ Done — small, safe progress:
 
 Next: continue replacing repeated libraryBase.jspreadsheet.current usages and unify WorksheetInstance/SpreadsheetContext.=== Thu Aug 28 23:24:39 PST 2025 ===
 === Thu Aug 28 23:26:03 PST 2025 ===
+Patched events.ts (mouseMoveControls/mouseOverControls) to use local `current` alias, added an in_progress plan task, ran tsc & any-analyzer (694 errors, 294 anys), updated porting-notes.md, and committed changes as ba8690f8.=== Thu Aug 28 23:36:04 PST 2025 ===
+Done: ran type-check and any-analyzer, saved artifacts, added focused plan task, and updated notes — commit blocked by pre-commit (❌ found 232 explicit any types).=== Thu Aug 28 23:44:14 PST 2025 ===
