@@ -635,3 +635,4 @@ test/search.ts(25,16): error TS2532: Object is possibly 'undefined'.
 test/search.ts(35,21): error TS2339: Property 'resetSearch' does not exist on type 'WorksheetInstance'.
 test/search.ts(37,16): error TS2532: Object is possibly 'undefined'.
 test/types.test.ts(10,39): error TS2694: Namespace 'jspreadsheet' has no exported member 'SpreadsheetInstance'.
+TS_EXIT:0

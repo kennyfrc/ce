@@ -181,5 +181,15 @@ Learnings / Next steps:
 Learnings:
 
 - Added local 'current' alias and replaced repeated property accesses in mouseMoveControls and mouseOverControls to enable narrowing; changes are scoped and non-destructive.
-- No immediate reduction in global error/anomaly counts — many hotspots remain across events.ts; next step: apply same aliasing pattern across additional hot functions and unify WorksheetInstance/SpreadsheetContext types in src/types/core.ts.
+ - No immediate reduction in global error/anomaly counts — many hotspots remain across events.ts; next step: apply same aliasing pattern across additional hot functions and unify WorksheetInstance/SpreadsheetContext types in src/types/core.ts.
+
+### Snapshot: 2025-08-28T16:05:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 492 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 232 (saved to .agent/any-types-report.txt)
+
+Learnings:
+
+- events.ts is the dominant hotspot; many "possibly undefined"/"possibly null" diagnostics stem from repeated libraryBase.jspreadsheet.current accesses — introduce local aliases and narrow optionals.
+- Prioritize unifying WorksheetInstance/SpreadsheetContext and replacing this:any in merges/data/dispatch to reduce cross-file type mismatches.
 
