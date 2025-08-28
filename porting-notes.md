@@ -153,3 +153,9 @@ Learnings:
 
 - Applied a stabilizing local current variable in mouseUpControls (src/utils/events.ts) to avoid repeated property-narrowing on libraryBase.jspreadsheet.current.
 - Impact: TypeScript errors decreased (~558 → 529); explicit any count unchanged (232). Next: replace other repeated libraryBase.jspreadsheet.current usages and narrow optionals.
+
+### Quick notes: 2025-08-28T15:30:00Z
+
+- Introduced a targeted task and small patch to alias `libraryBase.jspreadsheet.current` to a local `current` variable in hotspots (events.ts) to allow safe narrowing and reduce strict-null diagnostics.
+- Plan: continue replacing repeated property accesses with local aliases in events.ts, then propagate similar patterns to other hotspot files (internal.ts, factory.ts).
+
