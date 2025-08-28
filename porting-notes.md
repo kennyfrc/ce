@@ -1,3 +1,9 @@
+### 2025-08-29T14:43:45Z — Patch applied
+
+- Patched src/utils/events.ts: aliased libraryBase.jspreadsheet.current to a local `current` earlier in contextMenuControls to enable narrowing and reduce repeated property-access diagnostics.
+- Fixed a brace mismatch introduced during the refactor (removed leftover inner closing brace) that caused a syntax error; re-ran tsc and any-analyzer.
+- Result: syntax fixed; TypeScript diagnostics remain high (no large global reduction yet); next: apply the alias-and-guard pattern to additional hotspot functions and reconcile core WorksheetInstance/SpreadsheetContext shapes.
+
 ### 2025-08-28 — Webpack tsconfig change
 
 - Added `tsconfig.webpack.json` and pointed `ts-loader` at it to restrict compilation to `src/` (removes TS6059 noise).

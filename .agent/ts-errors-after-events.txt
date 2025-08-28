@@ -46,49 +46,49 @@ src/utils/events.ts(1106,13): error TS2345: Argument of type 'number | undefined
 src/utils/events.ts(1166,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
 src/utils/events.ts(1167,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
 src/utils/events.ts(1184,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1267,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1268,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1269,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1270,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(1271,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(1323,40): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-src/utils/events.ts(1324,57): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-src/utils/events.ts(1502,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1503,11): error TS18048: 'libraryBase.jspreadsheet.current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(1603,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1322,40): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+src/utils/events.ts(1323,57): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+src/utils/events.ts(1500,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1501,11): error TS18048: 'libraryBase.jspreadsheet.current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1601,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/events.ts(1646,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1658,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1664,15): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(1680,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1697,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1737,41): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'ClipboardEvent'.
+src/utils/events.ts(1644,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1656,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1662,15): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1678,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1695,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1735,41): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'ClipboardEvent'.
   Property 'clipboardData' is missing in type 'Event' but required in type 'ClipboardEvent'.
-src/utils/events.ts(1807,44): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
-src/utils/events.ts(1821,11): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1821,35): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1822,11): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1826,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1826,39): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1805,44): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
+src/utils/events.ts(1819,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1819,35): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1820,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1824,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1824,39): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1825,15): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/events.ts(1827,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1829,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1830,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1830,41): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1834,20): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1834,45): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1828,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1828,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1832,20): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1832,45): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1834,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1835,15): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/events.ts(1836,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1837,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1838,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1838,41): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1855,16): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1858,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1872,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1836,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1853,16): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1856,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1870,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/events.ts(1876,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1874,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
   Type 'number' is not assignable to type 'string'.
-src/utils/events.ts(1888,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
-src/utils/events.ts(1898,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1919,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1919,40): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1886,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
+src/utils/events.ts(1896,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1917,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1917,40): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/factory.ts(89,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
 src/utils/factory.ts(110,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
 src/utils/factory.ts(131,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
