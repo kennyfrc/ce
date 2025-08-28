@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T19:43:45Z"
+    "updatedAt": "2025-08-29T14:55:00Z"
   },
   "tasks": [
     {
@@ -2051,7 +2051,7 @@
       ],
       "links": [],
       "createdAt": "2025-08-29T14:00:00Z",
-      "updatedAt": "2025-08-28T18:46:20Z"
+      "updatedAt": "2025-08-29T14:55:00Z"
     },
     {
       "id": "ts-live-20250829-0001",
@@ -2155,7 +2155,7 @@
         "Use existing columns alias; avoid direct nullable access"
       ],
       "createdAt": "2025-08-28T18:43:39Z",
-      "updatedAt": "2025-08-28T18:46:20Z"
+      "updatedAt": "2025-08-29T14:55:00Z"
     },
     {
       "id": "ts-work-20250829-0001",
@@ -2261,6 +2261,28 @@
       "links": [],
       "createdAt": "2025-08-29T14:06:00Z",
       "updatedAt": "2025-08-29T14:20:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-1001",
+      "name": "internal.ts: import ColumnDefinition",
+      "description": "Add missing ColumnDefinition import to src/utils/internal.ts to fix TS2304",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "fix"
+      ],
+      "acceptanceCriteria": [
+        "No TS2304 \"Cannot find name ColumnDefinition\" in src/utils/internal.ts"
+      ],
+      "createdAt": "2025-08-29T14:50:00Z",
+      "updatedAt": "2025-08-29T14:55:00Z"
     }
   ]
 }
