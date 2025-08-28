@@ -1,3 +1,8 @@
+-### 2025-08-29T15:05:00Z — CopyPaste fix
+
+- Narrowed dispatch.call result in src/utils/copyPaste.ts before assigning to strLabel; prevents non-string assignment and fixes TS2322 at that site.
+- Reran tsc and any-analyzer: copyPaste.ts error cleared; events.ts and internal.ts remain primary hotspots; next focus events.ts hotspots.
+
 ### 2025-08-29T14:43:45Z — Patch applied
 
 - Patched src/utils/events.ts: aliased libraryBase.jspreadsheet.current to a local `current` earlier in contextMenuControls to enable narrowing and reduce repeated property-access diagnostics.

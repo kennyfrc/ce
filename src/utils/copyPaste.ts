@@ -214,7 +214,7 @@ export const copy = function (
       isCut
     );
 
-    if (result) {
+    if (typeof result === "string") {
       strLabel = result;
     } else if (result === false) {
       return false;

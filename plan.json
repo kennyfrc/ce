@@ -2283,6 +2283,29 @@
       ],
       "createdAt": "2025-08-29T14:50:00Z",
       "updatedAt": "2025-08-29T14:55:00Z"
+    },
+    {
+      "id": "ts-fix-copypaste-20250829-0001",
+      "name": "Fix copyPaste.ts: narrow dispatch result",
+      "description": "Narrow dispatch.call return before assigning to strLabel to satisfy types",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/copyPaste.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot",
+        "copyPaste"
+      ],
+      "acceptanceCriteria": [
+        "No TS2322 at src/utils/copyPaste.ts:218; assignment narrowed to string"
+      ],
+      "createdAt": "2025-08-29T15:05:00Z",
+      "updatedAt": "2025-08-29T15:05:00Z"
     }
   ]
 }
