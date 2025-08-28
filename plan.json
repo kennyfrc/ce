@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T20:03:10Z"
+    "updatedAt": "2025-08-29T15:30:00Z"
   },
   "tasks": [
     {
@@ -2306,6 +2306,30 @@
       ],
       "createdAt": "2025-08-29T15:05:00Z",
       "updatedAt": "2025-08-29T15:05:00Z"
+    },
+    {
+      "id": "ts-work-20250829-9999",
+      "name": "events.ts: apply alias-and-guard to remaining hotspots",
+      "description": "Apply local current alias and add runtime guards in remaining events.ts hotspots to reduce null/undefined diagnostics and remove explicit anys",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "events",
+        "null-safety",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "Reduce possibly undefined diagnostics in targeted events.ts handlers",
+        "No new explicit any introduced"
+      ],
+      "createdAt": "2025-08-29T15:30:00Z",
+      "updatedAt": "2025-08-29T15:30:00Z"
     }
   ]
 }

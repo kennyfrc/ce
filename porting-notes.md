@@ -357,3 +357,13 @@ Next steps:
 
 - Added src/types/aliases.d.ts to expose ColumnDefinition as a global alias to unblock legacy `internal.ts` references (fixes TS2304).
 - Small, surgical type aliases can be a temporary bridge while migrating many legacy modules to explicit imports.
+
+### Snapshot: 2025-08-29T15:30:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 940 (see .agent/tsc-current.txt)
+- Explicit any count (find-any-types): 189 (see .agent/any-types-current.txt)
+
+Learnings / Next steps:
+
+- events.ts and internal.ts remain the largest hotspots; prioritize alias-and-guard edits in events.ts handlers to reduce 'possibly undefined' diagnostics.
+- Created plan task ts-work-20250829-9999 (in_progress) to apply local `current` aliases and add runtime guards in remaining hotspots; will land small, reviewable patches.
