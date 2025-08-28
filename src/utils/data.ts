@@ -6,8 +6,9 @@ import { setHistory } from "./history";
 import { updatePagination } from "./pagination";
 import { setMerge } from "./merges";
 import { getCoordsFromRange } from "./helpers";
+import type { SpreadsheetContext, CellValue } from "../types/core";
 
-export const setData = function (this: any, data: any) {
+export const setData = function (this: SpreadsheetContext, data: CellValue[][]) {
   const obj = this;
 
   // Update data
@@ -138,7 +139,7 @@ export const setData = function (this: any, data: any) {
  * @param object cell
  * @return string value
  */
-export const getValue = function (this: any, cell: any, processedValue: any) {
+export const getValue = function (this: SpreadsheetContext, cell: string, processedValue?: boolean) {
   const obj = this;
 
   let x;
@@ -175,10 +176,10 @@ export const getValue = function (this: any, cell: any, processedValue: any) {
  * @return string value
  */
 export const getValueFromCoords = function (
-  this: any,
+  this: SpreadsheetContext,
   x: number,
   y: number,
-  processedValue: any
+  processedValue?: boolean
 ) {
   const obj = this;
 
@@ -205,9 +206,9 @@ export const getValueFromCoords = function (
  * @return void
  */
 export const setValue = function (
-  this: any,
-  cell: any,
-  value: any,
+  this: SpreadsheetContext,
+  cell: string | HTMLElement[] | Array<{ element: HTMLElement }>,
+  value: CellValue,
   force?: boolean
 ) {
   const obj = this;

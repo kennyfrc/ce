@@ -2380,6 +2380,34 @@
       "updatedAt": "2025-08-28T20:27:00Z"
     },
     {
+      "id": "ts-auto-20250829-0001",
+      "name": "Reduce any count to ≤180 in top hotspots",
+      "description": "Add type annotations and narrow 'any' in top offender files to reduce any count below 180",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/data.ts",
+        "src/utils/copyPaste.ts",
+        "src/utils/editor.ts",
+        "src/utils/meta.ts",
+        "src/utils/history.ts"
+      ],
+      "owners": [
+        "@assistant"
+      ],
+      "labels": [
+        "any",
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "node .agent/find-any-types.js reports ≤180 any occurrences",
+        "No any added to public API surfaces"
+      ],
+      "createdAt": "2025-08-29T15:50:30Z",
+      "updatedAt": "2025-08-29T15:51:00Z"
+    },
+    {
       "id": "ts-live-20250829-0002",
       "name": "Run live baseline: tsc + any-analyzer (automated)",
       "description": "Execute TypeScript check and any-types analyzer, save outputs to .agent and record results in plan.json",
