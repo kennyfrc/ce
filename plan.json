@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T14:45:00Z"
+    "updatedAt": "2025-08-28T19:23:24Z"
   },
   "tasks": [
     {
@@ -2217,6 +2217,18 @@
       ],
       "createdAt": "2025-08-29T14:30:00Z",
       "updatedAt": "2025-08-29T14:45:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0001-core-unify",
+      "name": "core: unify SpreadsheetInstance & SpreadsheetContext",
+      "description": "Make SpreadsheetInstance extend SpreadsheetContext and refine toolbar typing to reduce cross-file assignment mismatches.",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts"
+      ],
+      "createdAt": "2025-08-28T19:23:24Z",
+      "updatedAt": "2025-08-28T19:23:24Z"
     }
   ]
 }

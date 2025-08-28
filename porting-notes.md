@@ -328,4 +328,10 @@ Changes performed:
 Next steps:
 
 - Continue alias-and-guard pattern across remaining hotspots in events.ts and internal.ts.
-- Replace remaining explicit `any` in hot paths and add small type-only tests for public API edges.
+ - Replace remaining explicit `any` in hot paths and add small type-only tests for public API edges.
+
+### 2025-08-29 — Quick core typing change
+
+- Change: made SpreadsheetInstance extend SpreadsheetContext and refined the toolbar type to model the jSuites controller (element.toolbar.update).
+- Impact: this type-only change reduces cross-file assignment mismatches and enables further targeted fixes in events.ts and columns.ts; analyzer snapshot: explicit any count = 213 (see .agent/any-types-latest.txt).
+- Next: continue alias-and-guard edits in src/utils/events.ts and reconcile remaining property mismatches across factory.ts and internal.ts.
