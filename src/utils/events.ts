@@ -19,34 +19,56 @@ import { setWidth } from "./columns";
 import { moveRow, setHeight } from "./rows";
 import version from "./version";
 import { getCellNameFromCoords } from "./helpers";
+import type { WorksheetInstance } from "../types/core";
 
-const getElement = function (element: any): [HTMLElement | null, number] {
+const getAttrSafe = (
+  el: EventTarget | null | undefined,
+  name: string
+): string => {
+  const elh = getHTMLElement(el as EventTarget | null);
+  return elh?.getAttribute(name) ?? "";
+};
+
+const getAttrInt = (
+  el: EventTarget | null | undefined,
+  name: string
+): number => parseInt(getAttrSafe(el, name), 10);
+
+const getHTMLElement = (element: EventTarget | null): HTMLElement | null =>
+  element instanceof HTMLElement ? element : null;
+
+const getElement = function (
+  element: Element | null | undefined
+): [HTMLElement | null, number] {
   let jssSection = 0;
   let jssElement: HTMLElement | null = null;
 
-  function path(element: any) {
-    if (element.className) {
-      if (element.classList.contains("jss_container")) {
-        jssElement = element;
-      }
+  function path(el: Element | null | undefined) {
+    if (!el) return;
 
-      if (element.classList.contains("jss_spreadsheet")) {
-        jssElement = element.querySelector(
+    if ((el as Element).classList) {
+      const cls = (el as Element).classList;
+      if (cls.contains("jss_container")) {
+        jssElement = el as HTMLElement;
+      }
+      if (cls.contains("jss_spreadsheet")) {
+        const found = (el as Element).querySelector(
           ":scope > .jtabs-content > .jtabs-selected"
         );
+        if (found instanceof HTMLElement) jssElement = found;
       }
     }
 
-    if (element.tagName == "THEAD") {
+    const tagName = (el as Element).tagName;
+    if (tagName == "THEAD") {
       jssSection = 1;
-    } else if (element.tagName == "TBODY") {
+    } else if (tagName == "TBODY") {
       jssSection = 2;
     }
 
-    if (element.parentNode) {
-      if (!jssElement) {
-        path(element.parentNode);
-      }
+    const parent = (el as Element).parentElement;
+    if (parent && !jssElement) {
+      path(parent);
     }
   }
 
@@ -55,114 +77,105 @@ const getElement = function (element: any): [HTMLElement | null, number] {
   return [jssElement, jssSection];
 };
 
-const mouseUpControls = function (e: any) {
+const mouseUpControls = function (e: MouseEvent) {
   if (libraryBase.jspreadsheet.current) {
     // Update cell size
     if (libraryBase.jspreadsheet.current.resizing) {
-      // Columns to be updated
-      if (libraryBase.jspreadsheet.current.resizing.column) {
+      const r = libraryBase.jspreadsheet.current.resizing;
+      // Columns to be updated when a numeric column index is present
+      if (typeof r.column === "number") {
+        const colIndex = r.column;
         // New width
-        const newWidth = parseInt(
-          libraryBase.jspreadsheet.current.cols[
-            libraryBase.jspreadsheet.current.resizing.column
-          ].colElement.getAttribute("width")
+        const newWidth = getAttrInt(
+          libraryBase.jspreadsheet.current.cols[colIndex].colElement,
+          "width"
         );
+
         // Columns
         const columns = libraryBase.jspreadsheet.current.getSelectedColumns();
         if (columns.length > 1) {
-          const currentWidth = [];
+          const currentWidth: number[] = [];
           for (let i = 0; i < columns.length; i++) {
             currentWidth.push(
-              parseInt(
-                libraryBase.jspreadsheet.current.cols[
-                  columns[i]
-                ].colElement.getAttribute("width")
+              getAttrInt(
+                libraryBase.jspreadsheet.current.cols[columns[i]].colElement,
+                "width"
               )
             );
           }
-          // Previous width
-          const index = columns.indexOf(
-            parseInt(libraryBase.jspreadsheet.current.resizing.column)
-          );
-          currentWidth[index] = libraryBase.jspreadsheet.current.resizing.width;
+          const index = columns.indexOf(colIndex);
+          currentWidth[index] = r.width ?? currentWidth[index] ?? 0;
           setWidth.call(
-            libraryBase.jspreadsheet.current,
+            libraryBase.jspreadsheet.current.parent,
             columns,
             newWidth,
             currentWidth
           );
         } else {
           setWidth.call(
-            libraryBase.jspreadsheet.current,
-            parseInt(libraryBase.jspreadsheet.current.resizing.column),
+            libraryBase.jspreadsheet.current.parent,
+            colIndex,
             newWidth,
-            libraryBase.jspreadsheet.current.resizing.width
+            r.width
           );
         }
+
         // Remove border
-        libraryBase.jspreadsheet.current.headers[
-          libraryBase.jspreadsheet.current.resizing.column
-        ].classList.remove("resizing");
+        libraryBase.jspreadsheet.current.headers[colIndex].classList.remove(
+          "resizing"
+        );
         for (
           let j = 0;
           j < libraryBase.jspreadsheet.current.records.length;
           j++
         ) {
-          if (
-            libraryBase.jspreadsheet.current.records[j][
-              libraryBase.jspreadsheet.current.resizing.column
-            ]
-          ) {
-            libraryBase.jspreadsheet.current.records[j][
-              libraryBase.jspreadsheet.current.resizing.column
-            ].element.classList.remove("resizing");
+          if (libraryBase.jspreadsheet.current.records[j][colIndex]) {
+            libraryBase.jspreadsheet.current.records[j][colIndex].element.classList.remove(
+              "resizing"
+            );
           }
         }
       } else {
-        // Remove Class
-        libraryBase.jspreadsheet.current.rows[
-          libraryBase.jspreadsheet.current.resizing.row
-        ].element.children[0].classList.remove("resizing");
-        let newHeight =
-          libraryBase.jspreadsheet.current.rows[
-            libraryBase.jspreadsheet.current.resizing.row
-          ].element.getAttribute("height");
-        setHeight.call(
-          libraryBase.jspreadsheet.current,
-          libraryBase.jspreadsheet.current.resizing.row,
-          newHeight,
-          libraryBase.jspreadsheet.current.resizing.height
-        );
-        // Remove border
-        libraryBase.jspreadsheet.current.resizing.element.classList.remove(
+        // Row resize
+        const rowIndex = r.row as number;
+        libraryBase.jspreadsheet.current.rows[rowIndex].element.children[0].classList.remove(
           "resizing"
         );
+        const newHeight = getAttrInt(
+          libraryBase.jspreadsheet.current.rows[rowIndex].element,
+          "height"
+        );
+        setHeight.call(
+          libraryBase.jspreadsheet.current,
+          rowIndex,
+          newHeight,
+          r.height
+        );
+        // Remove border
+        r.element?.classList.remove("resizing");
       }
       // Reset resizing helper
       libraryBase.jspreadsheet.current.resizing = null;
     } else if (libraryBase.jspreadsheet.current.dragging) {
       // Reset dragging helper
-      if (libraryBase.jspreadsheet.current.dragging) {
-        if (libraryBase.jspreadsheet.current.dragging.column) {
+      const d = libraryBase.jspreadsheet.current.dragging;
+      if (d) {
+        if (typeof d.column === "number") {
           // Target
-          const columnId = e.target.getAttribute("data-x");
+          const columnIdAttr = getAttrSafe(e.target as Element | null, "data-x");
+          const columnId = columnIdAttr ? parseInt(columnIdAttr, 10) : undefined;
+          const dragCol = d.column;
           // Remove move style
-          libraryBase.jspreadsheet.current.headers[
-            libraryBase.jspreadsheet.current.dragging.column
-          ].classList.remove("dragging");
+          libraryBase.jspreadsheet.current.headers[dragCol].classList.remove("dragging");
           for (
             let j = 0;
             j < libraryBase.jspreadsheet.current.rows.length;
             j++
           ) {
-            if (
-              libraryBase.jspreadsheet.current.records[j][
-                libraryBase.jspreadsheet.current.dragging.column
-              ]
-            ) {
-              libraryBase.jspreadsheet.current.records[j][
-                libraryBase.jspreadsheet.current.dragging.column
-              ].element.classList.remove("dragging");
+            if (libraryBase.jspreadsheet.current.records[j][dragCol]) {
+              libraryBase.jspreadsheet.current.records[j][dragCol].element.classList.remove(
+                "dragging"
+              );
             }
           }
           for (
@@ -178,50 +191,28 @@ const mouseUpControls = function (e: any) {
             );
           }
           // Update position
-          if (columnId) {
-            if (
-              libraryBase.jspreadsheet.current.dragging.column !=
-              libraryBase.jspreadsheet.current.dragging.destination
-            ) {
-              libraryBase.jspreadsheet.current.moveColumn(
-                libraryBase.jspreadsheet.current.dragging.column,
-                libraryBase.jspreadsheet.current.dragging.destination
-              );
+          if (columnId !== undefined) {
+            if (dragCol != d.destination) {
+              libraryBase.jspreadsheet.current.moveColumn(dragCol, d.destination);
             }
           }
         } else {
-          let position;
-
-          if (libraryBase.jspreadsheet.current.dragging.element.nextSibling) {
-            position = parseInt(
-              libraryBase.jspreadsheet.current.dragging.element.nextSibling.getAttribute(
-                "data-y"
-              )
-            );
-            if (libraryBase.jspreadsheet.current.dragging.row < position) {
+          let position: number;
+          const elem = d.element as HTMLElement | null;
+          if (elem && elem.nextSibling) {
+            position = parseInt((elem.nextSibling as Element).getAttribute("data-y") as string, 10);
+            if ((d.row as number) < position) {
               position -= 1;
             }
+          } else if (elem && elem.previousSibling) {
+            position = parseInt((elem.previousSibling as Element).getAttribute("data-y") as string, 10);
           } else {
-            position = parseInt(
-              libraryBase.jspreadsheet.current.dragging.element.previousSibling.getAttribute(
-                "data-y"
-              )
-            );
+            position = d.destination as number;
           }
-          if (
-            libraryBase.jspreadsheet.current.dragging.row !=
-            libraryBase.jspreadsheet.current.dragging.destination
-          ) {
-            moveRow.call(
-              libraryBase.jspreadsheet.current,
-              libraryBase.jspreadsheet.current.dragging.row,
-              position,
-              true
-            );
+          if ((d.row as number) != d.destination) {
+            moveRow.call(libraryBase.jspreadsheet.current, d.row as number, position, true);
           }
-          libraryBase.jspreadsheet.current.dragging.element.classList.remove(
-            "dragging"
-          );
+          elem?.classList.remove("dragging");
         }
         libraryBase.jspreadsheet.current.dragging = null;
       }
@@ -258,8 +249,8 @@ const mouseUpControls = function (e: any) {
   libraryBase.jspreadsheet.isMouseAction = false;
 };
 
-const mouseDownControls = function (e: any) {
-  e = e || window.event;
+const mouseDownControls = function (e: MouseEvent) {
+  e = e || (window.event as unknown as MouseEvent);
 
   let mouseButton;
 
@@ -272,7 +263,13 @@ const mouseDownControls = function (e: any) {
   }
 
   // Get elements
-  const jssTable = getElement(e.target);
+  const target = getHTMLElement(e.target);
+  const jssTable = getElement(target);
+
+  if (!target) {
+    libraryBase.jspreadsheet.isMouseAction = false;
+    return;
+  }
 
   if (jssTable[0]) {
     if (libraryBase.jspreadsheet.current != jssTable[0].jssWorksheet) {
@@ -298,29 +295,30 @@ const mouseDownControls = function (e: any) {
         );
       }
 
-      if (!e.target.classList.contains("jss_object")) {
+      if (!target.classList.contains("jss_object")) {
         resetSelection.call(libraryBase.jspreadsheet.current, true);
         libraryBase.jspreadsheet.current = null;
       }
     }
   }
 
-  if (libraryBase.jspreadsheet.current && mouseButton == 1) {
-    if (e.target.classList.contains("jss_selectall")) {
+    if (libraryBase.jspreadsheet.current && mouseButton == 1) {
+    if (target.classList.contains("jss_selectall")) {
       if (libraryBase.jspreadsheet.current) {
         selectAll.call(libraryBase.jspreadsheet.current);
       }
-    } else if (e.target.classList.contains("jss_corner")) {
+    } else if (target.classList.contains("jss_corner")) {
       if (libraryBase.jspreadsheet.current.options.editable != false) {
         libraryBase.jspreadsheet.current.selectedCorner = true;
       }
     } else {
       // Header found
       if (jssTable[1] == 1) {
-        const columnId = e.target.getAttribute("data-x");
-        if (columnId) {
+        const columnIdAttr = target.getAttribute("data-x");
+        const columnId = columnIdAttr !== null ? parseInt(columnIdAttr, 10) : undefined;
+        if (columnId !== undefined) {
           // Update cursor
-          const info = e.target.getBoundingClientRect();
+          const info = target.getBoundingClientRect();
           if (
             libraryBase.jspreadsheet.current.options.columnResize != false &&
             info.width - e.offsetX < 6
@@ -363,7 +361,7 @@ const mouseDownControls = function (e: any) {
               libraryBase.jspreadsheet.current.resetSelection();
               // Drag helper
               libraryBase.jspreadsheet.current.dragging = {
-                element: e.target,
+                element: target,
                 column: columnId,
                 destination: columnId,
               };
@@ -423,11 +421,11 @@ const mouseDownControls = function (e: any) {
             );
           }
         } else {
-          if (e.target.parentNode.classList.contains("jss_nested")) {
+          if (target.parentElement?.classList.contains("jss_nested")) {
             let c1, c2;
 
-            if (e.target.getAttribute("data-column")) {
-              const column = e.target.getAttribute("data-column").split(",");
+            if (target.getAttribute("data-column")) {
+              const column = (target.getAttribute("data-column") || "").split(",");
               c1 = parseInt(column[0]);
               c2 = parseInt(column[column.length - 1]);
             } else {
@@ -450,23 +448,24 @@ const mouseDownControls = function (e: any) {
 
       // Body found
       if (jssTable[1] == 2) {
-        const rowId = parseInt(e.target.getAttribute("data-y"));
+        const rowIdAttr = target.getAttribute("data-y");
+        const rowId = rowIdAttr !== null ? parseInt(rowIdAttr, 10) : undefined;
 
-        if (e.target.classList.contains("jss_row")) {
-          const info = e.target.getBoundingClientRect();
+        if (target.classList.contains("jss_row")) {
+          const info = target.getBoundingClientRect();
           if (
             libraryBase.jspreadsheet.current.options.rowResize != false &&
             info.height - e.offsetY < 6
           ) {
             // Resize helper
             libraryBase.jspreadsheet.current.resizing = {
-              element: e.target.parentNode,
+              element: target.parentElement as HTMLElement,
               mousePosition: e.pageY,
               row: rowId,
               height: info.height,
             };
             // Border indication
-            e.target.parentNode.classList.add("resizing");
+            target.parentElement?.classList.add("resizing");
           } else if (
             libraryBase.jspreadsheet.current.options.rowDrag != false &&
             info.width - e.offsetX < 6
@@ -486,14 +485,14 @@ const mouseDownControls = function (e: any) {
             } else {
               // Reset selection
               libraryBase.jspreadsheet.current.resetSelection();
-              // Drag helper
-              libraryBase.jspreadsheet.current.dragging = {
-                element: e.target.parentNode,
-                row: rowId,
-                destination: rowId,
-              };
-              // Border indication
-              e.target.parentNode.classList.add("dragging");
+                // Drag helper
+                libraryBase.jspreadsheet.current.dragging = {
+                  element: target.parentElement as HTMLElement,
+                  row: rowId,
+                  destination: rowId,
+                };
+                // Border indication
+                target.parentElement?.classList.add("dragging");
             }
           } else {
             let o, d;
@@ -524,11 +523,11 @@ const mouseDownControls = function (e: any) {
           }
         } else {
           // Jclose
-          if (
-            e.target.classList.contains("jclose") &&
-            e.target.clientWidth - e.offsetX < 50 &&
-            e.offsetY < 50
-          ) {
+            if (
+              target.classList.contains("jclose") &&
+              target.clientWidth - e.offsetX < 50 &&
+              e.offsetY < 50
+            ) {
             closeEditor.call(
               libraryBase.jspreadsheet.current,
               libraryBase.jspreadsheet.current.edition[0],
@@ -550,7 +549,7 @@ const mouseDownControls = function (e: any) {
               }
             };
 
-            const position = getCellCoords(e.target);
+            const position = getCellCoords(target);
             if (position) {
               const columnId = parseInt(position[0]);
               const rowId = parseInt(position[1]);
@@ -605,15 +604,18 @@ const mouseDownControls = function (e: any) {
       }
 
       // Pagination
-      if (e.target.classList.contains("jss_page")) {
-        if (e.target.textContent == "<") {
+      if (target.classList.contains("jss_page")) {
+        if (target.textContent == "<") {
           libraryBase.jspreadsheet.current.page(0);
-        } else if (e.target.textContent == ">") {
+        } else if (target.textContent == ">") {
+          const titleAttr = target.getAttribute("title");
           libraryBase.jspreadsheet.current.page(
-            e.target.getAttribute("title") - 1
+            titleAttr !== null ? parseInt(titleAttr, 10) - 1 : 0
           );
         } else {
-          libraryBase.jspreadsheet.current.page(e.target.textContent - 1);
+          libraryBase.jspreadsheet.current.page(
+            target.textContent ? parseInt(target.textContent, 10) - 1 : 0
+          );
         }
       }
     }
@@ -629,8 +631,8 @@ const mouseDownControls = function (e: any) {
 };
 
 // Mouse move controls
-const mouseMoveControls = function (e: any) {
-  e = e || window.event;
+const mouseMoveControls = function (e: MouseEvent) {
+  e = e || (window.event as unknown as MouseEvent);
 
   let mouseButton;
 
@@ -644,6 +646,13 @@ const mouseMoveControls = function (e: any) {
 
   if (!mouseButton) {
     libraryBase.jspreadsheet.isMouseAction = false;
+  }
+
+  // Narrow event target to HTMLElement for safe DOM access
+  const target = getHTMLElement(e.target);
+  if (!target) {
+    libraryBase.jspreadsheet.isMouseAction = false;
+    return;
   }
 
   if (libraryBase.jspreadsheet.current) {
@@ -679,8 +688,9 @@ const mouseMoveControls = function (e: any) {
         }
       } else if (libraryBase.jspreadsheet.current.dragging) {
         if (libraryBase.jspreadsheet.current.dragging.column) {
-          const columnId = e.target.getAttribute("data-x");
-          if (columnId) {
+          const columnIdAttr = target.getAttribute("data-x");
+          const columnId = columnIdAttr !== null ? parseInt(columnIdAttr, 10) : undefined;
+          if (columnId !== undefined) {
             if (
               isColMerged.call(libraryBase.jspreadsheet.current, columnId)
                 .length
@@ -702,60 +712,65 @@ const mouseMoveControls = function (e: any) {
                 );
               }
 
-              if (
-                libraryBase.jspreadsheet.current.dragging.column == columnId
-              ) {
-                libraryBase.jspreadsheet.current.dragging.destination =
-                  parseInt(columnId);
-              } else {
-                if (e.target.clientWidth / 2 > e.offsetX) {
-                  if (
-                    libraryBase.jspreadsheet.current.dragging.column < columnId
-                  ) {
-                    libraryBase.jspreadsheet.current.dragging.destination =
-                      parseInt(columnId) - 1;
-                  } else {
-                    libraryBase.jspreadsheet.current.dragging.destination =
-                      parseInt(columnId);
-                  }
-                  libraryBase.jspreadsheet.current.headers[
-                    columnId
-                  ].classList.add("dragging-left");
+                if (
+                  libraryBase.jspreadsheet.current.dragging.column == columnId
+                ) {
+                  libraryBase.jspreadsheet.current.dragging.destination =
+                    columnId;
                 } else {
-                  if (
-                    libraryBase.jspreadsheet.current.dragging.column < columnId
-                  ) {
-                    libraryBase.jspreadsheet.current.dragging.destination =
-                      parseInt(columnId);
+                   if (target.clientWidth / 2 > e.offsetX) {
+                    if (
+                      libraryBase.jspreadsheet.current.dragging.column < columnId
+                    ) {
+                      libraryBase.jspreadsheet.current.dragging.destination =
+                        columnId - 1;
+                    } else {
+                      libraryBase.jspreadsheet.current.dragging.destination =
+                        columnId;
+                    }
+                     libraryBase.jspreadsheet.current.headers[
+                       columnId
+                     ].classList.add("dragging-left");
                   } else {
-                    libraryBase.jspreadsheet.current.dragging.destination =
-                      parseInt(columnId) + 1;
+                     if (
+                       libraryBase.jspreadsheet.current.dragging.column < columnId
+                     ) {
+                      libraryBase.jspreadsheet.current.dragging.destination =
+                        columnId;
+                    } else {
+                      libraryBase.jspreadsheet.current.dragging.destination =
+                        columnId + 1;
+                    }
+                     libraryBase.jspreadsheet.current.headers[
+                       columnId
+                     ].classList.add("dragging-right");
                   }
-                  libraryBase.jspreadsheet.current.headers[
-                    columnId
-                  ].classList.add("dragging-right");
                 }
-              }
             }
           }
         } else {
-          const rowId = e.target.getAttribute("data-y");
-          if (rowId) {
+          const rowIdAttr = target.getAttribute("data-y");
+          const rowId = rowIdAttr !== null ? parseInt(rowIdAttr, 10) : undefined;
+          if (rowId !== undefined) {
             if (
               isRowMerged.call(libraryBase.jspreadsheet.current, rowId, false)
                 .length
             ) {
               console.error("Jspreadsheet: This row is part of a merged cell.");
             } else {
-              const target =
-                e.target.clientHeight / 2 > e.offsetY
-                  ? e.target.parentNode.nextSibling
-                  : e.target.parentNode;
-              if (libraryBase.jspreadsheet.current.dragging.element != target) {
-                e.target.parentNode.parentNode.insertBefore(
-                  libraryBase.jspreadsheet.current.dragging.element,
-                  target
-                );
+               const siblingTarget =
+                 target.clientHeight / 2 > e.offsetY
+                   ? (target.parentElement?.nextSibling as Node | null)
+                   : (target.parentElement as Node | null);
+               const container = target.parentElement?.parentElement as Node | null;
+               if (
+                 libraryBase.jspreadsheet.current.dragging.element != siblingTarget &&
+                 container
+               ) {
+                 container.insertBefore(
+                   libraryBase.jspreadsheet.current.dragging.element,
+                   siblingTarget
+                 );
                 libraryBase.jspreadsheet.current.dragging.destination =
                   Array.prototype.indexOf.call(
                     libraryBase.jspreadsheet.current.dragging.element.parentNode
@@ -768,45 +783,33 @@ const mouseMoveControls = function (e: any) {
         }
       }
     } else {
-      const x = e.target.getAttribute("data-x");
-      const y = e.target.getAttribute("data-y");
-      const rect = e.target.getBoundingClientRect();
+      const x = target.getAttribute("data-x");
+      const y = target.getAttribute("data-y");
+      const rect = target.getBoundingClientRect();
 
       if (libraryBase.jspreadsheet.current.cursor) {
         libraryBase.jspreadsheet.current.cursor.style.cursor = "";
         libraryBase.jspreadsheet.current.cursor = null;
       }
 
-      if (
-        e.target.parentNode.parentNode &&
-        e.target.parentNode.parentNode.className
-      ) {
-        if (e.target.parentNode.parentNode.classList.contains("resizable")) {
-          if (e.target && x && !y && rect.width - (e.clientX - rect.left) < 6) {
-            libraryBase.jspreadsheet.current.cursor = e.target;
+      const grandParent = target.parentElement?.parentElement;
+      if (grandParent && typeof grandParent.className === "string") {
+        if (grandParent.classList.contains("resizable")) {
+          if (target && x && !y && rect.width - (e.clientX - rect.left) < 6) {
+            libraryBase.jspreadsheet.current.cursor = target;
             libraryBase.jspreadsheet.current.cursor.style.cursor = "col-resize";
-          } else if (
-            e.target &&
-            !x &&
-            y &&
-            rect.height - (e.clientY - rect.top) < 6
-          ) {
-            libraryBase.jspreadsheet.current.cursor = e.target;
+          } else if (!x && y && rect.height - (e.clientY - rect.top) < 6) {
+            libraryBase.jspreadsheet.current.cursor = target;
             libraryBase.jspreadsheet.current.cursor.style.cursor = "row-resize";
           }
         }
 
-        if (e.target.parentNode.parentNode.classList.contains("draggable")) {
-          if (e.target && !x && y && rect.width - (e.clientX - rect.left) < 6) {
-            libraryBase.jspreadsheet.current.cursor = e.target;
+        if (grandParent.classList.contains("draggable")) {
+          if (!x && y && rect.width - (e.clientX - rect.left) < 6) {
+            libraryBase.jspreadsheet.current.cursor = target;
             libraryBase.jspreadsheet.current.cursor.style.cursor = "move";
-          } else if (
-            e.target &&
-            x &&
-            !y &&
-            rect.height - (e.clientY - rect.top) < 6
-          ) {
-            libraryBase.jspreadsheet.current.cursor = e.target;
+          } else if (x && !y && rect.height - (e.clientY - rect.top) < 6) {
+            libraryBase.jspreadsheet.current.cursor = target;
             libraryBase.jspreadsheet.current.cursor.style.cursor = "move";
           }
         }
@@ -821,7 +824,7 @@ const mouseMoveControls = function (e: any) {
  * @param int x, y
  * @return void
  */
-const updateCopySelection = function (this: any, x3: number, y3: number) {
+const updateCopySelection = function (this: WorksheetInstance, x3: number, y3: number) {
   const obj = this;
 
   // Remove selection
@@ -883,8 +886,8 @@ const updateCopySelection = function (this: any, x3: number, y3: number) {
   }
 };
 
-const mouseOverControls = function (this: any, e: any): boolean | void {
-  e = e || window.event;
+const mouseOverControls = function (e: MouseEvent): boolean | void {
+  e = e || (window.event as unknown as MouseEvent);
 
   let mouseButton;
 
@@ -904,8 +907,12 @@ const mouseOverControls = function (this: any, e: any): boolean | void {
     libraryBase.jspreadsheet.current &&
     libraryBase.jspreadsheet.isMouseAction == true
   ) {
+    // Narrow event target early
+    const target = getHTMLElement(e.target);
+    if (!target) return false;
+
     // Get elements
-    const jssTable = getElement(e.target);
+    const jssTable = getElement(target);
 
     if (jssTable[0]) {
       // Avoid cross reference
@@ -915,8 +922,10 @@ const mouseOverControls = function (this: any, e: any): boolean | void {
         }
       }
 
-      let columnId = e.target.getAttribute("data-x");
-      const rowId = e.target.getAttribute("data-y");
+      const columnIdAttr = target.getAttribute("data-x");
+      let columnId = columnIdAttr !== null ? parseInt(columnIdAttr, 10) : undefined;
+      const rowIdAttr = target.getAttribute("data-y");
+      const rowId = rowIdAttr !== null ? parseInt(rowIdAttr, 10) : undefined;
       if (
         libraryBase.jspreadsheet.current.resizing ||
         libraryBase.jspreadsheet.current.dragging
@@ -924,42 +933,47 @@ const mouseOverControls = function (this: any, e: any): boolean | void {
       } else {
         // Header found
         if (jssTable[1] == 1) {
-          if (libraryBase.jspreadsheet.current.selectedHeader) {
-            columnId = e.target.getAttribute("data-x");
-            const o = libraryBase.jspreadsheet.current.selectedHeader;
+        if (libraryBase.jspreadsheet.current.selectedHeader) {
+            const columnIdAttr2 = target.getAttribute("data-x");
+            columnId = columnIdAttr2 !== null ? parseInt(columnIdAttr2, 10) : undefined;
+            const o = libraryBase.jspreadsheet.current.selectedHeader as number;
             const d = columnId;
-            // Update selection
-            updateSelectionFromCoords.call(
-              libraryBase.jspreadsheet.current,
-              o,
-              0,
-              d,
-              libraryBase.jspreadsheet.current.options.data.length - 1,
-              e
-            );
+            if (typeof d === "number") {
+              // Update selection
+              updateSelectionFromCoords.call(
+                libraryBase.jspreadsheet.current,
+                o,
+                0,
+                d,
+                libraryBase.jspreadsheet.current.options.data.length - 1,
+                e
+              );
+            }
           }
         }
 
         // Body found
         if (jssTable[1] == 2) {
-          if (e.target.classList.contains("jss_row")) {
+          if (target.classList.contains("jss_row")) {
             if (libraryBase.jspreadsheet.current.selectedRow != null) {
               const o = libraryBase.jspreadsheet.current.selectedRow;
               const d = rowId;
               // Update selection
-              updateSelectionFromCoords.call(
-                libraryBase.jspreadsheet.current,
-                0,
-                o,
-                libraryBase.jspreadsheet.current.options.data[0].length - 1,
-                d,
-                e
-              );
+              if (typeof d === "number") {
+                updateSelectionFromCoords.call(
+                  libraryBase.jspreadsheet.current,
+                  0,
+                  o,
+                  libraryBase.jspreadsheet.current.options.data[0].length - 1,
+                  d,
+                  e
+                );
+              }
             }
           } else {
             // Do not select edtion is in progress
             if (!libraryBase.jspreadsheet.current.edition) {
-              if (columnId && rowId) {
+                if (columnId !== undefined && rowId !== undefined) {
                 if (libraryBase.jspreadsheet.current.selectedCorner) {
                   updateCopySelection.call(
                     libraryBase.jspreadsheet.current,
@@ -993,11 +1007,15 @@ const mouseOverControls = function (this: any, e: any): boolean | void {
   }
 };
 
-const doubleClickControls = function (this: any, e: any): void {
+const doubleClickControls = function (e: MouseEvent): void {
+  // Narrow target
+  const target = getHTMLElement(e.target);
+  if (!target) return;
+
   // Jss is selected
   if (libraryBase.jspreadsheet.current) {
     // Corner action
-    if (e.target.classList.contains("jss_corner")) {
+    if (target.classList.contains("jss_corner")) {
       // Any selected cells
       if (libraryBase.jspreadsheet.current.highlighted.length > 0) {
         // Copy from this
@@ -1024,14 +1042,14 @@ const doubleClickControls = function (this: any, e: any): void {
           libraryBase.jspreadsheet.current.records[y2][x2].element
         );
       }
-    } else if (e.target.classList.contains("jss_column_filter")) {
+    } else if (target.classList.contains("jss_column_filter")) {
       // Column
-      const columnId = e.target.getAttribute("data-x");
+      const columnId = target.getAttribute("data-x");
       // Open filter
       openFilter.call(libraryBase.jspreadsheet.current, columnId);
     } else {
       // Get table
-      const jssTable = getElement(e.target);
+      const jssTable = getElement(target);
 
       // Double click over header
       if (
@@ -1039,7 +1057,7 @@ const doubleClickControls = function (this: any, e: any): void {
         libraryBase.jspreadsheet.current.options.columnSorting != false
       ) {
         // Check valid column header coords
-        const columnId = e.target.getAttribute("data-x");
+        const columnId = target.getAttribute("data-x");
         if (columnId) {
           libraryBase.jspreadsheet.current.orderBy(parseInt(columnId));
         }
@@ -1065,24 +1083,24 @@ const doubleClickControls = function (this: any, e: any): void {
             }
             return undefined;
           };
-          const cell = getCellCoords(e.target);
-          if (cell && cell.classList.contains("highlight")) {
-            openEditor.call(libraryBase.jspreadsheet.current, cell, false, e);
-          }
+           const cell = getCellCoords(target);
+           if (cell && cell.classList.contains("highlight")) {
+             openEditor.call(libraryBase.jspreadsheet.current, cell, false, e);
+           }
         }
       }
     }
   }
 };
 
-const pasteControls = function (this: any, e: any): void {
+const pasteControls = function (e: ClipboardEvent): void {
   if (
     libraryBase.jspreadsheet.current &&
     libraryBase.jspreadsheet.current.selectedCell
   ) {
     if (!libraryBase.jspreadsheet.current.edition) {
       if (libraryBase.jspreadsheet.current.options.editable != false) {
-        if (e && e.clipboardData) {
+        if (e && 'clipboardData' in e && e.clipboardData) {
           paste.call(
             libraryBase.jspreadsheet.current,
             libraryBase.jspreadsheet.current.selectedCell[0],
@@ -1090,12 +1108,12 @@ const pasteControls = function (this: any, e: any): void {
             e.clipboardData.getData("text")
           );
           e.preventDefault();
-        } else if (window.clipboardData) {
+        } else if ((window as any).clipboardData) {
           paste.call(
             libraryBase.jspreadsheet.current,
             libraryBase.jspreadsheet.current.selectedCell[0],
             libraryBase.jspreadsheet.current.selectedCell[1],
-            window.clipboardData.getData("text")
+            (window as any).clipboardData.getData("text")
           );
         }
       }
@@ -1154,11 +1172,11 @@ const getRole = function (element: HTMLElement): string {
 };
 
 const defaultContextMenu = function (
-  worksheet: any,
+  worksheet: WorksheetInstance,
   x: number,
   y: number,
   role: string
-): any[] {
+): Array<Record<string, unknown>> {
   const items = [];
 
   if (role === "header") {
@@ -1369,127 +1387,143 @@ const getElementIndex = function (element: HTMLElement): number {
   return -1;
 };
 
-const contextMenuControls = function (this: any, e: any): void {
-  e = e || window.event;
+const contextMenuControls = function (e: MouseEvent): void {
+  e = e || (window.event as unknown as MouseEvent);
   if ("buttons" in e) {
     var mouseButton = e.buttons;
   } else {
     var mouseButton = e.which || e.button;
   }
 
-  if (libraryBase.jspreadsheet.current) {
-    const spreadsheet = libraryBase.jspreadsheet.current.parent;
-
-    if (libraryBase.jspreadsheet.current.edition) {
-      e.preventDefault();
-    } else {
-      spreadsheet.contextMenu.contextmenu.close();
-
       if (libraryBase.jspreadsheet.current) {
-        const role = getRole(e.target);
+        const spreadsheet = libraryBase.jspreadsheet.current.parent;
 
-        let x = null,
-          y = null;
+        if (libraryBase.jspreadsheet.current.edition) {
+          e.preventDefault();
+        } else {
+          spreadsheet.contextMenu!.contextmenu!.close();
 
-        if (role === "cell") {
-          let cellElement = e.target;
-          while (cellElement.tagName !== "TD") {
-            cellElement = cellElement.parentNode;
-          }
+          if (libraryBase.jspreadsheet.current) {
+            const targetEl = getHTMLElement(e.target);
+            if (!targetEl) return;
+            const role = getRole(targetEl);
 
-          y = cellElement.getAttribute("data-y");
-          x = cellElement.getAttribute("data-x");
+            let xStr: string | null = null,
+              yStr: string | null = null;
+            let xNum: number | null = null,
+              yNum: number | null = null;
 
-          if (
-            !libraryBase.jspreadsheet.current.selectedCell ||
-            x < parseInt(libraryBase.jspreadsheet.current.selectedCell[0]) ||
-            x > parseInt(libraryBase.jspreadsheet.current.selectedCell[2]) ||
-            y < parseInt(libraryBase.jspreadsheet.current.selectedCell[1]) ||
-            y > parseInt(libraryBase.jspreadsheet.current.selectedCell[3])
-          ) {
-            updateSelectionFromCoords.call(
-              libraryBase.jspreadsheet.current,
-              x,
-              y,
-              x,
-              y,
-              e
-            );
-          }
-        } else if (role === "row" || role === "header") {
-          if (role === "row") {
-            y = e.target.getAttribute("data-y");
-          } else {
-            x = e.target.getAttribute("data-x");
-          }
+            if (role === "cell") {
+              let cellElement: HTMLElement | null = targetEl;
+              while (cellElement && cellElement.tagName !== "TD") {
+                cellElement = cellElement.parentElement as HTMLElement | null;
+              }
+              if (!cellElement) return;
 
-          if (
-            !libraryBase.jspreadsheet.current.selectedCell ||
-            x < parseInt(libraryBase.jspreadsheet.current.selectedCell[0]) ||
-            x > parseInt(libraryBase.jspreadsheet.current.selectedCell[2]) ||
-            y < parseInt(libraryBase.jspreadsheet.current.selectedCell[1]) ||
-            y > parseInt(libraryBase.jspreadsheet.current.selectedCell[3])
-          ) {
-            updateSelectionFromCoords.call(
-              libraryBase.jspreadsheet.current,
-              x,
-              y,
-              x,
-              y,
-              e
-            );
-          }
-        } else if (role === "nested") {
-          const columns = e.target.getAttribute("data-column").split(",");
+              yStr = cellElement.getAttribute("data-y");
+              xStr = cellElement.getAttribute("data-x");
+              xNum = xStr !== null ? parseInt(xStr, 10) : null;
+              yNum = yStr !== null ? parseInt(yStr, 10) : null;
 
-          x = getElementIndex(e.target) - 1;
-          y = getElementIndex(e.target.parentElement);
+              if (
+                xNum === null ||
+                yNum === null ||
+                !libraryBase.jspreadsheet.current.selectedCell ||
+                xNum < parseInt(libraryBase.jspreadsheet.current.selectedCell[0]) ||
+                xNum > parseInt(libraryBase.jspreadsheet.current.selectedCell[2]) ||
+                yNum < parseInt(libraryBase.jspreadsheet.current.selectedCell[1]) ||
+                yNum > parseInt(libraryBase.jspreadsheet.current.selectedCell[3])
+              ) {
+                if (xNum !== null && yNum !== null) {
+                  updateSelectionFromCoords.call(
+                    libraryBase.jspreadsheet.current,
+                    xNum,
+                    yNum,
+                    xNum,
+                    yNum,
+                    e
+                  );
+                }
+              }
+            } else if (role === "row") {
+              yStr = targetEl.getAttribute("data-y");
+              yNum = yStr !== null ? parseInt(yStr, 10) : null;
+              if (yNum !== null) {
+                updateSelectionFromCoords.call(
+                  libraryBase.jspreadsheet.current,
+                  0,
+                  yNum,
+                  libraryBase.jspreadsheet.current.options.data[0].length - 1,
+                  yNum,
+                  e
+                );
+              }
+            } else if (role === "header") {
+              xStr = targetEl.getAttribute("data-x");
+              xNum = xStr !== null ? parseInt(xStr, 10) : null;
+              if (xNum !== null) {
+                updateSelectionFromCoords.call(
+                  libraryBase.jspreadsheet.current,
+                  xNum,
+                  0,
+                  xNum,
+                  libraryBase.jspreadsheet.current.options.data.length - 1,
+                  e
+                );
+              }
+            } else if (role === "nested") {
+              const columns = (targetEl as HTMLElement)
+                .getAttribute("data-column")!
+                .split(",")
+                .map((v) => parseInt(v, 10));
 
-          if (
-            !libraryBase.jspreadsheet.current.selectedCell ||
-            columns[0] !=
-              parseInt(libraryBase.jspreadsheet.current.selectedCell[0]) ||
-            columns[columns.length - 1] !=
-              parseInt(libraryBase.jspreadsheet.current.selectedCell[2]) ||
-            libraryBase.jspreadsheet.current.selectedCell[1] != null ||
-            libraryBase.jspreadsheet.current.selectedCell[3] != null
-          ) {
-            updateSelectionFromCoords.call(
-              libraryBase.jspreadsheet.current,
-              columns[0],
-              0,
-              columns[columns.length - 1],
-              libraryBase.jspreadsheet.current.options.data.length - 1,
-              e
-            );
-          }
-        } else if (role === "select-all") {
-          selectAll.call(libraryBase.jspreadsheet.current);
-        } else if (role === "tabs") {
-          x = getElementIndex(e.target);
-        } else if (role === "footer") {
-          x = getElementIndex(e.target) - 1;
-          y = getElementIndex(e.target.parentElement);
-        }
+              xNum = getElementIndex(targetEl as HTMLElement) - 1;
+              yNum = getElementIndex((targetEl as HTMLElement).parentElement as HTMLElement);
+
+              if (
+                columns[0] != parseInt(libraryBase.jspreadsheet.current.selectedCell[0]) ||
+                columns[columns.length - 1] != parseInt(libraryBase.jspreadsheet.current.selectedCell[2]) ||
+                libraryBase.jspreadsheet.current.selectedCell[1] != null ||
+                libraryBase.jspreadsheet.current.selectedCell[3] != null
+              ) {
+                updateSelectionFromCoords.call(
+                  libraryBase.jspreadsheet.current,
+                  columns[0],
+                  0,
+                  columns[columns.length - 1],
+                  libraryBase.jspreadsheet.current.options.data.length - 1,
+                  e
+                );
+              }
+            } else if (role === "select-all") {
+              selectAll.call(libraryBase.jspreadsheet.current);
+            } else if (role === "tabs") {
+              xNum = getElementIndex(targetEl as HTMLElement);
+            } else if (role === "footer") {
+              xNum = getElementIndex(targetEl as HTMLElement) - 1;
+              yNum = getElementIndex((targetEl as HTMLElement).parentElement as HTMLElement);
+            }
 
         // Table found
+        const xArg = xNum ?? 0;
+        const yArg = yNum ?? 0;
         let items = defaultContextMenu(
           libraryBase.jspreadsheet.current,
-          parseInt(x),
-          parseInt(y),
+          xArg,
+          yArg,
           role
         );
 
         if (typeof spreadsheet.config.contextMenu === "function") {
           const result = spreadsheet.config.contextMenu(
             libraryBase.jspreadsheet.current,
-            x,
-            y,
+            xArg,
+            yArg,
             e,
             items,
             role,
-            x,
-            y
+            xArg,
+            yArg
           );
 
           if (result) {
@@ -1499,32 +1533,44 @@ const contextMenuControls = function (this: any, e: any): void {
           }
         }
 
-        if (typeof spreadsheet.plugins === "object") {
-          Object.entries(spreadsheet.plugins).forEach(function ([, plugin]: [
-            string,
-            any
-          ]) {
-            if (typeof plugin.contextMenu === "function") {
-              const result = plugin.contextMenu(
-                libraryBase.jspreadsheet.current,
-                x !== null ? parseInt(x) : null,
-                y !== null ? parseInt(y) : null,
-                e,
-                items,
-                role,
-                x !== null ? parseInt(x) : null,
-                y !== null ? parseInt(y) : null
-              );
+        // Plugins may provide their own contextMenu hook. Narrow from unknown
+        // and validate the return value instead of using `any`.
+        const isPluginWithContextMenu = (
+          p: unknown
+        ): p is { contextMenu: (...args: unknown[]) => unknown } => {
+          if (typeof p !== "object" || p === null) return false;
+          const c = (p as Record<string, unknown>)["contextMenu"];
+          return typeof c === "function";
+        };
 
-              if (result) {
-                items = result;
+        if (typeof spreadsheet.plugins === "object" && spreadsheet.plugins !== null) {
+          for (const plugin of Object.values(spreadsheet.plugins as Record<string, unknown>)) {
+            if (isPluginWithContextMenu(plugin)) {
+                const result = plugin.contextMenu(
+                  libraryBase.jspreadsheet.current,
+                  xArg,
+                  yArg,
+                  e,
+                  items,
+                  role,
+                  xArg,
+                  yArg
+                );
+
+              if (result === false) {
+                // Plugin vetoes the menu; abort
+                return;
+              }
+
+              if (Array.isArray(result)) {
+                items = result as Array<Record<string, unknown>>;
               }
             }
-          });
+          }
         }
 
         // The id is depending on header and body
-        spreadsheet.contextMenu.contextmenu.open(e, items);
+        spreadsheet.contextMenu!.contextmenu!.open(e, items);
         // Avoid the real one
         e.preventDefault();
       }
@@ -1532,8 +1578,8 @@ const contextMenuControls = function (this: any, e: any): void {
   }
 };
 
-const touchStartControls = function (this: any, e: any): void {
-  const jssTable = getElement(e.target);
+const touchStartControls = function (e: TouchEvent): void {
+  const jssTable = getElement(getHTMLElement(e.target));
 
   if (jssTable[0]) {
     if (libraryBase.jspreadsheet.current != jssTable[0].jssWorksheet) {
@@ -1551,37 +1597,39 @@ const touchStartControls = function (this: any, e: any): void {
 
   if (libraryBase.jspreadsheet.current) {
     if (!libraryBase.jspreadsheet.current.edition) {
-      const columnId = e.target.getAttribute("data-x");
-      const rowId = e.target.getAttribute("data-y");
+      const target = getHTMLElement(e.target);
+      if (!target) return;
+      const columnAttr = target.getAttribute("data-x");
+      const rowAttr = target.getAttribute("data-y");
+      const columnId = columnAttr != null ? parseInt(columnAttr, 10) : null;
+      const rowId = rowAttr != null ? parseInt(rowAttr, 10) : null;
 
-      if (columnId && rowId) {
+      if (columnId !== null && rowId !== null) {
         updateSelectionFromCoords.call(
           libraryBase.jspreadsheet.current,
           columnId,
           rowId,
           columnId,
-          rowId,
-          e
+          rowId
         );
 
         libraryBase.jspreadsheet.timeControl = setTimeout(function () {
-          // Keep temporary reference to the element
           if (
             libraryBase.jspreadsheet.current.options.columns[columnId].type ==
             "color"
           ) {
             libraryBase.jspreadsheet.tmpElement = null;
           } else {
-            libraryBase.jspreadsheet.tmpElement = e.target;
+            libraryBase.jspreadsheet.tmpElement = target as HTMLElement;
           }
-          openEditor.call(libraryBase.jspreadsheet.current, e.target, false, e);
+          openEditor.call(libraryBase.jspreadsheet.current, target as HTMLElement, false, e);
         }, 500);
       }
     }
   }
 };
 
-const touchEndControls = function (this: any, e: any): void {
+const touchEndControls = function (e: TouchEvent): void {
   // Clear any time control
   if (libraryBase.jspreadsheet.timeControl) {
     clearTimeout(libraryBase.jspreadsheet.timeControl);
@@ -1597,7 +1645,7 @@ const touchEndControls = function (this: any, e: any): void {
   }
 };
 
-export const cutControls = function (this: any, e: any): void {
+export const cutControls = function (this: WorksheetInstance, e: Event): void {
   if (libraryBase.jspreadsheet.current) {
     if (!libraryBase.jspreadsheet.current.edition) {
       copy.call(
@@ -1609,10 +1657,10 @@ export const cutControls = function (this: any, e: any): void {
         undefined,
         true
       );
-      if (libraryBase.jspreadsheet.current.options.editable != false) {
+  if (libraryBase.jspreadsheet.current.options.editable != false) {
         libraryBase.jspreadsheet.current.setValue(
           libraryBase.jspreadsheet.current.highlighted.map(function (
-            record: any
+            record: { element: HTMLElement }
           ) {
             return record.element;
           }),
@@ -1623,7 +1671,7 @@ export const cutControls = function (this: any, e: any): void {
   }
 };
 
-const copyControls = function (this: any, e: any): void {
+const copyControls = function (this: WorksheetInstance, e: Event): void {
   if (libraryBase.jspreadsheet.current) {
     if (!libraryBase.jspreadsheet.current.edition) {
       copy.call(libraryBase.jspreadsheet.current, true);
@@ -1635,7 +1683,7 @@ const isMac = function () {
   return navigator.platform.toUpperCase().indexOf("MAC") >= 0;
 };
 
-const isCtrl = function (e: any): boolean {
+const isCtrl = function (e: KeyboardEvent): boolean {
   if (isMac()) {
     return e.metaKey;
   } else {
@@ -1643,7 +1691,7 @@ const isCtrl = function (e: any): boolean {
   }
 };
 
-const keyDownControls = function (this: any, e: any): void {
+const keyDownControls = function (e: KeyboardEvent): void {
   if (libraryBase.jspreadsheet.current) {
     if (libraryBase.jspreadsheet.current.edition) {
       if (e.which == 27) {
@@ -1801,7 +1849,7 @@ const keyDownControls = function (this: any, e: any): void {
             // Change value
             libraryBase.jspreadsheet.current.setValue(
               libraryBase.jspreadsheet.current.highlighted.map(function (
-                record: any
+                record: { element: HTMLElement }
               ) {
                 return record.element;
               }),
@@ -1956,20 +2004,21 @@ const keyDownControls = function (this: any, e: any): void {
         }
       }
     } else {
-      if (e.target.classList.contains("jss_search")) {
+      const kdTarget = getHTMLElement(e.target);
+      if (kdTarget && kdTarget.classList.contains("jss_search")) {
         if (libraryBase.jspreadsheet.timeControl) {
           clearTimeout(libraryBase.jspreadsheet.timeControl);
         }
-
+        const searchEl = kdTarget as HTMLInputElement;
         libraryBase.jspreadsheet.timeControl = setTimeout(function () {
-          libraryBase.jspreadsheet.current.search(e.target.value);
+          libraryBase.jspreadsheet.current.search(searchEl.value);
         }, 200);
       }
     }
   }
 };
 
-export const wheelControls = function (this: any, e: any): void {
+export const wheelControls = function (this: WorksheetInstance, e: WheelEvent): void {
   const obj = this;
 
   if (obj.options.lazyLoading == true) {
@@ -2007,7 +2056,7 @@ export const wheelControls = function (this: any, e: any): void {
 
 let scrollLeft = 0;
 
-const updateFreezePosition = function (this: any): void {
+const updateFreezePosition = function (this: WorksheetInstance): void {
   const obj = this;
 
   scrollLeft = obj.content.scrollLeft;
@@ -2069,10 +2118,10 @@ const updateFreezePosition = function (this: any): void {
   updateCornerPosition.call(obj);
 };
 
-export const scrollControls = function (this: any, e: any): void {
+export const scrollControls = function (this: WorksheetInstance, e: Event): void {
   const obj = this;
 
-  wheelControls.call(obj, e);
+  wheelControls.call(obj, e as WheelEvent);
 
   if (obj.options.freezeColumns > 0 && obj.content.scrollLeft != scrollLeft) {
     updateFreezePosition.call(obj);
@@ -2080,8 +2129,11 @@ export const scrollControls = function (this: any, e: any): void {
 
   // Close editor
   if (obj.options.lazyLoading == true || obj.options.tableOverflow == true) {
-    if (obj.edition && e.target.className.substr(0, 9) != "jdropdown") {
-      closeEditor.call(obj, obj.edition[0], true);
+   if (obj.edition) {
+      const t = e.target as HTMLElement | null;
+      if (t && typeof t.className === "string" && t.className.substr(0, 9) != "jdropdown") {
+        closeEditor.call(obj, obj.edition[0], true);
+      }
     }
   }
 };

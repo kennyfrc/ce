@@ -10,8 +10,9 @@ import {
 } from "./internal";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 import { updateToolbar } from "./toolbar";
+import { WorksheetInstance } from "../types/core";
 
-export const updateCornerPosition = function (this: any): void {
+export const updateCornerPosition = function (this: WorksheetInstance): void {
   const obj = this;
 
   // If any selected cells
@@ -21,7 +22,7 @@ export const updateCornerPosition = function (this: any): void {
   } else {
     // Get last cell
     const last = obj.highlighted[obj.highlighted.length - 1].element;
-    const lastX = last.getAttribute("data-x");
+    const lastX = parseInt(last.getAttribute("data-x") || "0");
 
     const contentRect = obj.content.getBoundingClientRect();
     const x1 = contentRect.left;
@@ -57,10 +58,13 @@ export const updateCornerPosition = function (this: any): void {
     }
   }
 
-  updateToolbar(obj);
+  updateToolbar.call(obj.parent, obj);
 };
 
-export const resetSelection = function (this: any, blur: boolean): number {
+export const resetSelection = function (
+  this: WorksheetInstance,
+  blur: boolean
+): number {
   const obj = this;
 
   let previousStatus;
@@ -136,10 +140,10 @@ export const resetSelection = function (this: any, blur: boolean): number {
  * Update selection based on two cells
  */
 export const updateSelection = function (
-  this: any,
-  el1: any,
-  el2: any,
-  origin: any
+  this: WorksheetInstance,
+  el1: HTMLElement,
+  el2: HTMLElement | null,
+  origin?: string
 ): void {
   const obj = this;
 
@@ -158,7 +162,7 @@ export const updateSelection = function (
   updateSelectionFromCoords.call(obj, x1, y1, x2, y2, origin);
 };
 
-export const removeCopyingSelection = function (this: any): void {
+export const removeCopyingSelection = function (): void {
   const copying = document.querySelectorAll(".jss_worksheet .copying");
   for (let i = 0; i < copying.length; i++) {
     copying[i].classList.remove("copying");
@@ -170,7 +174,7 @@ export const removeCopyingSelection = function (this: any): void {
 };
 
 export const updateSelectionFromCoords = function (
-  this: any,
+  this: WorksheetInstance,
   x1: number,
   y1: number,
   x2: number,
@@ -425,9 +429,9 @@ export const updateSelectionFromCoords = function (
  * @return array
  */
 export const getSelectedColumns = function (
-  this: any,
+  this: WorksheetInstance,
   visibleOnly: boolean
-): any[] {
+): number[] {
   const obj = this;
 
   if (!obj.selectedCell) {
@@ -452,7 +456,7 @@ export const getSelectedColumns = function (
 /**
  * Refresh current selection
  */
-export const refreshSelection = function (this: any): void {
+export const refreshSelection = function (this: WorksheetInstance): void {
   const obj = this;
 
   if (obj.selectedCell) {
@@ -470,7 +474,7 @@ export const refreshSelection = function (this: any): void {
  *
  * @return void
  */
-export const removeCopySelection = function (this: any) {
+export const removeCopySelection = function (this: WorksheetInstance): void {
   const obj = this;
 
   // Remove current selection
@@ -496,7 +500,11 @@ const doubleDigitFormat = function (v: number): string {
 /**
  * Helper function to copy data using the corner icon
  */
-export const copyData = function (this: any, o: any, d: any): void {
+export const copyData = function (
+  this: WorksheetInstance,
+  o: HTMLElement,
+  d: HTMLElement
+): void {
   const obj = this;
 
   // Get data from all selected cells
@@ -591,10 +599,10 @@ export const copyData = function (this: any, o: any, d: any): void {
             obj.options.columns[i] &&
             (!obj.options.columns[i].type ||
               obj.options.columns[i].type == "text" ||
-              obj.options.columns[i].type == "number")
+              obj.options.columns[i].type == "numeric")
           ) {
             if (("" + value).substr(0, 1) == "=") {
-              const tokens = value.match(/([A-Z]+[0-9]+)/g);
+              const tokens = ("" + value).match(/([A-Z]+[0-9]+)/g);
 
               if (tokens) {
                 const affectedTokens = [];
@@ -629,7 +637,8 @@ export const copyData = function (this: any, o: any, d: any): void {
           } else if (
             obj.options.columns &&
             obj.options.columns[i] &&
-            obj.options.columns[i].type == "calendar"
+            obj.options.columns[i].type == "calendar" &&
+            (typeof value === "string" || typeof value === "number")
           ) {
             const date = new Date(value);
             date.setDate(date.getDate() + rowNumber);
@@ -702,11 +711,11 @@ export const hash = function (str: string) {
  * Move coords to A1 in case overlaps with an excluded cell
  */
 export const conditionalSelectionUpdate = function (
-  this: any,
+  this: WorksheetInstance,
   type: number,
   o: number,
   d: number
-) {
+): void {
   const obj = this;
 
   if (type == 1) {
@@ -735,7 +744,10 @@ export const conditionalSelectionUpdate = function (
  *
  * @return array
  */
-export const getSelectedRows = function (this: any, visibleOnly: boolean) {
+export const getSelectedRows = function (
+  this: WorksheetInstance,
+  visibleOnly: boolean
+): number[] {
   const obj = this;
 
   if (!obj.selectedCell) {
@@ -757,7 +769,7 @@ export const getSelectedRows = function (this: any, visibleOnly: boolean) {
   return result;
 };
 
-export const selectAll = function (this: any) {
+export const selectAll = function (this: WorksheetInstance): void {
   const obj = this;
 
   if (!obj.selectedCell) {
@@ -777,7 +789,9 @@ export const selectAll = function (this: any) {
   );
 };
 
-export const getSelection = function (this: any) {
+export const getSelection = function (
+  this: WorksheetInstance
+): number[] | null {
   const obj = this;
 
   if (!obj.selectedCell) {
@@ -792,7 +806,18 @@ export const getSelection = function (this: any) {
   ];
 };
 
-export const getSelected = function (this: any, columnNameOnly: boolean) {
+export const getSelected = function (
+  this: WorksheetInstance,
+  columnNameOnly: boolean
+):
+  | string[]
+  | Array<{
+      element: HTMLElement;
+      x: number;
+      y: number;
+      colspan?: number;
+      rowspan?: number;
+    }> {
   const obj = this;
 
   const selectedRange = getSelection.call(obj);
@@ -816,7 +841,7 @@ export const getSelected = function (this: any, columnNameOnly: boolean) {
   return cells;
 };
 
-export const getRange = function (this: any) {
+export const getRange = function (this: WorksheetInstance): string {
   const obj = this;
 
   const selectedRange = getSelection.call(obj);
@@ -835,7 +860,11 @@ export const getRange = function (this: any) {
   return obj.options.worksheetName + "!" + start + ":" + end;
 };
 
-export const isSelected = function (this: any, x: number, y: number) {
+export const isSelected = function (
+  this: WorksheetInstance,
+  x: number,
+  y: number
+): boolean {
   const obj = this;
 
   const selection = getSelection.call(obj);
@@ -852,7 +881,7 @@ export const isSelected = function (this: any, x: number, y: number) {
   );
 };
 
-export const getHighlighted = function (this: any) {
+export const getHighlighted = function (this: WorksheetInstance): number[][] {
   const obj = this;
 
   const selection = getSelection.call(obj);
