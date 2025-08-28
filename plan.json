@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T20:34:55Z"
+    "updatedAt": "2025-08-28T20:35:59Z"
   },
   "tasks": [
     {
@@ -2360,7 +2360,7 @@
       "name": "events.ts: apply alias-and-guard small batch",
       "description": "Apply local current alias and guards to remaining hotspots in events.ts",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
