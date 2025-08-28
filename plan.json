@@ -2,9 +2,22 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T12:55:00Z"
+    "updatedAt": "2025-08-29T13:00:00Z"
   },
   "tasks": [
+    {
+      "id": "ts-zero-20250829-0001",
+      "name": "Baseline: Run type-check and any-type analysis",
+      "description": "Capture baseline TypeScript errors and explicit any counts",
+      "phase": 0,
+      "state": "in_progress",
+      "candidateFiles": [
+        "tsconfig.test.json",
+        ".agent/find-any-types.js"
+      ],
+      "createdAt": "2025-08-29T13:00:00Z",
+      "updatedAt": "2025-08-29T13:00:00Z"
+    },
     {
       "id": "ts-migration-setup-20250827-1721",
       "name": "Setup analysis scaffolding and directories",
