@@ -7,8 +7,11 @@ import { createCell, updateTableReferences } from "./internal";
 import { conditionalSelectionUpdate, updateCornerPosition } from "./selection";
 import { setFooter } from "./footer";
 import { getColumnNameFromId, injectArray } from "./internalHelpers";
+import type { ColumnDefinition } from "../types/core";
 
-export const getNumberOfColumns = function (this: any) {
+export const getNumberOfColumns = function (
+  this: import("../types/core").SpreadsheetContext
+) {
   const obj = this;
 
   let numberOfColumns =
@@ -33,7 +36,10 @@ export const getNumberOfColumns = function (this: any) {
   return numberOfColumns;
 };
 
-export const createCellHeader = function (this: any, colNumber: number) {
+export const createCellHeader = function (
+  this: import("../types/core").SpreadsheetContext,
+  colNumber: number
+) {
   const obj = this;
 
   // Create col global control
@@ -58,7 +64,7 @@ export const createCellHeader = function (this: any, colNumber: number) {
       obj.options.columns[colNumber].title) ||
     getColumnName(colNumber);
 
-  obj.headers[colNumber].setAttribute("data-x", colNumber);
+  obj.headers[colNumber].setAttribute("data-x", colNumber.toString());
   obj.headers[colNumber].style.textAlign = colAlign;
   if (
     obj.options.columns &&
@@ -73,17 +79,17 @@ export const createCellHeader = function (this: any, colNumber: number) {
   if (
     obj.options.columns &&
     obj.options.columns[colNumber] &&
-    obj.options.columns[colNumber].id
+    typeof obj.options.columns[colNumber].id === "string"
   ) {
     obj.headers[colNumber].setAttribute(
       "id",
-      obj.options.columns[colNumber].id
+      obj.options.columns[colNumber].id || ""
     );
   }
 
   // Width control
   const colElement = document.createElement("col");
-  colElement.setAttribute("width", colWidth);
+  colElement.setAttribute("width", colWidth.toString());
 
   obj.cols[colNumber] = {
     colElement,
@@ -111,11 +117,11 @@ export const createCellHeader = function (this: any, colNumber: number) {
  * @return void
  */
 export const insertColumn = function (
-  this: any,
-  mixed: any,
-  columnNumber: number,
-  insertBefore: boolean,
-  properties: any
+  this: import("../types/core").SpreadsheetContext,
+  mixed?: number | any[],
+  columnNumber?: number,
+  insertBefore?: boolean,
+  properties?: any
 ): boolean | void {
   const obj = this;
 
@@ -144,10 +150,10 @@ export const insertColumn = function (
 
     // Current column number
     const currentNumOfColumns = Math.max(
-      obj.options.columns.length,
-      ...obj.options.data.map(function (row: any[]) {
+      obj.options.columns?.length || 0,
+      ...(obj.options.data?.map(function (row: any[]) {
         return row.length;
-      })
+      }) || [])
     );
 
     const lastColumn = currentNumOfColumns - 1;
@@ -175,7 +181,7 @@ export const insertColumn = function (
     const columns = [];
 
     if (!Array.isArray(mixed)) {
-      for (let i = 0; i < mixed; i++) {
+      for (let i = 0; i < (mixed || 0); i++) {
         const column = {
           column: columnNumber + i + (insertBefore ? 0 : 1),
           options: Object.assign({}, properties[i]),
@@ -186,7 +192,7 @@ export const insertColumn = function (
     } else {
       const data = [];
 
-      for (let i = 0; i < obj.options.data.length; i++) {
+      for (let i = 0; i < (obj.options.data?.length || 0); i++) {
         data.push(i < mixed.length ? mixed[i] : "");
       }
 
@@ -219,7 +225,7 @@ export const insertColumn = function (
         ) {
           return false;
         } else {
-          obj.destroyMerge();
+          obj.destroyMerge?.();
         }
       }
     }
@@ -227,7 +233,7 @@ export const insertColumn = function (
     // Insert before
     const columnIndex = !insertBefore ? columnNumber + 1 : columnNumber;
     obj.options.columns = injectArray(
-      obj.options.columns,
+      obj.options.columns || [],
       columnIndex,
       properties
     );
@@ -246,11 +252,11 @@ export const insertColumn = function (
     // Add new headers
     for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
       createCellHeader.call(obj, col);
-      obj.headerContainer.insertBefore(
+      obj.headerContainer?.insertBefore(
         obj.headers[col],
         obj.headerContainer.children[col + 1]
       );
-      obj.colgroupContainer.insertBefore(
+      obj.colgroupContainer?.insertBefore(
         obj.cols[col].colElement,
         obj.colgroupContainer.children[col + 1]
       );
@@ -266,14 +272,14 @@ export const insertColumn = function (
         for (let i = 0; i < numOfColumns; i++) {
           historyFooters[j].push("");
         }
-        obj.options.footers[j].splice(columnIndex, 0, historyFooters[j]);
+        obj.options.footers[j].splice(columnIndex, 0, ...historyFooters[j]);
       }
     }
 
     // Adding visual columns
-    for (let row = 0; row < obj.options.data.length; row++) {
+    for (let row = 0; row < (obj.options.data?.length || 0); row++) {
       // Keep the current data
-      const currentData = obj.options.data[row].splice(columnIndex);
+      const currentData = obj.options.data?.[row]?.splice(columnIndex) || [];
       const currentRecord = obj.records[row].splice(columnIndex);
 
       // History
@@ -283,11 +289,19 @@ export const insertColumn = function (
       for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
         // New value
         const value = data[row] ? data[row] : "";
-        obj.options.data[row][col] = value;
+        if (obj.options.data && obj.options.data[row]) {
+          obj.options.data[row][col] = value;
+        }
         // New cell
-        const td = createCell.call(obj, col, row, obj.options.data[row][col]);
+        const td = createCell.call(
+          obj.worksheets[0],
+          col,
+          row,
+          obj.options.data?.[row]?.[col] ?? ""
+        );
         obj.records[row][col] = {
           element: td,
+          x: col,
           y: row,
         };
         // Add cell to the row
@@ -301,15 +315,16 @@ export const insertColumn = function (
         if (
           obj.options.columns &&
           obj.options.columns[col] &&
-          typeof obj.options.columns[col].render === "function"
+          typeof (obj.options.columns[col] as ColumnDefinition).render ===
+            "function"
         ) {
-          obj.options.columns[col].render(
+          ((obj.options.columns[col] as ColumnDefinition).render as Function)?.(
             td,
             value,
-            col,
-            row,
+            col.toString(),
+            row.toString(),
             obj,
-            obj.options.columns[col]
+            obj.options.columns[col] as ColumnDefinition
           );
         }
 
@@ -319,7 +334,9 @@ export const insertColumn = function (
       }
 
       // Copy the data back to the main data
-      Array.prototype.push.apply(obj.options.data[row], currentData);
+      if (obj.options.data && obj.options.data[row]) {
+        Array.prototype.push.apply(obj.options.data[row], currentData);
+      }
       Array.prototype.push.apply(obj.records[row], currentRecord);
     }
 
@@ -346,27 +363,29 @@ export const insertColumn = function (
       for (let j = 0; j < obj.options.nestedHeaders.length; j++) {
         const colspan =
           parseInt(
-            obj.options.nestedHeaders[j][
-              obj.options.nestedHeaders[j].length - 1
-            ].colspan
+            (
+              obj.options.nestedHeaders[j][
+                obj.options.nestedHeaders[j].length - 1
+              ].colspan || "1"
+            ).toString()
           ) + numOfColumns;
         obj.options.nestedHeaders[j][
           obj.options.nestedHeaders[j].length - 1
         ].colspan = colspan;
-        obj.thead.children[j].children[
+        obj.thead?.children[j]?.children[
           obj.thead.children[j].children.length - 1
-        ].setAttribute("colspan", colspan);
-        let o =
-          obj.thead.children[j].children[
+        ]?.setAttribute("colspan", colspan.toString());
+        const dataColumn =
+          obj.thead?.children[j]?.children[
             obj.thead.children[j].children.length - 1
-          ].getAttribute("data-column");
-        o = o.split(",");
+          ]?.getAttribute("data-column");
+        let oArray = dataColumn?.split(",") || [];
         for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
-          o.push(col);
+          oArray.push(col.toString());
         }
-        obj.thead.children[j].children[
+        obj.thead?.children[j]?.children[
           obj.thead.children[j].children.length - 1
-        ].setAttribute("data-column", o);
+        ]?.setAttribute("data-column", oArray.join(","));
       }
     }
 
@@ -385,7 +404,9 @@ export const insertColumn = function (
     });
 
     // Remove table references
-    updateTableReferences.call(obj);
+    if (obj.worksheets && obj.worksheets[0]) {
+      updateTableReferences.call(obj.worksheets[0]);
+    }
 
     // Events
     dispatch.call(obj, "oninsertcolumn", obj, columns);
@@ -398,46 +419,40 @@ export const insertColumn = function (
  * @return void
  */
 export const moveColumn = function (
-  this: any,
+  this: import("../types/core").SpreadsheetContext,
   o: number,
   d: number
 ): boolean | void {
   const obj = this;
+  let insertBefore;
+  if (o > d) {
+    insertBefore = 1;
+  } else {
+    insertBefore = 0;
+  }
 
   if (
-    obj.options.mergeCells &&
-    Object.keys(obj.options.mergeCells).length > 0
+    isColMerged.call(obj, o).length ||
+    isColMerged.call(obj, d, !!insertBefore).length
   ) {
-    let insertBefore;
-    if (o > d) {
-      insertBefore = 1;
-    } else {
-      insertBefore = 0;
-    }
-
     if (
-      isColMerged.call(obj, o).length ||
-      isColMerged.call(obj, d, !!insertBefore).length
-    ) {
-      if (
-        !confirm(
-          jSuites.translate(
-            "This action will destroy any existing merged cells. Are you sure?"
-          )
+      !confirm(
+        jSuites.translate(
+          "This action will destroy any existing merged cells. Are you sure?"
         )
-      ) {
-        return false;
-      } else {
-        obj.destroyMerge();
-      }
+      )
+    ) {
+      return false;
+    } else {
+      obj.destroyMerge?.();
     }
   }
 
   // o and d are already numbers, no need for parseInt
 
   if (o > d) {
-    obj.headerContainer.insertBefore(obj.headers[o], obj.headers[d]);
-    obj.colgroupContainer.insertBefore(
+    obj.headerContainer?.insertBefore(obj.headers[o], obj.headers[d]);
+    obj.colgroupContainer?.insertBefore(
       obj.cols[o].colElement,
       obj.cols[d].colElement
     );
@@ -449,11 +464,11 @@ export const moveColumn = function (
       );
     }
   } else {
-    obj.headerContainer.insertBefore(
+    obj.headerContainer?.insertBefore(
       obj.headers[o],
       obj.headers[d].nextSibling
     );
-    obj.colgroupContainer.insertBefore(
+    obj.colgroupContainer?.insertBefore(
       obj.cols[o].colElement,
       obj.cols[d].colElement.nextSibling
     );
@@ -466,7 +481,7 @@ export const moveColumn = function (
     }
   }
 
-  obj.options.columns.splice(d, 0, obj.options.columns.splice(o, 1)[0]);
+  obj.options.columns?.splice(d, 0, obj.options.columns.splice(o, 1)[0]);
   obj.headers.splice(d, 0, obj.headers.splice(o, 1)[0]);
   obj.cols.splice(d, 0, obj.cols.splice(o, 1)[0]);
 
@@ -474,7 +489,7 @@ export const moveColumn = function (
   const lastAffectedIndex = Math.max(o, d);
 
   for (let j = 0; j < obj.rows.length; j++) {
-    obj.options.data[j].splice(d, 0, obj.options.data[j].splice(o, 1)[0]);
+    obj.options.data?.[j]?.splice(d, 0, obj.options.data[j].splice(o, 1)[0]);
     obj.records[j].splice(d, 0, obj.records[j].splice(o, 1)[0]);
   }
 
@@ -507,7 +522,9 @@ export const moveColumn = function (
   });
 
   // Update table references
-  updateTableReferences.call(obj);
+  if (obj.worksheets && obj.worksheets[0]) {
+    updateTableReferences.call(obj.worksheets[0]);
+  }
 
   // Events
   dispatch.call(obj, "onmovecolumn", obj, o, d, 1);
@@ -521,9 +538,9 @@ export const moveColumn = function (
  * @return void
  */
 export const deleteColumn = function (
-  this: any,
-  columnNumber: any,
-  numOfColumns: any
+  this: import("../types/core").SpreadsheetContext,
+  columnNumber?: number,
+  numOfColumns?: number
 ): boolean | void {
   const obj = this;
 
@@ -532,7 +549,7 @@ export const deleteColumn = function (
     if (obj.headers.length > 1) {
       // Delete column definitions
       if (columnNumber == undefined) {
-        const number = obj.getSelectedColumns(true);
+        const number = obj.getSelectedColumns?.(true) || [];
 
         if (!number.length) {
           // Remove last column
@@ -540,13 +557,15 @@ export const deleteColumn = function (
           numOfColumns = 1;
         } else {
           // Remove selected
-          columnNumber = parseInt(number[0]);
-          numOfColumns = parseInt(number.length);
+          columnNumber = number[0];
+          numOfColumns = number.length;
         }
       }
 
       // Lasat column
-      const lastColumn = obj.options.data[0].length - 1;
+      const lastColumn = obj.options.data?.[0]?.length
+        ? obj.options.data[0].length - 1
+        : 0;
 
       if (
         columnNumber == undefined ||
@@ -562,7 +581,10 @@ export const deleteColumn = function (
       }
 
       // Can't delete more than the limit of the table
-      if (numOfColumns > obj.options.data[0].length - columnNumber) {
+      if (
+        obj.options.data?.[0] &&
+        numOfColumns > obj.options.data[0].length - columnNumber
+      ) {
         numOfColumns = obj.options.data[0].length - columnNumber;
       }
 
@@ -580,7 +602,7 @@ export const deleteColumn = function (
       }
 
       // Can't remove the last column
-      if (parseInt(columnNumber) > -1) {
+      if (columnNumber > -1) {
         // Merged cells
         let mergeExists = false;
         if (
@@ -607,7 +629,7 @@ export const deleteColumn = function (
           ) {
             return false;
           } else {
-            obj.destroyMerge();
+            obj.destroyMerge?.();
           }
         }
 
@@ -619,10 +641,10 @@ export const deleteColumn = function (
         for (let col = columnNumber; col < columnNumber + numOfColumns; col++) {
           obj.cols[col].colElement.className = "";
           obj.headers[col].className = "";
-          obj.cols[col].colElement.parentNode.removeChild(
+          obj.cols[col].colElement.parentNode?.removeChild(
             obj.cols[col].colElement
           );
-          obj.headers[col].parentNode.removeChild(obj.headers[col]);
+          obj.headers[col].parentNode?.removeChild(obj.headers[col]);
         }
 
         const historyHeaders = obj.headers.splice(columnNumber, numOfColumns);
@@ -631,26 +653,24 @@ export const deleteColumn = function (
         const historyData = [];
         const historyFooters = [];
 
-        for (let row = 0; row < obj.options.data.length; row++) {
+        for (let row = 0; row < (obj.options.data?.length || 0); row++) {
           for (
             let col = columnNumber;
             col < columnNumber + numOfColumns;
             col++
           ) {
             obj.records[row][col].element.className = "";
-            obj.records[row][col].element.parentNode.removeChild(
+            obj.records[row][col].element.parentNode?.removeChild(
               obj.records[row][col].element
             );
           }
         }
 
         // Delete headers
-        for (let row = 0; row < obj.options.data.length; row++) {
+        for (let row = 0; row < (obj.options.data?.length || 0); row++) {
           // History
-          historyData[row] = obj.options.data[row].splice(
-            columnNumber,
-            numOfColumns
-          );
+          historyData[row] =
+            obj.options.data?.[row]?.splice(columnNumber, numOfColumns) || [];
           historyRecords[row] = obj.records[row].splice(
             columnNumber,
             numOfColumns
@@ -679,7 +699,7 @@ export const deleteColumn = function (
 
         // Remove selection
         conditionalSelectionUpdate.call(
-          obj,
+          obj.worksheets[0],
           0,
           columnNumber,
           columnNumber + numOfColumns - 1
@@ -695,16 +715,18 @@ export const deleteColumn = function (
           for (let j = 0; j < obj.options.nestedHeaders.length; j++) {
             const colspan =
               parseInt(
-                obj.options.nestedHeaders[j][
-                  obj.options.nestedHeaders[j].length - 1
-                ].colspan
+                String(
+                  obj.options.nestedHeaders[j]?.[
+                    obj.options.nestedHeaders[j].length - 1
+                  ]?.colspan || "1"
+                )
               ) - numOfColumns;
             obj.options.nestedHeaders[j][
               obj.options.nestedHeaders[j].length - 1
             ].colspan = colspan;
-            obj.thead.children[j].children[
+            obj.thead?.children[j]?.children[
               obj.thead.children[j].children.length - 1
-            ].setAttribute("colspan", colspan);
+            ]?.setAttribute("colspan", String(colspan));
           }
         }
 
@@ -723,7 +745,9 @@ export const deleteColumn = function (
         });
 
         // Update table references
-        updateTableReferences.call(obj);
+        if (obj.worksheets && obj.worksheets[0]) {
+          updateTableReferences.call(obj.worksheets[0]);
+        }
 
         // Delete
         dispatch.call(obj, "ondeletecolumn", obj, removedColumns);
@@ -742,7 +766,10 @@ export const deleteColumn = function (
  * @param int column column number (first column is: 0)
  * @return int current width
  */
-export const getWidth = function (this: any, column: any): number | number[] {
+export const getWidth = function (
+  this: import("../types/core").SpreadsheetContext,
+  column: number | HTMLElement
+): number | number[] {
   const obj = this;
 
   let data;
@@ -752,15 +779,23 @@ export const getWidth = function (this: any, column: any): number | number[] {
     data = [];
     for (let i = 0; i < obj.headers.length; i++) {
       data.push(
-        (obj.options.columns &&
-          obj.options.columns[i] &&
-          obj.options.columns[i].width) ||
-          obj.options.defaultColWidth ||
-          100
+        Number(
+          (obj.options.columns &&
+            obj.options.columns[i] &&
+            obj.options.columns[i].width) ||
+            obj.options.defaultColWidth ||
+            100
+        )
       );
     }
   } else {
-    data = parseInt(obj.cols[column].colElement.getAttribute("width"));
+    const columnIndex =
+      typeof column === "number"
+        ? column
+        : parseInt(column.getAttribute("data-x") || "0");
+    data = parseInt(
+      obj.cols[columnIndex].colElement.getAttribute("width") || "0"
+    );
   }
 
   return data;
@@ -774,78 +809,110 @@ export const getWidth = function (this: any, column: any): number | number[] {
  * @param int old column width
  */
 export const setWidth = function (
-  this: any,
-  column: any,
-  width: any,
-  oldWidth: any
+  this: import("../types/core").WorksheetInstance | import("../types/core").SpreadsheetContext,
+  column: number | number[] | HTMLElement | HTMLElement[],
+  width: string | number,
+  oldWidth?: string | number | number[]
 ): void {
   const obj = this;
 
   if (width) {
+    // Handle both array and non-array cases for oldWidth
+    let finalOldWidth: string | number | number[] = oldWidth || 0;
+
     if (Array.isArray(column)) {
-      // Oldwidth
-      if (!oldWidth) {
-        oldWidth = [];
-      }
+      // For array column, use an array for oldWidth
+      const oldWidthArray: number[] = [];
+
       // Set width
       for (let i = 0; i < column.length; i++) {
-        if (!oldWidth[i]) {
-          oldWidth[i] = parseInt(
-            obj.cols[column[i]].colElement.getAttribute("width")
+        let columnIndex: number;
+        const colItem = column[i];
+        if (typeof colItem === "number") {
+          columnIndex = colItem;
+        } else {
+          columnIndex =
+            parseInt((colItem as HTMLElement).getAttribute("data-x") || "0") ||
+            0;
+        }
+
+        if (!oldWidthArray[i]) {
+          oldWidthArray[i] = parseInt(
+            obj.cols[columnIndex].colElement.getAttribute("width") || "0"
           );
         }
         const w = Array.isArray(width) && width[i] ? width[i] : width;
-        obj.cols[column[i]].colElement.setAttribute("width", w);
+        obj.cols[columnIndex].colElement.setAttribute("width", w);
 
         if (!obj.options.columns) {
           obj.options.columns = [];
         }
 
-        if (!obj.options.columns[column[i]]) {
-          obj.options.columns[column[i]] = {};
+        if (!obj.options.columns[columnIndex]) {
+          obj.options.columns[columnIndex] = {};
         }
 
-        obj.options.columns[column[i]].width = w;
+        obj.options.columns[columnIndex].width = w;
       }
+
+      finalOldWidth = oldWidthArray;
     } else {
+      const columnIndex =
+        typeof column === "number"
+          ? column
+          : parseInt(column.getAttribute("data-x") || "0");
+
       // Oldwidth
       if (!oldWidth) {
-        oldWidth = parseInt(obj.cols[column].colElement.getAttribute("width"));
+        oldWidth = parseInt(
+          obj.cols[columnIndex].colElement.getAttribute("width") || "0"
+        );
       }
       // Set width
-      obj.cols[column].colElement.setAttribute("width", width);
+      obj.cols[columnIndex].colElement.setAttribute("width", String(width));
 
       if (!obj.options.columns) {
         obj.options.columns = [];
       }
 
-      if (!obj.options.columns[column]) {
-        obj.options.columns[column] = {};
+      if (!obj.options.columns[columnIndex]) {
+        obj.options.columns[columnIndex] = {};
       }
 
-      obj.options.columns[column].width = width;
+      obj.options.columns[columnIndex].width = width;
     }
 
     // Keeping history of changes
     setHistory.call(obj, {
       action: "setWidth",
       column: column,
-      oldValue: oldWidth,
+      oldValue: finalOldWidth,
       newValue: width,
     });
 
     // On resize column
-    dispatch.call(obj, "onresizecolumn", obj, column, width, oldWidth);
+    dispatch.call(obj, "onresizecolumn", obj, column, width, finalOldWidth);
 
-    // Update corner position
-    updateCornerPosition.call(obj);
+    // Update corner position: support being called with either a
+    // SpreadsheetContext (has worksheets) or a WorksheetInstance (has parent)
+    if ("worksheets" in obj && obj.worksheets && obj.worksheets[0]) {
+      updateCornerPosition.call(obj.worksheets[0]);
+    } else {
+      const maybeParent = (obj as import("../types/core").WorksheetInstance).parent;
+      if (maybeParent && maybeParent.worksheets && maybeParent.worksheets[0]) {
+        updateCornerPosition.call(maybeParent.worksheets[0]);
+      }
+    }
   }
 };
 
 /**
  * Show column
  */
-export const showColumn = function (this: any, colNumber: any): void {
+export const showColumn = function (
+  this: import("../types/core").SpreadsheetContext,
+  colNumber: number | number[]
+): void {
   const obj = this;
 
   if (!Array.isArray(colNumber)) {
@@ -858,9 +925,9 @@ export const showColumn = function (this: any, colNumber: any): void {
     obj.headers[columnIndex].style.display = "";
     obj.cols[columnIndex].colElement.style.display = "";
     if (obj.filter && obj.filter.children.length > columnIndex + 1) {
-      obj.filter.children[columnIndex + 1].style.display = "";
+      (obj.filter.children[columnIndex + 1] as HTMLElement).style.display = "";
     }
-    for (let j = 0; j < obj.options.data.length; j++) {
+    for (let j = 0; j < (obj.options.data?.length || 0); j++) {
       obj.records[j][columnIndex].element.style.display = "";
     }
   }
@@ -870,13 +937,16 @@ export const showColumn = function (this: any, colNumber: any): void {
     setFooter.call(obj);
   }
 
-  obj.resetSelection();
+  obj.resetSelection?.();
 };
 
 /**
  * Hide column
  */
-export const hideColumn = function (this: any, colNumber: any): void {
+export const hideColumn = function (
+  this: import("../types/core").SpreadsheetContext,
+  colNumber: number | number[]
+): void {
   const obj = this;
 
   if (!Array.isArray(colNumber)) {
@@ -889,9 +959,10 @@ export const hideColumn = function (this: any, colNumber: any): void {
     obj.headers[columnIndex].style.display = "none";
     obj.cols[columnIndex].colElement.style.display = "none";
     if (obj.filter && obj.filter.children.length > columnIndex + 1) {
-      obj.filter.children[columnIndex + 1].style.display = "none";
+      (obj.filter.children[columnIndex + 1] as HTMLElement).style.display =
+        "none";
     }
-    for (let j = 0; j < obj.options.data.length; j++) {
+    for (let j = 0; j < (obj.options.data?.length || 0); j++) {
       obj.records[j][columnIndex].element.style.display = "none";
     }
   }
@@ -901,39 +972,41 @@ export const hideColumn = function (this: any, colNumber: any): void {
     setFooter.call(obj);
   }
 
-  obj.resetSelection();
+  obj.resetSelection?.();
 };
 
 /**
  * Get a column data by columnNumber
  */
 export const getColumnData = function (
-  this: any,
-  columnNumber: any,
-  processed: any
-): any[] {
+  this: import("../types/core").SpreadsheetContext,
+  columnNumber: number,
+  processed?: boolean
+): (string | number | boolean | null)[] {
   const obj = this;
 
   const dataset = [];
   // Go through the rows to get the data
-  for (let j = 0; j < obj.options.data.length; j++) {
+  for (let j = 0; j < (obj.options.data?.length || 0); j++) {
     if (processed) {
       dataset.push(obj.records[j][columnNumber].element.innerHTML);
     } else {
-      dataset.push(obj.options.data[j][columnNumber]);
+      dataset.push(obj.options.data?.[j]?.[columnNumber]);
     }
   }
-  return dataset;
+  return dataset.filter(
+    (item): item is string | number | boolean | null => item !== undefined
+  );
 };
 
 /**
  * Set a column data by colNumber
  */
 export const setColumnData = function (
-  this: any,
-  colNumber: any,
-  data: any,
-  force: any
+  this: import("../types/core").SpreadsheetContext,
+  colNumber: number,
+  data: (string | number | boolean | null)[],
+  force?: boolean
 ): void {
   const obj = this;
 
@@ -942,7 +1015,7 @@ export const setColumnData = function (
     const columnName = getColumnNameFromId([colNumber, j]);
     // Set value
     if (data[j] != null) {
-      obj.setValue(columnName, data[j], force);
+      obj.setValue?.(columnName, data[j], force);
     }
   }
 };

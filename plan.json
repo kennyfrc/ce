@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T14:11:59Z"
+    "updatedAt": "2025-08-28T15:00:00Z"
   },
   "tasks": [
     {
@@ -1627,6 +1627,60 @@
       ],
       "links": [
         "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+      },
+      {
+        "id": "ts-fix-20250828-1001",
+        "name": "events.ts: Call setWidth on worksheet current, not parent",
+        "description": "Fix incorrect this-context when calling setWidth from events.ts (use current worksheet instance)",
+        "phase": 3,
+        "state": "completed",
+        "candidateFiles": [
+          "src/utils/events.ts",
+          "src/utils/columns.ts"
+        ],
+        "fileHints": [
+          {
+            "path": "src/utils/events.ts",
+            "lineStart": 100,
+            "lineEnd": 132
+          }
+        ],
+        "owners": [
+          "@team/types"
+        ],
+        "labels": [
+          "bugfix",
+          "types"
+        ],
+        "acceptanceCriteria": [
+          "No TS2684/TS2345 related to setWidth.call in events.ts",
+          "npx tsc -p tsconfig.test.json --noEmit does not add new errors from this change"
+        ],
+        "createdAt": "2025-08-28T14:45:00Z",
+        "updatedAt": "2025-08-28T14:48:00Z"
+      }
+    ,
+    {
+      "id": "ts-fix-20250828-1500",
+      "name": "events.ts: Narrow children element types and cast editor textarea",
+      "description": "Narrow Element to HTMLElement and cast editor textarea to HTMLTextAreaElement in src/utils/events.ts",
+      "phase": 3,
+      "state": "completed",
+      "createdAt": "2025-08-28T15:00:00Z",
+      "updatedAt": "2025-08-28T15:00:00Z",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No DOM focus/blur errors for children[0] usage in events.ts"
       ]
     }
   ]

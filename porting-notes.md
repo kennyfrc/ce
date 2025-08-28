@@ -114,6 +114,11 @@ Next steps:
 
 Next: continue guarding optional indexes and unify WorksheetInstance/SpreadsheetContext to resolve remaining strict-mode diagnostics.
 
+### Quick fix: 2025-08-28T14:48:00Z
+
+- Resolved setWidth this-context mismatch: call setWidth on the worksheet instance where appropriate and allow setWidth to accept either WorksheetInstance or SpreadsheetContext with a guarded updateCornerPosition call.
+- Replaced two setWidth.call(parent, ...) usages in src/utils/events.ts with setWidth.call(current, ...); this removed the earlier TS2345/TS2684 mismatches for those calls.
+
 ### Snapshot: 2025-08-28T14:11:59Z
 
 - TypeScript errors (tsconfig.test.json --noEmit): 517 (saved to .agent/ts-errors.txt)
@@ -134,3 +139,17 @@ Changes performed:
 Learnings:
 - Capturing stable local references and adding narrow guards quickly reduces 'possibly null' diagnostics.
 - Small, focused edits across hotspots (events.ts) give fast wins; next step: centralize local 'current' references in hot functions.
+
+### Snapshot: 2025-08-28T15:00:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 494 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 232 (saved to .agent/any-types-report.txt)
+
+Learnings:
+- Narrow DOM element usages in-place (instanceof HTMLElement) and cast editor textarea to HTMLTextAreaElement to fix focus/blur and selection typing errors in events.ts.
+- Small, surgical type narrowings produce quick reductions in diagnostics; next priority is WorksheetInstance/SpreadsheetContext unification to resolve cross-file mismatches.
+
+### Snapshot: 2025-08-28T15:12:50Z
+
+- Applied a stabilizing local current variable in mouseUpControls (src/utils/events.ts) to avoid repeated property-narrowing on libraryBase.jspreadsheet.current.
+- Impact: TypeScript errors decreased (~558 → 529); explicit any count unchanged (232). Next: replace other repeated libraryBase.jspreadsheet.current usages and narrow optionals.

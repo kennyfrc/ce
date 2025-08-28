@@ -88,7 +88,8 @@ const getElement = function (
 };
 
 const mouseUpControls = function (e: MouseEvent) {
-  if (libraryBase.jspreadsheet.current) {
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (current) {
     // Update cell size
     if (libraryBase.jspreadsheet.current.resizing) {
       const r = libraryBase.jspreadsheet.current.resizing;
@@ -116,14 +117,14 @@ const mouseUpControls = function (e: MouseEvent) {
           const index = columns.indexOf(colIndex);
           currentWidth[index] = r.width ?? currentWidth[index] ?? 0;
           setWidth.call(
-            libraryBase.jspreadsheet.current.parent,
+            libraryBase.jspreadsheet.current,
             columns,
             newWidth,
             currentWidth
           );
         } else {
           setWidth.call(
-            libraryBase.jspreadsheet.current.parent,
+            libraryBase.jspreadsheet.current,
             colIndex,
             newWidth,
             r.width
@@ -1634,13 +1635,13 @@ const touchEndControls = function (e: TouchEvent): void {
     clearTimeout(libraryBase.jspreadsheet.timeControl);
     libraryBase.jspreadsheet.timeControl = null;
     // Element
-    if (
-      libraryBase.jspreadsheet.tmpElement &&
-      libraryBase.jspreadsheet.tmpElement.children[0].tagName == "INPUT"
-    ) {
-      libraryBase.jspreadsheet.tmpElement.children[0].focus();
+    if (libraryBase.jspreadsheet.tmpElement) {
+      const child0 = libraryBase.jspreadsheet.tmpElement.children[0];
+      if (child0 instanceof HTMLElement && child0.tagName === "INPUT") {
+        child0.focus();
+      }
+      libraryBase.jspreadsheet.tmpElement = null;
     }
-    libraryBase.jspreadsheet.tmpElement = null;
   }
 };
 
@@ -1751,10 +1752,9 @@ const keyDownControls = function (e: KeyboardEvent): void {
           ) {
             // Add new line to the editor
             const editorTextarea =
-              libraryBase.jspreadsheet.current.edition[0].children[0];
-            let editorValue =
-              libraryBase.jspreadsheet.current.edition[0].children[0].value;
-            const editorIndexOf = editorTextarea.selectionStart;
+              libraryBase.jspreadsheet.current.edition[0].children[0] as HTMLTextAreaElement;
+            let editorValue = editorTextarea.value;
+            const editorIndexOf = editorTextarea.selectionStart ?? 0;
             editorValue =
               editorValue.slice(0, editorIndexOf) +
               "\n" +
@@ -1764,7 +1764,12 @@ const keyDownControls = function (e: KeyboardEvent): void {
             editorTextarea.selectionStart = editorIndexOf + 1;
             editorTextarea.selectionEnd = editorIndexOf + 1;
           } else {
-            libraryBase.jspreadsheet.current.edition[0].children[0].blur();
+            {
+              const el0 = libraryBase.jspreadsheet.current.edition[0].children[0];
+              if (el0 instanceof HTMLElement) {
+                (el0 as HTMLInputElement | HTMLTextAreaElement).blur();
+              }
+            }
           }
         }
       } else if (e.which == 9) {
@@ -1786,7 +1791,12 @@ const keyDownControls = function (e: KeyboardEvent): void {
             true
           );
         } else {
-          libraryBase.jspreadsheet.current.edition[0].children[0].blur();
+          {
+            const el0 = libraryBase.jspreadsheet.current.edition[0].children[0];
+            if (el0 instanceof HTMLElement) {
+              (el0 as HTMLInputElement | HTMLTextAreaElement).blur();
+            }
+          }
         }
       }
     }
