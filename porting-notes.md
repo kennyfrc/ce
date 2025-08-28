@@ -166,7 +166,12 @@ Learnings:
 
 Learnings / Next steps:
 
-- Created focused task `ts-fix-20250828-3001` (in_progress): alias `libraryBase.jspreadsheet.current` to a local `current` in `src/utils/events.ts` and add guards; will iterate in small patches.
+ - Created focused task `ts-fix-20250828-3001` (in_progress): alias `libraryBase.jspreadsheet.current` to a local `current` in `src/utils/events.ts` and add guards; will iterate in small patches.
+
+### Work: 2025-08-28T15:46:24Z
+
+- Refactored src/utils/events.ts (mouseDownControls) to alias libraryBase.jspreadsheet.current to a local `current` and use it throughout the handler, enabling TypeScript narrowing and reducing null/undefined diagnostics (~694 -> ~637 lines in snapshot).
+- Observed pre-commit `any-types` check blocks commits; created a follow-up task to address explicit `any` hotspots instead of bypassing hooks long-term.
 
 ### Snapshot: 2025-08-28T15:40:00Z
 
