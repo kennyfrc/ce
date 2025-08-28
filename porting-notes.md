@@ -244,3 +244,17 @@ Learnings:
  - Baseline metrics unchanged from prior snapshot; main hotspots remain events.ts and factory.ts.
  - Next: prioritize unifying WorksheetInstance and SpreadsheetContext in src/types/core.ts and start replacing this:any in data/dispatch and merges hotspots.
 
+### Work: 2025-08-29T13:55:00Z
+
+- Excluded backup/temp files (e.g. *.tmp, *.backup*) from tsconfig.test.json to avoid compiling non-source artifacts that inflate diagnostics.
+- Began aliasing `libraryBase.jspreadsheet.current` to a local `current` in hot handlers (mouseDownControls, doubleClickControls) to enable narrowing and reduce repeated property accesses.
+- Created plan task `ts-auto-20250829-0004` and recorded progress (committed plan.json). Code changes remain unstaged for further type cleanup due to pre-commit any-types enforcement.
+
+
+### Work: 2025-08-29T14:00:00Z
+
+- Added plan task `ts-fix-20250829-0001` to resolve SpreadsheetContext vs WorksheetInstance mismatches in `src/utils/columns.ts`.
+- Patched `src/utils/dispatch.ts` to accept `SpreadsheetContext` as a valid `this` type where appropriate.
+- Replaced numeric flag `1` with boolean `true` in `src/utils/data.ts` for `setMerge.call`.
+- Adjusted imports and narrowed `this` typing for `createCellHeader` in `src/utils/columns.ts` to `WorksheetInstance | SpreadsheetContext`.
+- Ran `npx tsc` to measure impact; remaining hotspots persist in `columns.ts`, `events.ts`, and `internal.ts` for follow-up.

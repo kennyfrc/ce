@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T13:30:00Z"
+    "updatedAt": "2025-08-29T14:00:00Z"
   },
   "tasks": [
     {
@@ -1973,6 +1973,27 @@
       ],
       "createdAt": "2025-08-29T13:40:00Z",
       "updatedAt": "2025-08-29T13:55:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0001",
+      "name": "columns.ts: Fix SpreadsheetContext vs WorksheetInstance mismatches",
+      "description": "Resolve type mismatches between SpreadsheetContext and WorksheetInstance in src/utils/columns.ts and src/types/core.ts; add guards and adjust core types where appropriate.",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/columns.ts",
+        "src/types/core.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": ["hotspot","types","columns"],
+      "acceptanceCriteria": [
+        "No TS2345/TS2339 related to SpreadsheetContext/WorksheetInstance in src/utils/columns.ts",
+        "TypeScript error count reduced by >=5"
+      ],
+      "createdAt": "2025-08-29T14:00:00Z",
+      "updatedAt": "2025-08-29T14:00:00Z"
     }
   ]
 }
