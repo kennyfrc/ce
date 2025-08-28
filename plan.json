@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T20:35:59Z"
+    "updatedAt": "2025-08-29T15:50:00Z"
   },
   "tasks": [
     {
@@ -2378,6 +2378,36 @@
       ],
       "createdAt": "2025-08-28T20:27:00Z",
       "updatedAt": "2025-08-28T20:27:00Z"
+    },
+    {
+      "id": "ts-live-20250829-0002",
+      "name": "Run live baseline: tsc + any-analyzer (automated)",
+      "description": "Execute TypeScript check and any-types analyzer, save outputs to .agent and record results in plan.json",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.test.json",
+        ".agent/find-any-types.js"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "baseline",
+        "metrics"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit output saved to .agent/ts-errors-run.txt",
+        "node .agent/find-any-types.js output saved to .agent/any-types-run.txt"
+      ],
+      "results": {
+        "tsErrors": 938,
+        "anyCount": 189,
+        "tsErrorsFile": ".agent/ts-errors-run.txt",
+        "anyReportFile": ".agent/any-types-run.txt"
+      },
+      "createdAt": "2025-08-29T15:50:00Z",
+      "updatedAt": "2025-08-29T15:50:00Z"
     }
   ]
 }

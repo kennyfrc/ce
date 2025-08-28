@@ -1,3 +1,14 @@
+### Snapshot: 2025-08-29T15:50:00Z — automated run
+
+- TypeScript errors (tsconfig.test.json --noEmit): 938 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 189 (saved to .agent/any-types-run.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+
+Learnings:
+
+- Ran baseline now; events.ts and internal.ts remain primary hotspots.
+- Next: continue alias-and-guard edits in events.ts and reconcile core WorksheetInstance/SpreadsheetContext shapes.
+
 ### Snapshot: 2025-08-29T15:40:00Z — automated run
 
 - TypeScript errors (tsconfig.test.json --noEmit): 1066 (saved to .agent/ts-errors-run.txt)
