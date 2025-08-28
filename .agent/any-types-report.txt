@@ -1,6 +1,6 @@
-Any Types Analysis Report - 2025-08-28T19:06:01.233Z
-Total any types: 216
-Files with any types: 29
+Any Types Analysis Report - 2025-08-28T19:13:42.716Z
+Total any types: 213
+Files with any types: 28
 
 src/utils/dispatch.ts: 24 any types
   Line 15: const arr = (data as any[]) || [];
@@ -248,11 +248,6 @@ src/utils/rows.ts: 3 any types
   Line 181: "This action will destroy any existing merged cells. Are you sure?"
   Line 331: "This action will destroy any existing merged cells. Are you sure?"
   Line 500: "This action will destroy any existing merged cells. Are you sure?"
-
-src/webcomponent.ts: 3 any types
-  Line 1: declare const jspreadsheet: any;
-  Line 4: el: any;
-  Line 10: init(o: any) {
 
 src/test.ts: 2 any types
   Line 6: (window as any).jss = jspreadsheet;

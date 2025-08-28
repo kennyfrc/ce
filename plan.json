@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T19:07:07Z"
+    "updatedAt": "2025-08-29T14:30:00Z"
   },
   "tasks": [
     {
@@ -2186,6 +2186,37 @@
       ],
       "createdAt": "2025-08-28T19:01:25Z",
       "updatedAt": "2025-08-28T19:01:25Z"
+    },
+    {
+      "id": "ts-work-20250829-0002",
+      "name": "events.ts: Alias libraryBase.jspreadsheet.current and guard optionals",
+      "description": "Alias libraryBase.jspreadsheet.current to local current in mouse handlers and add null guards to reduce possibly undefined diagnostics",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 220
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "events",
+        "null-safety",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "Reduce possibly undefined diagnostics in events.ts",
+        "No new any usage introduced"
+      ],
+      "createdAt": "2025-08-29T14:30:00Z",
+      "updatedAt": "2025-08-29T14:30:00Z"
     }
   ]
 }

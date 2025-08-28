@@ -10,6 +10,14 @@
 
 ### 2025-08-28 — Core types
 
+### Snapshot: 2025-08-29T14:40:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 944
+- Explicit any count (find-any-types): 213
+- Changes: Typed src/webcomponent.ts to use JSpreadsheet and WorksheetInstance; reduced any count by 3.
+- Next: Continue events.ts alias-and-guard work (task ts-work-20250829-0002).
+
+
 - Enriched `SpreadsheetOptions` with `worksheets`, `plugins`, `tabs`, `root`, `fullscreen`, and improved `style` typing to match runtime usage.
 - Typed `SpreadsheetInstance.config` and `WorksheetInstance.config` as `SpreadsheetOptions` which removed several `TS18046` unknown-type errors in factory.ts.
 - Guarded `spreadsheetStyles` in `factory.ts` to avoid `undefined` when indexing and fixed a few type issues surfaced by `tsc`.
