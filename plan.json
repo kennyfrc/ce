@@ -1818,7 +1818,7 @@
       "name": "Precommit gating: investigate any-types hook blocking commits",
       "description": "Pre-commit hook fails due to explicit any occurrences; decide whether to reduce anys or relax hook for metrics commits",
       "phase": 5,
-      "state": "pending",
+      "state": "completed",
       "candidateFiles": [
         ".husky/pre-commit",
         ".agent/find-any-types.js",
@@ -1835,7 +1835,7 @@
         "Either commit succeeds with metrics saved OR documented plan to adjust hook and roadmap to reduce anys"
       ],
       "createdAt": "2025-08-28T16:06:00Z",
-      "updatedAt": "2025-08-28T16:06:00Z"
+      "updatedAt": "2025-08-28T16:14:20Z"
     }
   ]
 }

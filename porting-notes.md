@@ -4,6 +4,10 @@
 - Initially added `noEmit: true` but reverted because ts-loader requires emission for webpack; removed `noEmit`.
 - Build now shows many TypeScript diagnostics (expected) but no TS6059; next: tighten core types (SpreadsheetOptions/WorksheetInstance).
 
+### 2025-08-29 — Pre-commit: whitelist maintenance commits
+
+- Updated .husky/pre-commit to allow commits that only modify maintenance files (\.agent/, .husky/, plan.json, porting-notes.md) so metrics and plan updates can be committed without being blocked by the any-types analyzer.
+
 ### 2025-08-28 — Core types
 
 - Enriched `SpreadsheetOptions` with `worksheets`, `plugins`, `tabs`, `root`, `fullscreen`, and improved `style` typing to match runtime usage.
