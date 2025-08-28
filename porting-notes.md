@@ -17,6 +17,12 @@
 - Changes: Typed src/webcomponent.ts to use JSpreadsheet and WorksheetInstance; reduced any count by 3.
 - Next: Continue events.ts alias-and-guard work (task ts-work-20250829-0002).
 
+Learnings:
+
+- Small, surgical typing of public entry points (webcomponent) yields immediate measurable reduction in explicit anys.
+- Prefer committing plan/notes snapshots first (whitelisted) to record progress before large code commits blocked by pre-commit gates.
+- Next code work should focus on local aliasing and guarding in events.ts to reduce 'possibly undefined' diagnostics.
+
 
 - Enriched `SpreadsheetOptions` with `worksheets`, `plugins`, `tabs`, `root`, `fullscreen`, and improved `style` typing to match runtime usage.
 - Typed `SpreadsheetInstance.config` and `WorksheetInstance.config` as `SpreadsheetOptions` which removed several `TS18046` unknown-type errors in factory.ts.
