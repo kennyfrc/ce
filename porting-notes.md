@@ -263,4 +263,10 @@ Learnings:
 
 - Made WorksheetInstance an alias of SpreadsheetContext and merged worksheet-specific members into SpreadsheetContext to reduce assignment mismatches across utils (columns/merges/dispatch).
 - Updated dispatch.ts to safely access spreadsheet config/plugins and fixed merges call-sites in columns.ts to use worksheet instances where appropriate.
-- Next: narrow nullability and parameter types in src/utils/events.ts and src/utils/internal.ts (guard optional fields, fix argument type mismatches).
+ - Next: narrow nullability and parameter types in src/utils/events.ts and src/utils/internal.ts (guard optional fields, fix argument type mismatches).
+
+### Work: 2025-08-29T14:05:00Z
+
+- Replaced repeated libraryBase.jspreadsheet.current references in src/utils/events.ts (pasteControls) with a local `current` alias to enable safer narrowing.
+- Ran type-check; change is local and did not introduce new regressions attributable to pasteControls.
+

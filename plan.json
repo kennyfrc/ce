@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T01:50:00Z"
+    "updatedAt": "2025-08-29T14:05:00Z"
   },
   "tasks": [
     {
@@ -2022,6 +2022,36 @@
       ],
       "createdAt": "2025-08-29T01:50:00Z",
       "updatedAt": "2025-08-29T01:50:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-1001",
+      "name": "events.ts: Alias current in small handlers",
+      "description": "Replace repeated libraryBase.jspreadsheet.current accesses by a local current alias in pasteControls and related small functions.",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 31,
+          "lineEnd": 58
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "events",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No direct libraryBase.jspreadsheet.current access within pasteControls"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T14:00:00Z",
+      "updatedAt": "2025-08-29T14:05:00Z"
     }
   ]
 }
