@@ -1713,3 +1713,7 @@ Patched src/utils/events.ts (pasteControls) to use a local `current` alias, adde
 - Draft commit message (concise, why-focused):
   - "record baseline TypeScript diagnostics and explicit-any metrics; update plan.json and diary"
 </commit_analysis>=== Fri Aug 29 02:02:55 PST 2025 ===
+Done: ran baseline checks, added a follow-up task, and made initial type-safe fixes.
+
+Summary: patched src/types/core.ts (typed insertColumn/deleteColumn), added guards/optional-chaining and a local current alias in parts of src/utils/events.ts, re-ran npx tsc (errors remain) and node .agent/find-any-types.js (216 any), added plan task ts-zero-20250829-0002 (in_progress), updated plan.json and porting notes, and committed maintenance artifacts.=== Fri Aug 29 02:23:17 PST 2025 ===
+Ran tsc + any-types (988 TS errors, 216 any); added in_progress task ts-fix-events-20250829-0001, applied safe fixes to src/utils/dispatch.ts and src/utils/events.ts, appended snapshot to porting-notes.md, updated plan.json, and committed maintenance files (commit 2155339f). Next: continue narrowing events.ts hotspots and then tackle internal.ts.=== Fri Aug 29 02:31:40 PST 2025 ===

@@ -1,128 +1,147 @@
-src/utils/events.ts(239,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(305,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(333,19): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(333,27): error TS2554: Expected 2 arguments, but got 1.
-src/utils/events.ts(348,15): error TS2345: Argument of type 'number | true' is not assignable to parameter of type 'number'.
+src/types/core.ts(91,3): error TS2300: Duplicate identifier 'results'.
+src/types/core.ts(103,3): error TS2300: Duplicate identifier 'headerContainer'.
+src/types/core.ts(104,3): error TS2300: Duplicate identifier 'colgroupContainer'.
+src/types/core.ts(106,3): error TS2300: Duplicate identifier 'filter'.
+src/types/core.ts(108,3): error TS2300: Duplicate identifier 'resetSelection'.
+src/types/core.ts(135,3): error TS2300: Duplicate identifier 'resetSelection'.
+src/types/core.ts(168,3): error TS2300: Duplicate identifier 'headerContainer'.
+src/types/core.ts(169,3): error TS2300: Duplicate identifier 'colgroupContainer'.
+src/types/core.ts(170,3): error TS2300: Duplicate identifier 'filter'.
+src/types/core.ts(180,3): error TS2300: Duplicate identifier 'results'.
+src/utils/dispatch.ts(133,22): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/utils/events.ts(103,25): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(103,25): error TS18048: 'current.getSelectedColumns' is possibly 'undefined'.
+src/utils/events.ts(159,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(159,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(188,13): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(190,34): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(190,56): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(190,74): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(238,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(304,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(332,19): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(332,27): error TS2554: Expected 2 arguments, but got 1.
+src/utils/events.ts(347,15): error TS2345: Argument of type 'number | true' is not assignable to parameter of type 'number'.
   Type 'boolean' is not assignable to type 'number'.
-src/utils/events.ts(365,20): error TS18048: 'current.options.columns' is possibly 'undefined'.
-src/utils/events.ts(405,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+src/utils/events.ts(364,20): error TS18048: 'current.options.columns' is possibly 'undefined'.
+src/utils/events.ts(404,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
-src/utils/events.ts(413,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(441,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.
+src/utils/events.ts(412,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(440,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
-src/utils/events.ts(516,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(519,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(521,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(571,84): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(580,26): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(515,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(518,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(520,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(566,35): error TS18048: 'current.resizing.mousePosition' is possibly 'undefined'.
+src/utils/events.ts(568,15): error TS18048: 'current.resizing.width' is possibly 'undefined'.
+src/utils/events.ts(569,31): error TS18048: 'current.resizing.width' is possibly 'undefined'.
+src/utils/events.ts(570,84): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(575,36): error TS18048: 'current.resizing.mousePosition' is possibly 'undefined'.
+src/utils/events.ts(577,15): error TS18048: 'current.resizing.height' is possibly 'undefined'.
+src/utils/events.ts(578,32): error TS18048: 'current.resizing.height' is possibly 'undefined'.
+src/utils/events.ts(579,26): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(690,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
 src/utils/events.ts(691,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
 src/utils/events.ts(692,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
 src/utils/events.ts(693,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
-src/utils/events.ts(694,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
+src/utils/events.ts(717,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(718,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(719,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(720,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(721,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(722,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(739,11): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/events.ts(823,17): error TS2345: Argument of type 'number | boolean' is not assignable to parameter of type 'number'.
+src/utils/events.ts(738,11): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/events.ts(822,17): error TS2345: Argument of type 'number | boolean' is not assignable to parameter of type 'number'.
   Type 'boolean' is not assignable to type 'number'.
-src/utils/events.ts(873,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(875,20): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(878,13): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(878,33): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(884,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(884,31): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(887,52): error TS2538: Type 'null' cannot be used as an index type.
-src/utils/events.ts(887,85): error TS2538: Type 'null' cannot be used as an index type.
-src/utils/events.ts(893,32): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string | number'.
+src/utils/events.ts(872,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(874,20): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(877,13): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(877,33): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(883,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(883,31): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(886,52): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(886,85): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(892,32): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string | number'.
   Type 'null' is not assignable to type 'string | number'.
-src/utils/events.ts(903,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(903,19): error TS2554: Expected 2 arguments, but got 1.
-src/utils/events.ts(1022,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1022,37): error TS2554: Expected 1 arguments, but got 3.
-src/utils/events.ts(1031,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1031,37): error TS2554: Expected 1 arguments, but got 3.
-src/utils/events.ts(1041,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1042,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1042,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
-  Type 'undefined' is not assignable to type 'number'.
-src/utils/events.ts(1053,28): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1053,28): error TS18048: 'worksheet.getHeader' is possibly 'undefined'.
-src/utils/events.ts(1057,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1057,34): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+src/utils/events.ts(902,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(902,19): error TS2554: Expected 2 arguments, but got 1.
+src/utils/events.ts(1043,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1054,28): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1054,28): error TS18048: 'worksheet.getHeader' is possibly 'undefined'.
+src/utils/events.ts(1058,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1058,34): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
   Type 'null' is not assignable to type 'string'.
-src/utils/events.ts(1070,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1070,32): error TS2345: Argument of type '0' is not assignable to parameter of type '"asc" | "desc"'.
-src/utils/events.ts(1076,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1076,32): error TS2345: Argument of type '1' is not assignable to parameter of type '"asc" | "desc"'.
-src/utils/events.ts(1088,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1088,34): error TS2554: Expected 1 arguments, but got 3.
-src/utils/events.ts(1095,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1095,34): error TS2554: Expected 1 arguments, but got 2.
-src/utils/events.ts(1104,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1105,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1105,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+src/utils/events.ts(1071,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1071,32): error TS2345: Argument of type '0' is not assignable to parameter of type '"asc" | "desc"'.
+src/utils/events.ts(1077,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1077,32): error TS2345: Argument of type '1' is not assignable to parameter of type '"asc" | "desc"'.
+src/utils/events.ts(1089,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1089,34): error TS2554: Expected 1 arguments, but got 3.
+src/utils/events.ts(1096,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1096,34): error TS2554: Expected 1 arguments, but got 2.
+src/utils/events.ts(1105,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1106,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1106,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
-src/utils/events.ts(1123,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1132,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1165,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1124,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1133,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/events.ts(1166,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
-src/utils/events.ts(1183,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1267,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1167,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1184,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/events.ts(1268,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1269,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1270,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(1322,40): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-src/utils/events.ts(1323,57): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-src/utils/events.ts(1425,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1431,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1501,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1502,11): error TS18048: 'libraryBase.jspreadsheet.current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(1502,11): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
-src/utils/events.ts(1602,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1271,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1320,40): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1320,40): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1321,57): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1321,57): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1322,17): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1323,17): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1423,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1429,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1499,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1500,11): error TS18048: 'libraryBase.jspreadsheet.current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1500,11): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1600,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/events.ts(1645,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1645,25): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1657,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1657,25): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1662,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1663,15): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(1663,15): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
-src/utils/events.ts(1679,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1679,25): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1696,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1696,25): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1712,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1716,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1720,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1736,41): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'ClipboardEvent'.
+src/utils/events.ts(1643,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1643,25): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1660,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1661,15): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1661,15): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1677,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1677,25): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1710,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1714,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1718,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1734,41): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'ClipboardEvent'.
   Property 'clipboardData' is missing in type 'Event' but required in type 'ClipboardEvent'.
-src/utils/events.ts(1806,44): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
-src/utils/events.ts(1820,11): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1820,35): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1821,11): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1825,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1825,39): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1804,44): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
+src/utils/events.ts(1818,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1818,35): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1819,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1823,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1823,39): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1824,15): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/events.ts(1826,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1828,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1829,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1829,41): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1833,20): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1833,45): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1827,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1827,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1831,20): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1831,45): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1833,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1834,15): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/events.ts(1835,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1836,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1837,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1837,41): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1854,16): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1857,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1871,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1835,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1852,16): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1855,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1869,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/events.ts(1875,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1873,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
   Type 'number' is not assignable to type 'string'.
-src/utils/events.ts(1887,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
-src/utils/events.ts(1897,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1918,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1918,40): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1885,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
+src/utils/events.ts(1895,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1916,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1916,40): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/factory.ts(89,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
 src/utils/factory.ts(110,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
 src/utils/factory.ts(131,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
@@ -181,7 +200,6 @@ src/utils/history.ts(304,9): error TS2345: Argument of type 'number' is not assi
   Type 'number' is not assignable to type 'boolean'.
 src/utils/history.ts(382,9): error TS2345: Argument of type '1' is not assignable to parameter of type 'boolean | undefined'.
 src/utils/internal.ts(42,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/internal.ts(63,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/internal.ts(428,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
 src/utils/internal.ts(430,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
 src/utils/internal.ts(445,8): error TS2322: Type 'HTMLCollectionOf<HTMLScriptElement>' is not assignable to type 'string'.
@@ -825,35 +843,25 @@ test/calculations.ts(141,14): error TS2722: Cannot invoke an object which is pos
 test/calculations.ts(142,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(143,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(144,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(164,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(164,31): error TS2554: Expected 1 arguments, but got 3.
 test/calculations.ts(166,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(167,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(168,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(169,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(187,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(187,31): error TS2554: Expected 1 arguments, but got 3.
 test/calculations.ts(189,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(190,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(191,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(192,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(193,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(211,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(211,31): error TS2554: Expected 1 arguments, but got 3.
 test/calculations.ts(213,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(214,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(215,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(216,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(217,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(235,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(235,31): error TS2554: Expected 1 arguments, but got 3.
 test/calculations.ts(237,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(238,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(239,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(240,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(241,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(259,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/calculations.ts(259,31): error TS2554: Expected 1 arguments, but got 3.
 test/calculations.ts(261,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(262,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(263,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
@@ -861,27 +869,10 @@ test/calculations.ts(264,14): error TS2722: Cannot invoke an object which is pos
 test/calculations.ts(265,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(285,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(287,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(25,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(25,42): error TS2554: Expected 1 arguments, but got 3.
-test/columns.ts(30,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(30,42): error TS2554: Expected 1 arguments, but got 3.
-test/columns.ts(54,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(54,42): error TS2554: Expected 1 arguments, but got 2.
-test/columns.ts(60,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(60,42): error TS2554: Expected 1 arguments, but got 2.
-test/columns.ts(87,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(94,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(122,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(122,37): error TS2554: Expected 1 arguments, but got 2.
-test/columns.ts(129,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(129,37): error TS2554: Expected 1 arguments, but got 2.
 test/columns.ts(155,21): error TS2339: Property 'hideColumn' does not exist on type 'SpreadsheetContext'.
 test/columns.ts(163,21): error TS2339: Property 'showColumn' does not exist on type 'SpreadsheetContext'.
-test/columns.ts(190,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(190,42): error TS2554: Expected 1 arguments, but got 3.
 test/columns.ts(194,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/columns.ts(198,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-test/columns.ts(224,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/columns.ts(230,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/columns.ts(230,26): error TS2554: Expected 0 arguments, but got 1.
 test/columns.ts(236,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.

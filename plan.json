@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T18:25:42Z"
+    "updatedAt": "2025-08-28T18:36:37Z"
   },
   "tasks": [
     {
@@ -2074,14 +2074,14 @@
         "npx tsc -p tsconfig.test.json --noEmit output saved to .agent/ts-errors-live.txt",
         "node .agent/find-any-types.js output saved to .agent/any-types-live.txt"
       ],
-      "results": {
-        "tsErrors": 962,
-        "anyCount": 218,
-        "tsErrorsFile": ".agent/ts-errors-live.txt",
-        "anyReportFile": ".agent/any-types-live.txt"
-      },
-      "createdAt": "2025-08-29T14:30:00Z",
-      "updatedAt": "2025-08-29T14:35:00Z"
+        "results": {
+          "tsErrors": 981,
+          "anyCount": 216,
+          "tsErrorsFile": ".agent/ts-errors-live.txt",
+          "anyReportFile": ".agent/any-types-live.txt"
+        },
+        "createdAt": "2025-08-29T14:30:00Z",
+        "updatedAt": "2025-08-28T18:36:37Z"
     },
     {
       "id": "ts-zero-20250829-0002",

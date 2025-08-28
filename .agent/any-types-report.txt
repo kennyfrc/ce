@@ -1,4 +1,4 @@
-Any Types Analysis Report - 2025-08-28T18:29:56.865Z
+Any Types Analysis Report - 2025-08-28T18:38:00.074Z
 Total any types: 216
 Files with any types: 29
 
@@ -259,8 +259,8 @@ src/test.ts: 2 any types
   Line 10: (window as any).instance = jspreadsheet(root, {
 
 src/utils/events.ts: 2 any types
-  Line 944: } else if ((window as any).clipboardData) {
-  Line 949: (window as any).clipboardData.getData("text")
+  Line 945: } else if ((window as any).clipboardData) {
+  Line 950: (window as any).clipboardData.getData("text")
 
 src/utils/footer.ts: 2 any types
   Line 3: export const setFooter = function (this: any, data?: any) {
