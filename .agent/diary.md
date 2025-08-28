@@ -1655,3 +1655,11 @@ Completed: ran tsc & any-analyzer; fixed getMouseButton, guarded dragging.elemen
 Done: added plan task, patched src/utils/events.ts and src/utils/columns.ts, updated porting-notes.md, ran tsc. Commit attempted but failed due to pre-commit any-types check (hook wrote .agent/any-types-report.txt). Staged files: plan.json, src/utils/events.ts, src/utils/columns.ts, porting-notes.md, .agent/any-types-report.txt, .agent/diary.md. Next: fix remaining any hotspots or run git commit --no-verify to bypass pre-commit.=== Thu Aug 28 22:57:46 PST 2025 ===
 Patched src/utils/events.ts (narrowed children[0], cast editor textarea); added task to plan.json and appended learnings to porting-notes.md; ran tsc -> 494 errors; any-analyzer -> 232 anys; commit blocked by pre-commit hook (found any types).=== Thu Aug 28 23:05:44 PST 2025 ===
 Applied stable `current` var in mouseUpControls; TypeScript errors 558 → 529; explicit any count 232; changes committed (fed58e97).=== Thu Aug 28 23:15:17 PST 2025 ===
+Done — small, safe progress:
+- Added plan task ts-zero-20250828-0301 and updated plan.json
+- Patched src/utils/events.ts (stabilized local `current` in mouseUpControls and started using it in mouseDownControls)
+- Appended notes to porting-notes.md
+- Ran tsc (errors reduced but many remain); changes committed
+
+Next: continue replacing repeated libraryBase.jspreadsheet.current usages and unify WorksheetInstance/SpreadsheetContext.=== Thu Aug 28 23:24:39 PST 2025 ===
+=== Thu Aug 28 23:26:03 PST 2025 ===

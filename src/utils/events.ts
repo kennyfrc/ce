@@ -613,122 +613,83 @@ const mouseMoveControls = function (e: MouseEvent) {
     return;
   }
 
-  if (libraryBase.jspreadsheet.current) {
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (current) {
     if (libraryBase.jspreadsheet.isMouseAction == true) {
       // Resizing is ongoing
-      if (libraryBase.jspreadsheet.current.resizing) {
-        if (libraryBase.jspreadsheet.current.resizing.column) {
-          const width =
-            e.pageX - libraryBase.jspreadsheet.current.resizing.mousePosition;
+      if (current.resizing) {
+        if (current.resizing.column) {
+          const width = e.pageX - current.resizing.mousePosition;
 
-          if (libraryBase.jspreadsheet.current.resizing.width + width > 0) {
-            const tempWidth =
-              libraryBase.jspreadsheet.current.resizing.width + width;
-            libraryBase.jspreadsheet.current.cols[
-              libraryBase.jspreadsheet.current.resizing.column
-            ].colElement.setAttribute("width", tempWidth);
+          if (current.resizing.width + width > 0) {
+            const tempWidth = current.resizing.width + width;
+            current.cols[current.resizing.column].colElement.setAttribute("width", tempWidth);
 
-            updateCornerPosition.call(libraryBase.jspreadsheet.current);
+            updateCornerPosition.call(current);
           }
         } else {
-          const height =
-            e.pageY - libraryBase.jspreadsheet.current.resizing.mousePosition;
+          const height = e.pageY - current.resizing.mousePosition;
 
-          if (libraryBase.jspreadsheet.current.resizing.height + height > 0) {
-            const tempHeight =
-              libraryBase.jspreadsheet.current.resizing.height + height;
-            libraryBase.jspreadsheet.current.rows[
-              libraryBase.jspreadsheet.current.resizing.row
-            ].element.setAttribute("height", tempHeight);
+          if (current.resizing.height + height > 0) {
+            const tempHeight = current.resizing.height + height;
+            current.rows[current.resizing.row].element.setAttribute("height", tempHeight);
 
-            updateCornerPosition.call(libraryBase.jspreadsheet.current);
+            updateCornerPosition.call(current);
           }
         }
-      } else if (libraryBase.jspreadsheet.current.dragging) {
-        if (libraryBase.jspreadsheet.current.dragging.column) {
+      } else if (current.dragging) {
+        if (current.dragging.column) {
           const columnIdAttr = target.getAttribute("data-x");
           const columnId = columnIdAttr !== null ? parseInt(columnIdAttr, 10) : undefined;
           if (columnId !== undefined) {
-            if (
-              isColMerged.call(libraryBase.jspreadsheet.current, columnId)
-                .length
-            ) {
-              console.error(
-                "Jspreadsheet: This column is part of a merged cell."
-              );
+            if (isColMerged.call(current, columnId).length) {
+              console.error("Jspreadsheet: This column is part of a merged cell.");
             } else {
-              for (
-                let i = 0;
-                i < libraryBase.jspreadsheet.current.headers.length;
-                i++
-              ) {
-                libraryBase.jspreadsheet.current.headers[i].classList.remove(
-                  "dragging-left"
-                );
-                libraryBase.jspreadsheet.current.headers[i].classList.remove(
-                  "dragging-right"
-                );
+              for (let i = 0; i < current.headers.length; i++) {
+                current.headers[i].classList.remove("dragging-left");
+                current.headers[i].classList.remove("dragging-right");
               }
 
-                if (
-                  libraryBase.jspreadsheet.current.dragging.column == columnId
-                ) {
-                  libraryBase.jspreadsheet.current.dragging.destination =
-                    columnId;
-                } else {
-                   if (target.clientWidth / 2 > e.offsetX) {
-                    if (
-                      libraryBase.jspreadsheet.current.dragging.column < columnId
-                    ) {
-                      libraryBase.jspreadsheet.current.dragging.destination =
-                        columnId - 1;
-                    } else {
-                      libraryBase.jspreadsheet.current.dragging.destination =
-                        columnId;
-                    }
-                     libraryBase.jspreadsheet.current.headers[
-                       columnId
-                     ].classList.add("dragging-left");
+              if (current.dragging.column == columnId) {
+                current.dragging.destination = columnId;
+              } else {
+                if (target.clientWidth / 2 > e.offsetX) {
+                  if (current.dragging.column < columnId) {
+                    current.dragging.destination = columnId - 1;
                   } else {
-                     if (
-                       libraryBase.jspreadsheet.current.dragging.column < columnId
-                     ) {
-                      libraryBase.jspreadsheet.current.dragging.destination =
-                        columnId;
-                    } else {
-                      libraryBase.jspreadsheet.current.dragging.destination =
-                        columnId + 1;
-                    }
-                     libraryBase.jspreadsheet.current.headers[
-                       columnId
-                     ].classList.add("dragging-right");
+                    current.dragging.destination = columnId;
                   }
+                  current.headers[columnId].classList.add("dragging-left");
+                } else {
+                  if (current.dragging.column < columnId) {
+                    current.dragging.destination = columnId;
+                  } else {
+                    current.dragging.destination = columnId + 1;
+                  }
+                  current.headers[columnId].classList.add("dragging-right");
                 }
+              }
             }
           }
         } else {
           const rowIdAttr = target.getAttribute("data-y");
           const rowId = rowIdAttr !== null ? parseInt(rowIdAttr, 10) : undefined;
           if (rowId !== undefined) {
-            if (
-              isRowMerged.call(libraryBase.jspreadsheet.current, rowId, false)
-                .length
-            ) {
+            if (isRowMerged.call(current, rowId, false).length) {
               console.error("Jspreadsheet: This row is part of a merged cell.");
             } else {
-               const siblingTarget =
-                 target.clientHeight / 2 > e.offsetY
-                   ? (target.parentElement?.nextSibling as Node | null)
-                   : (target.parentElement as Node | null);
-               const container = target.parentElement?.parentElement as Node | null;
-                const dragEl = libraryBase.jspreadsheet.current.dragging.element as Node | null;
-                if (dragEl && dragEl != siblingTarget && container) {
-                  container.insertBefore(dragEl, siblingTarget);
-                  if (dragEl.parentNode) {
-                    libraryBase.jspreadsheet.current.dragging.destination =
-                      Array.prototype.indexOf.call(dragEl.parentNode.children, dragEl);
-                  }
+              const siblingTarget =
+                target.clientHeight / 2 > e.offsetY
+                  ? (target.parentElement?.nextSibling as Node | null)
+                  : (target.parentElement as Node | null);
+              const container = target.parentElement?.parentElement as Node | null;
+              const dragEl = current.dragging.element as Node | null;
+              if (dragEl && dragEl != siblingTarget && container) {
+                container.insertBefore(dragEl, siblingTarget);
+                if (dragEl.parentNode) {
+                  current.dragging.destination = Array.prototype.indexOf.call(dragEl.parentNode.children, dragEl);
                 }
+              }
             }
           }
         }
@@ -738,30 +699,30 @@ const mouseMoveControls = function (e: MouseEvent) {
       const y = target.getAttribute("data-y");
       const rect = target.getBoundingClientRect();
 
-      if (libraryBase.jspreadsheet.current.cursor) {
-        libraryBase.jspreadsheet.current.cursor.style.cursor = "";
-        libraryBase.jspreadsheet.current.cursor = null;
+      if (current.cursor) {
+        current.cursor.style.cursor = "";
+        current.cursor = null;
       }
 
       const grandParent = target.parentElement?.parentElement;
       if (grandParent && typeof grandParent.className === "string") {
         if (grandParent.classList.contains("resizable")) {
           if (target && x && !y && rect.width - (e.clientX - rect.left) < 6) {
-            libraryBase.jspreadsheet.current.cursor = target;
-            libraryBase.jspreadsheet.current.cursor.style.cursor = "col-resize";
+            current.cursor = target;
+            current.cursor.style.cursor = "col-resize";
           } else if (!x && y && rect.height - (e.clientY - rect.top) < 6) {
-            libraryBase.jspreadsheet.current.cursor = target;
-            libraryBase.jspreadsheet.current.cursor.style.cursor = "row-resize";
+            current.cursor = target;
+            current.cursor.style.cursor = "row-resize";
           }
         }
 
         if (grandParent.classList.contains("draggable")) {
           if (!x && y && rect.width - (e.clientX - rect.left) < 6) {
-            libraryBase.jspreadsheet.current.cursor = target;
-            libraryBase.jspreadsheet.current.cursor.style.cursor = "move";
+            current.cursor = target;
+            current.cursor.style.cursor = "move";
           } else if (x && !y && rect.height - (e.clientY - rect.top) < 6) {
-            libraryBase.jspreadsheet.current.cursor = target;
-            libraryBase.jspreadsheet.current.cursor.style.cursor = "move";
+            current.cursor = target;
+            current.cursor.style.cursor = "move";
           }
         }
       }
@@ -854,10 +815,8 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
     libraryBase.jspreadsheet.isMouseAction = false;
   }
 
-  if (
-    libraryBase.jspreadsheet.current &&
-    libraryBase.jspreadsheet.isMouseAction == true
-  ) {
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (current && libraryBase.jspreadsheet.isMouseAction == true) {
     // Narrow event target early
     const target = getHTMLElement(e.target);
     if (!target) return false;
@@ -867,8 +826,8 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
 
     if (jssTable[0]) {
       // Avoid cross reference
-      if (libraryBase.jspreadsheet.current != jssTable[0].jssWorksheet) {
-        if (libraryBase.jspreadsheet.current) {
+      if (current != jssTable[0].jssWorksheet) {
+        if (current) {
           return false;
         }
       }
@@ -877,26 +836,23 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
       let columnId = columnIdAttr !== null ? parseInt(columnIdAttr, 10) : undefined;
       const rowIdAttr = target.getAttribute("data-y");
       const rowId = rowIdAttr !== null ? parseInt(rowIdAttr, 10) : undefined;
-      if (
-        libraryBase.jspreadsheet.current.resizing ||
-        libraryBase.jspreadsheet.current.dragging
-      ) {
+      if (current.resizing || current.dragging) {
       } else {
         // Header found
         if (jssTable[1] == 1) {
-        if (libraryBase.jspreadsheet.current.selectedHeader) {
+          if (current.selectedHeader) {
             const columnIdAttr2 = target.getAttribute("data-x");
             columnId = columnIdAttr2 !== null ? parseInt(columnIdAttr2, 10) : undefined;
-            const o = libraryBase.jspreadsheet.current.selectedHeader as number;
+            const o = current.selectedHeader as number;
             const d = columnId;
             if (typeof d === "number") {
               // Update selection
               updateSelectionFromCoords.call(
-                libraryBase.jspreadsheet.current,
+                current,
                 o,
                 0,
                 d,
-                libraryBase.jspreadsheet.current.options.data.length - 1,
+                current.options.data.length - 1,
                 e
               );
             }
@@ -906,16 +862,16 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
         // Body found
         if (jssTable[1] == 2) {
           if (target.classList.contains("jss_row")) {
-            if (libraryBase.jspreadsheet.current.selectedRow != null) {
-              const o = libraryBase.jspreadsheet.current.selectedRow;
+            if (current.selectedRow != null) {
+              const o = current.selectedRow;
               const d = rowId;
               // Update selection
               if (typeof d === "number") {
                 updateSelectionFromCoords.call(
-                  libraryBase.jspreadsheet.current,
+                  current,
                   0,
                   o,
-                  libraryBase.jspreadsheet.current.options.data[0].length - 1,
+                  current.options.data[0].length - 1,
                   d,
                   e
                 );
@@ -923,20 +879,16 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
             }
           } else {
             // Do not select edtion is in progress
-            if (!libraryBase.jspreadsheet.current.edition) {
-                if (columnId !== undefined && rowId !== undefined) {
-                if (libraryBase.jspreadsheet.current.selectedCorner) {
-                  updateCopySelection.call(
-                    libraryBase.jspreadsheet.current,
-                    columnId,
-                    rowId
-                  );
+            if (!current.edition) {
+              if (columnId !== undefined && rowId !== undefined) {
+                if (current.selectedCorner) {
+                  updateCopySelection.call(current, columnId, rowId);
                 } else {
-                  if (libraryBase.jspreadsheet.current.selectedCell) {
+                  if (current.selectedCell) {
                     updateSelectionFromCoords.call(
-                      libraryBase.jspreadsheet.current,
-                      libraryBase.jspreadsheet.current.selectedCell[0],
-                      libraryBase.jspreadsheet.current.selectedCell[1],
+                      current,
+                      current.selectedCell[0],
+                      current.selectedCell[1],
                       columnId,
                       rowId,
                       e

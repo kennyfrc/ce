@@ -159,3 +159,13 @@ Learnings:
 - Introduced a targeted task and small patch to alias `libraryBase.jspreadsheet.current` to a local `current` variable in hotspots (events.ts) to allow safe narrowing and reduce strict-null diagnostics.
 - Plan: continue replacing repeated property accesses with local aliases in events.ts, then propagate similar patterns to other hotspot files (internal.ts, factory.ts).
 
+### Snapshot: 2025-08-28T15:40:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 694 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 294 (saved to .agent/any-types-report.txt)
+
+Learnings:
+
+- Added local 'current' alias and replaced repeated property accesses in mouseMoveControls and mouseOverControls to enable narrowing; changes are scoped and non-destructive.
+- No immediate reduction in global error/anomaly counts — many hotspots remain across events.ts; next step: apply same aliasing pattern across additional hot functions and unify WorksheetInstance/SpreadsheetContext types in src/types/core.ts.
+

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T15:30:00Z"
+    "updatedAt": "2025-08-28T15:42:00Z"
   },
   "tasks": [
     {
@@ -1711,6 +1711,28 @@
       "links": [],
       "createdAt": "2025-08-28T15:30:00Z",
       "updatedAt": "2025-08-28T15:30:00Z"
+    },
+    {
+      "id": "ts-fix-20250828-2001",
+      "name": "events.ts: Replace remaining libraryBase.jspreadsheet.current with local current alias",
+      "description": "Replace repeated libraryBase.jspreadsheet.current accesses with local const current inside hot functions to enable narrowing and reduce TS18047 diagnostics",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "events"
+      ],
+      "acceptanceCriteria": [
+        "No TS18047/TS2722 diagnostics in targeted hotspots"
+      ],
+      "createdAt": "2025-08-28T15:40:00Z",
+      "updatedAt": "2025-08-28T15:42:00Z"
     }
   ]
 }
