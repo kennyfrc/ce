@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T18:36:37Z"
+    "updatedAt": "2025-08-28T18:46:20Z"
   },
   "tasks": [
     {
@@ -2051,7 +2051,7 @@
       ],
       "links": [],
       "createdAt": "2025-08-29T14:00:00Z",
-      "updatedAt": "2025-08-29T14:05:00Z"
+      "updatedAt": "2025-08-28T18:46:20Z"
     },
     {
       "id": "ts-live-20250829-0001",
@@ -2074,14 +2074,14 @@
         "npx tsc -p tsconfig.test.json --noEmit output saved to .agent/ts-errors-live.txt",
         "node .agent/find-any-types.js output saved to .agent/any-types-live.txt"
       ],
-        "results": {
-          "tsErrors": 981,
-          "anyCount": 216,
-          "tsErrorsFile": ".agent/ts-errors-live.txt",
-          "anyReportFile": ".agent/any-types-live.txt"
-        },
-        "createdAt": "2025-08-29T14:30:00Z",
-        "updatedAt": "2025-08-28T18:36:37Z"
+      "results": {
+        "tsErrors": 981,
+        "anyCount": 216,
+        "tsErrorsFile": ".agent/ts-errors-live.txt",
+        "anyReportFile": ".agent/any-types-live.txt"
+      },
+      "createdAt": "2025-08-29T14:30:00Z",
+      "updatedAt": "2025-08-28T18:36:37Z"
     },
     {
       "id": "ts-zero-20250829-0002",
@@ -2134,6 +2134,28 @@
       ],
       "createdAt": "2025-08-28T18:25:42Z",
       "updatedAt": "2025-08-28T18:25:42Z"
+    },
+    {
+      "id": "ts-fix-20250829-1001",
+      "name": "events.ts: use columns alias for nested header selection",
+      "description": "Replace direct current.options.columns access with local columns alias in nested header selection",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "events"
+      ],
+      "acceptanceCriteria": [
+        "Use existing columns alias; avoid direct nullable access"
+      ],
+      "createdAt": "2025-08-28T18:43:39Z",
+      "updatedAt": "2025-08-28T18:46:20Z"
     }
   ]
 }

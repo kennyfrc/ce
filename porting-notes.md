@@ -254,6 +254,10 @@ Learnings:
 ### Work: 2025-08-29T14:00:00Z
 
 - Added plan task `ts-fix-20250829-0001` to resolve SpreadsheetContext vs WorksheetInstance mismatches in `src/utils/columns.ts`.
+
+### Work: 2025-08-29T14:30:00Z
+
+- Quick fix in src/utils/events.ts: replaced direct `current.options.columns.length` access with the local `columns` alias to avoid possible undefined access and enable narrowing; reduced one type diagnostic.
 - Patched `src/utils/dispatch.ts` to accept `SpreadsheetContext` as a valid `this` type where appropriate.
 - Replaced numeric flag `1` with boolean `true` in `src/utils/data.ts` for `setMerge.call`.
 - Adjusted imports and narrowed `this` typing for `createCellHeader` in `src/utils/columns.ts` to `WorksheetInstance | SpreadsheetContext`.

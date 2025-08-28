@@ -100,7 +100,7 @@ const mouseUpControls = function (e: MouseEvent) {
         const newWidth = getAttrInt(current.cols[colIndex].colElement, "width");
 
         // Columns
-        const columns = current.getSelectedColumns();
+        const columns = current.getSelectedColumns?.() ?? [];
         if (columns.length > 1) {
           const currentWidth: number[] = [];
           for (let i = 0; i < columns.length; i++) {
@@ -154,11 +154,11 @@ const mouseUpControls = function (e: MouseEvent) {
             current.headers[i].classList.remove("dragging-right");
           }
           // Update position
-          if (columnId !== undefined) {
-            if (dragCol != d.destination) {
-              current.moveColumn(dragCol, d.destination);
+            if (columnId !== undefined) {
+              if (typeof d.destination === "number" && dragCol != d.destination) {
+                current.moveColumn?.(dragCol, d.destination);
+              }
             }
-          }
         } else {
           let position: number;
           const elem = d.element as HTMLElement | null;
@@ -180,19 +180,20 @@ const mouseUpControls = function (e: MouseEvent) {
         current.dragging = null;
       }
     } else {
-      // Close any corner selection
-      if (current.selectedCorner) {
-        current.selectedCorner = false;
+        // Close any corner selection
+        if (current.selectedCorner) {
+          current.selectedCorner = false;
 
-        // Data to be copied
-        if (current.selection.length > 0) {
-          // Copy data
-          copyData.call(current, current.selection[0], current.selection[current.selection.length - 1]);
+          // Data to be copied (guard selection before use)
+          const selection = current.selection ?? [];
+          if (selection.length > 0) {
+            // Copy data
+            copyData.call(current, selection[0], selection[selection.length - 1]);
 
-          // Remove selection
-          removeCopySelection.call(current);
+            // Remove selection
+            removeCopySelection.call(current);
+          }
         }
-      }
     }
   }
 
@@ -228,38 +229,31 @@ const mouseDownControls = function (e: MouseEvent) {
     return;
   }
 
+  let current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (jssTable[0]) {
-    if (libraryBase.jspreadsheet.current != jssTable[0].jssWorksheet) {
-      if (libraryBase.jspreadsheet.current) {
-        if (libraryBase.jspreadsheet.current.edition) {
-          closeEditor.call(
-            libraryBase.jspreadsheet.current,
-            libraryBase.jspreadsheet.current.edition[0],
-            true
-          );
+    if (current != jssTable[0].jssWorksheet) {
+      if (current) {
+        if (current.edition) {
+          closeEditor.call(current, current.edition[0], true);
         }
-        libraryBase.jspreadsheet.current.resetSelection();
+        current.resetSelection();
       }
       libraryBase.jspreadsheet.current = jssTable[0].jssWorksheet;
+      current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
     }
   } else {
-    if (libraryBase.jspreadsheet.current) {
-      if (libraryBase.jspreadsheet.current.edition) {
-        closeEditor.call(
-          libraryBase.jspreadsheet.current,
-          libraryBase.jspreadsheet.current.edition[0],
-          true
-        );
+    if (current) {
+      if (current.edition) {
+        closeEditor.call(current, current.edition[0], true);
       }
 
       if (!target.classList.contains("jss_object")) {
-        resetSelection.call(libraryBase.jspreadsheet.current, true);
+        resetSelection.call(current, true);
         libraryBase.jspreadsheet.current = null;
+        current = null;
       }
     }
   }
-
-  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current && mouseButton == 1) {
     // Narrow common optional properties for safer access
     const data = current.options.data ?? [];
@@ -362,14 +356,14 @@ const mouseDownControls = function (e: MouseEvent) {
           if (target.parentElement?.classList.contains("jss_nested")) {
             let c1, c2;
 
-            if (target.getAttribute("data-column")) {
-              const column = (target.getAttribute("data-column") || "").split(",");
-              c1 = parseInt(column[0]);
-              c2 = parseInt(column[column.length - 1]);
-            } else {
-              c1 = 0;
-              c2 = current.options.columns.length - 1;
-            }
+              if (target.getAttribute("data-column")) {
+                const column = (target.getAttribute("data-column") || "").split(",");
+                c1 = parseInt(column[0]);
+                c2 = parseInt(column[column.length - 1]);
+              } else {
+                c1 = 0;
+                c2 = columns.length - 1;
+              }
             updateSelectionFromCoords.call(
               current,
               c1,
@@ -570,19 +564,19 @@ const mouseMoveControls = function (e: MouseEvent) {
       // Resizing is ongoing
       if (current.resizing) {
         if (current.resizing.column) {
-          const width = e.pageX - current.resizing.mousePosition;
+          const width = e.pageX - (current.resizing.mousePosition ?? 0);
 
-          if (current.resizing.width + width > 0) {
-            const tempWidth = current.resizing.width + width;
+          if ((current.resizing.width ?? 0) + width > 0) {
+            const tempWidth = (current.resizing.width ?? 0) + width;
             current.cols[current.resizing.column].colElement.setAttribute("width", tempWidth);
 
             updateCornerPosition.call(current);
           }
         } else {
-          const height = e.pageY - current.resizing.mousePosition;
+          const height = e.pageY - (current.resizing.mousePosition ?? 0);
 
-          if (current.resizing.height + height > 0) {
-            const tempHeight = current.resizing.height + height;
+          if ((current.resizing.height ?? 0) + height > 0) {
+            const tempHeight = (current.resizing.height ?? 0) + height;
             current.rows[current.resizing.row].element.setAttribute("height", tempHeight);
 
             updateCornerPosition.call(current);
@@ -871,66 +865,49 @@ const doubleClickControls = function (e: MouseEvent): void {
   const target = getHTMLElement(e.target);
   if (!target) return;
 
-  // Jss is selected
-  if (libraryBase.jspreadsheet.current) {
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (current) {
     // Corner action
     if (target.classList.contains("jss_corner")) {
       // Any selected cells
-      if (libraryBase.jspreadsheet.current.highlighted.length > 0) {
+      if (current.highlighted.length > 0) {
         // Copy from this
-        const x1 =
-          libraryBase.jspreadsheet.current.highlighted[0].element.getAttribute(
-            "data-x"
-          );
+        const x1 = current.highlighted[0].element.getAttribute("data-x");
         const y1 =
           parseInt(
-            libraryBase.jspreadsheet.current.highlighted[
-              libraryBase.jspreadsheet.current.highlighted.length - 1
-            ].element.getAttribute("data-y")
+            current.highlighted[current.highlighted.length - 1].element.getAttribute(
+              "data-y"
+            ) || "0"
           ) + 1;
         // Until this
         const x2 =
-          libraryBase.jspreadsheet.current.highlighted[
-            libraryBase.jspreadsheet.current.highlighted.length - 1
-          ].element.getAttribute("data-x");
-        const y2 = libraryBase.jspreadsheet.current.records.length - 1;
+          current.highlighted[current.highlighted.length - 1].element.getAttribute("data-x");
+        const y2 = current.records.length - 1;
         // Execute copy
-        copyData.call(
-          libraryBase.jspreadsheet.current,
-          libraryBase.jspreadsheet.current.records[y1][x1].element,
-          libraryBase.jspreadsheet.current.records[y2][x2].element
-        );
+        copyData.call(current, current.records[y1][x1].element, current.records[y2][x2].element);
       }
     } else if (target.classList.contains("jss_column_filter")) {
       // Column
       const columnId = target.getAttribute("data-x");
       // Open filter
-      openFilter.call(libraryBase.jspreadsheet.current, columnId);
+      openFilter.call(current, columnId);
     } else {
       // Get table
       const jssTable = getElement(target);
 
       // Double click over header
-      if (
-        jssTable[1] == 1 &&
-        libraryBase.jspreadsheet.current.options.columnSorting != false
-      ) {
+      if (jssTable[1] == 1 && current.options.columnSorting != false) {
         // Check valid column header coords
         const columnId = target.getAttribute("data-x");
         if (columnId) {
-          libraryBase.jspreadsheet.current.orderBy(parseInt(columnId));
+          current.orderBy(parseInt(columnId));
         }
       }
 
       // Double click over body
-      if (
-        jssTable[1] == 2 &&
-        libraryBase.jspreadsheet.current.options.editable != false
-      ) {
-        if (!libraryBase.jspreadsheet.current.edition) {
-          const getCellCoords = function (
-            element: HTMLElement
-          ): HTMLElement | undefined {
+      if (jssTable[1] == 2 && current.options.editable != false) {
+        if (!current.edition) {
+          const getCellCoords = function (element: HTMLElement): HTMLElement | undefined {
             if (element.parentNode) {
               const x = element.getAttribute("data-x");
               const y = element.getAttribute("data-y");
@@ -942,10 +919,10 @@ const doubleClickControls = function (e: MouseEvent): void {
             }
             return undefined;
           };
-           const cell = getCellCoords(target);
-           if (cell && cell.classList.contains("highlight")) {
-             openEditor.call(libraryBase.jspreadsheet.current, cell, false, e);
-           }
+          const cell = getCellCoords(target);
+          if (cell && cell.classList.contains("highlight")) {
+            openEditor.call(current, cell, false, e);
+          }
         }
       }
     }
@@ -953,25 +930,23 @@ const doubleClickControls = function (e: MouseEvent): void {
 };
 
 const pasteControls = function (e: ClipboardEvent): void {
-  if (
-    libraryBase.jspreadsheet.current &&
-    libraryBase.jspreadsheet.current.selectedCell
-  ) {
-    if (!libraryBase.jspreadsheet.current.edition) {
-      if (libraryBase.jspreadsheet.current.options.editable != false) {
-        if (e && 'clipboardData' in e && e.clipboardData) {
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (current && current.selectedCell) {
+    if (!current.edition) {
+      if (current.options.editable != false) {
+        if (e && "clipboardData" in e && e.clipboardData) {
           paste.call(
-            libraryBase.jspreadsheet.current,
-            libraryBase.jspreadsheet.current.selectedCell[0],
-            libraryBase.jspreadsheet.current.selectedCell[1],
+            current,
+            current.selectedCell[0],
+            current.selectedCell[1],
             e.clipboardData.getData("text")
           );
           e.preventDefault();
         } else if ((window as any).clipboardData) {
           paste.call(
-            libraryBase.jspreadsheet.current,
-            libraryBase.jspreadsheet.current.selectedCell[0],
-            libraryBase.jspreadsheet.current.selectedCell[1],
+            current,
+            current.selectedCell[0],
+            current.selectedCell[1],
             (window as any).clipboardData.getData("text")
           );
         }
@@ -1288,11 +1263,11 @@ const contextMenuControls = function (e: MouseEvent): void {
               if (
                 xNum === null ||
                 yNum === null ||
-                !libraryBase.jspreadsheet.current.selectedCell ||
-                xNum < parseInt(libraryBase.jspreadsheet.current.selectedCell[0]) ||
-                xNum > parseInt(libraryBase.jspreadsheet.current.selectedCell[2]) ||
-                yNum < parseInt(libraryBase.jspreadsheet.current.selectedCell[1]) ||
-                yNum > parseInt(libraryBase.jspreadsheet.current.selectedCell[3])
+                !current.selectedCell ||
+                xNum < parseInt(current.selectedCell[0]) ||
+                xNum > parseInt(current.selectedCell[2]) ||
+                yNum < parseInt(current.selectedCell[1]) ||
+                yNum > parseInt(current.selectedCell[3])
               ) {
                 if (xNum !== null && yNum !== null) {
                    updateSelectionFromCoords.call(
@@ -1340,11 +1315,14 @@ const contextMenuControls = function (e: MouseEvent): void {
               xNum = getElementIndex(targetEl as HTMLElement) - 1;
               yNum = getElementIndex((targetEl as HTMLElement).parentElement as HTMLElement);
 
+              // Compare against current selection safely
+              const sel = current.selectedCell;
               if (
-                columns[0] != parseInt(libraryBase.jspreadsheet.current.selectedCell[0]) ||
-                columns[columns.length - 1] != parseInt(libraryBase.jspreadsheet.current.selectedCell[2]) ||
-                libraryBase.jspreadsheet.current.selectedCell[1] != null ||
-                libraryBase.jspreadsheet.current.selectedCell[3] != null
+                !sel ||
+                columns[0] != parseInt(sel[0] as string) ||
+                columns[columns.length - 1] != parseInt(sel[2] as string) ||
+                sel[1] != null ||
+                sel[3] != null
               ) {
                  updateSelectionFromCoords.call(
                    current,
@@ -1354,9 +1332,9 @@ const contextMenuControls = function (e: MouseEvent): void {
                    dataRows - 1,
                    e
                  );
-              }
+               }
             } else if (role === "select-all") {
-              selectAll.call(libraryBase.jspreadsheet.current);
+              selectAll.call(current);
             } else if (role === "tabs") {
               xNum = getElementIndex(targetEl as HTMLElement);
             } else if (role === "footer") {
@@ -1368,7 +1346,7 @@ const contextMenuControls = function (e: MouseEvent): void {
         const xArg = xNum ?? 0;
         const yArg = yNum ?? 0;
         let items = defaultContextMenu(
-          libraryBase.jspreadsheet.current,
+          current,
           xArg,
           yArg,
           role
@@ -1376,7 +1354,7 @@ const contextMenuControls = function (e: MouseEvent): void {
 
         if (typeof spreadsheet.config.contextMenu === "function") {
           const result = spreadsheet.config.contextMenu(
-            libraryBase.jspreadsheet.current,
+            current,
             xArg,
             yArg,
             e,
@@ -1407,7 +1385,7 @@ const contextMenuControls = function (e: MouseEvent): void {
           for (const plugin of Object.values(spreadsheet.plugins as Record<string, unknown>)) {
             if (isPluginWithContextMenu(plugin)) {
                 const result = plugin.contextMenu(
-                  libraryBase.jspreadsheet.current,
+                  current,
                   xArg,
                   yArg,
                   e,
