@@ -1594,8 +1594,8 @@
       "description": "Add null guards, narrow EventTarget/e.target types, and unify WorksheetInstance/SpreadsheetContext types used in events.ts to reduce hotspots.",
       "phase": 3,
       "state": "in_progress",
-        "createdAt": "2025-08-28T13:53:21Z",
-        "updatedAt": "2025-08-28T14:27:27Z",
+      "createdAt": "2025-08-28T13:53:21Z",
+      "updatedAt": "2025-08-28T14:27:27Z",
       "candidateFiles": [
         "src/utils/events.ts",
         "src/types/core.ts"
@@ -1628,39 +1628,38 @@
       "links": [
         "analysis/architecture/20250828-0649_ts-port-status.md"
       ]
-      },
-      {
-        "id": "ts-fix-20250828-1001",
-        "name": "events.ts: Call setWidth on worksheet current, not parent",
-        "description": "Fix incorrect this-context when calling setWidth from events.ts (use current worksheet instance)",
-        "phase": 3,
-        "state": "completed",
-        "candidateFiles": [
-          "src/utils/events.ts",
-          "src/utils/columns.ts"
-        ],
-        "fileHints": [
-          {
-            "path": "src/utils/events.ts",
-            "lineStart": 100,
-            "lineEnd": 132
-          }
-        ],
-        "owners": [
-          "@team/types"
-        ],
-        "labels": [
-          "bugfix",
-          "types"
-        ],
-        "acceptanceCriteria": [
-          "No TS2684/TS2345 related to setWidth.call in events.ts",
-          "npx tsc -p tsconfig.test.json --noEmit does not add new errors from this change"
-        ],
-        "createdAt": "2025-08-28T14:45:00Z",
-        "updatedAt": "2025-08-28T14:48:00Z"
-      }
-    ,
+    },
+    {
+      "id": "ts-fix-20250828-1001",
+      "name": "events.ts: Call setWidth on worksheet current, not parent",
+      "description": "Fix incorrect this-context when calling setWidth from events.ts (use current worksheet instance)",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/columns.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 100,
+          "lineEnd": 132
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "bugfix",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2684/TS2345 related to setWidth.call in events.ts",
+        "npx tsc -p tsconfig.test.json --noEmit does not add new errors from this change"
+      ],
+      "createdAt": "2025-08-28T14:45:00Z",
+      "updatedAt": "2025-08-28T14:48:00Z"
+    },
     {
       "id": "ts-fix-20250828-1500",
       "name": "events.ts: Narrow children element types and cast editor textarea",
@@ -1682,6 +1681,36 @@
       "acceptanceCriteria": [
         "No DOM focus/blur errors for children[0] usage in events.ts"
       ]
+    },
+    {
+      "id": "ts-zero-20250828-0301",
+      "name": "events.ts: Alias current and narrow nulls",
+      "description": "Replace repeated libraryBase.jspreadsheet.current accesses with local current alias in hotspots to satisfy strict null checks",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 90,
+          "lineEnd": 260
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "events"
+      ],
+      "acceptanceCriteria": [
+        "No 'possibly null' errors in targeted hotspots in events.ts"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T15:30:00Z",
+      "updatedAt": "2025-08-28T15:30:00Z"
     }
   ]
 }

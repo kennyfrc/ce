@@ -12,28 +12,60 @@ import {
 import dispatch from "./dispatch";
 import { createFromTable } from "./helpers";
 import { getSpreadsheetConfig, setConfig } from "./config";
+import type {
+  SpreadsheetContext,
+  SpreadsheetInstance,
+  SpreadsheetOptions,
+  WorksheetInstance,
+} from "../types/core";
+// Local lightweight aliases for jSuites types (keeps file self-contained)
+type JSuitesTabs = { render: () => void; content: HTMLElement; [key: string]: unknown };
+type TabsOptions = { data?: Array<{ title: string; content: HTMLElement | string }>; [key: string]: unknown };
+type JSuitesContextMenu = { render: () => void; close: (immediate?: boolean) => void; [key: string]: unknown };
 
-const factory = function () {};
+interface Factory {
+  (): void;
+  spreadsheet(
+    el: HTMLElement,
+    options: SpreadsheetOptions,
+    worksheets: WorksheetInstance[]
+  ): Promise<SpreadsheetInstance>;
+  worksheet(
+    spreadsheet: SpreadsheetInstance,
+    options: SpreadsheetOptions,
+    position: number
+  ): { parent: SpreadsheetInstance; options: SpreadsheetOptions };
+}
+
+const factory: Factory = function () {};
 
 const createWorksheets = async function (
-  this: any,
-  spreadsheet: any,
-  options: any,
-  el: any
+  this: SpreadsheetContext,
+  spreadsheet: SpreadsheetInstance,
+  options: SpreadsheetOptions,
+  el: HTMLElement
 ) {
   // Create worksheets
   let o = options.worksheets;
   if (o) {
-    let tabsOptions: Record<string, any> = {
+    let tabsOptions: TabsOptions = {
       animation: true,
-      onbeforecreate: function (this: any, element: any, title: any) {
+      onbeforecreate: function (
+        this: JSuitesTabs,
+        element: HTMLElement,
+        title: string | null
+      ) {
         if (title) {
           return title;
         } else {
           return getNextDefaultWorksheetName(spreadsheet);
         }
       },
-      oncreate: function (this: any, element: any, newTabContent: any) {
+      oncreate: function (
+        this: JSuitesTabs,
+        element: HTMLElement,
+        newTabContent: HTMLElement
+      ) {
         if (!spreadsheet.creationThroughJss) {
           const worksheetName =
             element.tabs.headers.children[
@@ -66,10 +98,10 @@ const createWorksheets = async function (
         });
       },
       onchange: function (
-        this: any,
-        element: any,
-        instance: any,
-        tabIndex: any
+        this: JSuitesTabs,
+        element: HTMLElement,
+        instance: JSuitesTabs,
+        tabIndex: number
       ) {
         if (
           spreadsheet.worksheets.length != 0 &&
@@ -104,9 +136,9 @@ const createWorksheets = async function (
     el.classList.add("jss_spreadsheet");
     el.tabIndex = 0;
 
-    const tabs = jSuites.tabs(el, tabsOptions) as { render: () => void; content: HTMLElement; [key: string]: unknown };
+    const tabs = jSuites.tabs(el, tabsOptions) as JSuitesTabs;
 
-    const spreadsheetStyles = options.style;
+    const spreadsheetStyles = options.style ?? ({} as Record<string, CSSStyleDeclaration | number>);
     delete options.style;
 
     for (let i = 0; i < o.length; i++) {
@@ -123,11 +155,11 @@ const createWorksheets = async function (
         element: tabs.content.children[i],
         options: o[i],
         filters: [],
-        formula: [],
+        formula: {} as Record<string, string[]>,
         history: [],
         selection: [],
         historyIndex: -1,
-      });
+      } as unknown as WorksheetInstance);
 
       await buildWorksheet.call(spreadsheet.worksheets[i]);
     }
@@ -137,10 +169,9 @@ const createWorksheets = async function (
 };
 
 factory.spreadsheet = async function (
-  this: any,
-  el: any,
-  options: any,
-  worksheets: any
+  el: HTMLElement,
+  options: SpreadsheetOptions,
+  worksheets: WorksheetInstance[]
 ) {
   if (el.tagName == "TABLE") {
     if (!options) {
@@ -161,7 +192,7 @@ factory.spreadsheet = async function (
     el = div;
   }
 
-  let spreadsheet: any = {
+  let spreadsheet: SpreadsheetInstance = {
     worksheets: worksheets,
     config: options,
     element: el,
@@ -179,17 +210,17 @@ factory.spreadsheet = async function (
   spreadsheet.getConfig = getSpreadsheetConfig.bind(spreadsheet);
   spreadsheet.setConfig = setConfig.bind(spreadsheet);
 
-  spreadsheet.setPlugins = function (newPlugins: any) {
+  spreadsheet.setPlugins = function (newPlugins?: Record<string, Function>) {
     if (!spreadsheet.plugins) {
       spreadsheet.plugins = {};
     }
 
-    if (typeof newPlugins == "object") {
+    if (typeof newPlugins == "object" && newPlugins) {
       Object.entries(newPlugins).forEach(function ([pluginName, plugin]: [
         string,
-        any
+        Function
       ]) {
-        spreadsheet.plugins[pluginName] = plugin.call(
+        spreadsheet.plugins![pluginName] = plugin.call(
           libraryBase.jspreadsheet,
           spreadsheet,
           {},
@@ -204,12 +235,12 @@ factory.spreadsheet = async function (
   // Create as worksheets
   await createWorksheets(spreadsheet, options, el);
 
-  spreadsheet.element.appendChild(spreadsheet.contextMenu);
+  spreadsheet.element.appendChild(spreadsheet.contextMenu!);
 
   // Create element
-  jSuites.contextmenu(spreadsheet.contextMenu, {
-    onclick: function (this: any) {
-      spreadsheet.contextMenu.contextmenu.close(false);
+  jSuites.contextmenu(spreadsheet.contextMenu!, {
+    onclick: function (this: JSuitesContextMenu) {
+      spreadsheet.contextMenu!.contextmenu!.close(false);
     },
   });
 
@@ -233,10 +264,9 @@ factory.spreadsheet = async function (
 };
 
 factory.worksheet = function (
-  this: any,
-  spreadsheet: any,
-  options: any,
-  position: any
+  spreadsheet: SpreadsheetInstance,
+  options: SpreadsheetOptions,
+  position: number
 ) {
   // Worksheet object
   let w = {

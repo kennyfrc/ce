@@ -3,7 +3,7 @@
     "target": "es5",
     "module": "esnext",
     "lib": ["es6", "dom"],
-    "allowJs": true,
+    "allowJs": false,
     "checkJs": false,
     "outDir": "./dist",
     "rootDir": "./src",
@@ -31,6 +31,10 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["src/**/*", "test/**/*", "src/types/**/*"],
-  "exclude": ["node_modules", "dist", "test"]
+  "include": [
+    "src/**/*",
+    "src/types/**/*",
+    "playwright/**/*"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

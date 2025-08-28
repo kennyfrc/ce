@@ -10,11 +10,16 @@ import {
 } from "./selection";
 import { setHistory } from "./history";
 import { getColumnNameFromId } from "./internalHelpers";
+import { WorksheetInstance, CellValue } from "../types/core";
 
 /**
  * Create row
  */
-export const createRow = function (this: any, j: number, data?: any[]) {
+export const createRow = function (
+  this: WorksheetInstance,
+  j: number,
+  data?: CellValue[]
+) {
   const obj = this;
 
   // Create container
@@ -103,8 +108,8 @@ export const createRow = function (this: any, j: number, data?: any[]) {
  * @return void
  */
 export const insertRow = function (
-  this: any,
-  mixed: number | any[],
+  this: WorksheetInstance,
+  mixed: number | CellValue[],
   rowNumber?: number,
   insertBefore?: boolean
 ): boolean {
@@ -135,7 +140,7 @@ export const insertRow = function (
     insertBefore = insertBefore ? true : false;
 
     // Current column number
-    const lastRow = obj.options.data.length - 1;
+    const lastRow = (obj.options.data?.length ?? 1) - 1;
 
     if (rowNumber == undefined || rowNumber >= lastRow || rowNumber < 0) {
       rowNumber = lastRow;
@@ -146,7 +151,7 @@ export const insertRow = function (
     for (let row = 0; row < numOfRows; row++) {
       const newRow = [];
 
-      for (let col = 0; col < obj.options.columns.length; col++) {
+      for (let col = 0; col < (obj.options.columns?.length ?? 0); col++) {
         newRow[col] = data[col] ? data[col] : "";
       }
 
@@ -172,7 +177,7 @@ export const insertRow = function (
       if (isRowMerged.call(obj, rowNumber, insertBefore).length) {
         if (
           !confirm(
-            (jSuites as any).translate(
+            jSuites.translate(
               "This action will destroy any existing merged cells. Are you sure?"
             )
           )
@@ -189,7 +194,7 @@ export const insertRow = function (
       if (obj.results && obj.results.length != obj.rows.length) {
         if (
           confirm(
-            (jSuites as any).translate(
+            jSuites.translate(
               "This action will clear your search results. Are you sure?"
             )
           )
@@ -219,7 +224,7 @@ export const insertRow = function (
     for (let row = rowIndex; row < numOfRows + rowIndex; row++) {
       // Push data to the data container
       obj.options.data[row] = [];
-      for (let col = 0; col < obj.options.columns.length; col++) {
+      for (let col = 0; col < (obj.options.columns?.length ?? 0); col++) {
         obj.options.data[row][col] = data[col] ? data[col] : "";
       }
       // Create row
@@ -297,10 +302,10 @@ export const insertRow = function (
  * @return void
  */
 export const moveRow = function (
-  this: any,
-  o: any,
-  d: any,
-  ignoreDom: any
+  this: WorksheetInstance,
+  o: number,
+  d: number,
+  ignoreDom: boolean
 ): boolean | void {
   const obj = this;
 
@@ -322,7 +327,7 @@ export const moveRow = function (
     ) {
       if (
         !confirm(
-          (jSuites as any).translate(
+          jSuites.translate(
             "This action will destroy any existing merged cells. Are you sure?"
           )
         )
@@ -338,7 +343,7 @@ export const moveRow = function (
     if (obj.results && obj.results.length != obj.rows.length) {
       if (
         confirm(
-          (jSuites as any).translate(
+          jSuites.translate(
             "This action will clear your search results. Are you sure?"
           )
         )
@@ -417,9 +422,9 @@ export const moveRow = function (
  * @return void
  */
 export const deleteRow = function (
-  this: any,
-  rowNumber: any,
-  numOfRows: any
+  this: WorksheetInstance,
+  rowNumber: number,
+  numOfRows: number
 ): boolean | void {
   const obj = this;
 
@@ -491,7 +496,7 @@ export const deleteRow = function (
         if (mergeExists) {
           if (
             !confirm(
-              (jSuites as any).translate(
+              jSuites.translate(
                 "This action will destroy any existing merged cells. Are you sure?"
               )
             )
@@ -507,7 +512,7 @@ export const deleteRow = function (
           if (obj.results && obj.results.length != obj.rows.length) {
             if (
               confirm(
-                (jSuites as any).translate(
+                jSuites.translate(
                   "This action will clear your search results. Are you sure?"
                 )
               )
@@ -605,7 +610,10 @@ export const deleteRow = function (
  * @param row - row number (first row is: 0)
  * @return height - current row height
  */
-export const getHeight = function (this: any, row: any) {
+export const getHeight = function (
+  this: WorksheetInstance,
+  row: number
+): number | number[] {
   const obj = this;
 
   let data;
@@ -622,7 +630,11 @@ export const getHeight = function (this: any, row: any) {
   } else {
     // In case the row is an object
     if (typeof row == "object") {
-      row = (window as any).$(row).getAttribute("data-y");
+      const rowElement = $(row as HTMLElement);
+      const dataY = rowElement.getAttribute("data-y");
+      if (dataY) {
+        row = parseInt(dataY);
+      }
     }
 
     data = obj.rows[row].element.style.height;
@@ -639,11 +651,11 @@ export const getHeight = function (this: any, row: any) {
  * @param oldHeight - old row height
  */
 export const setHeight = function (
-  this: any,
-  row: any,
-  height: any,
-  oldHeight: any
-) {
+  this: WorksheetInstance,
+  row: number,
+  height: number,
+  oldHeight?: number
+): void {
   const obj = this;
 
   if (height > 0) {
@@ -692,14 +704,17 @@ export const setHeight = function (
 /**
  * Show row
  */
-export const showRow = function (this: any, rowNumber: any) {
+export const showRow = function (
+  this: WorksheetInstance,
+  rowNumber: number | number[]
+) {
   const obj = this;
 
   if (!Array.isArray(rowNumber)) {
     rowNumber = [rowNumber];
   }
 
-  rowNumber.forEach(function (rowIndex: any) {
+  rowNumber.forEach(function (rowIndex: number) {
     obj.rows[rowIndex].element.style.display = "";
   });
 };
@@ -707,14 +722,17 @@ export const showRow = function (this: any, rowNumber: any) {
 /**
  * Hide row
  */
-export const hideRow = function (this: any, rowNumber: any) {
+export const hideRow = function (
+  this: WorksheetInstance,
+  rowNumber: number | number[]
+) {
   const obj = this;
 
   if (!Array.isArray(rowNumber)) {
     rowNumber = [rowNumber];
   }
 
-  rowNumber.forEach(function (rowIndex: any) {
+  rowNumber.forEach(function (rowIndex: number) {
     obj.rows[rowIndex].element.style.display = "none";
   });
 };
@@ -722,11 +740,15 @@ export const hideRow = function (this: any, rowNumber: any) {
 /**
  * Get a row data by rowNumber
  */
-export const getRowData = function (this: any, rowNumber: any, processed: any) {
+export const getRowData = function (
+  this: WorksheetInstance,
+  rowNumber: number,
+  processed: boolean
+): string[] {
   const obj = this;
 
   if (processed) {
-    return obj.records[rowNumber].map(function (record: any) {
+    return obj.records[rowNumber].map(function (record) {
       return record.element.innerHTML;
     });
   } else {
@@ -738,11 +760,11 @@ export const getRowData = function (this: any, rowNumber: any, processed: any) {
  * Set a row data by rowNumber
  */
 export const setRowData = function (
-  this: any,
-  rowNumber: any,
-  data: any,
-  force: any
-) {
+  this: WorksheetInstance,
+  rowNumber: number,
+  data: CellValue[],
+  force: boolean
+): void {
   const obj = this;
 
   for (let i = 0; i < obj.headers.length; i++) {

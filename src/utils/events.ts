@@ -91,85 +91,51 @@ const mouseUpControls = function (e: MouseEvent) {
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current) {
     // Update cell size
-    if (libraryBase.jspreadsheet.current.resizing) {
-      const r = libraryBase.jspreadsheet.current.resizing;
+    if (current.resizing) {
+      const r = current.resizing;
       // Columns to be updated when a numeric column index is present
       if (typeof r.column === "number") {
         const colIndex = r.column;
         // New width
-        const newWidth = getAttrInt(
-          libraryBase.jspreadsheet.current.cols[colIndex].colElement,
-          "width"
-        );
+        const newWidth = getAttrInt(current.cols[colIndex].colElement, "width");
 
         // Columns
-        const columns = libraryBase.jspreadsheet.current.getSelectedColumns();
+        const columns = current.getSelectedColumns();
         if (columns.length > 1) {
           const currentWidth: number[] = [];
           for (let i = 0; i < columns.length; i++) {
             currentWidth.push(
-              getAttrInt(
-                libraryBase.jspreadsheet.current.cols[columns[i]].colElement,
-                "width"
-              )
+              getAttrInt(current.cols[columns[i]].colElement, "width")
             );
           }
           const index = columns.indexOf(colIndex);
           currentWidth[index] = r.width ?? currentWidth[index] ?? 0;
-          setWidth.call(
-            libraryBase.jspreadsheet.current,
-            columns,
-            newWidth,
-            currentWidth
-          );
+          setWidth.call(current, columns, newWidth, currentWidth);
         } else {
-          setWidth.call(
-            libraryBase.jspreadsheet.current,
-            colIndex,
-            newWidth,
-            r.width
-          );
+          setWidth.call(current, colIndex, newWidth, r.width);
         }
 
         // Remove border
-        libraryBase.jspreadsheet.current.headers[colIndex].classList.remove(
-          "resizing"
-        );
-        for (
-          let j = 0;
-          j < libraryBase.jspreadsheet.current.records.length;
-          j++
-        ) {
-          if (libraryBase.jspreadsheet.current.records[j][colIndex]) {
-            libraryBase.jspreadsheet.current.records[j][colIndex].element.classList.remove(
-              "resizing"
-            );
+        current.headers[colIndex].classList.remove("resizing");
+        for (let j = 0; j < current.records.length; j++) {
+          if (current.records[j][colIndex]) {
+            current.records[j][colIndex].element.classList.remove("resizing");
           }
         }
       } else {
         // Row resize
         const rowIndex = r.row as number;
-        libraryBase.jspreadsheet.current.rows[rowIndex].element.children[0].classList.remove(
-          "resizing"
-        );
-        const newHeight = getAttrInt(
-          libraryBase.jspreadsheet.current.rows[rowIndex].element,
-          "height"
-        );
-        setHeight.call(
-          libraryBase.jspreadsheet.current,
-          rowIndex,
-          newHeight,
-          r.height
-        );
+        current.rows[rowIndex].element.children[0].classList.remove("resizing");
+        const newHeight = getAttrInt(current.rows[rowIndex].element, "height");
+        setHeight.call(current, rowIndex, newHeight, r.height);
         // Remove border
         r.element?.classList.remove("resizing");
       }
       // Reset resizing helper
-      libraryBase.jspreadsheet.current.resizing = null;
-    } else if (libraryBase.jspreadsheet.current.dragging) {
+      current.resizing = null;
+    } else if (current.dragging) {
       // Reset dragging helper
-      const d = libraryBase.jspreadsheet.current.dragging;
+      const d = current.dragging;
       if (d) {
         if (typeof d.column === "number") {
           // Target
@@ -177,34 +143,20 @@ const mouseUpControls = function (e: MouseEvent) {
           const columnId = columnIdAttr ? parseInt(columnIdAttr, 10) : undefined;
           const dragCol = d.column;
           // Remove move style
-          libraryBase.jspreadsheet.current.headers[dragCol].classList.remove("dragging");
-          for (
-            let j = 0;
-            j < libraryBase.jspreadsheet.current.rows.length;
-            j++
-          ) {
-            if (libraryBase.jspreadsheet.current.records[j][dragCol]) {
-              libraryBase.jspreadsheet.current.records[j][dragCol].element.classList.remove(
-                "dragging"
-              );
+          current.headers[dragCol].classList.remove("dragging");
+          for (let j = 0; j < current.rows.length; j++) {
+            if (current.records[j][dragCol]) {
+              current.records[j][dragCol].element.classList.remove("dragging");
             }
           }
-          for (
-            let i = 0;
-            i < libraryBase.jspreadsheet.current.headers.length;
-            i++
-          ) {
-            libraryBase.jspreadsheet.current.headers[i].classList.remove(
-              "dragging-left"
-            );
-            libraryBase.jspreadsheet.current.headers[i].classList.remove(
-              "dragging-right"
-            );
+          for (let i = 0; i < current.headers.length; i++) {
+            current.headers[i].classList.remove("dragging-left");
+            current.headers[i].classList.remove("dragging-right");
           }
           // Update position
           if (columnId !== undefined) {
             if (dragCol != d.destination) {
-              libraryBase.jspreadsheet.current.moveColumn(dragCol, d.destination);
+              current.moveColumn(dragCol, d.destination);
             }
           }
         } else {
@@ -221,30 +173,24 @@ const mouseUpControls = function (e: MouseEvent) {
             position = d.destination as number;
           }
           if ((d.row as number) != d.destination) {
-            moveRow.call(libraryBase.jspreadsheet.current, d.row as number, position, true);
+            moveRow.call(current, d.row as number, position, true);
           }
           elem?.classList.remove("dragging");
         }
-        libraryBase.jspreadsheet.current.dragging = null;
+        current.dragging = null;
       }
     } else {
       // Close any corner selection
-      if (libraryBase.jspreadsheet.current.selectedCorner) {
-        libraryBase.jspreadsheet.current.selectedCorner = false;
+      if (current.selectedCorner) {
+        current.selectedCorner = false;
 
         // Data to be copied
-        if (libraryBase.jspreadsheet.current.selection.length > 0) {
+        if (current.selection.length > 0) {
           // Copy data
-          copyData.call(
-            libraryBase.jspreadsheet.current,
-            libraryBase.jspreadsheet.current.selection[0],
-            libraryBase.jspreadsheet.current.selection[
-              libraryBase.jspreadsheet.current.selection.length - 1
-            ]
-          );
+          copyData.call(current, current.selection[0], current.selection[current.selection.length - 1]);
 
           // Remove selection
-          removeCopySelection.call(libraryBase.jspreadsheet.current);
+          removeCopySelection.call(current);
         }
       }
     }
@@ -313,14 +259,15 @@ const mouseDownControls = function (e: MouseEvent) {
     }
   }
 
-    if (libraryBase.jspreadsheet.current && mouseButton == 1) {
+  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+  if (current && mouseButton == 1) {
     if (target.classList.contains("jss_selectall")) {
-      if (libraryBase.jspreadsheet.current) {
-        selectAll.call(libraryBase.jspreadsheet.current);
+      if (current) {
+        selectAll.call(current);
       }
     } else if (target.classList.contains("jss_corner")) {
-      if (libraryBase.jspreadsheet.current.options.editable != false) {
-        libraryBase.jspreadsheet.current.selectedCorner = true;
+      if (current.options.editable != false) {
+        current.selectedCorner = true;
       }
     } else {
       // Header found

@@ -169,7 +169,7 @@ declare module "jsuites" {
     value?: string;
     palette?: string[];
     closeOnChange?: boolean;
-    onchange?: (el: HTMLElement, value: string, instance: any) => void;
+    onchange?: (el: HTMLElement, value: string, instance: jspreadsheet.SpreadsheetInstance) => void;
     [key: string]: unknown;
   }
 

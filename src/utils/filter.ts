@@ -57,7 +57,7 @@ export const openFilter = function (this: any, columnId: string | number) {
       autocomplete: true,
       opened: true,
       value: obj.filters[columnId] !== undefined ? obj.filters[columnId] : null,
-      width: "100%",
+      width: 100,
       position:
         obj.options.tableOverflow == true ||
         obj.parent.config.fullscreen == true

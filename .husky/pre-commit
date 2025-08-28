@@ -1,0 +1,16 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run any types analysis and fail if any types are found
+echo "Running any types analysis..."
+node .agent/find-any-types.js
+
+# Check if any types were found
+if grep -q "Total any types: [1-9]" .agent/any-types-report.txt; then
+    echo "❌ Pre-commit failed: Found any types in the codebase"
+    echo "Run 'node .agent/find-any-types.js' to see details"
+    exit 1
+else
+    echo "✅ No any types found - pre-commit passed"
+    exit 0
+fi

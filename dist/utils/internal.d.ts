@@ -1,3 +1,4 @@
+import { SpreadsheetContext, WorksheetInstance } from "../types/core";
 export declare const updateTable: (this: any) => void;
 /**
  * Parse formulas
@@ -49,7 +50,7 @@ export declare const updateTableReferences: (this: any) => void;
  * Update scroll position based on the selection
  */
 export declare const updateScroll: (this: any, direction: any) => void;
-export declare const updateResult: (this: any) => number;
+export declare const updateResult: (this: SpreadsheetContext) => number;
 /**
  * Get the cell object
  *
@@ -80,15 +81,15 @@ export declare const fullscreen: (this: any, activate: any) => void;
 /**
  * Show index column
  */
-export declare const showIndex: (this: any) => void;
+export declare const showIndex: (this: SpreadsheetContext) => void;
 /**
  * Hide index column
  */
-export declare const hideIndex: (this: any) => void;
+export declare const hideIndex: (this: SpreadsheetContext) => void;
 /**
  * Create a nested header object
  */
 export declare const createNestedHeader: (this: any, nestedInformation: any) => HTMLTableRowElement;
 export declare const getWorksheetActive: (this: any) => any;
-export declare const getWorksheetInstance: (this: any, index?: number) => any;
+export declare const getWorksheetInstance: (this: any, index?: number) => WorksheetInstance;
 //# sourceMappingURL=internal.d.ts.map

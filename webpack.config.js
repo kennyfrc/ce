@@ -95,7 +95,7 @@ const webpack = {
           {
             loader: "ts-loader",
             options: {
-              configFile: "tsconfig.json",
+              configFile: "tsconfig.webpack.json",
             },
           },
         ],

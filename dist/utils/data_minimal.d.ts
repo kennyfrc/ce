@@ -1,0 +1,2 @@
+export declare const setData: (: any, : any, getValue?: (: any, : any, getValueFromCoords?: (: any, : any, setValue?: (: any, onafterchangesRecords?: any) => any) => any) => any) => any;
+//# sourceMappingURL=data_minimal.d.ts.map

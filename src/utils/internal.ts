@@ -6,21 +6,25 @@ import { refreshSelection, updateCornerPosition } from "./selection";
 import { getColumnName } from "./helpers";
 import { updateMeta } from "./meta";
 import { getFreezeWidth } from "./freeze";
-import { SpreadsheetContext, WorksheetInstance } from "../types/core";
+import {
+  SpreadsheetContext,
+  WorksheetInstance,
+  CellValue,
+} from "../types/core";
 import { updatePagination } from "./pagination";
 import { setFooter } from "./footer";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 
-export const updateTable = function (this: any) {
+export const updateTable = function (this: WorksheetInstance) {
   const obj = this;
 
   // Check for spare
-  if (obj.options.minSpareRows > 0) {
+  if (obj.options.minSpareRows && obj.options.minSpareRows > 0) {
     let numBlankRows = 0;
     for (let j = obj.rows.length - 1; j >= 0; j--) {
       let test = false;
       for (let i = 0; i < obj.headers.length; i++) {
-        if (obj.options.data[j][i]) {
+        if (obj.options.data && obj.options.data[j] && obj.options.data[j][i]) {
           test = true;
         }
       }
@@ -31,17 +35,20 @@ export const updateTable = function (this: any) {
       }
     }
 
-    if (obj.options.minSpareRows - numBlankRows > 0) {
+    if (
+      obj.options.minSpareRows &&
+      obj.options.minSpareRows - numBlankRows > 0
+    ) {
       obj.insertRow(obj.options.minSpareRows - numBlankRows);
     }
   }
 
-  if (obj.options.minSpareCols > 0) {
+  if (obj.options.minSpareCols && obj.options.minSpareCols > 0) {
     let numBlankCols = 0;
     for (let i = obj.headers.length - 1; i >= 0; i--) {
       let test = false;
       for (let j = 0; j < obj.rows.length; j++) {
-        if (obj.options.data[j][i]) {
+        if (obj.options.data && obj.options.data[j] && obj.options.data[j][i]) {
           test = true;
         }
       }
@@ -71,12 +78,19 @@ export const updateTable = function (this: any) {
 /**
  * Trying to extract a number from a string
  */
-const parseNumber = function (this: any, value: any, columnNumber: any) {
+const parseNumber = function (
+  this: WorksheetInstance,
+  value: CellValue,
+  columnNumber: number
+): number | null {
   const obj = this;
 
   // Decimal point
   const decimal =
-    columnNumber && obj.options.columns[columnNumber].decimal
+    columnNumber &&
+    obj.options.columns &&
+    obj.options.columns[columnNumber] &&
+    obj.options.columns[columnNumber].decimal
       ? obj.options.columns[columnNumber].decimal
       : ".";
 
@@ -109,18 +123,18 @@ const parseNumber = function (this: any, value: any, columnNumber: any) {
  * Parse formulas
  */
 export const executeFormula = function (
-  this: any,
-  expression: any,
-  x: any,
-  y: any
-) {
+  this: WorksheetInstance,
+  expression: string,
+  x: number,
+  y: number
+): CellValue {
   const obj = this;
 
-  const formulaResults: any[] = [];
+  const formulaResults: Record<string, unknown> = {};
   const formulaLoopProtection: Record<string, boolean> = {};
 
   // Execute formula with loop protection
-  const execute = function (expression: any, x: any, y: any) {
+  const execute = function (expression: string, x: number, y: number): unknown {
     // Parent column identification
     const parentId = getColumnNameFromId([x, y]);
 
@@ -133,7 +147,7 @@ export const executeFormula = function (
     formulaLoopProtection[parentId] = true;
 
     // Convert range tokens
-    const tokensUpdate = function (tokens: any) {
+    const tokensUpdate = function (tokens: string[]) {
       for (let index = 0; index < tokens.length; index++) {
         const f = [];
         const token = tokens[index].split(":");
@@ -187,27 +201,32 @@ export const executeFormula = function (
       return "#ERROR";
     } else {
       // Expressions to be used in the parsing
-      const formulaExpressions: Record<string, any> = {};
+      const formulaExpressions: Record<string, unknown> = {};
 
       if (tokens) {
         for (let i = 0; i < tokens.length; i++) {
           // Keep chain
-          if (!obj.formula[tokens[i]]) {
+          if (obj.formula && !obj.formula[tokens[i]]) {
             obj.formula[tokens[i]] = [];
           }
           // Is already in the register
-          if (obj.formula[tokens[i]].indexOf(parentId) < 0) {
+          if (
+            obj.formula &&
+            obj.formula[tokens[i]] &&
+            obj.formula[tokens[i]].indexOf(parentId) < 0
+          ) {
             obj.formula[tokens[i]].push(parentId);
           }
 
           // Do not calculate again
           if (eval("typeof(" + tokens[i] + ') == "undefined"')) {
             // Coords
-            const position = getIdFromColumnName(tokens[i], true);
+            const position = getIdFromColumnName(tokens[i], true) as number[];
             // Get value
             let value;
 
             if (
+              obj.options.data &&
               typeof obj.options.data[position[1]] != "undefined" &&
               typeof obj.options.data[position[1]][position[0]] != "undefined"
             ) {
@@ -220,7 +239,7 @@ export const executeFormula = function (
               if (typeof formulaResults[tokens[i]] !== "undefined") {
                 value = formulaResults[tokens[i]];
               } else {
-                value = execute(value, position[0], position[1]);
+                value = execute(String(value), position[0], position[1]);
                 formulaResults[tokens[i]] = value;
               }
             }
@@ -237,7 +256,11 @@ export const executeFormula = function (
                 formulaExpressions[tokens[i]] = Number(value);
               } else {
                 // Trying any formatted number
-                const number = parseNumber.call(obj, value, position[0]);
+                const number = parseNumber.call(
+                  obj,
+                  value as CellValue,
+                  position[0]
+                );
                 if (obj.parent.config.autoCasting != false && number) {
                   formulaExpressions[tokens[i]] = number;
                 } else {
@@ -260,7 +283,7 @@ export const executeFormula = function (
       let res;
 
       try {
-        res = formula(expression.substr(1), formulaExpressions, x, y, obj);
+        res = formula(expression.substr(1), formulaExpressions, x, y);
 
         if (typeof res === "function") {
           res = "#ERROR";
@@ -277,23 +300,23 @@ export const executeFormula = function (
     }
   };
 
-  return execute(expression, x, y);
+  return execute(expression, x, y) as CellValue;
 };
 
 export const parseValue = function (
-  this: any,
-  i: any,
-  j: any,
-  value: any,
-  cell: any
-) {
+  this: WorksheetInstance,
+  i: number,
+  j: number,
+  value: CellValue,
+  cell: HTMLElement
+): CellValue {
   const obj = this;
 
   if (
     ("" + value).substr(0, 1) == "=" &&
     obj.parent.config.parseFormulas != false
   ) {
-    value = executeFormula.call(obj, value, i, j);
+    value = executeFormula.call(obj, String(value), i, j);
   }
 
   // Column options
@@ -306,25 +329,29 @@ export const parseValue = function (
         value = Number(value);
       }
       // Process the decimals to match the mask
-      let masked = jSuites.mask.render(value, opt, true);
+      let masked = jSuites.mask.render(value as string | number, opt, true);
       // Negative indication
-      if (cell) {
-        if (opt.mask) {
-          const t = opt.mask.split(";");
-          if (t[1]) {
-            const t1 = t[1].match(new RegExp("\\[Red\\]", "gi"));
-            if (t1) {
-              if (value < 0) {
-                cell.classList.add("red");
-              } else {
-                cell.classList.remove("red");
-              }
+      if (
+        cell &&
+        opt &&
+        typeof opt === "object" &&
+        "mask" in opt &&
+        typeof opt.mask === "string"
+      ) {
+        const t = opt.mask.split(";");
+        if (t[1]) {
+          const t1 = t[1].match(new RegExp("\\[Red\\]", "gi"));
+          if (t1) {
+            if (typeof value === "number" && value < 0) {
+              cell.classList.add("red");
+            } else {
+              cell.classList.remove("red");
             }
-            const t2 = t[1].match(new RegExp("\\(", "gi"));
-            if (t2) {
-              if (value < 0) {
-                masked = "(" + masked + ")";
-              }
+          }
+          const t2 = t[1].match(new RegExp("\\(", "gi"));
+          if (t2) {
+            if (typeof value === "number" && value < 0) {
+              masked = "(" + masked + ")";
             }
           }
         }
@@ -342,7 +369,11 @@ export const parseValue = function (
 /**
  * Get dropdown value from key
  */
-const getDropDownValue = function (this: any, column: any, key: any) {
+const getDropDownValue = function (
+  this: WorksheetInstance,
+  column: number,
+  key: string | number
+): string | number | null {
   const obj = this;
 
   const value = [];
@@ -353,14 +384,17 @@ const getDropDownValue = function (this: any, column: any, key: any) {
     obj.options.columns[column].source
   ) {
     // Create array from source
-    const combo = [];
-    const source = obj.options.columns[column].source;
+    const combo: Record<string | number, string | number> = {};
+    const source = obj.options.columns[column].source as Array<
+      string | number | { id: string | number; name: string }
+    >;
 
     for (let i = 0; i < source.length; i++) {
       if (typeof source[i] == "object") {
-        combo[source[i].id] = source[i].name;
+        const item = source[i] as { id: string | number; name: string };
+        combo[item.id] = item.name;
       } else {
-        combo[source[i]] = source[i];
+        combo[source[i] as string | number] = source[i] as string | number;
       }
     }
 
@@ -383,17 +417,17 @@ const getDropDownValue = function (this: any, column: any, key: any) {
   return value.length > 0 ? value.join("; ") : "";
 };
 
-const validDate = function (date: any) {
-  date = "" + date;
-  if (date.substr(4, 1) == "-" && date.substr(7, 1) == "-") {
+const validDate = function (date: unknown): boolean {
+  const dateStr = String(date);
+  if (dateStr.substr(4, 1) == "-" && dateStr.substr(7, 1) == "-") {
     return true;
   } else {
-    date = date.split("-");
+    const dateParts = dateStr.split("-");
     if (
-      date[0].length == 4 &&
-      date[0] == Number(date[0]) &&
-      date[1].length == 2 &&
-      date[1] == Number(date[1])
+      dateParts[0].length == 4 &&
+      dateParts[0] == Number(dateParts[0]) &&
+      dateParts[1].length == 2 &&
+      dateParts[1] == Number(dateParts[1])
     ) {
       return true;
     }
@@ -404,7 +438,7 @@ const validDate = function (date: any) {
 /**
  * Strip tags
  */
-const stripScript = function (a: any) {
+const stripScript = function (a: string): string {
   const b = new Option();
   b.innerHTML = a;
   let c = null;
@@ -413,13 +447,18 @@ const stripScript = function (a: any) {
   return b.innerHTML;
 };
 
-export const createCell = function (this: any, i: any, j: any, value: any) {
+export const createCell = function (
+  this: WorksheetInstance,
+  i: number,
+  j: number,
+  value: CellValue
+): HTMLElement {
   const obj = this;
 
   // Create cell and properties
   let td = document.createElement("td");
-  td.setAttribute("data-x", i);
-  td.setAttribute("data-y", j);
+  td.setAttribute("data-x", i.toString());
+  td.setAttribute("data-y", j.toString());
 
   if (obj.headers[i].style.display === "none") {
     td.style.display = "none";
@@ -440,16 +479,16 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
     typeof obj.options.columns[i].type === "object"
   ) {
     if (obj.parent.config.parseHTML === true) {
-      td.innerHTML = value;
+      td.innerHTML = String(value);
     } else {
-      td.textContent = value;
+      td.textContent = String(value);
     }
     if (typeof obj.options.columns[i].type.createCell == "function") {
       obj.options.columns[i].type.createCell(
         td,
         value,
-        parseInt(i),
-        parseInt(j),
+        i,
+        j,
         obj,
         obj.options.columns[i]
       );
@@ -462,7 +501,7 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
       obj.options.columns[i].type == "hidden"
     ) {
       td.style.display = "none";
-      td.textContent = value;
+      td.textContent = String(value);
     } else if (
       obj.options.columns &&
       obj.options.columns[i] &&
@@ -476,7 +515,10 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
       element.checked =
         value == 1 || value == true || value == "true" ? true : false;
       element.onclick = function () {
-        obj.setValue(td, (this as HTMLInputElement).checked);
+        obj.setValue(
+          getColumnName(i) + (j + 1),
+          (this as HTMLInputElement).checked
+        );
       };
 
       if (
@@ -489,7 +531,9 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
       // Append to the table
       td.appendChild(element);
       // Make sure the values are correct
-      obj.options.data[j][i] = element.checked;
+      if (obj.options.data) {
+        obj.options.data[j][i] = element.checked;
+      }
     } else if (
       obj.options.columns &&
       obj.options.columns[i] &&
@@ -498,7 +542,7 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
       // Try formatted date
       let formatted = null;
       if (!validDate(value)) {
-        const tmp = jSuites.calendar.extractDateFromString(
+        const tmp = (jSuites.calendar as any).extractDateFromString(
           value,
           (obj.options.columns[i].options &&
             obj.options.columns[i].options.format) ||
@@ -520,7 +564,7 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
     ) {
       // Create dropdown cell
       td.classList.add("jss_dropdown");
-      td.textContent = getDropDownValue.call(obj, i, value);
+      td.textContent = String(getDropDownValue.call(obj, i, String(value)));
     } else if (
       obj.options.columns &&
       obj.options.columns[i] &&
@@ -529,20 +573,20 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
       if (obj.options.columns[i].render == "square") {
         const color = document.createElement("div");
         color.className = "color";
-        color.style.backgroundColor = value;
+        color.style.backgroundColor = String(value);
         td.appendChild(color);
       } else {
-        td.style.color = value;
-        td.textContent = value;
+        td.style.color = String(value);
+        td.textContent = String(value);
       }
     } else if (
       obj.options.columns &&
       obj.options.columns[i] &&
       obj.options.columns[i].type == "image"
     ) {
-      if (value && value.substr(0, 10) == "data:image") {
+      if (value && String(value).substr(0, 10) == "data:image") {
         const img = document.createElement("img");
-        img.src = value;
+        img.src = String(value);
         td.appendChild(img);
       }
     } else {
@@ -578,7 +622,7 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
       obj.options.columns[i].align) ||
     obj.options.defaultColAlign ||
     "center";
-  td.style.textAlign = colAlign;
+  td.style.textAlign = String(colAlign);
 
   // Wrap option
   if (
@@ -600,7 +644,7 @@ export const createCell = function (this: any, i: any, j: any, value: any) {
       if (value || td.innerHTML) {
         obj.records[j][i - 1].element.style.overflow = "hidden";
       } else {
-        if (i == obj.options.columns.length - 1) {
+        if (obj.options.columns && i == obj.options.columns.length - 1) {
           td.style.overflow = "hidden";
         }
       }
@@ -781,12 +825,12 @@ export const updateCell = function (
         if (obj.options.columns[x].render == "square") {
           const color = document.createElement("div");
           color.className = "color";
-          color.style.backgroundColor = value;
+          color.style.backgroundColor = String(value);
           obj.records[y][x].element.textContent = "";
           obj.records[y][x].element.appendChild(color);
         } else {
           obj.records[y][x].element.style.color = value;
-          obj.records[y][x].element.textContent = value;
+          obj.records[y][x].element.textContent = String(value);
         }
       } else if (
         obj.options.columns &&
@@ -796,9 +840,9 @@ export const updateCell = function (
         value = "" + value;
         obj.options.data[y][x] = value;
         obj.records[y][x].element.innerHTML = "";
-        if (value && value.substr(0, 10) == "data:image") {
+        if (value && String(value).substr(0, 10) == "data:image") {
           const img = document.createElement("img");
-          img.src = value;
+          img.src = String(value);
           obj.records[y][x].element.appendChild(img);
         }
       } else {
@@ -889,7 +933,7 @@ export const updateCell = function (
 /**
  * The value is a formula
  */
-export const isFormula = function (value: any) {
+export const isFormula = function (value: unknown): boolean {
   const v = ("" + value)[0];
   return v == "=" || v == "#" ? true : false;
 };
@@ -897,9 +941,11 @@ export const isFormula = function (value: any) {
 /**
  * Get the mask in the jSuites.mask format
  */
-export const getMask = function (o: any) {
+export const getMask = function (
+  o: ColumnDefinition
+): Record<string, unknown> | null {
   if (o.format || o.mask || o.locale) {
-    const opt: Record<string, any> = {};
+    const opt: Record<string, unknown> = {};
     if (o.mask) {
       opt.mask = o.mask;
     } else if (o.format) {
@@ -924,7 +970,7 @@ export const getMask = function (o: any) {
 /**
  * Secure formula
  */
-const secureFormula = function (oldValue: any) {
+const secureFormula = function (oldValue: string): string {
   let newValue = "";
   let inside = 0;
 
@@ -993,7 +1039,10 @@ export const updateFormulaChain = function (
 /**
  * Update formula
  */
-export const updateFormula = function (formula: any, referencesToUpdate: any) {
+export const updateFormula = function (
+  formula: string,
+  referencesToUpdate: Record<string, string>
+): string {
   const testLetter = /[A-Z]/;
   const testNumber = /[0-9]/;
 
@@ -1035,7 +1084,10 @@ export const updateFormula = function (formula: any, referencesToUpdate: any) {
 /**
  * Update formulas
  */
-const updateFormulas = function (this: any, referencesToUpdate: any) {
+const updateFormulas = function (
+  this: WorksheetInstance,
+  referencesToUpdate: Record<string, string>
+): void {
   const obj = this;
 
   // Update formulas
@@ -1054,7 +1106,7 @@ const updateFormulas = function (this: any, referencesToUpdate: any) {
   }
 
   // Update formula chain
-  const formula: Record<string, any[]> = {};
+  const formula: Record<string, string[]> = {};
   const keys = Object.keys(obj.formula);
   for (let j = 0; j < keys.length; j++) {
     // Current key and values
@@ -1082,7 +1134,7 @@ const updateFormulas = function (this: any, referencesToUpdate: any) {
  *
  * @return void
  */
-export const updateTableReferences = function (this: any) {
+export const updateTableReferences = function (this: WorksheetInstance): void {
   const obj = this;
   if (obj.skipUpdateTableReferences) {
     return;
@@ -1118,11 +1170,11 @@ export const updateTableReferences = function (this: any) {
   }
 
   // Regular cells affected by this change
-  const affectedTokens: Record<string, any> = {};
-  const mergeCellUpdates: Record<string, any> = {};
+  const affectedTokens: Record<string, string> = {};
+  const mergeCellUpdates: Record<string, false | [string, number, number]> = {};
 
   // Update cell
-  const updatePosition = function (x: any, y: any, i: any, j: any) {
+  const updatePosition = function (x: number, y: number, i: number, j: number) {
     if (x != i) {
       obj.records[j][i].element.setAttribute("data-x", i);
     }
@@ -1226,7 +1278,10 @@ export const updateTableReferences = function (this: any) {
 /**
  * Update scroll position based on the selection
  */
-export const updateScroll = function (this: any, direction: any) {
+export const updateScroll = function (
+  this: WorksheetInstance,
+  direction: number
+): void {
   const obj = this;
 
   // Jspreadsheet Container information
@@ -1344,7 +1399,11 @@ export const updateResult = function (this: SpreadsheetContext) {
  * @param object cell
  * @return string value
  */
-export const getCell = function (this: any, x: any, y: any) {
+export const getCell = function (
+  this: WorksheetInstance,
+  x: string | number,
+  y: number
+): HTMLElement {
   const obj = this;
 
   if (typeof x === "string") {
@@ -1364,7 +1423,11 @@ export const getCell = function (this: any, x: any, y: any) {
  * @param object cell
  * @return string value
  */
-export const getCellFromCoords = function (this: any, x: any, y: any) {
+export const getCellFromCoords = function (
+  this: WorksheetInstance,
+  x: number,
+  y: number
+): HTMLElement {
   const obj = this;
 
   return obj.records[y][x].element;
@@ -1376,7 +1439,11 @@ export const getCellFromCoords = function (this: any, x: any, y: any) {
  * @param object cell
  * @return string value
  */
-export const getLabel = function (this: any, x: any, y: any) {
+export const getLabel = function (
+  this: WorksheetInstance,
+  x: string | number,
+  y: number
+): string {
   const obj = this;
 
   if (typeof x === "string") {
@@ -1395,7 +1462,10 @@ export const getLabel = function (this: any, x: any, y: any) {
  * use programmatically : table.fullscreen(); or table.fullscreen(true); or table.fullscreen(false);
  * @Param {boolean} activate
  */
-export const fullscreen = function (this: any, activate: any) {
+export const fullscreen = function (
+  this: SpreadsheetContext,
+  activate?: boolean
+): void {
   const spreadsheet = this;
 
   // If activate not defined, get reverse options.fullscreen
@@ -1437,7 +1507,10 @@ export const hideIndex = function (this: SpreadsheetContext) {
 /**
  * Create a nested header object
  */
-export const createNestedHeader = function (this: any, nestedInformation: any) {
+export const createNestedHeader = function (
+  this: SpreadsheetContext,
+  nestedInformation: NestedHeader[]
+): HTMLElement {
   const obj = this;
 
   const tr = document.createElement("tr");
@@ -1492,7 +1565,9 @@ export const createNestedHeader = function (this: any, nestedInformation: any) {
   return tr;
 };
 
-export const getWorksheetActive = function (this: any) {
+export const getWorksheetActive = function (
+  this: WorksheetInstance | SpreadsheetContext
+): number {
   const spreadsheet = this.parent ? this.parent : this;
 
   return spreadsheet.element.tabs ? spreadsheet.element.tabs.getActive() : 0;

@@ -6,6 +6,7 @@ import "jsuites/dist/jsuites.css";
 (window as any).jss = jspreadsheet;
 
 const root = document.getElementById("root");
+if (!root) throw new Error("Root element not found");
 (window as any).instance = jspreadsheet(root, {
   tabs: true,
   toolbar: true,

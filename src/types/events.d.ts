@@ -5,10 +5,13 @@ export interface MouseEvent {
   clientY: number;
   pageX: number;
   pageY: number;
+  offsetX: number;
+  offsetY: number;
   target: EventTarget | null;
   currentTarget: EventTarget | null;
   button: number;
   buttons: number;
+  which: number;
   shiftKey: boolean;
   ctrlKey: boolean;
   altKey: boolean;
@@ -46,6 +49,26 @@ export interface WheelEvent extends MouseEvent {
 
 export interface ContextMenuEvent extends MouseEvent {
   // Additional context menu specific properties
+}
+
+export interface ClipboardEvent extends Event {
+  clipboardData: DataTransfer | null;
+}
+
+export interface Resizing {
+  element?: HTMLElement;
+  mousePosition?: number;
+  column?: number;
+  row?: number;
+  width?: number;
+  height?: number;
+}
+
+export interface Dragging {
+  element?: HTMLElement;
+  column?: number;
+  row?: number;
+  destination?: number;
 }
 
 export interface SelectionEvent {

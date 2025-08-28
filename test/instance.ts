@@ -2,8 +2,6 @@ import { expect } from "chai";
 
 import jspreadsheet from "../src/index";
 
-declare var root: HTMLDivElement;
-
 describe("Create a jspreadsheet instance", () => {
   it("and the dimensions are applied correctly", () => {
     const instance = jspreadsheet(root, {

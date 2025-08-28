@@ -1,4 +1,5 @@
-export declare const getNumberOfColumns: (this: any) => any;
+import { SpreadsheetContext } from "../types/core";
+export declare const getNumberOfColumns: (this: SpreadsheetContext) => number;
 export declare const createCellHeader: (this: any, colNumber: number) => void;
 /**
  * Insert a new column

@@ -1,7 +1,11 @@
 import jSuites from "jsuites";
 import { getCellNameFromCoords } from "./helpers";
 import { getWorksheetInstance } from "./internal";
-import { SpreadsheetContext, WorksheetInstance } from "../types/core";
+import {
+  SpreadsheetContext,
+  WorksheetInstance,
+  ToolbarItem,
+} from "../types/core";
 
 interface BorderOptions {
   thickness?: number;
@@ -21,7 +25,7 @@ const setItemStatus = function (
 };
 
 export const getDefault = function (this: SpreadsheetContext) {
-  const items: Array<Record<string, unknown>> = [];
+  const items: ToolbarItem[] = [];
   const spreadsheet: SpreadsheetContext = this;
 
   const getActive = function (): WorksheetInstance {
@@ -181,12 +185,7 @@ export const getDefault = function (this: SpreadsheetContext) {
     type: "color",
     content: "format_color_fill",
     k: "background-color",
-    updateState: function (
-      a: unknown,
-      b: unknown,
-      toolbarItem: HTMLElement,
-      d: unknown
-    ) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -234,14 +233,14 @@ export const getDefault = function (this: SpreadsheetContext) {
 
   items.push({
     content: "web",
-    tooltip: (jSuites as any).translate("Merge the selected cells"),
+    tooltip: jSuites.translate("Merge the selected cells"),
     onclick: function () {
       const worksheet = getActive();
 
       if (
         worksheet.selectedCell &&
         confirm(
-          (jSuites as any).translate(
+          jSuites.translate(
             "The merged cells will retain the value of the top-left cell only. Are you sure?"
           )
         )
@@ -294,7 +293,13 @@ export const getDefault = function (this: SpreadsheetContext) {
       return '<i class="material-icons">' + e + "</i>";
     },
     right: true,
-    onchange: function (a: unknown, b: BorderOptions, c: unknown, d: unknown) {
+    onchange: function (
+      a: unknown,
+      b: unknown,
+      c: unknown,
+      d: unknown,
+      e: unknown
+    ) {
       const worksheet = getActive();
 
       if (worksheet.selectedCell) {
@@ -308,10 +313,12 @@ export const getDefault = function (this: SpreadsheetContext) {
         let type = d;
 
         if (selectedRange) {
+          // Type guard for border options
+          const borderOptions = b as BorderOptions;
           // Default options
-          let thickness = b.thickness || 1;
-          let color = b.color || "black";
-          const borderStyle = b.style || "solid";
+          let thickness = borderOptions.thickness || 1;
+          let color = borderOptions.color || "black";
+          const borderStyle = borderOptions.style || "solid";
 
           if (borderStyle === "double") {
             thickness += 2;
@@ -417,17 +424,26 @@ export const getDefault = function (this: SpreadsheetContext) {
         }
       }
     },
-    onload: function (a: any, b: any) {
+    onload: function (a: unknown, b: unknown) {
       // Border color
+      const element = a as HTMLElement;
+      const config = b as {
+        color?: string;
+        thickness?: string;
+        style?: string;
+      };
       let container = document.createElement("div");
       let div = document.createElement("div");
       container.appendChild(div);
 
       let colorPicker = jSuites.color(div, {
         closeOnChange: false,
-        onchange: function (o: any, v: string) {
-          o.parentNode.children[1].style.color = v;
-          b.color = v;
+        onchange: function (o: HTMLElement, v: string) {
+          if (o.parentNode && o.parentNode.children[1]) {
+            const child = o.parentNode.children[1] as HTMLElement;
+            child.style.color = v;
+          }
+          config.color = v;
         },
       });
 
@@ -438,12 +454,12 @@ export const getDefault = function (this: SpreadsheetContext) {
         colorPicker.open();
       };
       container.appendChild(i);
-      a.children[1].appendChild(container);
+      element.children[1].appendChild(container);
 
       div = document.createElement("div");
       jSuites.picker(div, {
         type: "select",
-        data: [1, 2, 3, 4, 5],
+        data: ["1", "2", "3", "4", "5"],
         render: function (e: string) {
           return (
             '<div style="height: ' +
@@ -451,12 +467,12 @@ export const getDefault = function (this: SpreadsheetContext) {
             'px; width: 30px; background-color: black;"></div>'
           );
         },
-        onchange: function (a: any, k: any, c: any, d: any) {
-          b.thickness = d;
+        onchange: function (a: unknown, k: unknown, c: unknown, d: unknown) {
+          config.thickness = d as string;
         },
-        width: "50px",
+        width: 50,
       });
-      a.children[1].appendChild(div);
+      element.children[1].appendChild(div);
 
       const borderStylePicker = document.createElement("div");
       jSuites.picker(borderStylePicker, {
@@ -474,18 +490,18 @@ export const getDefault = function (this: SpreadsheetContext) {
             '<div style="width: 30px; border-top: 2px ' + e + ' black;"></div>'
           );
         },
-        onchange: function (a: any, k: any, c: any, d: any) {
-          b.style = d;
+        onchange: function (a: unknown, k: unknown, c: unknown, d: unknown) {
+          config.style = d as string;
         },
-        width: "50px",
+        width: 50,
       });
-      a.children[1].appendChild(borderStylePicker);
+      element.children[1].appendChild(borderStylePicker);
 
       div = document.createElement("div");
       div.style.flex = "1";
-      a.children[1].appendChild(div);
+      element.children[1].appendChild(div);
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -506,11 +522,12 @@ export const getDefault = function (this: SpreadsheetContext) {
         c.children[0].textContent = "fullscreen";
       }
     },
-    updateState: function (a: any, b: any, c: any, d: any) {
-      if (d.parent.config.fullscreen === true) {
-        c.children[0].textContent = "fullscreen_exit";
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
+      const config = a as { parent: { config: { fullscreen?: boolean } } };
+      if (config.parent.config.fullscreen === true) {
+        toolbarItem.children[0].textContent = "fullscreen_exit";
       } else {
-        c.children[0].textContent = "fullscreen";
+        toolbarItem.children[0].textContent = "fullscreen";
       }
     },
   });
@@ -518,8 +535,11 @@ export const getDefault = function (this: SpreadsheetContext) {
   return items;
 };
 
-const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
-  const spreadsheet: any = this;
+const adjustToolbarSettingsForJSuites = function (
+  this: SpreadsheetContext,
+  toolbar: { items: ToolbarItem[] }
+) {
+  const spreadsheet: SpreadsheetContext = this;
 
   const items = toolbar.items;
 
@@ -561,7 +581,7 @@ const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
       items[i].onclick = function (a: any, b: any, c: any) {
         if (!c.color) {
           jSuites.color(c, {
-            onchange: function (o: any, v: string) {
+            onchange: function (o: HTMLElement, v: string) {
               const worksheet = getWorksheetInstance.call(spreadsheet);
 
               const cells = worksheet.getSelected(true);
@@ -589,8 +609,11 @@ const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
 /**
  * Create toolbar
  */
-export const createToolbar = function (this: any, toolbar: any) {
-  const spreadsheet: any = this;
+export const createToolbar = function (
+  this: SpreadsheetContext,
+  toolbar: { items: ToolbarItem[] }
+) {
+  const spreadsheet: SpreadsheetContext = this;
 
   const toolbarElement = document.createElement("div");
   toolbarElement.classList.add("jss_toolbar");
@@ -617,7 +640,10 @@ export const createToolbar = function (this: any, toolbar: any) {
   return toolbarElement;
 };
 
-export const updateToolbar = function (this: any, worksheet: any) {
+export const updateToolbar = function (
+  this: SpreadsheetContext,
+  worksheet: WorksheetInstance
+) {
   if (worksheet.parent.toolbar) {
     worksheet.parent.toolbar.toolbar.update(worksheet);
   }

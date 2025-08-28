@@ -1,6 +1,7 @@
 import jSuites from "jsuites";
 
 import libraryBase from "./libraryBase";
+import { WorksheetInstance, SpreadsheetInstance } from "../types/core";
 
 import { parseCSV } from "./helpers";
 import {
@@ -78,7 +79,7 @@ import { isReadOnly, setReadOnly } from "./cells";
 import { openFilter, resetFilters } from "./filter";
 import { redo, undo } from "./history";
 
-const setWorksheetFunctions = function (worksheet: any) {
+const setWorksheetFunctions = function (worksheet: WorksheetInstance) {
   for (let i = 0; i < worksheetPublicMethodsLength; i++) {
     const [methodName, method] = worksheetPublicMethods[i];
 
@@ -86,7 +87,7 @@ const setWorksheetFunctions = function (worksheet: any) {
   }
 };
 
-const createTable = function (this: any) {
+const createTable = function (this: WorksheetInstance) {
   let obj = this;
 
   setWorksheetFunctions(obj);
@@ -377,7 +378,7 @@ const createTable = function (this: any) {
  *
  * @Param config
  */
-const prepareTable = function (this: any) {
+const prepareTable = function (this: WorksheetInstance) {
   const obj = this;
 
   // Lazy loading
@@ -448,7 +449,7 @@ const prepareTable = function (this: any) {
           index: i,
           method: "GET",
           dataType: "json",
-          success: function (this: any, data: any) {
+          success: function (this: WorksheetInstance, data: unknown[]) {
             if (!obj.options.columns[this.index].source) {
               obj.options.columns[this.index].source = [];
             }
@@ -468,19 +469,21 @@ const prepareTable = function (this: any) {
   } else {
     jSuites.ajax({
       url: multiple,
-      success: function (this: any) {
+      success: function (this: WorksheetInstance) {
         createTable.call(obj);
       },
     } as any);
   }
 };
 
-export const getNextDefaultWorksheetName = function (spreadsheet: any) {
+export const getNextDefaultWorksheetName = function (
+  spreadsheet: SpreadsheetInstance
+) {
   const defaultWorksheetNameRegex = /^Sheet(\d+)$/;
 
   let largestWorksheetNumber = 0;
 
-  spreadsheet.worksheets.forEach(function (worksheet: any) {
+  spreadsheet.worksheets.forEach(function (worksheet: WorksheetInstance) {
     const regexResult = defaultWorksheetNameRegex.exec(
       worksheet.options.worksheetName
     );
@@ -495,7 +498,7 @@ export const getNextDefaultWorksheetName = function (spreadsheet: any) {
   return "Sheet" + (largestWorksheetNumber + 1);
 };
 
-export const buildWorksheet = async function (this: any) {
+export const buildWorksheet = async function (this: WorksheetInstance) {
   const obj = this;
   const el = obj.element;
 
@@ -522,7 +525,7 @@ export const buildWorksheet = async function (this: any) {
         url: obj.options.csv,
         method: "GET",
         dataType: "text",
-        success: function (result: any) {
+        success: function (result: string) {
           // Convert data
           const newData = parseCSV(result, obj.options.csvDelimiter);
 
@@ -563,7 +566,7 @@ export const buildWorksheet = async function (this: any) {
         url: obj.options.url,
         method: "GET",
         dataType: "json",
-        success: function (result: any) {
+        success: function (result: string) {
           // Data
           obj.options.data = result.data ? result.data : result;
           // Prepare table
@@ -592,7 +595,10 @@ export const buildWorksheet = async function (this: any) {
   }
 };
 
-export const createWorksheetObj = function (this: any, options: any) {
+export const createWorksheetObj = function (
+  this: WorksheetInstance,
+  options: any
+) {
   const obj = this;
 
   const spreadsheet = obj.parent;
@@ -617,7 +623,10 @@ export const createWorksheetObj = function (this: any, options: any) {
   return newWorksheet;
 };
 
-export const createWorksheet = function (this: any, options: any) {
+export const createWorksheet = function (
+  this: WorksheetInstance,
+  options: any
+) {
   const obj = this;
   const spreadsheet = obj.parent;
 
@@ -628,14 +637,20 @@ export const createWorksheet = function (this: any, options: any) {
   spreadsheet.element.tabs.create(options.worksheetName);
 };
 
-export const openWorksheet = function (this: any, position: any) {
+export const openWorksheet = function (
+  this: WorksheetInstance,
+  position: number
+) {
   const obj = this;
   const spreadsheet = obj.parent;
 
   spreadsheet.element.tabs.open(position);
 };
 
-export const deleteWorksheet = function (this: any, position: any) {
+export const deleteWorksheet = function (
+  this: WorksheetInstance,
+  position: number
+) {
   const obj = this;
 
   obj.parent.element.tabs.remove(position);
@@ -649,13 +664,19 @@ const worksheetPublicMethods = [
   ["selectAll", selectAll],
   [
     "updateSelectionFromCoords",
-    function (this: any, x1: number, y1: number, x2: number, y2: number) {
+    function (
+      this: WorksheetInstance,
+      x1: number,
+      y1: number,
+      x2: number,
+      y2: number
+    ) {
       return updateSelectionFromCoords.call(this, x1, y1, x2, y2);
     },
   ],
   [
     "resetSelection",
-    function (this: any) {
+    function (this: WorksheetInstance) {
       return resetSelection.call(this, false);
     },
   ],
@@ -672,14 +693,14 @@ const worksheetPublicMethods = [
   ["getWidth", getWidth],
   [
     "setWidth",
-    function (this: any, column: number, width: number) {
+    function (this: WorksheetInstance, column: number, width: number) {
       return setWidth.call(this, column, width, undefined);
     },
   ],
   ["insertRow", insertRow],
   [
     "moveRow",
-    function (this: any, rowNumber: number, newPositionNumber: number) {
+    function (this: WorksheetInstance, rowNumber: number, newPositionNumber: number) {
       return moveRow.call(this, rowNumber, newPositionNumber, undefined);
     },
   ],
@@ -691,20 +712,20 @@ const worksheetPublicMethods = [
   ["getHeight", getHeight],
   [
     "setHeight",
-    function (this: any, row: number, height: number) {
+    function (this: WorksheetInstance, row: number, height: number) {
       return setHeight.call(this, row, height, undefined);
     },
   ],
   ["getMerge", getMerge],
   [
     "setMerge",
-    function (this: any, cellName: string, colspan: number, rowspan: number) {
+    function (this: WorksheetInstance, cellName: string, colspan: number, rowspan: number) {
       return setMerge.call(this, cellName, colspan, rowspan, undefined);
     },
   ],
   [
     "destroyMerge",
-    function (this: any) {
+    function (this: WorksheetInstance) {
       return destroyMerge.call(this, undefined);
     },
   ],
@@ -723,7 +744,7 @@ const worksheetPublicMethods = [
   [
     "setStyle",
     function (
-      this: any,
+      this: WorksheetInstance,
       cell: any,
       property: string,
       value: any,
@@ -753,7 +774,7 @@ const worksheetPublicMethods = [
   ["setConfig", setConfig],
   [
     "getMeta",
-    function (this: any, cell: any) {
+    function (this: WorksheetInstance, cell: any) {
       return getMeta.call(this, cell, undefined);
     },
   ],
@@ -770,7 +791,7 @@ const worksheetPublicMethods = [
   ["deleteWorksheet", deleteWorksheet],
   [
     "copy",
-    function (this: any, cut: boolean) {
+    function (this: WorksheetInstance, cut: boolean) {
       if (cut) {
         cutControls.call(this, undefined);
       } else {
