@@ -1,28 +1,6 @@
-Any Types Analysis Report - 2025-08-28T16:40:36.122Z
-Total any types: 232
+Any Types Analysis Report - 2025-08-28T16:47:22.792Z
+Total any types: 208
 Files with any types: 29
-
-src/utils/merges.ts: 20 any types
-  Line 13: this: any,
-  Line 54: export const isRowMerged = function (this: any, y: any, insertBefore: any) {
-  Line 54: export const isRowMerged = function (this: any, y: any, insertBefore: any) {
-  Line 54: export const isRowMerged = function (this: any, y: any, insertBefore: any) {
-  Line 96: export const getMerge = function (this: any, cellName: any) {
-  Line 96: export const getMerge = function (this: any, cellName: any) {
-  Line 99: let data: any = {};
-  Line 133: this: any,
-  Line 134: cellName: any,
-  Line 135: colspan: any,
-  Line 136: rowspan: any,
-  Line 137: ignoreHistoryAndEvents: any
-  Line 145: alert((jSuites as any).translate("No cells selected"));
-  Line 186: alert((jSuites as any).translate(test));
-  Line 250: this: any,
-  Line 251: cellName: any,
-  Line 252: data: any,
-  Line 253: keepOptions: any
-  Line 301: export const destroyMerge = function (this: any, keepOptions: any) {
-  Line 301: export const destroyMerge = function (this: any, keepOptions: any) {
 
 src/utils/data.ts: 18 any types
   Line 10: export const setData = function (this: any, data: any) {
@@ -44,22 +22,23 @@ src/utils/data.ts: 18 any types
   Line 436: this: any,
   Line 444: const dataset: any[][] = [];
 
-src/utils/dispatch.ts: 15 any types
-  Line 6: const prepareJson = function (this: any, data: any[]) {
-  Line 6: const prepareJson = function (this: any, data: any[]) {
-  Line 23: (rows[y].data as any)[k] = data[i].value;
-  Line 36: const save = function (this: any, url: string, data: any[]) {
-  Line 36: const save = function (this: any, url: string, data: any[]) {
-  Line 51: (jSuites as any).ajax({
-  Line 56: success: function (result: any) {
-  Line 68: const dispatch = function (this: any, event: string, ...args: any[]) {
-  Line 68: const dispatch = function (this: any, event: string, ...args: any[]) {
-  Line 81: if (typeof (spreadsheet.config as any)[event] == "function") {
-  Line 94: const plugin = (spreadsheet.plugins as any)[key];
-  Line 96: if (typeof (plugin as any).onevent === "function") {
-  Line 107: Object.entries(spreadsheet.plugins as any).forEach(function ([, plugin]: [
-  Line 109: any
-  Line 111: if (typeof (plugin as any).persistence === "function") {
+src/utils/dispatch.ts: 16 any types
+  Line 7: const prepareJson = function (this: WorksheetInstance, data: any[]) {
+  Line 24: (rows[y].data as any)[k] = data[i].value;
+  Line 37: const save = function (this: WorksheetInstance, url: string, data: any[]) {
+  Line 52: (jSuites as any).ajax({
+  Line 57: success: function (result: any) {
+  Line 72: ...args: any[]
+  Line 75: let ret = null as any;
+  Line 77: const spreadsheet: WorksheetInstance | SpreadsheetInstance = (obj as any).parent
+  Line 78: ? (obj as any).parent
+  Line 79: : (obj as any);
+  Line 88: if (typeof (spreadsheet.config as any)[event] == "function") {
+  Line 101: const plugin = (spreadsheet.plugins as any)[key];
+  Line 103: if (typeof (plugin as any).onevent === "function") {
+  Line 114: Object.entries(spreadsheet.plugins as any).forEach(function ([, plugin]: [
+  Line 116: any
+  Line 118: if (typeof (plugin as any).persistence === "function") {
 
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
@@ -105,21 +84,6 @@ src/utils/meta.ts: 13 any types
   Line 60: obj.options.meta = {} as Record<string, any>;
   Line 66: obj.options.meta[o] = {} as Record<string, any>;
   Line 76: obj.options.meta[keys[i]] = {} as Record<string, any>;
-
-src/utils/orderBy.ts: 13 any types
-  Line 12: this: any,
-  Line 13: column: any,
-  Line 14: order: any
-  Line 35: export const updateOrder = function (this: any, rows: any): void {
-  Line 35: export const updateOrder = function (this: any, rows: any): void {
-  Line 92: export const orderBy = function (this: any, column: any, order: any): boolean {
-  Line 92: export const orderBy = function (this: any, column: any, order: any): boolean {
-  Line 92: export const orderBy = function (this: any, column: any, order: any): boolean {
-  Line 103: (jSuites as any).translate(
-  Line 104: "This action will destroy any existing merged cells. Are you sure?"
-  Line 154: obj.parent.config.sorting = function (direction: any) {
-  Line 155: return function (a: any, b: any) {
-  Line 155: return function (a: any, b: any) {
 
 src/utils/history.ts: 12 any types
   Line 13: export const setHistory = function (this: any, changes: any) {
@@ -247,6 +211,13 @@ src/utils/lazyLoading.ts: 5 any types
   Line 80: export const loadUp = function (this: any) {
   Line 134: export const loadDown = function (this: any) {
 
+src/utils/orderBy.ts: 5 any types
+  Line 104: (jSuites as any).translate(
+  Line 105: "This action will destroy any existing merged cells. Are you sure?"
+  Line 155: obj.parent.config.sorting = function (direction: any) {
+  Line 156: return function (a: any, b: any) {
+  Line 156: return function (a: any, b: any) {
+
 src/utils/search.ts: 5 any types
   Line 9: export const search = function (this: any, query: string): void {
   Line 30: const search = function (item: any[], query: RegExp, index: number) {
@@ -259,6 +230,11 @@ src/utils/config.ts: 4 any types
   Line 10: export const getSpreadsheetConfig = function (this: any) {
   Line 17: this: any,
   Line 18: config: any,
+
+src/utils/merges.ts: 3 any types
+  Line 146: alert((jSuites as any).translate("No cells selected"));
+  Line 187: alert((jSuites as any).translate(test));
+  Line 253: data: any,
 
 src/utils/rows.ts: 3 any types
   Line 181: "This action will destroy any existing merged cells. Are you sure?"

@@ -1,9 +1,10 @@
 import jSuites from "jsuites";
+import type { WorksheetInstance, SpreadsheetInstance } from "../types/core";
 
 /**
  * Prepare JSON in the correct format
  */
-const prepareJson = function (this: any, data: any[]) {
+const prepareJson = function (this: WorksheetInstance, data: any[]) {
   const obj = this;
 
   const rows = [];
@@ -33,7 +34,7 @@ const prepareJson = function (this: any, data: any[]) {
 /**
  * Post json to a remote server
  */
-const save = function (this: any, url: string, data: any[]) {
+const save = function (this: WorksheetInstance, url: string, data: any[]) {
   const obj = this;
 
   // Parse anything in the data before sending to the server
@@ -65,11 +66,17 @@ const save = function (this: any, url: string, data: any[]) {
 /**
  * Trigger events
  */
-const dispatch = function (this: any, event: string, ...args: any[]) {
-  const obj = this;
-  let ret = null;
+const dispatch = function (
+  this: WorksheetInstance | SpreadsheetInstance,
+  event: string,
+  ...args: any[]
+) {
+  const obj = this as WorksheetInstance;
+  let ret = null as any;
 
-  let spreadsheet = obj.parent ? obj.parent : obj;
+  const spreadsheet: WorksheetInstance | SpreadsheetInstance = (obj as any).parent
+    ? (obj as any).parent
+    : (obj as any);
 
   // Dispatch events
   if (!spreadsheet.ignoreEvents) {

@@ -197,6 +197,16 @@ Learnings:
 - events.ts is the dominant hotspot; many "possibly undefined"/"possibly null" diagnostics stem from repeated libraryBase.jspreadsheet.current accesses — introduce local aliases and narrow optionals.
 - Prioritize unifying WorksheetInstance/SpreadsheetContext and replacing this:any in merges/data/dispatch to reduce cross-file type mismatches.
 
+### Snapshot: 2025-08-29T12:30:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 544 (saved to .agent/tsc-after-orderby-dispatch.txt)
+- Explicit any count (find-any-types): 208 (saved to .agent/any-types-after-orderby-dispatch.txt)
+
+Learnings:
+
+- Replacing 'this: any' with WorksheetInstance in merges/orderBy/dispatch reduced explicit any occurrences and clarifies context typing.
+- Next focus: events.ts null-safety and factory.ts WorksheetInstance vs SpreadsheetContext mismatches to reduce large groups of diagnostics.
+
 ### Work: 2025-08-29 — events.ts aliasing
 
 - Introduced local aliases for current.options.data and columns in critical handlers and guarded optional function calls (moveColumn, setHeader, orderBy) to reduce 'possibly undefined' diagnostics.

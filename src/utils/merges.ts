@@ -5,12 +5,13 @@ import { updateCell } from "./internal";
 import { setHistory } from "./history";
 import dispatch from "./dispatch";
 import { updateSelection } from "./selection";
+import type { WorksheetInstance } from "../types/core";
 
 /**
  * Is column merged
  */
 export const isColMerged = function (
-  this: any,
+  this: WorksheetInstance,
   x: number,
   insertBefore?: boolean
 ) {
@@ -51,7 +52,7 @@ export const isColMerged = function (
 /**
  * Is rows merged
  */
-export const isRowMerged = function (this: any, y: any, insertBefore: any) {
+export const isRowMerged = function (this: WorksheetInstance, y: number, insertBefore?: boolean) {
   const obj = this;
 
   const rows = [];
@@ -93,10 +94,10 @@ export const isRowMerged = function (this: any, y: any, insertBefore: any) {
  * @param rowspan
  * @param ignoreHistoryAndEvents
  */
-export const getMerge = function (this: any, cellName: any) {
+export const getMerge = function (this: WorksheetInstance, cellName?: string) {
   const obj = this;
 
-  let data: any = {};
+  let data: Record<string, [number, number]> | [number, number] | null = null;
   if (cellName) {
     if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
       data = [
@@ -130,11 +131,11 @@ export const getMerge = function (this: any, cellName: any) {
  * @param ignoreHistoryAndEvents
  */
 export const setMerge = function (
-  this: any,
-  cellName: any,
-  colspan: any,
-  rowspan: any,
-  ignoreHistoryAndEvents: any
+  this: WorksheetInstance,
+  cellName: string | undefined,
+  colspan: number | undefined,
+  rowspan: number | undefined,
+  ignoreHistoryAndEvents?: boolean
 ): void {
   const obj = this;
 
@@ -247,10 +248,10 @@ export const setMerge = function (
  * @param cellName
  */
 export const removeMerge = function (
-  this: any,
-  cellName: any,
+  this: WorksheetInstance,
+  cellName: string,
   data: any,
-  keepOptions: any
+  keepOptions?: boolean
 ) {
   const obj = this;
 
@@ -298,7 +299,7 @@ export const removeMerge = function (
 /**
  * Remove all merged cells
  */
-export const destroyMerge = function (this: any, keepOptions: any) {
+export const destroyMerge = function (this: WorksheetInstance, keepOptions?: boolean) {
   const obj = this;
 
   // Remove any merged cells

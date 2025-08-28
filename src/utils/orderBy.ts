@@ -4,14 +4,15 @@ import dispatch from "./dispatch";
 import { updateTableReferences } from "./internal";
 import { loadPage } from "./lazyLoading";
 import { closeFilter } from "./filter";
+import type { WorksheetInstance } from "../types/core";
 
 /**
  * Update order arrow
  */
 export const updateOrderArrow = function (
-  this: any,
-  column: any,
-  order: any
+  this: WorksheetInstance,
+  column: number,
+  order: boolean
 ): void {
   const obj = this;
 
@@ -32,7 +33,7 @@ export const updateOrderArrow = function (
 /**
  * Update rows position
  */
-export const updateOrder = function (this: any, rows: any): void {
+export const updateOrder = function (this: WorksheetInstance, rows: number[]): void {
   const obj = this;
 
   // History
@@ -89,7 +90,7 @@ export const updateOrder = function (this: any, rows: any): void {
 /**
  * Sort data and reload table
  */
-export const orderBy = function (this: any, column: any, order: any): boolean {
+export const orderBy = function (this: WorksheetInstance, column: number, order?: number | boolean): boolean {
   const obj = this;
 
   if (column >= 0) {

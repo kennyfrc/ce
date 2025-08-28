@@ -1237,8 +1237,8 @@
       "name": "Utils: Standardize this typing in merges/orderBy/dispatch",
       "description": "Replace this:any with proper context types and fix call sites",
       "phase": 3,
-      "state": "in_progress",
-      "updatedAt": "2025-08-28T08:31:50Z",
+        "state": "in_progress",
+        "updatedAt": "2025-08-29T12:30:00Z",
       "candidateFiles": [
         "src/utils/merges.ts",
         "src/utils/orderBy.ts",
