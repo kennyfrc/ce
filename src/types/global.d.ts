@@ -11,9 +11,16 @@ declare global {
     msSaveOrOpenBlob?: (blob: Blob, defaultName?: string) => boolean;
   }
 
+  // Lightweight aliases to reference jsuites module types on HTMLElement
+  type JSuitesTabsType = import("jsuites").JSuitesTabs;
+  type JSuitesContextMenuType = import("jsuites").JSuitesContextMenu;
+
   interface HTMLElement {
     jssWorksheet?: jspreadsheet.WorksheetInstance;
     jspreadsheet?: jspreadsheet.SpreadsheetInstance;
+    // jSuites augments DOM elements with controller instances
+    tabs?: JSuitesTabsType;
+    contextmenu?: JSuitesContextMenuType;
   }
 
   interface Window {
@@ -28,6 +35,8 @@ declare global {
 interface HTMLElement {
   jssWorksheet?: jspreadsheet.WorksheetInstance;
   jspreadsheet?: jspreadsheet.SpreadsheetInstance;
+  tabs?: JSuitesTabsType;
+  contextmenu?: JSuitesContextMenuType;
 }
 
 interface Window {
@@ -44,7 +53,9 @@ declare module "jsuites" {
     extract: () => string | number | boolean | null;
     open: () => void;
     close: () => void;
-    getValue: (asArray?: boolean) => string | number | boolean | (string | number | boolean)[] | null;
+    getValue: (
+      asArray?: boolean
+    ) => string | number | boolean | (string | number | boolean)[] | null;
     getText: () => string;
   }
 
@@ -74,11 +85,13 @@ declare module "jsuites" {
 
   interface JSuitesTabs {
     render: () => void;
+    content: HTMLElement;
     [key: string]: unknown;
   }
 
   interface JSuitesContextMenu {
     render: () => void;
+    close: (immediate?: boolean) => void;
     [key: string]: unknown;
   }
 
@@ -121,6 +134,7 @@ declare module "jsuites" {
     url: string;
     method?: "GET" | "POST" | "PUT" | "DELETE";
     data?: Record<string, unknown> | FormData;
+    dataType?: "text" | "json" | "xml" | "html";
     success?: (data: unknown) => void;
     error?: (error: Error | string) => void;
     [key: string]: unknown;
@@ -138,7 +152,7 @@ declare module "jsuites" {
     autocomplete?: boolean;
     opened?: boolean;
     value?: string | number | Array<string | number>;
-    width?: string;
+    width?: number;
     position?: boolean;
     onclose?: (element: HTMLElement, instance: JSuitesDropdown) => void;
     [key: string]: unknown;
@@ -154,6 +168,8 @@ declare module "jsuites" {
   interface ColorOptions {
     value?: string;
     palette?: string[];
+    closeOnChange?: boolean;
+    onchange?: (el: HTMLElement, value: string, instance: any) => void;
     [key: string]: unknown;
   }
 
@@ -164,10 +180,12 @@ declare module "jsuites" {
   }
 
   interface TabsOptions {
+    data?: Array<{ title: string; content: HTMLElement | string }>;
     [key: string]: unknown;
   }
 
   interface ContextMenuOptions {
+    data?: Array<{ title: string; onclick?: () => void }>;
     [key: string]: unknown;
   }
 
@@ -176,6 +194,10 @@ declare module "jsuites" {
   }
 
   interface PickerOptions {
+    type?: "select" | "color" | "date";
+    data?: Array<string | number | { value: string | number; text: string }>;
+    render?: (value: string) => void;
+    onchange?: (a: unknown, k: unknown, c: unknown, d: unknown) => void;
     [key: string]: unknown;
   }
 

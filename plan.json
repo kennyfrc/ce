@@ -1,0 +1,1633 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "currentBranch": "ts2",
+    "updatedAt": "2025-08-28T13:53:21Z"
+  },
+  "tasks": [
+    {
+      "id": "ts-migration-setup-20250827-1721",
+      "name": "Setup analysis scaffolding and directories",
+      "description": "Initialize analysis artifacts and folder structure",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        "analysis/",
+        ".agent/"
+      ]
+    },
+    {
+      "id": "ts-migration-inventory-20250827-1721",
+      "name": "Inventory TS vs JS in src/tests",
+      "description": "Catalog TypeScript vs JavaScript usage across src and tests",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        "src/",
+        "test/"
+      ]
+    },
+    {
+      "id": "ts-migration-config-20250827-1721",
+      "name": "Review tsconfig and package scripts",
+      "description": "Audit TypeScript config and npm scripts",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.json",
+        "package.json"
+      ]
+    },
+    {
+      "id": "ts-migration-errors-20250827-1721",
+      "name": "Review tsc errors and errors.json",
+      "description": "Collect and baseline current type errors",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": []
+    },
+    {
+      "id": "ts-migration-anys-20250827-1721",
+      "name": "Review any-types report and top offenders",
+      "description": "Analyze any usage and prioritize hotspots",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        ".agent/any-types-report.txt"
+      ]
+    },
+    {
+      "id": "ts-migration-docs-20250827-1721",
+      "name": "Review migration docs/whitelist/summary",
+      "description": "Review existing migration guidance and whitelists",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        "analysis/architecture/20250827-1735_zero-errors-plan.md"
+      ]
+    },
+    {
+      "id": "ts-migration-source-20250827-1721",
+      "name": "Review src/types and utils patterns",
+      "description": "Understand patterns across types and utilities",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/",
+        "src/utils/"
+      ]
+    },
+    {
+      "id": "ts-migration-tests-20250827-1721",
+      "name": "Review test typings and type-validation",
+      "description": "Ensure test setup and globals are typed",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        "test/",
+        "mocha.config.js"
+      ]
+    },
+    {
+      "id": "ts-migration-report-20250827-1721",
+      "name": "Write the migration analysis report",
+      "description": "Document findings and plan",
+      "phase": 0,
+      "state": "completed",
+      "candidateFiles": [
+        "analysis/architecture/"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0001",
+      "name": "API: Type libraryBase to JSpreadsheet interface",
+      "description": "Apply JSpreadsheet interface to libraryBase",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/libraryBase.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/libraryBase.ts",
+          "lineStart": 1,
+          "lineEnd": 20
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0002",
+      "name": "API: Type jspreadsheet(el, options); helpers registry",
+      "description": "Type entry function and helpers registry with precise HelperFn",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/index.ts",
+        "src/types/jspreadsheet.d.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/index.ts",
+          "lineStart": 13,
+          "lineEnd": 35
+        },
+        {
+          "path": "src/index.ts",
+          "lineStart": 115,
+          "lineEnd": 130
+        },
+        {
+          "path": "src/types/jspreadsheet.d.ts",
+          "lineStart": 86,
+          "lineEnd": 105
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0003",
+      "name": "API: Precisely type getWorksheetInstanceByName return",
+      "description": "Return WorksheetInstance | Record<string, WorksheetInstance> | null",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/index.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/index.ts",
+          "lineStart": 35,
+          "lineEnd": 72
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0004",
+      "name": "JSuites: Inventory usages and required APIs",
+      "description": "Identify all jSuites APIs used across hotspots",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/toolbar.ts",
+        "src/utils/internal.ts",
+        "src/utils/keys.ts"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0005",
+      "name": "JSuites: Consolidate into src/types/global.d.ts; delete shims",
+      "description": "Unify jSuites typings and remove duplicates",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/global.d.ts",
+        "src/types/shims.d.ts"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0006",
+      "name": "JSuites: Add types for mask/calendar/dropdown/etc",
+      "description": "Expand typing coverage for jSuites components",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/global.d.ts",
+        "src/types/jspreadsheet.d.ts"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0007",
+      "name": "internal.ts: Type this as WorksheetInstance/SpreadsheetContext",
+      "description": "Remove this:any and apply proper context types",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 300,
+          "lineEnd": 310
+        },
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 1260,
+          "lineEnd": 1272
+        },
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 1380,
+          "lineEnd": 1420
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0008",
+      "name": "internal.ts: Type key functions (updateTable, parseNumber, ...)",
+      "description": "Add explicit param/return types for core functions",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 930,
+          "lineEnd": 970
+        },
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 1156,
+          "lineEnd": 1170
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0009",
+      "name": "internal.ts: Replace Record<string, any> with precise types",
+      "description": "Introduce interfaces or unknown + guards",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 1090,
+          "lineEnd": 1100
+        },
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 1156,
+          "lineEnd": 1165
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0010",
+      "name": "toolbar.ts: ToolbarItem union; type handlers",
+      "description": "Define discriminated union and strict item configs",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/toolbar.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/toolbar.ts",
+          "lineStart": 520,
+          "lineEnd": 596
+        },
+        {
+          "path": "src/utils/toolbar.ts",
+          "lineStart": 600,
+          "lineEnd": 625
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0011",
+      "name": "toolbar.ts: Remove dynamic records and anys",
+      "description": "Strongly type event handlers and factories",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/toolbar.ts"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0012",
+      "name": "selection.ts: Type selection state/APIs; this typed",
+      "description": "Eliminate any and add DOM guards",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/selection.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/selection.ts",
+          "lineStart": 10,
+          "lineEnd": 20
+        },
+        {
+          "path": "src/utils/selection.ts",
+          "lineStart": 136,
+          "lineEnd": 146
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0013",
+      "name": "keys.ts: Normalize params; DOM typing; this typed",
+      "description": "Replace any casts and add guards",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/keys.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/keys.ts",
+          "lineStart": 128,
+          "lineEnd": 138
+        },
+        {
+          "path": "src/utils/keys.ts",
+          "lineStart": 372,
+          "lineEnd": 380
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0014",
+      "name": "rows.ts: Type row ops and payloads; remove anys",
+      "description": "Type row operations and event payloads",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/rows.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/rows.ts",
+          "lineStart": 14,
+          "lineEnd": 22
+        },
+        {
+          "path": "src/utils/rows.ts",
+          "lineStart": 420,
+          "lineEnd": 446
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0015",
+      "name": "columns.ts: Type column definitions/ops; remove anys",
+      "description": "Type column operations and data",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/columns.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/columns.ts",
+          "lineStart": 36,
+          "lineEnd": 45
+        },
+        {
+          "path": "src/utils/columns.ts",
+          "lineStart": 746,
+          "lineEnd": 786
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0016",
+      "name": "index.ts: spreadsheet: SpreadsheetInstance[]; metadata typed",
+      "description": "Ensure spreadsheet array and metadata are strongly typed",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/index.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/index.ts",
+          "lineStart": 103,
+          "lineEnd": 123
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0017",
+      "name": "Config: Delete src/types/core.js; set allowJs:false",
+      "description": "Tighten TS config and remove JS core types",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.js",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0018",
+      "name": "Config: Evaluate noUncheckedIndexedAccess",
+      "description": "Consider enabling and address surfaced issues",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.json"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0019",
+      "name": "Tests: Add type-only tests for public API and core types",
+      "description": "Type-only tests for JSpreadsheet and core surfaces",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "test/"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0020",
+      "name": "CI: Add tsc -p tsconfig.test.json step",
+      "description": "Ensure CI fails on type errors; noEmit",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "package.json",
+        ".github/workflows/"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0021",
+      "name": "ESLint: Ban explicit any with controlled escape hatch",
+      "description": "Enforce no-explicit-any with @ts-expect-error + ticket",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        ".eslintrc*",
+        "package.json"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0022",
+      "name": "Precommit: Fail on non-zero any count; track trend",
+      "description": "Hook analyzer to precommit and CI",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "package.json",
+        ".agent/find-any-types.js"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0023",
+      "name": "mocha.config.js: Remove ts-ignore via typed globals",
+      "description": "Align globals in global.d.ts and remove ts-ignore",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "mocha.config.js",
+        "src/types/global.d.ts"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0024",
+      "name": "Cleanup: Remove dead/duplicate types; update docs",
+      "description": "Prune duplicates and document migration whitelist",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/",
+        "docs/"
+      ]
+    },
+    {
+      "id": "ts-zero-20250827-0025",
+      "name": "Metrics: Any analyzer in CI",
+      "description": "Report any counts per file in CI artifacts",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        ".agent/find-any-types.js",
+        "package.json"
+      ]
+    },
+    {
+      "id": "tests-howto-20250827-1739",
+      "name": "Add How to Test section to zero-errors plan",
+      "description": "Document test invocation in plan",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "analysis/architecture/20250827-1735_zero-errors-plan.md"
+      ]
+    },
+    {
+      "id": "tests-run-verify-20250827-1739",
+      "name": "Run mocha unit tests (expect ~77), fix config if deviates",
+      "description": "Execute canonical mocha suite and adjust config",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "mocha.config.js",
+        "dist-test/test/"
+      ]
+    },
+    {
+      "id": "tests-playwright-verify-20250827-1739",
+      "name": "Run Playwright e2e locally and ensure passing",
+      "description": "Install browsers and run playwright tests",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "playwright/"
+      ]
+    },
+    {
+      "id": "plan-verify-gates-20250827-1748",
+      "name": "Update plan with verification gates (tests + typecheck)",
+      "description": "Ensure gates listed and agreed",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        "analysis/architecture/20250827-1735_zero-errors-plan.md"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0026",
+      "name": "Type unification: Resolve WorksheetInstance type conflicts",
+      "description": "Fix incompatible WorksheetInstance types between core.ts and jspreadsheet.d.ts",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts",
+        "src/types/jspreadsheet.d.ts",
+        "src/index.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/types/core.ts",
+          "lineStart": 1,
+          "lineEnd": 50
+        },
+        {
+          "path": "src/types/jspreadsheet.d.ts",
+          "lineStart": 1,
+          "lineEnd": 50
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0027",
+      "name": "worksheets.ts: Remove any types and add proper context typing",
+      "description": "Type worksheet functions with proper WorksheetInstance context",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/worksheets.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/worksheets.ts",
+          "lineStart": 80,
+          "lineEnd": 100
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0028",
+      "name": "events.ts: Type event parameters and remove any usage",
+      "description": "Add proper event parameter types and fix object property access",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 20,
+          "lineEnd": 40
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0029",
+      "name": "internal.ts: Fix remaining any types and formula typing",
+      "description": "Complete internal.ts type cleanup and formula execution typing",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 130,
+          "lineEnd": 140
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0030",
+      "name": "Optional property access: Fix obj.options.data undefined checks",
+      "description": "Add proper null checks for optional properties throughout codebase",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/columns.ts",
+        "src/utils/rows.ts",
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/columns.ts",
+          "lineStart": 150,
+          "lineEnd": 160
+        }
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0031",
+      "name": "Final type check: Resolve all remaining compiler errors",
+      "description": "Address all remaining TypeScript compiler errors from strict mode",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0032",
+      "name": "Any type elimination: Reduce count from 327 to target threshold",
+      "description": "Systematically eliminate remaining any types with proper typing (314 remaining)",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/worksheets.ts",
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/factory.ts"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0033",
+      "name": "Address remaining TypeScript compiler errors",
+      "description": "Fix all remaining TypeScript errors from strict mode (1018 errors remaining)",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/columns.ts"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0034",
+      "name": "Continue fixing TypeScript errors in columns.ts",
+      "description": "Address remaining TypeScript errors in columns.ts file (5 persistent errors need investigation)",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/columns.ts"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors in columns.ts"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0035",
+      "name": "Final cleanup: Address remaining 302 any types and 910 TypeScript errors",
+      "description": "Systematically eliminate remaining 302 any types and fix 906 TypeScript compiler errors",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts",
+        "src/utils/factory.ts",
+        "src/utils/events.ts",
+        "src/utils/columns.ts"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode",
+        "Any type count reduced to target threshold"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0036",
+      "name": "Address remaining TypeScript compiler errors",
+      "description": "Fix all remaining TypeScript errors from strict mode compilation",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/columns.ts",
+        "src/utils/events.ts",
+        "src/utils/internal.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0037",
+      "name": "Continue addressing TypeScript compiler errors",
+      "description": "Fix remaining TypeScript errors from strict mode compilation (917 errors remaining)",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/worksheets.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0038",
+      "name": "Continue addressing remaining TypeScript errors",
+      "description": "Fix remaining TypeScript errors from strict mode compilation (917 errors remaining)",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/worksheets.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0039",
+      "name": "Final cleanup: Address remaining compilation errors",
+      "description": "Fix remaining TypeScript compilation errors from strict mode",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/selection.ts",
+        "src/utils/toolbar.ts",
+        "src/utils/merges.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0040",
+      "name": "Address remaining TypeScript compiler errors",
+      "description": "Fix remaining 667 TypeScript errors from strict mode compilation",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/columns.ts",
+        "src/utils/rows.ts",
+        "src/utils/keys.ts",
+        "src/utils/merges.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0041",
+      "name": "Continue addressing TypeScript compiler errors",
+      "description": "Fix remaining 667 TypeScript errors from strict mode compilation",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/columns.ts",
+        "src/utils/rows.ts",
+        "src/utils/keys.ts",
+        "src/utils/merges.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0042",
+      "name": "Address remaining TypeScript compiler errors",
+      "description": "Fix remaining 631 TypeScript errors from strict mode compilation",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/rows.ts",
+        "src/utils/columns.ts",
+        "src/utils/keys.ts",
+        "src/utils/merges.ts",
+        "src/utils/factory.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript compiler errors with strict mode"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0043",
+      "name": "Reduce any type count from 296 to target threshold",
+      "description": "Systematically eliminate remaining any types with proper typing",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/factory.ts",
+        "src/utils/merges.ts",
+        "src/utils/data.ts",
+        "src/utils/dispatch.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "strict-mode",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "Any type count reduced to target threshold"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T00:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0044",
+      "name": "Final cleanup: Address remaining 269 any types and compilation errors",
+      "description": "Superseded by detailed phase tasks added 2025-08-28",
+      "phase": 6,
+      "state": "cancelled",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/factory.ts",
+        "src/utils/internal.ts",
+        "src/utils/merges.ts",
+        "src/utils/data.ts",
+        "src/utils/dispatch.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "superseded"
+      ],
+      "acceptanceCriteria": [
+        "N/A"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T07:05:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0101",
+      "name": "Config: Introduce tsconfig.webpack.json and wire ts-loader",
+      "description": "Create src-only tsconfig for webpack build to eliminate TS6059 and point ts-loader to it",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.webpack.json",
+        "webpack.config.js"
+      ],
+      "fileHints": [
+        {
+          "path": "webpack.config.js",
+          "lineStart": 93,
+          "lineEnd": 101
+        }
+      ],
+      "owners": [
+        "@team/build",
+        "@team/types"
+      ],
+      "labels": [
+        "config",
+        "build"
+      ],
+      "acceptanceCriteria": [
+        "npm run build shows zero TS6059 errors",
+        "ts-loader uses tsconfig.webpack.json (verified in build log)"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0102",
+      "name": "Config: Tighten tsconfig.json includes/excludes",
+      "description": "Keep tests out of base config; rely on tsconfig.test.json for type-check",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.json",
+        "tsconfig.test.json"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "config"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit still runs",
+        "webpack build unaffected; no TS6059"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0103",
+      "name": "JSuites types: Replace namespace usages with module imports",
+      "description": "Use import type { JSuitesTabs, TabsOptions, JSuitesContextMenu } from 'jsuites'",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/factory.ts",
+        "src/utils/toolbar.ts",
+        "src/utils/internal.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 21,
+          "lineEnd": 40
+        },
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 48,
+          "lineEnd": 66
+        },
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 132,
+          "lineEnd": 140
+        },
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 236,
+          "lineEnd": 242
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "third-party-types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2694 errors referencing jspreadsheet.JSuites*",
+        "factory.ts compiles past tabs/contextmenu type usages"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ],
+      "updatedAt": "2025-08-28T07:21:45Z"
+    },
+    {
+      "id": "ts-zero-20250828-0104",
+      "name": "Core: Enrich SpreadsheetOptions (worksheets, plugins, tabs, style)",
+      "description": "Add precise types for options used in factory and worksheet creation",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/types/core.ts",
+          "lineStart": 4,
+          "lineEnd": 36
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "core-model"
+      ],
+      "acceptanceCriteria": [
+        "No TS18046 'options.worksheets/plugins' unknown errors in factory.ts",
+        "Options.tabs/style usages type-check"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0105",
+      "name": "Core: Extend WorksheetInstance to match runtime",
+      "description": "Add filters, formula/history/selection/historyIndex, cursor, edition, results, selectedCorner/Header/Row, tbody reference where used",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/types/core.ts",
+          "lineStart": 74,
+          "lineEnd": 171
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "core-model"
+      ],
+      "acceptanceCriteria": [
+        "factory.ts worksheet object literal type-checks",
+        "rows.ts/keys.ts accessors (tbody, pageNumber, destroyMerge, resetSearch) compile"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ],
+      "updatedAt": "2025-08-28T07:40:29Z"
+    },
+    {
+      "id": "ts-zero-20250828-0106",
+      "name": "Core: Fix SpreadsheetInstance.contextMenu and plugins typing",
+      "description": "Define contextMenu as HTMLElement with controller and type plugins/setPlugins",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts",
+        "src/utils/factory.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 192,
+          "lineEnd": 210
+        },
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 220,
+          "lineEnd": 231
+        },
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 235,
+          "lineEnd": 243
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "core-model"
+      ],
+      "acceptanceCriteria": [
+        "No TS2559/TS2339 on contextMenu properties",
+        "setPlugins() invocation type-checks"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ],
+      "updatedAt": "2025-08-28T08:25:08Z"
+    },
+    {
+      "id": "ts-zero-20250828-0107",
+      "name": "Utils: Standardize this typing in events.ts",
+      "description": "Annotate this as WorksheetInstance/SpreadsheetContext and type event params; remove implicit anys",
+      "phase": 3,
+      "state": "in_progress",
+      "updatedAt": "2025-08-28T13:03:15Z",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/types/events.d.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1700,
+          "lineEnd": 1735
+        },
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1810,
+          "lineEnd": 1860
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No implicit any in events.ts",
+        "x/y coordinate nullability handled via narrowing"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0108",
+      "name": "Utils: Standardize this typing in merges/orderBy/dispatch",
+      "description": "Replace this:any with proper context types and fix call sites",
+      "phase": 3,
+      "state": "in_progress",
+      "updatedAt": "2025-08-28T08:31:50Z",
+      "candidateFiles": [
+        "src/utils/merges.ts",
+        "src/utils/orderBy.ts",
+        "src/utils/dispatch.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No this-context errors in listed files",
+        "tsc error count reduced by ≥10"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0109",
+      "name": "DOM typings: Augment HTMLElement tabs/contextmenu accessors",
+      "description": "Add interface merging for element.tabs and refine contextmenu controller types",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/global.d.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 66,
+          "lineEnd": 72
+        },
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 239,
+          "lineEnd": 241
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "dom-types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2339 on element.tabs or contextmenu controller accesses"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ],
+      "updatedAt": "2025-08-28T08:40:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0110",
+      "name": "Null-safety: Fix strictNullChecks hotspots",
+      "description": "Guard/null-check coordinate math and optionals in events.ts/internal.ts/rows.ts",
+      "phase": 4,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/rows.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1532,
+          "lineEnd": 1542
+        },
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 1202,
+          "lineEnd": 1216
+        },
+        {
+          "path": "src/utils/rows.ts",
+          "lineStart": 208,
+          "lineEnd": 216
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "null-safety"
+      ],
+      "acceptanceCriteria": [
+        "No TS18047/TS18048 in targeted sections",
+        "Unit tests still pass"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ],
+      "updatedAt": "2025-08-28T08:50:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0111",
+      "name": "Public API: Remove any casts from libraryBase/index",
+      "description": "Construct typed JSpreadsheet object; no public API any",
+      "phase": 5,
+      "state": "completed",
+      "updatedAt": "2025-08-28T07:55:00Z",
+      "candidateFiles": [
+        "src/index.ts",
+        "src/utils/libraryBase.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/index.ts",
+          "lineStart": 19,
+          "lineEnd": 32
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "api",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No any on public API surface (entry function, helpers, registries)",
+        "type definitions in dist are accurate"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0112",
+      "name": "Metrics: Baseline snapshot (errors + any)",
+      "description": "Record current tsc error count and any count to .agent",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        ".agent/ts-errors.txt",
+        ".agent/any-types-report.txt"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "baseline",
+        "metrics"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit output saved",
+        "node find-any-types.js output saved"
+      ],
+        "links": [
+          "analysis/architecture/20250828-0649_ts-port-status.md"
+        ],
+        "updatedAt": "2025-08-28T13:14:23Z"
+    },
+    {
+      "id": "ts-zero-20250828-0113",
+      "name": "Milestone: Reduce TS errors to ≤35",
+      "description": "After Phase 2, ensure error count roughly halves",
+      "phase": 2,
+      "state": "in_progress",
+      "updatedAt": "2025-08-28T09:00:00Z",
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "milestone",
+        "tsc"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit reports ≤35 errors"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0114",
+      "name": "Milestone: Reduce TS errors to ≤10",
+      "description": "After Phase 3/4, drive remaining issues into single digits",
+      "phase": 4,
+      "state": "in_progress",
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "milestone",
+        "tsc"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit reports ≤10 errors"
+      ],
+      "updatedAt": "2025-08-28T10:43:55Z"
+    },
+    {
+      "id": "ts-zero-20250828-0115",
+      "name": "Milestone: Zero TypeScript errors",
+      "description": "Strict mode clean: zero compiler errors",
+      "phase": 6,
+      "state": "in_progress",
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "milestone",
+        "tsc"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit exits 0 with no diagnostics"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0116",
+      "name": "Milestone: Any count ≤180 (post-Phase 3)",
+      "description": "Reduce explicit any usages across hotspots",
+      "phase": 3,
+      "state": "in_progress",
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "milestone",
+        "any"
+      ],
+      "acceptanceCriteria": [
+        "node find-any-types.js reports ≤180 any occurrences"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0117",
+      "name": "Milestone: Any count ≤100 (post-Phase 4)",
+      "description": "Keep driving down any usages; no any on hot paths",
+      "phase": 4,
+      "state": "in_progress",
+      "updatedAt": "2025-08-28T10:45:00Z",
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "milestone",
+        "any"
+      ],
+      "acceptanceCriteria": [
+        "node find-any-types.js reports ≤100 any occurrences"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0118",
+      "name": "Milestone: No any on public API/hot paths",
+      "description": "Entry points, core models, and helpers free of any",
+      "phase": 5,
+      "state": "completed",
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "milestone",
+        "api"
+      ],
+      "acceptanceCriteria": [
+        "src/index.ts, src/utils/libraryBase.ts, src/types/core.ts contain no explicit any"
+      ],
+      "updatedAt": "2025-08-28T10:37:41Z"
+    },
+    {
+      "id": "ts-zero-20250828-0200",
+      "name": "events.ts: narrow getElement parameter",
+      "description": "Replace any with Element | null for getElement and refine traversal",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "getElement signature no longer uses any"
+      ],
+      "createdAt": "2025-08-28T08:52:00Z",
+      "updatedAt": "2025-08-28T08:52:00Z"
+    },
+    {
+      "id": "ts-zero-20250828-0201",
+      "name": "Global types: Narrow jsuites onchange instance",
+      "description": "Replace 'any' with jspreadsheet.SpreadsheetInstance in src/types/global.d.ts onchange signatures",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/global.d.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "api"
+      ],
+      "acceptanceCriteria": [
+        "No explicit 'any' remaining in onchange signature in src/types/global.d.ts"
+      ],
+      "createdAt": "2025-08-28T11:33:13Z",
+      "updatedAt": "2025-08-28T11:38:32Z"
+    },
+    {
+      "id": "ts-zero-20250828-0202",
+      "name": "events.ts: Replace plugin any with unknown + guard",
+      "description": "Narrow plugin type using unknown and type guard; handle contextMenu return values",
+      "phase": 3,
+      "state": "completed",
+      "createdAt": "2025-08-28T12:21:08Z",
+      "updatedAt": "2025-08-28T12:21:08Z",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1518,
+          "lineEnd": 1540
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in plugin iteration, plugin.contextMenu result handled (array|false)"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0500",
+      "name": "Run baseline metrics: tsc & any-analyzer",
+      "description": "Execute TypeScript check and any-types analyzer and save artifacts",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        ".agent/ts-errors.txt",
+        ".agent/any-types-report.txt"
+      ],
+      "createdAt": "2025-08-28T13:14:23Z",
+      "updatedAt": "2025-08-28T13:14:23Z"
+    },
+    {
+      "id": "ts-zero-20250828-0203",
+      "name": "events.ts: Narrow EventTarget and this typing",
+      "description": "Add null guards, narrow EventTarget/e.target types, and unify WorksheetInstance/SpreadsheetContext types used in events.ts to reduce hotspots.",
+      "phase": 3,
+      "state": "in_progress",
+      "createdAt": "2025-08-28T13:53:21Z",
+      "updatedAt": "2025-08-28T13:53:21Z",
+      "candidateFiles": [
+        "src/utils/events.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 140,
+          "lineEnd": 220
+        },
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1400,
+          "lineEnd": 1540
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "null-safety"
+      ],
+      "acceptanceCriteria": [
+        "No implicit any in events.ts",
+        "No TS18047/TS2339 in targeted sections",
+        "TypeScript error count reduced by at least 10"
+      ],
+      "links": [
+        "analysis/architecture/20250828-0649_ts-port-status.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,743 @@
+src/utils/events.ts(148,11): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(152,13): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(158,11): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(163,9): error TS18048: 'libraryBase.jspreadsheet.current.resizing.element' is possibly 'undefined'.
+src/utils/events.ts(213,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(215,17): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(222,15): error TS18048: 'libraryBase.jspreadsheet.current.dragging.element' is possibly 'undefined'.
+src/utils/events.ts(224,15): error TS18048: 'libraryBase.jspreadsheet.current.dragging.element' is possibly 'undefined'.
+src/utils/events.ts(224,77): error TS2339: Property 'getAttribute' does not exist on type 'ChildNode'.
+src/utils/events.ts(228,17): error TS18048: 'libraryBase.jspreadsheet.current.dragging.row' is possibly 'undefined'.
+src/utils/events.ts(233,15): error TS18048: 'libraryBase.jspreadsheet.current.dragging.element' is possibly 'undefined'.
+src/utils/events.ts(233,15): error TS18047: 'libraryBase.jspreadsheet.current.dragging.element.previousSibling' is possibly 'null'.
+src/utils/events.ts(233,81): error TS2339: Property 'getAttribute' does not exist on type 'ChildNode'.
+src/utils/events.ts(244,15): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(249,11): error TS18048: 'libraryBase.jspreadsheet.current.dragging.element' is possibly 'undefined'.
+src/utils/events.ts(437,19): error TS18047: 'libraryBase.jspreadsheet.current' is possibly 'null'.
+src/utils/events.ts(437,19): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(437,52): error TS2554: Expected 2 arguments, but got 1.
+src/utils/events.ts(452,15): error TS2345: Argument of type 'number | true' is not assignable to parameter of type 'number'.
+  Type 'boolean' is not assignable to type 'number'.
+src/utils/events.ts(455,15): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(469,20): error TS18048: 'libraryBase.jspreadsheet.current.options.columns' is possibly 'undefined'.
+src/utils/events.ts(476,15): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(477,15): error TS2345: Argument of type 'MouseEvent' is not assignable to parameter of type 'string'.
+src/utils/events.ts(554,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(555,15): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(569,15): error TS18048: 'libraryBase.jspreadsheet.current.edition' is possibly 'undefined'.
+src/utils/events.ts(618,21): error TS2345: Argument of type 'MouseEvent' is not assignable to parameter of type 'string'.
+src/utils/events.ts(627,21): error TS2345: Argument of type 'MouseEvent' is not assignable to parameter of type 'string'.
+src/utils/events.ts(700,23): error TS18048: 'libraryBase.jspreadsheet.current.resizing.mousePosition' is possibly 'undefined'.
+src/utils/events.ts(702,15): error TS18048: 'libraryBase.jspreadsheet.current.resizing.width' is possibly 'undefined'.
+src/utils/events.ts(704,15): error TS18048: 'libraryBase.jspreadsheet.current.resizing.width' is possibly 'undefined'.
+src/utils/events.ts(707,48): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(713,23): error TS18048: 'libraryBase.jspreadsheet.current.resizing.mousePosition' is possibly 'undefined'.
+src/utils/events.ts(715,15): error TS18048: 'libraryBase.jspreadsheet.current.resizing.height' is possibly 'undefined'.
+src/utils/events.ts(717,15): error TS18048: 'libraryBase.jspreadsheet.current.resizing.height' is possibly 'undefined'.
+src/utils/events.ts(719,15): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(807,20): error TS2345: Argument of type 'HTMLElement | undefined' is not assignable to parameter of type 'Node'.
+  Type 'undefined' is not assignable to type 'Node'.
+src/utils/events.ts(812,21): error TS18048: 'libraryBase.jspreadsheet.current.dragging.element' is possibly 'undefined'.
+src/utils/events.ts(812,21): error TS18047: 'libraryBase.jspreadsheet.current.dragging.element.parentNode' is possibly 'null'.
+src/utils/events.ts(897,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(898,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(900,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(901,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(957,28): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(957,37): error TS2339: Property 'getAttribute' does not exist on type 'EventTarget'.
+src/utils/events.ts(959,25): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(959,34): error TS2339: Property 'getAttribute' does not exist on type 'EventTarget'.
+src/utils/events.ts(969,35): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(969,44): error TS2339: Property 'getAttribute' does not exist on type 'EventTarget'.
+src/utils/events.ts(978,15): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(979,15): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(987,15): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(987,24): error TS2339: Property 'classList' does not exist on type 'EventTarget'.
+src/utils/events.ts(995,17): error TS2345: Argument of type 'number | boolean' is not assignable to parameter of type 'number'.
+  Type 'boolean' is not assignable to type 'number'.
+src/utils/events.ts(996,17): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(1019,23): error TS2345: Argument of type 'MouseEvent' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1042,9): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(1042,18): error TS2339: Property 'classList' does not exist on type 'EventTarget'.
+src/utils/events.ts(1052,13): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/events.ts(1065,56): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(1066,56): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(1069,16): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(1069,25): error TS2339: Property 'classList' does not exist on type 'EventTarget'.
+src/utils/events.ts(1071,24): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(1071,33): error TS2339: Property 'getAttribute' does not exist on type 'EventTarget'.
+src/utils/events.ts(1084,26): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(1084,35): error TS2339: Property 'getAttribute' does not exist on type 'EventTarget'.
+src/utils/events.ts(1086,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1086,44): error TS2554: Expected 2 arguments, but got 1.
+src/utils/events.ts(1110,38): error TS2345: Argument of type 'EventTarget | null' is not assignable to parameter of type 'HTMLElement'.
+  Type 'null' is not assignable to type 'HTMLElement'.
+src/utils/events.ts(1127,20): error TS2339: Property 'clipboardData' does not exist on type 'Event'.
+src/utils/events.ts(1132,15): error TS2339: Property 'clipboardData' does not exist on type 'Event'.
+src/utils/events.ts(1212,40): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean'.
+src/utils/events.ts(1221,40): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean'.
+src/utils/events.ts(1243,28): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1243,28): error TS18048: 'worksheet.getHeader' is possibly 'undefined'.
+src/utils/events.ts(1247,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1247,34): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/events.ts(1260,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1260,32): error TS2345: Argument of type '0' is not assignable to parameter of type '"asc" | "desc"'.
+src/utils/events.ts(1266,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1266,32): error TS2345: Argument of type '1' is not assignable to parameter of type '"asc" | "desc"'.
+src/utils/events.ts(1278,34): error TS2554: Expected 1 arguments, but got 3.
+src/utils/events.ts(1285,34): error TS2554: Expected 1 arguments, but got 2.
+src/utils/events.ts(1295,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(1313,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1322,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1419,25): error TS2339: Property 'which' does not exist on type 'never'.
+src/utils/events.ts(1419,36): error TS2339: Property 'button' does not exist on type 'never'.
+src/utils/events.ts(1428,23): error TS2339: Property 'contextMenu' does not exist on type 'SpreadsheetContext'.
+src/utils/events.ts(1433,34): error TS2345: Argument of type 'Element' is not assignable to parameter of type 'HTMLElement'.
+  Type 'Element' is missing the following properties from type 'HTMLElement': accessKey, accessKeyLabel, autocapitalize, autocorrect, and 129 more.
+src/utils/events.ts(1450,13): error TS18047: 'x' is possibly 'null'.
+src/utils/events.ts(1450,13): error TS2365: Operator '<' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1450,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1451,13): error TS18047: 'x' is possibly 'null'.
+src/utils/events.ts(1451,13): error TS2365: Operator '>' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1451,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1452,13): error TS18047: 'y' is possibly 'null'.
+src/utils/events.ts(1452,13): error TS2365: Operator '<' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1452,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1453,13): error TS18047: 'y' is possibly 'null'.
+src/utils/events.ts(1453,13): error TS2365: Operator '>' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1453,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1457,15): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/events.ts(1473,13): error TS18047: 'x' is possibly 'null'.
+src/utils/events.ts(1473,13): error TS2365: Operator '<' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1473,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1474,13): error TS18047: 'x' is possibly 'null'.
+src/utils/events.ts(1474,13): error TS2365: Operator '>' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1474,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1475,13): error TS18047: 'y' is possibly 'null'.
+src/utils/events.ts(1475,13): error TS2365: Operator '<' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1475,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1476,13): error TS18047: 'y' is possibly 'null'.
+src/utils/events.ts(1476,13): error TS2365: Operator '>' cannot be applied to types 'string' and 'number'.
+src/utils/events.ts(1476,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1480,15): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/events.ts(1490,13): error TS2322: Type 'number' is not assignable to type 'string'.
+src/utils/events.ts(1491,13): error TS2322: Type 'number' is not assignable to type 'string'.
+src/utils/events.ts(1495,13): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
+src/utils/events.ts(1496,24): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1497,13): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
+src/utils/events.ts(1498,24): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1504,15): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/events.ts(1507,15): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(1514,13): error TS2322: Type 'number' is not assignable to type 'string'.
+src/utils/events.ts(1516,13): error TS2322: Type 'number' is not assignable to type 'string'.
+src/utils/events.ts(1517,13): error TS2322: Type 'number' is not assignable to type 'string'.
+src/utils/events.ts(1523,20): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/events.ts(1524,20): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/events.ts(1584,21): error TS2339: Property 'contextMenu' does not exist on type 'SpreadsheetContext'.
+src/utils/events.ts(1628,13): error TS18047: 'libraryBase.jspreadsheet.current' is possibly 'null'.
+src/utils/events.ts(1628,13): error TS18048: 'libraryBase.jspreadsheet.current.options.columns' is possibly 'undefined'.
+src/utils/events.ts(1652,55): error TS2339: Property 'focus' does not exist on type 'Element'.
+src/utils/events.ts(1672,11): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1755,16): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(1758,17): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(1758,17): error TS2531: Object is possibly 'null'.
+src/utils/events.ts(1760,64): error TS2339: Property 'length' does not exist on type 'string | number | boolean'.
+  Property 'length' does not exist on type 'number'.
+src/utils/events.ts(1767,71): error TS2339: Property 'value' does not exist on type 'Element'.
+src/utils/events.ts(1768,50): error TS2339: Property 'selectionStart' does not exist on type 'Element'.
+src/utils/events.ts(1773,28): error TS2339: Property 'value' does not exist on type 'Element'.
+src/utils/events.ts(1774,28): error TS2339: Property 'focus' does not exist on type 'Element'.
+src/utils/events.ts(1775,28): error TS2339: Property 'selectionStart' does not exist on type 'Element'.
+src/utils/events.ts(1776,28): error TS2339: Property 'selectionEnd' does not exist on type 'Element'.
+src/utils/events.ts(1778,69): error TS2339: Property 'blur' does not exist on type 'Element'.
+src/utils/events.ts(1789,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: WorksheetInstance, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/events.ts(1800,67): error TS2339: Property 'blur' does not exist on type 'Element'.
+src/utils/events.ts(1840,50): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1861,15): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1884,17): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(1887,50): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1909,17): error TS18048: 'libraryBase.jspreadsheet.current.options.data' is possibly 'undefined'.
+src/utils/events.ts(1965,19): error TS18048: 'libraryBase.jspreadsheet.current.options.columns' is possibly 'undefined'.
+src/utils/events.ts(1967,19): error TS18048: 'libraryBase.jspreadsheet.current.options.columns' is possibly 'undefined'.
+src/utils/events.ts(2017,11): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(2017,20): error TS2339: Property 'classList' does not exist on type 'EventTarget'.
+src/utils/events.ts(2023,11): error TS18047: 'libraryBase.jspreadsheet.current' is possibly 'null'.
+src/utils/events.ts(2023,44): error TS2339: Property 'search' does not exist on type 'WorksheetInstance'.
+src/utils/events.ts(2023,51): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(2023,60): error TS2339: Property 'value' does not exist on type 'EventTarget'.
+src/utils/events.ts(2074,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(2088,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/events.ts(2092,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
+  Type 'number' is not assignable to type 'string'.
+src/utils/events.ts(2104,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
+src/utils/events.ts(2114,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(2133,27): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'WheelEvent'.
+  Type 'Event' is missing the following properties from type 'WheelEvent': deltaMode, deltaX, deltaY, deltaZ, and 30 more.
+src/utils/events.ts(2135,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(2141,24): error TS18047: 'e.target' is possibly 'null'.
+src/utils/events.ts(2141,33): error TS2339: Property 'className' does not exist on type 'EventTarget'.
+src/utils/factory.ts(89,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
+src/utils/factory.ts(110,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
+src/utils/factory.ts(131,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/factory.ts(146,24): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(o: { [s: string]: number | CSSStyleDeclaration; } | ArrayLike<number | CSSStyleDeclaration>): [string, number | CSSStyleDeclaration][]', gave the following error.
+    Argument of type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[] | undefined' is not assignable to parameter of type '{ [s: string]: number | CSSStyleDeclaration; } | ArrayLike<number | CSSStyleDeclaration>'.
+      Type 'undefined' is not assignable to type '{ [s: string]: number | CSSStyleDeclaration; } | ArrayLike<number | CSSStyleDeclaration>'.
+  Overload 2 of 2, '(o: {}): [string, any][]', gave the following error.
+    Argument of type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[] | undefined' is not assignable to parameter of type '{}'.
+      Type 'undefined' is not assignable to type '{}'.
+src/utils/factory.ts(148,13): error TS2532: Object is possibly 'undefined'.
+src/utils/factory.ts(148,13): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+  No index signature with a parameter of type 'string' was found on type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+src/utils/factory.ts(148,36): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+  No index signature with a parameter of type 'number' was found on type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+src/utils/factory.ts(190,5): error TS18047: 'el.parentNode' is possibly 'null'.
+src/utils/factory.ts(195,7): error TS2741: Property 'options' is missing in type '{ worksheets: WorksheetInstance[]; config: SpreadsheetOptions; element: HTMLElement; el: HTMLElement; }' but required in type 'SpreadsheetInstance'.
+src/utils/factory.ts(206,60): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: WorksheetInstance | SpreadsheetContext) => number, thisArg: WorksheetInstance | SpreadsheetContext): () => number', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'WorksheetInstance | SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'WorksheetInstance': headers, rows, insertRow, deleteRow, and 27 more.
+  Overload 2 of 2, '(this: (this: WorksheetInstance | SpreadsheetContext) => number, thisArg: WorksheetInstance | SpreadsheetContext): () => number', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'WorksheetInstance | SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'WorksheetInstance': headers, rows, insertRow, deleteRow, and 27 more.
+src/utils/factory.ts(207,44): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: SpreadsheetContext, activate?: boolean | undefined) => void, thisArg: SpreadsheetContext): (activate?: boolean | undefined) => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+  Overload 2 of 2, '(this: (this: SpreadsheetContext, activate?: boolean | undefined) => void, thisArg: SpreadsheetContext): (activate?: boolean | undefined) => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(208,46): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+  Overload 2 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(209,46): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+  Overload 2 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(236,9): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
+src/utils/factory.ts(252,20): error TS2345: Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(261,6): error TS2551: Property 'spreadsheet' does not exist on type 'HTMLElement'. Did you mean 'jspreadsheet'?
+src/utils/factory.ts(281,33): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: {}; }' is not assignable to parameter of type 'WorksheetInstance'.
+  Type '{ parent: SpreadsheetInstance; options: {}; }' is missing the following properties from type 'WorksheetInstance': headers, rows, element, config, and 28 more.
+src/utils/factory.ts(283,48): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: {}; }' is not assignable to parameter of type 'WorksheetInstance'.
+  Type '{ parent: SpreadsheetInstance; options: {}; }' is missing the following properties from type 'WorksheetInstance': headers, rows, element, config, and 28 more.
+src/utils/internal.ts(428,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
+src/utils/internal.ts(430,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
+src/utils/internal.ts(445,8): error TS2322: Type 'HTMLCollectionOf<HTMLScriptElement>' is not assignable to type 'string'.
+src/utils/internal.ts(446,7): error TS2339: Property 'parentNode' does not exist on type 'string'.
+src/utils/internal.ts(468,31): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(598,36): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(601,38): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(603,11): error TS2322: Type 'CellValue' is not assignable to type 'string | null'.
+  Type 'number' is not assignable to type 'string'.
+src/utils/internal.ts(858,13): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(863,15): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(945,6): error TS2304: Cannot find name 'ColumnDefinition'.
+src/utils/internal.ts(1094,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1095,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1096,26): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1102,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1110,28): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(o: {}): string[]', gave the following error.
+    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type '{}'.
+      Type 'undefined' is not assignable to type '{}'.
+  Overload 2 of 2, '(o: object): string[]', gave the following error.
+    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type 'object'.
+      Type 'undefined' is not assignable to type 'object'.
+src/utils/internal.ts(1114,19): error TS18048: 'obj.formula' is possibly 'undefined'.
+src/utils/internal.ts(1139,11): error TS2339: Property 'skipUpdateTableReferences' does not exist on type 'WorksheetInstance'.
+src/utils/internal.ts(1147,9): error TS2367: This comparison appears to be unintentional because the types 'string | null' and 'number' have no overlap.
+src/utils/internal.ts(1149,45): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1162,11): error TS2367: This comparison appears to be unintentional because the types 'string | null' and 'number' have no overlap.
+src/utils/internal.ts(1164,52): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1165,64): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1167,9): error TS2322: Type 'number' is not assignable to type 'string'.
+src/utils/internal.ts(1179,56): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1182,56): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1202,53): error TS2322: Type 'string | null' is not assignable to type 'string | number'.
+  Type 'null' is not assignable to type 'string | number'.
+src/utils/internal.ts(1202,56): error TS2322: Type 'string | null' is not assignable to type 'string | number'.
+  Type 'null' is not assignable to type 'string | number'.
+src/utils/internal.ts(1208,34): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+src/utils/internal.ts(1208,34): error TS18047: 'x' is possibly 'null'.
+src/utils/internal.ts(1209,34): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+src/utils/internal.ts(1209,34): error TS18047: 'y' is possibly 'null'.
+src/utils/internal.ts(1214,26): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/internal.ts(1229,11): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'number'.
+  Type 'string' is not assignable to type 'number'.
+src/utils/internal.ts(1231,15): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [string, number, number]'.
+  Property '1' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1232,15): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [string, number, number]'.
+  Property '2' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1236,28): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [string, number, number]'.
+  Property '0' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1239,15): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1243,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1246,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1248,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1250,17): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [string, number, number]'.
+  Property '1' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1252,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1254,17): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [string, number, number]'.
+  Property '2' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1258,9): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1259,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1260,16): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1329,39): error TS2345: Argument of type 'WorksheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Property 'worksheets' is missing in type 'WorksheetInstance' but required in type 'SpreadsheetContext'.
+src/utils/internal.ts(1391,29): error TS2345: Argument of type 'SpreadsheetContext' is not assignable to parameter of type 'WorksheetInstance'.
+  Type 'SpreadsheetContext' is missing the following properties from type 'WorksheetInstance': insertRow, deleteRow, insertColumn, deleteColumn, and 19 more.
+src/utils/internal.ts(1414,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
+  Type 'string' is not assignable to type 'number'.
+src/utils/internal.ts(1417,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/internal.ts(1454,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
+  Type 'string' is not assignable to type 'number'.
+src/utils/internal.ts(1457,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/internal.ts(1512,22): error TS2304: Cannot find name 'NestedHeader'.
+src/utils/internal.ts(1523,21): error TS2339: Property 'element' does not exist on type 'NestedHeader[]'.
+src/utils/internal.ts(1546,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/internal.ts(1547,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/keys.ts(131,11): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/keys.ts(132,11): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/keys.ts(133,11): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/keys.ts(136,13): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/keys.ts(157,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(248,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(377,13): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/keys.ts(377,36): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/keys.ts(379,13): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/keys.ts(400,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(490,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(535,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(581,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/merges.ts(227,7): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'HTMLElement | null'.
+src/utils/rows.ts(31,12): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(39,3): error TS2739: Type '{ element: HTMLTableRowElement; y: number; }' is missing the following properties from type 'Row': cells, index, height
+src/utils/rows.ts(51,27): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(52,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(53,34): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(55,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(56,15): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(69,51): error TS2345: Argument of type 'WorksheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Property 'worksheets' is missing in type 'WorksheetInstance' but required in type 'SpreadsheetContext'.
+src/utils/rows.ts(75,44): error TS2345: Argument of type 'CellValue | undefined' is not assignable to parameter of type 'CellValue'.
+  Type 'undefined' is not assignable to type 'CellValue'.
+src/utils/rows.ts(87,7): error TS2571: Object is of type 'unknown'.
+src/utils/rows.ts(124,9): error TS7034: Variable 'data' implicitly has type 'any[]' in some locations where its type cannot be determined.
+src/utils/rows.ts(155,23): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(155,35): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(187,15): error TS2339: Property 'destroyMerge' does not exist on type 'WorksheetInstance'.
+src/utils/rows.ts(202,15): error TS2339: Property 'resetSearch' does not exist on type 'WorksheetInstance'.
+src/utils/rows.ts(216,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(226,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(228,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(228,38): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(228,50): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(231,47): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(236,13): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(240,11): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(245,13): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(249,11): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(254,24): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(264,19): error TS2339: Property 'y' does not exist on type 'Row'.
+src/utils/rows.ts(274,9): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/rows.ts(275,16): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/rows.ts(337,13): error TS2339: Property 'destroyMerge' does not exist on type 'WorksheetInstance'.
+src/utils/rows.ts(351,13): error TS2339: Property 'resetSearch' does not exist on type 'WorksheetInstance'.
+src/utils/rows.ts(362,36): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(365,9): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(367,9): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(373,7): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(380,3): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(380,33): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(386,17): error TS2339: Property 'y' does not exist on type 'Row'.
+src/utils/rows.ts(397,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/rows.ts(398,5): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(400,14): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/rows.ts(414,49): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(414,62): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(435,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(442,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(451,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(462,36): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(463,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(483,20): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(506,17): error TS2339: Property 'destroyMerge' does not exist on type 'WorksheetInstance'.
+src/utils/rows.ts(520,19): error TS2339: Property 'resetSearch' does not exist on type 'WorksheetInstance'.
+src/utils/rows.ts(544,15): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(549,13): error TS2531: Object is possibly 'null'.
+src/utils/rows.ts(555,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(559,23): error TS2339: Property 'y' does not exist on type 'Row'.
+src/utils/rows.ts(570,11): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/rows.ts(571,11): error TS18048: 'obj.tbody' is possibly 'undefined'.
+src/utils/rows.ts(573,20): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/rows.ts(643,3): error TS2322: Type 'string | string[]' is not assignable to type 'number | number[]'.
+  Type 'string' is not assignable to type 'number | number[]'.
+src/utils/rows.ts(664,7): error TS2322: Type 'string | null' is not assignable to type 'number | undefined'.
+  Type 'null' is not assignable to type 'number | undefined'.
+src/utils/rows.ts(673,23): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(683,10): error TS18046: 'obj.options.rows' is of type 'unknown'.
+src/utils/rows.ts(684,7): error TS18046: 'obj.options.rows' is of type 'unknown'.
+src/utils/rows.ts(686,5): error TS18046: 'obj.options.rows' is of type 'unknown'.
+src/utils/rows.ts(755,5): error TS2322: Type 'CellValue[]' is not assignable to type 'string[]'.
+  Type 'CellValue' is not assignable to type 'string'.
+    Type 'null' is not assignable to type 'string'.
+src/utils/rows.ts(755,12): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/selection.ts(45,41): error TS2345: Argument of type 'WorksheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Property 'worksheets' is missing in type 'WorksheetInstance' but required in type 'SpreadsheetContext'.
+src/utils/selection.ts(86,27): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(87,27): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(94,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(97,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(126,3): error TS2322: Type 'null' is not assignable to type 'number[]'.
+src/utils/selection.ts(162,39): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/selection.ts(197,10): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/selection.ts(256,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(257,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(259,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(262,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(402,40): error TS2322: Type 'number | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/selection.ts(402,64): error TS2322: Type 'number | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/selection.ts(517,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(518,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(519,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(520,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(580,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/selection.ts(608,23): error TS7034: Variable 'affectedTokens' implicitly has type 'any[]' in some locations where its type cannot be determined.
+src/utils/selection.ts(623,23): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
+src/utils/selection.ts(623,38): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/selection.ts(628,21): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
+src/utils/selection.ts(629,41): error TS2345: Argument of type 'string | number | true' is not assignable to parameter of type 'string'.
+  Type 'number' is not assignable to type 'string'.
+src/utils/selection.ts(629,48): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
+src/utils/selection.ts(841,3): error TS2322: Type '(string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; })[]' is not assignable to type 'string[] | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]'.
+  Type '(string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; })[]' is not assignable to type 'string[]'.
+    Type 'string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+      Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(72,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(84,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(84,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(107,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(113,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(113,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(132,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(138,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(138,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(159,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(159,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(202,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(215,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(215,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(292,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(566,49): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(570,27): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+  Types of parameters 'cellName' and 'value' are incompatible.
+    Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(587,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(591,29): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+  Types of parameters 'cellName' and 'value' are incompatible.
+    Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(648,30): error TS2339: Property 'toolbar' does not exist on type 'HTMLElement'.
+src/utils/worksheets.ts(86,5): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'WorksheetInstance'.
+  No index signature with a parameter of type 'string' was found on type 'WorksheetInstance'.
+src/utils/worksheets.ts(132,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/worksheets.ts(134,35): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/worksheets.ts(139,46): error TS2339: Property 'value' does not exist on type 'GlobalEventHandlers'.
+src/utils/worksheets.ts(143,55): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/worksheets.ts(145,20): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/worksheets.ts(146,24): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/worksheets.ts(151,5): error TS2322: Type 'number | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/worksheets.ts(183,33): error TS2345: Argument of type 'WorksheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Property 'worksheets' is missing in type 'WorksheetInstance' but required in type 'SpreadsheetContext'.
+src/utils/worksheets.ts(194,51): error TS2345: Argument of type 'WorksheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Property 'worksheets' is missing in type 'WorksheetInstance' but required in type 'SpreadsheetContext'.
+src/utils/worksheets.ts(198,27): error TS2345: Argument of type 'WorksheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Property 'worksheets' is missing in type 'WorksheetInstance' but required in type 'SpreadsheetContext'.
+src/utils/worksheets.ts(212,25): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(217,11): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(252,7): error TS2339: Property 'textarea' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(253,7): error TS2339: Property 'textarea' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(254,7): error TS2339: Property 'textarea' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(255,7): error TS2339: Property 'textarea' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(256,7): error TS2339: Property 'textarea' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(261,7): error TS2339: Property 'ads' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(262,7): error TS2339: Property 'ads' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(267,7): error TS2339: Property 'ads' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(274,7): error TS2339: Property 'pagination' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(275,7): error TS2339: Property 'pagination' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(278,7): error TS2339: Property 'pagination' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(279,7): error TS2339: Property 'pagination' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(283,9): error TS2339: Property 'pagination' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(294,31): error TS2339: Property 'textarea' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(297,31): error TS2339: Property 'pagination' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(298,31): error TS2339: Property 'ads' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(307,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(308,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(315,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(343,7): error TS2551: Property 'setData' does not exist on type 'WorksheetInstance'. Did you mean 'getData'?
+src/utils/worksheets.ts(347,37): error TS2554: Expected 1 arguments, but got 5.
+src/utils/worksheets.ts(356,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+src/utils/worksheets.ts(361,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(361,9): error TS2554: Expected 2 arguments, but got 1.
+src/utils/worksheets.ts(369,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(370,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/worksheets.ts(453,18): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(453,43): error TS2339: Property 'index' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(454,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(454,40): error TS2339: Property 'index' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(458,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(458,15): error TS2571: Object is of type 'unknown'.
+src/utils/worksheets.ts(458,40): error TS2339: Property 'index' does not exist on type 'WorksheetInstance'.
+src/utils/worksheets.ts(488,7): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/worksheets.ts(525,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(528,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
+  Types of parameters 'result' and 'data' are incompatible.
+    Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(566,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(569,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
+  Types of parameters 'result' and 'data' are incompatible.
+    Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(571,37): error TS2339: Property 'data' does not exist on type 'string'.
+src/utils/worksheets.ts(571,51): error TS2339: Property 'data' does not exist on type 'string'.
+src/utils/worksheets.ts(607,57): error TS2345: Argument of type 'SpreadsheetContext' is not assignable to parameter of type 'SpreadsheetInstance'.
+  Types of property 'toolbar' are incompatible.
+    Type 'HTMLElement | undefined' is not assignable to type '{ toolbar: { update: (worksheet: WorksheetInstance) => void; }; } | undefined'.
+      Property 'toolbar' is missing in type 'HTMLElement' but required in type '{ toolbar: { update: (worksheet: WorksheetInstance) => void; }; }'.
+src/utils/worksheets.ts(620,3): error TS18048: 'spreadsheet.config.worksheets' is possibly 'undefined'.
+src/utils/worksheets.ts(621,31): error TS2345: Argument of type '{ parent: SpreadsheetContext; options: any; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is not assignable to parameter of type 'WorksheetInstance'.
+  Type '{ parent: SpreadsheetContext; options: any; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is missing the following properties from type 'WorksheetInstance': headers, rows, element, config, and 27 more.
+src/utils/worksheets.ts(633,15): error TS2339: Property 'creationThroughJss' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(697,28): error TS2345: Argument of type 'WorksheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Property 'worksheets' is missing in type 'WorksheetInstance' but required in type 'SpreadsheetContext'.
+src/utils/worksheets.ts(704,63): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'boolean'.
+src/utils/worksheets.ts(796,32): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'Event'.
+test/calculations.ts(25,35): error TS2554: Expected 1 arguments, but got 2.
+test/calculations.ts(43,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(66,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(90,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(114,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(138,28): error TS2554: Expected 1 arguments, but got 3.
+test/columns.ts(25,34): error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'number'.
+test/columns.ts(30,34): error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'number'.
+test/columns.ts(54,21): error TS2575: No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments.
+test/columns.ts(60,21): error TS2575: No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments.
+test/columns.ts(155,21): error TS2339: Property 'hideColumn' does not exist on type 'WorksheetInstance'.
+test/columns.ts(163,21): error TS2339: Property 'showColumn' does not exist on type 'WorksheetInstance'.
+test/columns.ts(190,34): error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'number'.
+test/columns.ts(230,26): error TS2554: Expected 0 arguments, but got 1.
+test/columns.ts(236,26): error TS2554: Expected 0 arguments, but got 1.
+test/comments.ts(31,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(35,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(60,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(62,28): error TS2551: Property 'getComments' does not exist on type 'WorksheetInstance'. Did you mean 'setComments'?
+test/comments.ts(90,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(55,34): error TS2551: Property 'setData' does not exist on type 'WorksheetInstance'. Did you mean 'getData'?
+test/data.ts(160,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(161,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(162,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(163,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(185,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(186,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(187,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(188,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(215,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(220,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(221,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(226,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/data.ts(250,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/footer.ts(19,26): error TS2322: Type 'number' is not assignable to type 'string'.
+test/footer.ts(19,29): error TS2322: Type 'number' is not assignable to type 'string'.
+test/footer.ts(19,32): error TS2322: Type 'number' is not assignable to type 'string'.
+test/headers.ts(25,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(30,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(55,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(56,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(57,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(79,29): error TS2551: Property 'getHeaders' does not exist on type 'WorksheetInstance'. Did you mean 'getHeader'?
+test/headers.ts(108,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/merges.ts(38,32): error TS2551: Property 'getMerge' does not exist on type 'WorksheetInstance'. Did you mean 'setMerge'?
+test/merges.ts(39,32): error TS2551: Property 'getMerge' does not exist on type 'WorksheetInstance'. Did you mean 'setMerge'?
+test/merges.ts(41,32): error TS2551: Property 'getMerge' does not exist on type 'WorksheetInstance'. Did you mean 'setMerge'?
+test/merges.ts(72,32): error TS2551: Property 'getMerge' does not exist on type 'WorksheetInstance'. Did you mean 'setMerge'?
+test/merges.ts(74,32): error TS2551: Property 'getMerge' does not exist on type 'WorksheetInstance'. Did you mean 'setMerge'?
+test/merges.ts(200,21): error TS2339: Property 'destroyMerge' does not exist on type 'WorksheetInstance'.
+test/meta.ts(19,25): error TS2339: Property 'setMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(23,25): error TS2339: Property 'setMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(40,25): error TS2339: Property 'setMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(41,25): error TS2339: Property 'setMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(42,25): error TS2339: Property 'setMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(49,25): error TS2339: Property 'setMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(74,28): error TS2339: Property 'getMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(79,28): error TS2339: Property 'getMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(84,28): error TS2339: Property 'getMeta' does not exist on type 'WorksheetInstance'.
+test/meta.ts(86,28): error TS2339: Property 'getMeta' does not exist on type 'WorksheetInstance'.
+test/orderBy.ts(20,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(20,17): error TS2554: Expected 2 arguments, but got 1.
+test/orderBy.ts(29,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(29,17): error TS2554: Expected 2 arguments, but got 1.
+test/orderBy.ts(74,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(74,28): error TS2345: Argument of type '1' is not assignable to parameter of type '"asc" | "desc"'.
+test/orderBy.ts(98,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(98,17): error TS2554: Expected 2 arguments, but got 1.
+test/orderBy.ts(107,22): error TS2554: Expected 0 arguments, but got 1.
+test/orderBy.ts(116,22): error TS2554: Expected 0 arguments, but got 1.
+test/pagination.ts(28,28): error TS2339: Property 'quantiyOfPages' does not exist on type 'WorksheetInstance'.
+test/pagination.ts(64,28): error TS2339: Property 'quantiyOfPages' does not exist on type 'WorksheetInstance'.
+test/paste.ts(29,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(51,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(75,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(96,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(117,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(144,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(164,11): error TS2339: Property 'hideRow' does not exist on type 'WorksheetInstance'.
+test/paste.ts(166,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(190,11): error TS2339: Property 'copy' does not exist on type 'WorksheetInstance'.
+test/paste.ts(191,11): error TS2339: Property 'hideRow' does not exist on type 'WorksheetInstance'.
+test/paste.ts(192,11): error TS2339: Property 'hideColumn' does not exist on type 'WorksheetInstance'.
+test/paste.ts(194,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(194,69): error TS2339: Property 'data' does not exist on type 'WorksheetInstance'.
+test/paste.ts(218,11): error TS2339: Property 'copy' does not exist on type 'WorksheetInstance'.
+test/paste.ts(219,11): error TS2339: Property 'hideColumn' does not exist on type 'WorksheetInstance'.
+test/paste.ts(220,11): error TS2339: Property 'hideColumn' does not exist on type 'WorksheetInstance'.
+test/paste.ts(221,11): error TS2339: Property 'hideRow' does not exist on type 'WorksheetInstance'.
+test/paste.ts(230,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(230,29): error TS2339: Property 'data' does not exist on type 'WorksheetInstance'.
+test/paste.ts(249,17): error TS7006: Parameter 'event' implicitly has an 'any' type.
+test/paste.ts(250,9): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(250,25): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(264,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(265,18): error TS2339: Property 'onbeforechange' does not exist on type '{}'.
+test/paste.ts(266,18): error TS2339: Property 'onbeforeinsertcolumn' does not exist on type '{}'.
+test/paste.ts(267,18): error TS2339: Property 'onbeforeinsertrow' does not exist on type '{}'.
+test/paste.ts(268,18): error TS2339: Property 'onchange' does not exist on type '{}'.
+test/paste.ts(269,18): error TS2339: Property 'oninsertcolumn' does not exist on type '{}'.
+test/paste.ts(270,18): error TS2339: Property 'oninsertrow' does not exist on type '{}'.
+test/paste.ts(271,18): error TS2339: Property 'onselection' does not exist on type '{}'.
+test/paste.ts(288,17): error TS7006: Parameter 'event' implicitly has an 'any' type.
+test/paste.ts(289,9): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(289,25): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(295,11): error TS2339: Property 'hideRow' does not exist on type 'WorksheetInstance'.
+test/paste.ts(297,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(306,18): error TS2339: Property 'onbeforeinsertcolumn' does not exist on type '{}'.
+test/paste.ts(307,18): error TS2339: Property 'onbeforeinsertrow' does not exist on type '{}'.
+test/paste.ts(320,26): error TS2554: Expected 1 arguments, but got 3.
+test/paste.ts(322,11): error TS2339: Property 'copy' does not exist on type 'WorksheetInstance'.
+test/paste.ts(323,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(323,29): error TS2339: Property 'data' does not exist on type 'WorksheetInstance'.
+test/paste.ts(330,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(331,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(335,5): error TS2322: Type '() => void' is not assignable to type '(commandId: string, showUI?: boolean | undefined, value?: string | undefined) => boolean'.
+  Type 'void' is not assignable to type 'boolean'.
+test/paste.ts(346,26): error TS2554: Expected 1 arguments, but got 3.
+test/paste.ts(348,11): error TS2339: Property 'copy' does not exist on type 'WorksheetInstance'.
+test/paste.ts(350,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(350,29): error TS2339: Property 'data' does not exist on type 'WorksheetInstance'.
+test/paste.ts(358,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(360,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(361,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(362,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(363,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(365,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(366,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(367,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(368,18): error TS2551: Property 'getStyle' does not exist on type 'WorksheetInstance'. Did you mean 'setStyle'?
+test/paste.ts(372,5): error TS2322: Type '() => void' is not assignable to type '(commandId: string, showUI?: boolean | undefined, value?: string | undefined) => boolean'.
+  Type 'void' is not assignable to type 'boolean'.
+test/paste.ts(387,7): error TS2322: Type '(instance: any) => void' is not assignable to type '() => void'.
+  Target signature provides too few arguments. Expected 1 or more, but got 0.
+test/paste.ts(387,16): error TS7006: Parameter 'instance' implicitly has an 'any' type.
+test/paste.ts(392,24): error TS7006: Parameter 'resolve' implicitly has an 'any' type.
+test/paste.ts(405,25): error TS2554: Expected 1 arguments, but got 3.
+test/paste.ts(407,10): error TS2339: Property 'copy' does not exist on type 'WorksheetInstance'.
+test/paste.ts(410,8): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(410,25): error TS2339: Property 'data' does not exist on type 'WorksheetInstance'.
+test/paste.ts(431,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/paste.ts(453,11): error TS2339: Property 'paste' does not exist on type 'WorksheetInstance'.
+test/redo.ts(30,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/redo.ts(31,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/redo.ts(72,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/redo.ts(73,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'WorksheetInstance'.
+test/rows.ts(34,16): error TS18047: 'table' is possibly 'null'.
+test/rows.ts(68,42): error TS2554: Expected 1 arguments, but got 3.
+test/rows.ts(71,16): error TS18047: 'table' is possibly 'null'.
+test/rows.ts(103,21): error TS2339: Property 'moveRow' does not exist on type 'WorksheetInstance'.
+test/rows.ts(106,16): error TS18047: 'table' is possibly 'null'.
+test/rows.ts(175,42): error TS2554: Expected 1 arguments, but got 3.
+test/rows.ts(211,21): error TS2339: Property 'moveRow' does not exist on type 'WorksheetInstance'.
+test/search.ts(23,21): error TS2339: Property 'search' does not exist on type 'WorksheetInstance'.
+test/search.ts(25,16): error TS2532: Object is possibly 'undefined'.
+test/search.ts(35,21): error TS2339: Property 'resetSearch' does not exist on type 'WorksheetInstance'.
+test/search.ts(37,16): error TS2532: Object is possibly 'undefined'.
+test/types.test.ts(10,39): error TS2694: Namespace 'jspreadsheet' has no exported member 'SpreadsheetInstance'.

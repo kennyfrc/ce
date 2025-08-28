@@ -1,425 +1,6 @@
-Any Types Analysis Report - 2025-08-26T06:29:22.205Z
-Total any types: 615
-Files with any types: 36
-
-src/utils/toolbar.ts: 91 any types
-  Line 6: this: any,
-  Line 8: worksheet: any
-  Line 17: export const getDefault = function (this: any) {
-  Line 18: const items: any[] = [];
-  Line 19: const spreadsheet: any = this;
-  Line 21: const getActive = function (): any {
-  Line 65: onchange: function (a: any, b: any, c: any, d: any, e: any) {
-  Line 65: onchange: function (a: any, b: any, c: any, d: any, e: any) {
-  Line 65: onchange: function (a: any, b: any, c: any, d: any, e: any) {
-  Line 65: onchange: function (a: any, b: any, c: any, d: any, e: any) {
-  Line 65: onchange: function (a: any, b: any, c: any, d: any, e: any) {
-  Line 81: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 81: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 94: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 94: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 94: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 94: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 108: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 108: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 119: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 119: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 119: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 119: onchange: function (a: any, b: any, c: any, value: any) {
-  Line 133: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 133: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 140: onclick: function (a: any, b: any, c: any) {
-  Line 140: onclick: function (a: any, b: any, c: any) {
-  Line 140: onclick: function (a: any, b: any, c: any) {
-  Line 154: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 154: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 163: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 163: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 172: updateState: function (a: any, b: any, toolbarItem: HTMLElement, d: any) {
-  Line 172: updateState: function (a: any, b: any, toolbarItem: HTMLElement, d: any) {
-  Line 172: updateState: function (a: any, b: any, toolbarItem: HTMLElement, d: any) {
-  Line 190: onchange: function (a: any, b: any, c: any, d: any, value: any) {
-  Line 190: onchange: function (a: any, b: any, c: any, d: any, value: any) {
-  Line 190: onchange: function (a: any, b: any, c: any, d: any, value: any) {
-  Line 190: onchange: function (a: any, b: any, c: any, d: any, value: any) {
-  Line 190: onchange: function (a: any, b: any, c: any, d: any, value: any) {
-  Line 204: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 204: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 211: tooltip: (jSuites as any).translate("Merge the selected cells"),
-  Line 218: (jSuites as any).translate(
-  Line 247: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 247: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 271: onchange: function (a: any, b: any, c: any, d: any) {
-  Line 271: onchange: function (a: any, b: any, c: any, d: any) {
-  Line 271: onchange: function (a: any, b: any, c: any, d: any) {
-  Line 271: onchange: function (a: any, b: any, c: any, d: any) {
-  Line 394: onload: function (a: any, b: any) {
-  Line 394: onload: function (a: any, b: any) {
-  Line 402: onchange: function (o: any, v: string) {
-  Line 428: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 428: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 428: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 428: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 451: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 451: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 451: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 451: onchange: function (a: any, k: any, c: any, d: any) {
-  Line 462: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 462: updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
-  Line 474: onclick: function (a: any, b: any, c: any) {
-  Line 474: onclick: function (a: any, b: any, c: any) {
-  Line 474: onclick: function (a: any, b: any, c: any) {
-  Line 483: updateState: function (a: any, b: any, c: any, d: any) {
-  Line 483: updateState: function (a: any, b: any, c: any, d: any) {
-  Line 483: updateState: function (a: any, b: any, c: any, d: any) {
-  Line 483: updateState: function (a: any, b: any, c: any, d: any) {
-  Line 495: const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
-  Line 495: const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
-  Line 496: const spreadsheet: any = this;
-  Line 517: items[i].onchange = function (el: any, config: any, value: any) {
-  Line 517: items[i].onchange = function (el: any, config: any, value: any) {
-  Line 517: items[i].onchange = function (el: any, config: any, value: any) {
-  Line 535: items[i].onclick = function (a: any, b: any, c: any) {
-  Line 535: items[i].onclick = function (a: any, b: any, c: any) {
-  Line 535: items[i].onclick = function (a: any, b: any, c: any) {
-  Line 538: onchange: function (o: any, v: string) {
-  Line 551: onopen: function (o: any) {
-  Line 566: export const createToolbar = function (this: any, toolbar: any) {
-  Line 566: export const createToolbar = function (this: any, toolbar: any) {
-  Line 567: const spreadsheet: any = this;
-  Line 577: any
-  Line 594: export const updateToolbar = function (this: any, worksheet: any) {
-  Line 594: export const updateToolbar = function (this: any, worksheet: any) {
-  Line 600: export const showToolbar = function (this: any) {
-  Line 601: const spreadsheet: any = this;
-  Line 629: export const hideToolbar = function (this: any) {
-  Line 630: const spreadsheet: any = this;
-
-src/utils/internal.ts: 69 any types
-  Line 13: export const updateTable = function (this: any) {
-  Line 73: const parseNumber = function (this: any, value: any, columnNumber: any) {
-  Line 73: const parseNumber = function (this: any, value: any, columnNumber: any) {
-  Line 73: const parseNumber = function (this: any, value: any, columnNumber: any) {
-  Line 111: this: any,
-  Line 112: expression: any,
-  Line 113: x: any,
-  Line 114: y: any
-  Line 118: const formulaResults: any[] = [];
-  Line 122: const execute = function (expression: any, x: any, y: any) {
-  Line 122: const execute = function (expression: any, x: any, y: any) {
-  Line 122: const execute = function (expression: any, x: any, y: any) {
-  Line 135: const tokensUpdate = function (tokens: any) {
-  Line 189: const formulaExpressions: Record<string, any> = {};
-  Line 283: this: any,
-  Line 284: i: any,
-  Line 285: j: any,
-  Line 286: value: any,
-  Line 287: cell: any
-  Line 344: const getDropDownValue = function (this: any, column: any, key: any) {
-  Line 344: const getDropDownValue = function (this: any, column: any, key: any) {
-  Line 344: const getDropDownValue = function (this: any, column: any, key: any) {
-  Line 385: const validDate = function (date: any) {
-  Line 406: const stripScript = function (a: any) {
-  Line 415: export const createCell = function (this: any, i: any, j: any, value: any) {
-  Line 415: export const createCell = function (this: any, i: any, j: any, value: any) {
-  Line 415: export const createCell = function (this: any, i: any, j: any, value: any) {
-  Line 415: export const createCell = function (this: any, i: any, j: any, value: any) {
-  Line 621: this: any,
-  Line 624: value: any,
-  Line 891: export const isFormula = function (value: any) {
-  Line 899: export const getMask = function (o: any) {
-  Line 901: const opt: Record<string, any> = {};
-  Line 926: const secureFormula = function (oldValue: any) {
-  Line 955: this: any,
-  Line 958: records: any
-  Line 995: export const updateFormula = function (formula: any, referencesToUpdate: any) {
-  Line 995: export const updateFormula = function (formula: any, referencesToUpdate: any) {
-  Line 1037: const updateFormulas = function (this: any, referencesToUpdate: any) {
-  Line 1037: const updateFormulas = function (this: any, referencesToUpdate: any) {
-  Line 1056: const formula: Record<string, any[]> = {};
-  Line 1084: export const updateTableReferences = function (this: any) {
-  Line 1120: const affectedTokens: Record<string, any> = {};
-  Line 1121: const mergeCellUpdates: Record<string, any> = {};
-  Line 1124: const updatePosition = function (x: any, y: any, i: any, j: any) {
-  Line 1124: const updatePosition = function (x: any, y: any, i: any, j: any) {
-  Line 1124: const updatePosition = function (x: any, y: any, i: any, j: any) {
-  Line 1124: const updatePosition = function (x: any, y: any, i: any, j: any) {
-  Line 1228: export const updateScroll = function (this: any, direction: any) {
-  Line 1228: export const updateScroll = function (this: any, direction: any) {
-  Line 1293: export const updateResult = function (this: any) {
-  Line 1346: export const getCell = function (this: any, x: any, y: any) {
-  Line 1346: export const getCell = function (this: any, x: any, y: any) {
-  Line 1346: export const getCell = function (this: any, x: any, y: any) {
-  Line 1366: export const getCellFromCoords = function (this: any, x: any, y: any) {
-  Line 1366: export const getCellFromCoords = function (this: any, x: any, y: any) {
-  Line 1366: export const getCellFromCoords = function (this: any, x: any, y: any) {
-  Line 1378: export const getLabel = function (this: any, x: any, y: any) {
-  Line 1378: export const getLabel = function (this: any, x: any, y: any) {
-  Line 1378: export const getLabel = function (this: any, x: any, y: any) {
-  Line 1397: export const fullscreen = function (this: any, activate: any) {
-  Line 1397: export const fullscreen = function (this: any, activate: any) {
-  Line 1421: export const showIndex = function (this: any) {
-  Line 1430: export const hideIndex = function (this: any) {
-  Line 1439: export const createNestedHeader = function (this: any, nestedInformation: any) {
-  Line 1439: export const createNestedHeader = function (this: any, nestedInformation: any) {
-  Line 1494: export const getWorksheetActive = function (this: any) {
-  Line 1500: export const getWorksheetInstance = function (this: any, index?: number): any {
-  Line 1500: export const getWorksheetInstance = function (this: any, index?: number): any {
-
-src/utils/keys.ts: 42 any types
-  Line 4: const upGet = function (this: any, x: any, y: any) {
-  Line 4: const upGet = function (this: any, x: any, y: any) {
-  Line 4: const upGet = function (this: any, x: any, y: any) {
-  Line 27: const upVisible = function (this: any, group: any, direction: any) {
-  Line 27: const upVisible = function (this: any, group: any, direction: any) {
-  Line 27: const upVisible = function (this: any, group: any, direction: any) {
-  Line 63: export const up = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 63: export const up = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 63: export const up = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 127: export const rightGet = function (this: any, x: any, y: any) {
-  Line 127: export const rightGet = function (this: any, x: any, y: any) {
-  Line 127: export const rightGet = function (this: any, x: any, y: any) {
-  Line 148: const rightVisible = function (this: any, group: any, direction: any) {
-  Line 148: const rightVisible = function (this: any, group: any, direction: any) {
-  Line 148: const rightVisible = function (this: any, group: any, direction: any) {
-  Line 181: export const right = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 181: export const right = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 181: export const right = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 205: export const downGet = function (this: any, x: any, y: any) {
-  Line 205: export const downGet = function (this: any, x: any, y: any) {
-  Line 205: export const downGet = function (this: any, x: any, y: any) {
-  Line 228: const downVisible = function (this: any, group: any, direction: any) {
-  Line 228: const downVisible = function (this: any, group: any, direction: any) {
-  Line 228: const downVisible = function (this: any, group: any, direction: any) {
-  Line 264: export const down = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 264: export const down = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 264: export const down = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 330: const leftGet = function (this: any, x: any, y: any) {
-  Line 330: const leftGet = function (this: any, x: any, y: any) {
-  Line 330: const leftGet = function (this: any, x: any, y: any) {
-  Line 350: const leftVisible = function (this: any, group: any, direction: any) {
-  Line 350: const leftVisible = function (this: any, group: any, direction: any) {
-  Line 350: const leftVisible = function (this: any, group: any, direction: any) {
-  Line 383: export const left = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 383: export const left = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 383: export const left = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 407: export const first = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 407: export const first = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 407: export const first = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 448: export const last = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 448: export const last = function (this: any, shiftKey: any, ctrlKey: any) {
-  Line 448: export const last = function (this: any, shiftKey: any, ctrlKey: any) {
-
-src/utils/rows.ts: 41 any types
-  Line 17: export const createRow = function (this: any, j: number, data?: any[]) {
-  Line 17: export const createRow = function (this: any, j: number, data?: any[]) {
-  Line 106: this: any,
-  Line 107: mixed: number | any[],
-  Line 175: (jSuites as any).translate(
-  Line 176: "This action will destroy any existing merged cells. Are you sure?"
-  Line 192: (jSuites as any).translate(
-  Line 300: this: any,
-  Line 301: o: any,
-  Line 302: d: any,
-  Line 303: ignoreDom: any
-  Line 325: (jSuites as any).translate(
-  Line 326: "This action will destroy any existing merged cells. Are you sure?"
-  Line 341: (jSuites as any).translate(
-  Line 420: this: any,
-  Line 421: rowNumber: any,
-  Line 422: numOfRows: any
-  Line 494: (jSuites as any).translate(
-  Line 495: "This action will destroy any existing merged cells. Are you sure?"
-  Line 510: (jSuites as any).translate(
-  Line 608: export const getHeight = function (this: any, row: any) {
-  Line 608: export const getHeight = function (this: any, row: any) {
-  Line 625: row = (window as any).$(row).getAttribute("data-y");
-  Line 642: this: any,
-  Line 643: row: any,
-  Line 644: height: any,
-  Line 645: oldHeight: any
-  Line 695: export const showRow = function (this: any, rowNumber: any) {
-  Line 695: export const showRow = function (this: any, rowNumber: any) {
-  Line 702: rowNumber.forEach(function (rowIndex: any) {
-  Line 710: export const hideRow = function (this: any, rowNumber: any) {
-  Line 710: export const hideRow = function (this: any, rowNumber: any) {
-  Line 717: rowNumber.forEach(function (rowIndex: any) {
-  Line 725: export const getRowData = function (this: any, rowNumber: any, processed: any) {
-  Line 725: export const getRowData = function (this: any, rowNumber: any, processed: any) {
-  Line 725: export const getRowData = function (this: any, rowNumber: any, processed: any) {
-  Line 729: return obj.records[rowNumber].map(function (record: any) {
-  Line 741: this: any,
-  Line 742: rowNumber: any,
-  Line 743: data: any,
-  Line 744: force: any
-
-src/utils/worksheets.ts: 37 any types
-  Line 81: const setWorksheetFunctions = function (worksheet: any) {
-  Line 89: const createTable = function (this: any) {
-  Line 380: const prepareTable = function (this: any) {
-  Line 451: success: function (this: any, data: any) {
-  Line 451: success: function (this: any, data: any) {
-  Line 471: success: function (this: any) {
-  Line 474: } as any);
-  Line 478: export const getNextDefaultWorksheetName = function (spreadsheet: any) {
-  Line 483: spreadsheet.worksheets.forEach(function (worksheet: any) {
-  Line 498: export const buildWorksheet = async function (this: any) {
-  Line 506: const typedPlugin = plugin as any;
-  Line 525: success: function (result: any) {
-  Line 566: success: function (result: any) {
-  Line 587: const typedPlugin = plugin as any;
-  Line 595: export const createWorksheetObj = function (this: any, options: any) {
-  Line 595: export const createWorksheetObj = function (this: any, options: any) {
-  Line 620: export const createWorksheet = function (this: any, options: any) {
-  Line 620: export const createWorksheet = function (this: any, options: any) {
-  Line 631: export const openWorksheet = function (this: any, position: any) {
-  Line 631: export const openWorksheet = function (this: any, position: any) {
-  Line 638: export const deleteWorksheet = function (this: any, position: any) {
-  Line 638: export const deleteWorksheet = function (this: any, position: any) {
-  Line 652: function (this: any, x1: number, y1: number, x2: number, y2: number) {
-  Line 658: function (this: any) {
-  Line 675: function (this: any, column: number, width: number) {
-  Line 682: function (this: any, rowNumber: number, newPositionNumber: number) {
-  Line 694: function (this: any, row: number, height: number) {
-  Line 701: function (this: any, cellName: string, colspan: number, rowspan: number) {
-  Line 707: function (this: any) {
-  Line 713: function (this: any, cellName: string, data: any) {
-  Line 713: function (this: any, cellName: string, data: any) {
-  Line 726: this: any,
-  Line 727: cell: any,
-  Line 729: value: any,
-  Line 756: function (this: any, cell: any) {
-  Line 756: function (this: any, cell: any) {
-  Line 773: function (this: any, cut: boolean) {
-
-src/utils/columns.ts: 35 any types
-  Line 11: export const getNumberOfColumns = function (this: any) {
-  Line 36: export const createCellHeader = function (this: any, colNumber: number) {
-  Line 114: this: any,
-  Line 115: mixed: any,
-  Line 118: properties: any
-  Line 148: ...obj.options.data.map(function (row: any[]) {
-  Line 216: "This action will destroy any existing merged cells. Are you sure?"
-  Line 241: const historyColgroup: any[] = [];
-  Line 242: const historyRecords: any[] = [];
-  Line 243: const historyData: any[] = [];
-  Line 244: const historyFooters: any[][] = [];
-  Line 401: this: any,
-  Line 425: "This action will destroy any existing merged cells. Are you sure?"
-  Line 524: this: any,
-  Line 525: columnNumber: any,
-  Line 526: numOfColumns: any
-  Line 604: "This action will destroy any existing merged cells. Are you sure?"
-  Line 745: export const getWidth = function (this: any, column: any): number | number[] {
-  Line 745: export const getWidth = function (this: any, column: any): number | number[] {
-  Line 777: this: any,
-  Line 778: column: any,
-  Line 779: width: any,
-  Line 780: oldWidth: any
-  Line 848: export const showColumn = function (this: any, colNumber: any): void {
-  Line 848: export const showColumn = function (this: any, colNumber: any): void {
-  Line 879: export const hideColumn = function (this: any, colNumber: any): void {
-  Line 879: export const hideColumn = function (this: any, colNumber: any): void {
-  Line 911: this: any,
-  Line 912: columnNumber: any,
-  Line 913: processed: any
-  Line 914: ): any[] {
-  Line 933: this: any,
-  Line 934: colNumber: any,
-  Line 935: data: any,
-  Line 936: force: any
-
-src/utils/events.ts: 35 any types
-  Line 23: const getElement = function (element: any): [HTMLElement | null, number] {
-  Line 27: function path(element: any) {
-  Line 58: const mouseUpControls = function (e: any) {
-  Line 261: const mouseDownControls = function (e: any) {
-  Line 632: const mouseMoveControls = function (e: any) {
-  Line 824: const updateCopySelection = function (this: any, x3: number, y3: number) {
-  Line 886: const mouseOverControls = function (this: any, e: any): boolean | void {
-  Line 886: const mouseOverControls = function (this: any, e: any): boolean | void {
-  Line 996: const doubleClickControls = function (this: any, e: any): void {
-  Line 996: const doubleClickControls = function (this: any, e: any): void {
-  Line 1078: const pasteControls = function (this: any, e: any): void {
-  Line 1078: const pasteControls = function (this: any, e: any): void {
-  Line 1157: worksheet: any,
-  Line 1161: ): any[] {
-  Line 1372: const contextMenuControls = function (this: any, e: any): void {
-  Line 1372: const contextMenuControls = function (this: any, e: any): void {
-  Line 1505: any
-  Line 1535: const touchStartControls = function (this: any, e: any): void {
-  Line 1535: const touchStartControls = function (this: any, e: any): void {
-  Line 1584: const touchEndControls = function (this: any, e: any): void {
-  Line 1584: const touchEndControls = function (this: any, e: any): void {
-  Line 1600: export const cutControls = function (this: any, e: any): void {
-  Line 1600: export const cutControls = function (this: any, e: any): void {
-  Line 1615: record: any
-  Line 1626: const copyControls = function (this: any, e: any): void {
-  Line 1626: const copyControls = function (this: any, e: any): void {
-  Line 1638: const isCtrl = function (e: any): boolean {
-  Line 1646: const keyDownControls = function (this: any, e: any): void {
-  Line 1646: const keyDownControls = function (this: any, e: any): void {
-  Line 1804: record: any
-  Line 1972: export const wheelControls = function (this: any, e: any): void {
-  Line 1972: export const wheelControls = function (this: any, e: any): void {
-  Line 2010: const updateFreezePosition = function (this: any): void {
-  Line 2072: export const scrollControls = function (this: any, e: any): void {
-  Line 2072: export const scrollControls = function (this: any, e: any): void {
-
-src/utils/factory.ts: 27 any types
-  Line 19: this: any,
-  Line 20: spreadsheet: any,
-  Line 21: options: any,
-  Line 22: el: any
-  Line 27: let tabsOptions: Record<string, any> = {
-  Line 29: onbeforecreate: function (this: any, element: any, title: any) {
-  Line 29: onbeforecreate: function (this: any, element: any, title: any) {
-  Line 29: onbeforecreate: function (this: any, element: any, title: any) {
-  Line 36: oncreate: function (this: any, element: any, newTabContent: any) {
-  Line 36: oncreate: function (this: any, element: any, newTabContent: any) {
-  Line 36: oncreate: function (this: any, element: any, newTabContent: any) {
-  Line 69: this: any,
-  Line 70: element: any,
-  Line 71: instance: any,
-  Line 72: tabIndex: any
-  Line 140: this: any,
-  Line 141: el: any,
-  Line 142: options: any,
-  Line 143: worksheets: any
-  Line 164: let spreadsheet: any = {
-  Line 182: spreadsheet.setPlugins = function (newPlugins: any) {
-  Line 190: any
-  Line 211: onclick: function (this: any) {
-  Line 236: this: any,
-  Line 237: spreadsheet: any,
-  Line 238: options: any,
-  Line 239: position: any
-
-src/utils/selection.ts: 24 any types
-  Line 14: export const updateCornerPosition = function (this: any): void {
-  Line 63: export const resetSelection = function (this: any, blur: boolean): number {
-  Line 139: this: any,
-  Line 140: el1: any,
-  Line 141: el2: any,
-  Line 142: origin: any
-  Line 161: export const removeCopyingSelection = function (this: any): void {
-  Line 173: this: any,
-  Line 178: origin?: any
-  Line 428: this: any,
-  Line 430: ): any[] {
-  Line 455: export const refreshSelection = function (this: any): void {
-  Line 473: export const removeCopySelection = function (this: any) {
-  Line 499: export const copyData = function (this: any, o: any, d: any): void {
-  Line 499: export const copyData = function (this: any, o: any, d: any): void {
-  Line 499: export const copyData = function (this: any, o: any, d: any): void {
-  Line 705: this: any,
-  Line 738: export const getSelectedRows = function (this: any, visibleOnly: boolean) {
-  Line 760: export const selectAll = function (this: any) {
-  Line 780: export const getSelection = function (this: any) {
-  Line 795: export const getSelected = function (this: any, columnNameOnly: boolean) {
-  Line 819: export const getRange = function (this: any) {
-  Line 838: export const isSelected = function (this: any, x: number, y: number) {
-  Line 855: export const getHighlighted = function (this: any) {
+Any Types Analysis Report - 2025-08-28T13:51:15.370Z
+Total any types: 229
+Files with any types: 27
 
 src/utils/merges.ts: 20 any types
   Line 13: this: any,
@@ -479,21 +60,6 @@ src/utils/dispatch.ts: 15 any types
   Line 107: Object.entries(spreadsheet.plugins as any).forEach(function ([, plugin]: [
   Line 109: any
   Line 111: if (typeof (plugin as any).persistence === "function") {
-
-src/types/global.d.ts: 13 any types
-  Line 47: getValue: (asArray?: boolean) => any;
-  Line 77: [key: string]: any;
-  Line 82: [key: string]: any;
-  Line 87: [key: string]: any;
-  Line 92: [key: string]: any;
-  Line 97: [key: string]: any;
-  Line 103: [key: string]: any;
-  Line 167: [key: string]: any;
-  Line 171: [key: string]: any;
-  Line 175: [key: string]: any;
-  Line 179: [key: string]: any;
-  Line 183: [key: string]: any;
-  Line 187: [key: string]: any;
 
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
@@ -595,6 +161,43 @@ src/utils/style.ts: 11 any types
   Line 150: this: any,
   Line 151: o: Record<string, any>,
 
+src/utils/toolbar.ts: 11 any types
+  Line 516: onclick: function (a: any, b: any, c: any) {
+  Line 516: onclick: function (a: any, b: any, c: any) {
+  Line 516: onclick: function (a: any, b: any, c: any) {
+  Line 563: items[i].onchange = function (el: any, config: any, value: any) {
+  Line 563: items[i].onchange = function (el: any, config: any, value: any) {
+  Line 563: items[i].onchange = function (el: any, config: any, value: any) {
+  Line 581: items[i].onclick = function (a: any, b: any, c: any) {
+  Line 581: items[i].onclick = function (a: any, b: any, c: any) {
+  Line 581: items[i].onclick = function (a: any, b: any, c: any) {
+  Line 597: onopen: function (o: any) {
+  Line 626: any
+
+src/utils/columns.ts: 10 any types
+  Line 121: mixed?: number | any[],
+  Line 124: properties?: any
+  Line 154: ...(obj.options.data?.map(function (row: any[]) {
+  Line 222: "This action will destroy any existing merged cells. Are you sure?"
+  Line 247: const historyColgroup: any[] = [];
+  Line 248: const historyRecords: any[] = [];
+  Line 249: const historyData: any[] = [];
+  Line 250: const historyFooters: any[][] = [];
+  Line 441: "This action will destroy any existing merged cells. Are you sure?"
+  Line 626: "This action will destroy any existing merged cells. Are you sure?"
+
+src/utils/worksheets.ts: 10 any types
+  Line 475: } as any);
+  Line 509: const typedPlugin = plugin as any;
+  Line 590: const typedPlugin = plugin as any;
+  Line 600: options: any
+  Line 628: options: any
+  Line 734: function (this: any, cellName: string, data: any) {
+  Line 734: function (this: any, cellName: string, data: any) {
+  Line 748: cell: any,
+  Line 750: value: any,
+  Line 777: function (this: WorksheetInstance, cell: any) {
+
 src/utils/helpers.ts: 9 any types
   Line 6: export const getCaretIndex = function (this: any, e: HTMLElement) {
   Line 31: export const invert = function (o: Record<string, any>) {
@@ -606,16 +209,6 @@ src/utils/helpers.ts: 9 any types
   Line 282: const classes: Record<string, any> = {};
   Line 402: const pattern: Record<string, any>[] = [];
 
-src/index.ts: 8 any types
-  Line 12: libraryBase.jspreadsheet = function (el: HTMLElement, options: any): any[] {
-  Line 12: libraryBase.jspreadsheet = function (el: HTMLElement, options: any): any[] {
-  Line 14: let worksheets: any[] = [];
-  Line 36: (spreadsheet: any) => {
-  Line 47: (worksheet: any) => {
-  Line 55: return targetSpreadsheet.worksheets.find((worksheet: any) => {
-  Line 61: libraryBase.jspreadsheet.setDictionary = function (o: any) {
-  Line 66: element: HTMLElement & { spreadsheet?: any },
-
 src/utils/headers.ts: 7 any types
   Line 11: export const getHeader = function (this: any, column: any) {
   Line 11: export const getHeader = function (this: any, column: any) {
@@ -624,6 +217,14 @@ src/utils/headers.ts: 7 any types
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
+
+src/utils/internal.ts: 6 any types
+  Line 545: const tmp = (jSuites.calendar as any).extractDateFromString(
+  Line 666: this: any,
+  Line 669: value: any,
+  Line 1002: this: any,
+  Line 1005: records: any
+  Line 1577: this: any,
 
 src/utils/comments.ts: 5 any types
   Line 10: this: any,
@@ -659,6 +260,11 @@ src/utils/config.ts: 4 any types
   Line 17: this: any,
   Line 18: config: any,
 
+src/utils/rows.ts: 3 any types
+  Line 181: "This action will destroy any existing merged cells. Are you sure?"
+  Line 331: "This action will destroy any existing merged cells. Are you sure?"
+  Line 500: "This action will destroy any existing merged cells. Are you sure?"
+
 src/webcomponent.ts: 3 any types
   Line 1: declare const jspreadsheet: any;
   Line 4: el: any;
@@ -666,11 +272,7 @@ src/webcomponent.ts: 3 any types
 
 src/test.ts: 2 any types
   Line 6: (window as any).jss = jspreadsheet;
-  Line 9: (window as any).instance = jspreadsheet(root, {
-
-src/utils/cells.ts: 2 any types
-  Line 4: this: any,
-  Line 45: export const isReadOnly = function (this: any, x: string | number, y?: number) {
+  Line 10: (window as any).instance = jspreadsheet(root, {
 
 src/utils/footer.ts: 2 any types
   Line 3: export const setFooter = function (this: any, data?: any) {
@@ -680,11 +282,5 @@ src/utils/internalHelpers.ts: 2 any types
   Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
   Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
 
-src/utils/download.ts: 1 any types
-  Line 9: this: any,
-
-src/utils/freeze.ts: 1 any types
-  Line 2: export const getFreezeWidth = function (this: any) {
-
-src/utils/libraryBase.ts: 1 any types
-  Line 3: } as any;
+src/utils/columnHelpers.ts: 1 any types
+  Line 66: ): any | undefined {
