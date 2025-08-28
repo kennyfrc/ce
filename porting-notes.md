@@ -235,11 +235,12 @@ Learnings (2025-08-29):
 
 ### Snapshot: 2025-08-29T13:00:00Z
 
-- TypeScript errors (tsconfig.test.json --noEmit): 544 (saved to .agent/ts-errors-run.txt)
-- Explicit any count (find-any-types): 208 (saved to .agent/any-types-run.txt)
+ - TypeScript errors (tsconfig.test.json --noEmit): 544 (saved to .agent/ts-errors-run.txt)
+ - Explicit any count (find-any-types): 208 (saved to .agent/any-types-run.txt)
 
 Learnings:
 
-- Baseline metrics unchanged from prior snapshot; main hotspots remain events.ts and factory.ts.
-- Next: continue WorksheetInstance/SpreadsheetContext unification and replace this:any in data/dispatch hotspots.
+ - Baseline metrics captured to .agent/tsc-baseline.txt and .agent/any-types-baseline.txt; use these artifacts for regression checks.
+ - Baseline metrics unchanged from prior snapshot; main hotspots remain events.ts and factory.ts.
+ - Next: prioritize unifying WorksheetInstance and SpreadsheetContext in src/types/core.ts and start replacing this:any in data/dispatch and merges hotspots.
 
