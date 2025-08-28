@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-28T16:15:03Z"
+    "updatedAt": "2025-08-29T12:00:00Z"
   },
   "tasks": [
     {
@@ -1836,6 +1836,69 @@
       ],
       "createdAt": "2025-08-28T16:06:00Z",
       "updatedAt": "2025-08-28T16:14:20Z"
+    },
+    {
+      "id": "ts-auto-20250829-0001",
+      "name": "events.ts: alias current and guard optionals in hotspots",
+      "description": "Alias libraryBase.jspreadsheet.current to local current, add null/undefined guards for options and columns, and narrow EventTarget in hotspots",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1400,
+          "lineEnd": 1700
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "events",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS18047/TS18048/TS2722 in targeted hotspots",
+        "TypeScript error count reduced by ≥10"
+      ],
+      "createdAt": "2025-08-29T00:00:00Z",
+      "updatedAt": "2025-08-29T00:00:00Z"
+    }
+    ,
+    {
+      "id": "ts-auto-20250829-0002",
+      "name": "events.ts: Guard optional calls and alias data dimensions",
+      "description": "Add local aliases for current.options.data and columns, replace direct data length accesses and guard optional function calls (moveColumn, setHeader, orderBy)",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 300
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "events",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "Reduce TS18047/TS2722/TS18048 occurrences in events.ts",
+        "Local aliases introduced and critical optional calls guarded"
+      ],
+      "createdAt": "2025-08-29T12:00:00Z",
+      "updatedAt": "2025-08-29T12:00:00Z"
     }
   ]
 }

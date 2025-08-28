@@ -197,3 +197,13 @@ Learnings:
 - events.ts is the dominant hotspot; many "possibly undefined"/"possibly null" diagnostics stem from repeated libraryBase.jspreadsheet.current accesses — introduce local aliases and narrow optionals.
 - Prioritize unifying WorksheetInstance/SpreadsheetContext and replacing this:any in merges/data/dispatch to reduce cross-file type mismatches.
 
+### Work: 2025-08-29 — events.ts aliasing
+
+- Introduced local aliases for current.options.data and columns in critical handlers and guarded optional function calls (moveColumn, setHeader, orderBy) to reduce 'possibly undefined' diagnostics.
+- Replaced direct data length/index accesses with safe aliases (dataRows/dataCols) to avoid repeated optional chaining and minimize behavioral change.
+- Next: apply the aliasing + guard pattern to remaining hotspots (internal.ts, factory.ts) and consolidate WorksheetInstance/SpreadsheetContext shapes.
+
+- Aliased `libraryBase.jspreadsheet.current` to a local `current` in key handlers (touchStartControls, keyDownControls) to enable safe narrowing and reduce 'possibly null' diagnostics.
+- Replaced one `as any` length-check with a runtime guard + `ArrayLike<unknown>` cast to avoid increasing explicit `any` counts.
+- Next: apply the aliasing pattern to other hotspots (mouse handlers, internal.ts) and unify WorksheetInstance/SpreadsheetContext in `src/types/core.ts`.
+

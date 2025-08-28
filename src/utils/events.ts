@@ -261,6 +261,11 @@ const mouseDownControls = function (e: MouseEvent) {
 
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current && mouseButton == 1) {
+    // Narrow common optional properties for safer access
+    const data = current.options.data ?? [];
+    const dataRows = data.length;
+    const dataCols = (data[0] ? data[0].length : 0) as number;
+    const columns = current.options.columns ?? [];
     if (target.classList.contains("jss_selectall")) {
       if (current) {
         selectAll.call(current);
@@ -349,7 +354,7 @@ const mouseDownControls = function (e: MouseEvent) {
               o,
               0,
               d,
-              current.options.data.length - 1,
+              dataRows - 1,
               e
             );
           }
@@ -370,7 +375,7 @@ const mouseDownControls = function (e: MouseEvent) {
               c1,
               0,
               c2,
-              current.options.data.length - 1,
+              dataRows - 1,
               e
             );
           }
@@ -440,7 +445,7 @@ const mouseDownControls = function (e: MouseEvent) {
               current,
               0,
               o,
-              current.options.data[0].length - 1,
+              dataCols - 1,
               d,
               e
             );
@@ -763,6 +768,11 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
 
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current && libraryBase.jspreadsheet.isMouseAction == true) {
+    // Local aliases for optional properties
+    const data = current.options.data ?? [];
+    const dataRows = data.length;
+    const dataCols = (data[0] ? data[0].length : 0) as number;
+    const columns = current.options.columns ?? [];
     // Narrow event target early
     const target = getHTMLElement(e.target);
     if (!target) return false;
@@ -798,7 +808,7 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
                 o,
                 0,
                 d,
-                current.options.data.length - 1,
+                dataRows - 1,
                 e
               );
             }
@@ -814,12 +824,12 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
               // Update selection
               if (typeof d === "number") {
                 updateSelectionFromCoords.call(
-                  current,
-                  0,
-                  o,
-                  current.options.data[0].length - 1,
-                  d,
-                  e
+                current,
+                0,
+                o,
+                dataCols - 1,
+                d,
+                e
                 );
               }
             }
@@ -1248,9 +1258,14 @@ const contextMenuControls = function (e: MouseEvent): void {
         } else {
           spreadsheet.contextMenu!.contextmenu!.close();
 
-          if (libraryBase.jspreadsheet.current) {
-            const targetEl = getHTMLElement(e.target);
-            if (!targetEl) return;
+            if (libraryBase.jspreadsheet.current) {
+              const targetEl = getHTMLElement(e.target);
+              if (!targetEl) return;
+              // Local alias for current spreadsheet and its data
+              const current = libraryBase.jspreadsheet.current as WorksheetInstance;
+              const data = current.options.data ?? [];
+              const dataRows = data.length;
+              const dataCols = (data[0] ? data[0].length : 0) as number;
             const role = getRole(targetEl);
 
             let xStr: string | null = null,
@@ -1280,41 +1295,41 @@ const contextMenuControls = function (e: MouseEvent): void {
                 yNum > parseInt(libraryBase.jspreadsheet.current.selectedCell[3])
               ) {
                 if (xNum !== null && yNum !== null) {
-                  updateSelectionFromCoords.call(
-                    libraryBase.jspreadsheet.current,
-                    xNum,
-                    yNum,
-                    xNum,
-                    yNum,
-                    e
-                  );
+                   updateSelectionFromCoords.call(
+                     current,
+                     xNum,
+                     yNum,
+                     xNum,
+                     yNum,
+                     e
+                   );
                 }
               }
             } else if (role === "row") {
               yStr = targetEl.getAttribute("data-y");
               yNum = yStr !== null ? parseInt(yStr, 10) : null;
               if (yNum !== null) {
-                updateSelectionFromCoords.call(
-                  libraryBase.jspreadsheet.current,
-                  0,
-                  yNum,
-                  libraryBase.jspreadsheet.current.options.data[0].length - 1,
-                  yNum,
-                  e
-                );
+                 updateSelectionFromCoords.call(
+                   current,
+                   0,
+                   yNum,
+                   dataCols - 1,
+                   yNum,
+                   e
+                 );
               }
             } else if (role === "header") {
               xStr = targetEl.getAttribute("data-x");
               xNum = xStr !== null ? parseInt(xStr, 10) : null;
               if (xNum !== null) {
-                updateSelectionFromCoords.call(
-                  libraryBase.jspreadsheet.current,
-                  xNum,
-                  0,
-                  xNum,
-                  libraryBase.jspreadsheet.current.options.data.length - 1,
-                  e
-                );
+                 updateSelectionFromCoords.call(
+                   current,
+                   xNum,
+                   0,
+                   xNum,
+                   dataRows - 1,
+                   e
+                 );
               }
             } else if (role === "nested") {
               const columns = (targetEl as HTMLElement)
@@ -1331,14 +1346,14 @@ const contextMenuControls = function (e: MouseEvent): void {
                 libraryBase.jspreadsheet.current.selectedCell[1] != null ||
                 libraryBase.jspreadsheet.current.selectedCell[3] != null
               ) {
-                updateSelectionFromCoords.call(
-                  libraryBase.jspreadsheet.current,
-                  columns[0],
-                  0,
-                  columns[columns.length - 1],
-                  libraryBase.jspreadsheet.current.options.data.length - 1,
-                  e
-                );
+                 updateSelectionFromCoords.call(
+                   current,
+                   columns[0],
+                   0,
+                   columns[columns.length - 1],
+                   dataRows - 1,
+                   e
+                 );
               }
             } else if (role === "select-all") {
               selectAll.call(libraryBase.jspreadsheet.current);
@@ -1440,8 +1455,9 @@ const touchStartControls = function (e: TouchEvent): void {
     }
   }
 
-  if (libraryBase.jspreadsheet.current) {
-    if (!libraryBase.jspreadsheet.current.edition) {
+  const current = libraryBase.jspreadsheet.current;
+  if (current) {
+    if (!current.edition) {
       const target = getHTMLElement(e.target);
       if (!target) return;
       const columnAttr = target.getAttribute("data-x");
@@ -1451,7 +1467,7 @@ const touchStartControls = function (e: TouchEvent): void {
 
       if (columnId !== null && rowId !== null) {
         updateSelectionFromCoords.call(
-          libraryBase.jspreadsheet.current,
+          current,
           columnId,
           rowId,
           columnId,
@@ -1460,14 +1476,15 @@ const touchStartControls = function (e: TouchEvent): void {
 
         libraryBase.jspreadsheet.timeControl = setTimeout(function () {
           if (
-            libraryBase.jspreadsheet.current.options.columns[columnId].type ==
-            "color"
+            current.options.columns &&
+            current.options.columns[columnId] &&
+            current.options.columns[columnId].type == "color"
           ) {
             libraryBase.jspreadsheet.tmpElement = null;
           } else {
             libraryBase.jspreadsheet.tmpElement = target as HTMLElement;
           }
-          openEditor.call(libraryBase.jspreadsheet.current, target as HTMLElement, false, e);
+          openEditor.call(current, target as HTMLElement, false, e);
         }, 500);
       }
     }
@@ -1537,67 +1554,50 @@ const isCtrl = function (e: KeyboardEvent): boolean {
 };
 
 const keyDownControls = function (e: KeyboardEvent): void {
-  if (libraryBase.jspreadsheet.current) {
-    if (libraryBase.jspreadsheet.current.edition) {
+  const current = libraryBase.jspreadsheet.current;
+  if (current) {
+    // Local alias for dataset dimensions
+    const data = current.options.data ?? [];
+    const dataRows = data.length;
+    const dataCols = (data[0] ? data[0].length : 0) as number;
+    if (current.edition) {
       if (e.which == 27) {
         // Escape
-        if (libraryBase.jspreadsheet.current.edition) {
+        if (current.edition) {
           // Exit without saving
-          closeEditor.call(
-            libraryBase.jspreadsheet.current,
-            libraryBase.jspreadsheet.current.edition[0],
-            false
-          );
+          closeEditor.call(current, current.edition[0], false);
         }
         e.preventDefault();
       } else if (e.which == 13) {
         // Enter
         if (
-          libraryBase.jspreadsheet.current.options.columns &&
-          libraryBase.jspreadsheet.current.options.columns[
-            libraryBase.jspreadsheet.current.edition[2]
-          ] &&
-          libraryBase.jspreadsheet.current.options.columns[
-            libraryBase.jspreadsheet.current.edition[2]
-          ].type == "calendar"
+          current.options.columns &&
+          current.options.columns[current.edition[2]] &&
+          current.options.columns[current.edition[2]].type == "calendar"
         ) {
-          closeEditor.call(
-            libraryBase.jspreadsheet.current,
-            libraryBase.jspreadsheet.current.edition[0],
-            true
-          );
+          closeEditor.call(current, current.edition[0], true);
         } else if (
-          libraryBase.jspreadsheet.current.options.columns &&
-          libraryBase.jspreadsheet.current.options.columns[
-            libraryBase.jspreadsheet.current.edition[2]
-          ] &&
-          libraryBase.jspreadsheet.current.options.columns[
-            libraryBase.jspreadsheet.current.edition[2]
-          ].type == "dropdown"
+          current.options.columns &&
+          current.options.columns[current.edition[2]] &&
+          current.options.columns[current.edition[2]].type == "dropdown"
         ) {
           // Do nothing
         } else {
           // Alt enter -> do not close editor
           if (
-            (libraryBase.jspreadsheet.current.options.wordWrap == true ||
-              (libraryBase.jspreadsheet.current.options.columns &&
-                libraryBase.jspreadsheet.current.options.columns[
-                  libraryBase.jspreadsheet.current.edition[2]
-                ] &&
-                libraryBase.jspreadsheet.current.options.columns[
-                  libraryBase.jspreadsheet.current.edition[2]
-                ].wordWrap == true) ||
-              (libraryBase.jspreadsheet.current.options.data[
-                libraryBase.jspreadsheet.current.edition[3]
-              ][libraryBase.jspreadsheet.current.edition[2]] &&
-                libraryBase.jspreadsheet.current.options.data[
-                  libraryBase.jspreadsheet.current.edition[3]
-                ][libraryBase.jspreadsheet.current.edition[2]].length > 200)) &&
+            (current.options.wordWrap == true ||
+              (current.options.columns &&
+                current.options.columns[current.edition[2]] &&
+                current.options.columns[current.edition[2]].wordWrap == true) ||
+              (current.options.data &&
+                current.options.data[current.edition[3]] &&
+                current.options.data[current.edition[3]][current.edition[2]] &&
+                ((Array.isArray(current.options.data[current.edition[3]][current.edition[2]]) || typeof current.options.data[current.edition[3]][current.edition[2]] === 'string') && (current.options.data[current.edition[3]][current.edition[2]] as ArrayLike<unknown>).length > 200))) &&
             e.altKey
           ) {
             // Add new line to the editor
             const editorTextarea =
-              libraryBase.jspreadsheet.current.edition[0].children[0] as HTMLTextAreaElement;
+              current.edition[0].children[0] as HTMLTextAreaElement;
             let editorValue = editorTextarea.value;
             const editorIndexOf = editorTextarea.selectionStart ?? 0;
             editorValue =
@@ -1609,86 +1609,66 @@ const keyDownControls = function (e: KeyboardEvent): void {
             editorTextarea.selectionStart = editorIndexOf + 1;
             editorTextarea.selectionEnd = editorIndexOf + 1;
           } else {
-            {
-              const el0 = libraryBase.jspreadsheet.current.edition[0].children[0];
-              if (el0 instanceof HTMLElement) {
-                (el0 as HTMLInputElement | HTMLTextAreaElement).blur();
-              }
+            const el0 = current.edition[0].children[0];
+            if (el0 instanceof HTMLElement) {
+              (el0 as HTMLInputElement | HTMLTextAreaElement).blur();
             }
           }
         }
       } else if (e.which == 9) {
         // Tab
         if (
-          libraryBase.jspreadsheet.current.options.columns &&
-          libraryBase.jspreadsheet.current.options.columns[
-            libraryBase.jspreadsheet.current.edition[2]
-          ] &&
+          current.options.columns &&
+          current.options.columns[current.edition[2]] &&
           ["calendar", "html"].includes(
-            libraryBase.jspreadsheet.current.options.columns[
-              libraryBase.jspreadsheet.current.edition[2]
-            ].type
+            current.options.columns[current.edition[2]].type
           )
         ) {
-          closeEditor.call(
-            libraryBase.jspreadsheet.current,
-            libraryBase.jspreadsheet.current.edition[0],
-            true
-          );
+          closeEditor.call(current, current.edition[0], true);
         } else {
-          {
-            const el0 = libraryBase.jspreadsheet.current.edition[0].children[0];
-            if (el0 instanceof HTMLElement) {
-              (el0 as HTMLInputElement | HTMLTextAreaElement).blur();
-            }
+          const el0 = current.edition[0].children[0];
+          if (el0 instanceof HTMLElement) {
+            (el0 as HTMLInputElement | HTMLTextAreaElement).blur();
           }
         }
       }
     }
 
-    if (
-      !libraryBase.jspreadsheet.current.edition &&
-      libraryBase.jspreadsheet.current.selectedCell
-    ) {
+    if (!current.edition && current.selectedCell) {
       // Which key
       if (e.which == 37) {
-        left.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+        left.call(current, e.shiftKey, e.ctrlKey);
         e.preventDefault();
       } else if (e.which == 39) {
-        right.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+        right.call(current, e.shiftKey, e.ctrlKey);
         e.preventDefault();
       } else if (e.which == 38) {
-        up.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+        up.call(current, e.shiftKey, e.ctrlKey);
         e.preventDefault();
       } else if (e.which == 40) {
-        down.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+        down.call(current, e.shiftKey, e.ctrlKey);
         e.preventDefault();
       } else if (e.which == 36) {
-        first.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+        first.call(current, e.shiftKey, e.ctrlKey);
         e.preventDefault();
       } else if (e.which == 35) {
-        last.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+        last.call(current, e.shiftKey, e.ctrlKey);
         e.preventDefault();
       } else if (e.which == 46 || e.which == 8) {
         // Delete
-        if (libraryBase.jspreadsheet.current.options.editable != false) {
-          if (libraryBase.jspreadsheet.current.selectedRow != null) {
-            if (
-              libraryBase.jspreadsheet.current.options.allowDeleteRow != false
-            ) {
+        if (current.options.editable != false) {
+          if (current.selectedRow != null) {
+            if (current.options.allowDeleteRow != false) {
               if (
                 confirm(
                   jSuites.translate("Are you sure to delete the selected rows?")
                 )
               ) {
-                libraryBase.jspreadsheet.current.deleteRow();
+                current.deleteRow();
               }
             }
-          } else if (libraryBase.jspreadsheet.current.selectedHeader) {
-            if (
-              libraryBase.jspreadsheet.current.options.allowDeleteColumn !=
-              false
-            ) {
+          } else if (current.selectedHeader) {
+            if (current.options.allowDeleteColumn != false) {
               if (
                 confirm(
                   jSuites.translate(
@@ -1696,15 +1676,13 @@ const keyDownControls = function (e: KeyboardEvent): void {
                   )
                 )
               ) {
-                libraryBase.jspreadsheet.current.deleteColumn();
+                current.deleteColumn();
               }
             }
           } else {
             // Change value
-            libraryBase.jspreadsheet.current.setValue(
-              libraryBase.jspreadsheet.current.highlighted.map(function (
-                record: { element: HTMLElement }
-              ) {
+            current.setValue(
+              current.highlighted.map(function (record: { element: HTMLElement }) {
                 return record.element;
               }),
               ""
@@ -1714,110 +1692,93 @@ const keyDownControls = function (e: KeyboardEvent): void {
       } else if (e.which == 13) {
         // Move cursor
         if (e.shiftKey) {
-          up.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+          up.call(current, e.shiftKey, e.ctrlKey);
         } else {
-          if (
-            libraryBase.jspreadsheet.current.options.allowInsertRow != false
-          ) {
-            if (
-              libraryBase.jspreadsheet.current.options.allowManualInsertRow !=
-              false
-            ) {
-              if (
-                libraryBase.jspreadsheet.current.selectedCell[1] ==
-                libraryBase.jspreadsheet.current.options.data.length - 1
-              ) {
+          if (current.options.allowInsertRow != false) {
+            if (current.options.allowManualInsertRow != false) {
+               if (current.selectedCell[1] == dataRows - 1) {
                 // New record in case selectedCell in the last row
-                libraryBase.jspreadsheet.current.insertRow();
+                current.insertRow();
               }
             }
           }
 
-          down.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+          down.call(current, e.shiftKey, e.ctrlKey);
         }
         e.preventDefault();
       } else if (e.which == 9) {
         // Tab
         if (e.shiftKey) {
-          left.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+          left.call(current, e.shiftKey, e.ctrlKey);
         } else {
-          if (
-            libraryBase.jspreadsheet.current.options.allowInsertColumn != false
-          ) {
-            if (
-              libraryBase.jspreadsheet.current.options
-                .allowManualInsertColumn != false
-            ) {
-              if (
-                libraryBase.jspreadsheet.current.selectedCell[0] ==
-                libraryBase.jspreadsheet.current.options.data[0].length - 1
-              ) {
+          if (current.options.allowInsertColumn != false) {
+            if (current.options.allowManualInsertColumn != false) {
+               if (current.selectedCell[0] == dataCols - 1) {
                 // New record in case selectedCell in the last column
-                libraryBase.jspreadsheet.current.insertColumn();
+                current.insertColumn();
               }
             }
           }
 
-          right.call(libraryBase.jspreadsheet.current, e.shiftKey, e.ctrlKey);
+          right.call(current, e.shiftKey, e.ctrlKey);
         }
         e.preventDefault();
       } else {
         if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
           if (e.which == 65) {
             // Ctrl + A
-            selectAll.call(libraryBase.jspreadsheet.current);
+            selectAll.call(current);
             e.preventDefault();
           } else if (e.which == 83) {
             // Ctrl + S
-            libraryBase.jspreadsheet.current.download();
+            current.download();
             e.preventDefault();
           } else if (e.which == 89) {
             // Ctrl + Y
-            libraryBase.jspreadsheet.current.redo();
+            current.redo();
             e.preventDefault();
           } else if (e.which == 90) {
             // Ctrl + Z
-            libraryBase.jspreadsheet.current.undo();
+            current.undo();
             e.preventDefault();
           } else if (e.which == 67) {
             // Ctrl + C
-            copy.call(libraryBase.jspreadsheet.current, true);
+            copy.call(current, true);
             e.preventDefault();
           } else if (e.which == 88) {
             // Ctrl + X
-            if (libraryBase.jspreadsheet.current.options.editable != false) {
-              cutControls.call(libraryBase.jspreadsheet.current, e);
+            if (current.options.editable != false) {
+              cutControls.call(current, e as unknown as Event);
             } else {
-              copyControls.call(libraryBase.jspreadsheet.current, e);
+              copyControls.call(current, e as unknown as Event);
             }
             e.preventDefault();
           } else if (e.which == 86) {
             // Ctrl + V
-            pasteControls.call(libraryBase.jspreadsheet.current, e);
+            pasteControls.call(current, e as unknown as Event);
           }
         } else {
-          if (libraryBase.jspreadsheet.current.selectedCell) {
-            if (libraryBase.jspreadsheet.current.options.editable != false) {
-              const rowId = libraryBase.jspreadsheet.current.selectedCell[1];
-              const columnId = libraryBase.jspreadsheet.current.selectedCell[0];
+          if (current.selectedCell) {
+            if (current.options.editable != false) {
+              const rowId = current.selectedCell[1];
+              const columnId = current.selectedCell[0];
 
               // Characters able to start a edition
               if (e.keyCode == 32) {
                 // Space
                 e.preventDefault();
                 if (
-                  libraryBase.jspreadsheet.current.options.columns[columnId]
-                    .type == "checkbox" ||
-                  libraryBase.jspreadsheet.current.options.columns[columnId]
-                    .type == "radio"
+                  current.options.columns &&
+                  current.options.columns[columnId] &&
+                  (current.options.columns[columnId].type == "checkbox" ||
+                    current.options.columns[columnId].type == "radio")
                 ) {
-                  setCheckRadioValue.call(libraryBase.jspreadsheet.current);
+                  setCheckRadioValue.call(current);
                 } else {
                   // Start edition
                   openEditor.call(
-                    libraryBase.jspreadsheet.current,
-                    libraryBase.jspreadsheet.current.records[rowId][columnId]
-                      .element,
+                    current,
+                    current.records[rowId][columnId].element,
                     true,
                     e
                   );
@@ -1825,9 +1786,8 @@ const keyDownControls = function (e: KeyboardEvent): void {
               } else if (e.keyCode == 113) {
                 // Start edition with current content F2
                 openEditor.call(
-                  libraryBase.jspreadsheet.current,
-                  libraryBase.jspreadsheet.current.records[rowId][columnId]
-                    .element,
+                  current,
+                  current.records[rowId][columnId].element,
                   false,
                   e
                 );
@@ -1837,18 +1797,16 @@ const keyDownControls = function (e: KeyboardEvent): void {
               ) {
                 // Start edition
                 openEditor.call(
-                  libraryBase.jspreadsheet.current,
-                  libraryBase.jspreadsheet.current.records[rowId][columnId]
-                    .element,
+                  current,
+                  current.records[rowId][columnId].element,
                   true,
                   e
                 );
                 // Prevent entries in the calendar
                 if (
-                  libraryBase.jspreadsheet.current.options.columns &&
-                  libraryBase.jspreadsheet.current.options.columns[columnId] &&
-                  libraryBase.jspreadsheet.current.options.columns[columnId]
-                    .type == "calendar"
+                  current.options.columns &&
+                  current.options.columns[columnId] &&
+                  current.options.columns[columnId].type == "calendar"
                 ) {
                   e.preventDefault();
                 }
@@ -1857,17 +1815,19 @@ const keyDownControls = function (e: KeyboardEvent): void {
           }
         }
       }
-    } else {
-      const kdTarget = getHTMLElement(e.target);
-      if (kdTarget && kdTarget.classList.contains("jss_search")) {
-        if (libraryBase.jspreadsheet.timeControl) {
-          clearTimeout(libraryBase.jspreadsheet.timeControl);
-        }
-        const searchEl = kdTarget as HTMLInputElement;
-        libraryBase.jspreadsheet.timeControl = setTimeout(function () {
-          libraryBase.jspreadsheet.current.search(searchEl.value);
-        }, 200);
+    }
+  } else {
+    const kdTarget = getHTMLElement(e.target);
+    if (kdTarget && kdTarget.classList.contains("jss_search")) {
+      if (libraryBase.jspreadsheet.timeControl) {
+        clearTimeout(libraryBase.jspreadsheet.timeControl);
       }
+      const searchEl = kdTarget as HTMLInputElement;
+      libraryBase.jspreadsheet.timeControl = setTimeout(function () {
+        if (libraryBase.jspreadsheet.current) {
+          libraryBase.jspreadsheet.current.search(searchEl.value);
+        }
+      }, 200);
     }
   }
 };
