@@ -1734,3 +1734,7 @@ Added plan task ts-fix-20250829-1001, patched src/utils/events.ts (use local col
 - Impact: type-safety improvements only (no behavior-changing casts); TypeScript errors decreased (980 → 959) and explicit-any count remains 216.
 - Commit message: "fix(types): optional-safe method calls in events.ts; make orderBy direction optional; update plan and notes"
 </commit_analysis>=== Fri Aug 29 02:59:29 PST 2025 ===
+Done: added task ts-work-20250829-0001; patched src/utils/events.ts (narrowed current, optional-chaining), updated src/types/core.ts (widen setValue), appended porting notes, updated plan.json, and committed (5f3427d2, 619223d2).  
+Current TypeScript errors (tsc -p tsconfig.test.json --noEmit): ~944.  
+Next: continue aliasing libraryBase.jspreadsheet.current across events.ts hotspots and unify WorksheetInstance/SpreadsheetContext to reduce remaining diagnostics; I will proceed unless you want a different priority.=== Fri Aug 29 03:08:32 PST 2025 ===
+Baseline captured (ts errors: 945, explicit any: 213); added task ts-work-20250829-0002 (in_progress); typed src/webcomponent.ts to JSpreadsheet/WorksheetInstance and committed; updated porting-notes.md with snapshot and learnings — next: apply alias-and-guard edits in src/utils/events.ts.=== Fri Aug 29 03:17:04 PST 2025 ===

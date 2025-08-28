@@ -1,18 +1,18 @@
 Analyzing any types in TypeScript files...
 
-Found 208 any types across 29 files:
+Found 213 any types across 28 files:
+
+src/utils/dispatch.ts: 24 any types
+  Line 15: const arr = (data as any[]) || [];
+  Line 21: const k = col && (col as any).name ? (col as any).name : x;
+  Line 21: const k = col && (col as any).name ? (col as any).name : x;
+  ... and 21 more
 
 src/utils/data.ts: 18 any types
   Line 10: export const setData = function (this: any, data: any) {
   Line 10: export const setData = function (this: any, data: any) {
   Line 141: export const getValue = function (this: any, cell: any, processedValue: any) {
   ... and 15 more
-
-src/utils/dispatch.ts: 16 any types
-  Line 7: const prepareJson = function (this: WorksheetInstance, data: any[]) {
-  Line 24: (rows[y].data as any)[k] = data[i].value;
-  Line 37: const save = function (this: WorksheetInstance, url: string, data: any[]) {
-  ... and 13 more
 
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
@@ -132,18 +132,13 @@ src/utils/rows.ts: 3 any types
   Line 331: "This action will destroy any existing merged cells. Are you sure?"
   Line 500: "This action will destroy any existing merged cells. Are you sure?"
 
-src/webcomponent.ts: 3 any types
-  Line 1: declare const jspreadsheet: any;
-  Line 4: el: any;
-  Line 10: init(o: any) {
-
 src/test.ts: 2 any types
   Line 6: (window as any).jss = jspreadsheet;
   Line 10: (window as any).instance = jspreadsheet(root, {
 
 src/utils/events.ts: 2 any types
-  Line 970: } else if ((window as any).clipboardData) {
-  Line 975: (window as any).clipboardData.getData("text")
+  Line 945: } else if ((window as any).clipboardData) {
+  Line 950: (window as any).clipboardData.getData("text")
 
 src/utils/footer.ts: 2 any types
   Line 3: export const setFooter = function (this: any, data?: any) {
@@ -160,6 +155,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 208
+Total any types found: 213
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

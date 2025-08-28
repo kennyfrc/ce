@@ -95,7 +95,11 @@ export interface SpreadsheetContext {
   plugins?: Record<string, Function>;
   records: Array<Array<{ element: HTMLElement; x: number; y: number; colspan?: number; rowspan?: number }>>;
   fullscreen?: (enabled: boolean) => void;
-  toolbar?: HTMLElement;
+  // DOM toolbar element; jSuites may attach a `toolbar` controller object
+  // onto the element at runtime (e.g. element.toolbar.update()). Model this
+  // as an HTMLElement that may also expose a toolbar controller with an
+  // `update(worksheet)` method.
+  toolbar?: HTMLElement & { toolbar?: { update: (worksheet: WorksheetInstance) => void } };
   cols: Array<{
     colElement: HTMLElement;
     x: number;
@@ -202,16 +206,12 @@ export interface Cell {
   rowspan?: number;
 }
 
-export interface SpreadsheetInstance {
-  config: SpreadsheetOptions;
-  element: HTMLElement;
-  worksheets: WorksheetInstance[];
-  options: SpreadsheetOptions;
-  toolbar?: {
-    toolbar: {
-      update: (worksheet: WorksheetInstance) => void;
-    };
-  };
+// SpreadsheetInstance represents the top-level spreadsheet and may be used
+// in places where a WorksheetInstance / SpreadsheetContext is expected.
+// Extend SpreadsheetContext to allow assignments of SpreadsheetInstance
+// to parameters typed as SpreadsheetContext without excessive casting.
+export interface SpreadsheetInstance extends SpreadsheetContext {
+  // Additional spreadsheet-level members
   /**
    * DOM element used as the context menu container. jSuites attaches a
    * `contextmenu` controller object onto this element at runtime, so model
