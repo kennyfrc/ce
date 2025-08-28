@@ -1684,3 +1684,32 @@ Done: typed 'this' contexts in merges/orderBy/dispatch, updated plan/notes, re-r
 Metrics: explicit any 232 → 208, TypeScript errors ~544 (see .agent/any-types-latest.txt and .agent/tsc-latest.txt).
 
 Next: focus on events.ts null-safety and unifying WorksheetInstance/SpreadsheetContext.=== Fri Aug 29 00:51:59 PST 2025 ===
+Ran baseline checks and updated artifacts: npx tsc -> 544 errors, find-any-types -> 208 anys; patched src/utils/events.ts to use a local current alias in contextMenuControls, appended snapshot/learnings to porting-notes.md, added task ts-auto-20250829-0003 to plan.json, and committed maintenance files (.agent outputs, plan, notes).  
+Note: src/utils/events.ts remains modified but uncommitted because the pre-commit any-types hook blocks source edits; next step is to continue aliasing/guards and reduce anys before committing.=== Fri Aug 29 01:01:49 PST 2025 ===
+Baseline captured — tsc errors=544, explicit any=208; added plan task ts-zero-20250829-0001 (in_progress), appended snapshot to porting-notes.md, and committed the changes.=== Fri Aug 29 01:09:17 PST 2025 ===
+Baseline run complete — 544 TypeScript errors and 208 explicit any; updated plan.json (baseline task completed) and porting-notes.md, and committed both. Reports saved: .agent/tsc-baseline.txt and .agent/any-types-baseline.txt.=== Fri Aug 29 01:14:51 PST 2025 ===
+Done: excluded temp/backup files from tsconfig.test.json, refactored events.ts (mouseDownControls & doubleClickControls) to use a local `current` alias, added/completed plan task ts-auto-20250829-0004 and committed plan.json; ran tsc and the any-types analyzer (208 explicit `any`), so pre-commit blocked committing further code changes.=== Fri Aug 29 01:26:45 PST 2025 ===
+Added plan task ts-fix-20250829-0001, updated porting-notes.md, patched small type issues (src/utils/dispatch.ts, src/utils/data.ts, and adjusted imports/typing in src/utils/columns.ts), re-ran tsc (errors remain in columns.ts/events.ts/internal.ts), and committed plan/notes only (code changes left unstaged due to pre-commit any-types check).=== Fri Aug 29 01:39:20 PST 2025 ===
+Baseline checks run; I unified WorksheetInstance/SpreadsheetContext (src/types/core.ts), fixed merges/dispatch/columns call-sites (src/utils/columns.ts, src/utils/dispatch.ts), updated plan.json and porting-notes, and committed the plan/notes (68ec53d7). Next: narrow nullability and argument-type issues in src/utils/events.ts and src/utils/internal.ts; I'll continue iterating.=== Fri Aug 29 01:51:32 PST 2025 ===
+Done — short summary:
+
+Patched src/utils/events.ts (pasteControls) to use a local `current` alias, added/completed plan task ts-fix-20250829-1001, appended notes to porting-notes.md, and updated plan.json (committed plan.json + porting-notes.md). Type-check still reports many errors and the pre-commit any-types hook prevented committing the code change (src/utils/events.ts remains unstaged); next step is to continue aliasing/guards across hotspots and reduce explicit `any` occurrences so code edits can be committed.=== Fri Aug 29 01:58:51 PST 2025 ===
+<commit_analysis>
+- Files to commit:
+  - plan.json (updated: added/completed live baseline task with results)
+  - .agent/ts-errors-live.txt (new: tsc --noEmit output)
+  - .agent/any-types-live.txt (new: any-analyzer console output)
+  - .agent/any-types-report.txt (updated: detailed any-types report)
+  - .agent/diary.md (updated: short run notes)
+- Nature of changes:
+  - Metrics/infra: captured current TypeScript diagnostics and explicit-any counts and recorded them in plan.json and diary.
+  - No application logic committed here; several src/ files are modified locally but intentionally left unstaged to avoid pre-commit any-type gating until anys are reduced.
+- Purpose/Motivation:
+  - Establish an auditable baseline for the TS porting effort and track progress in plan.json so subsequent tasks can reference the exact metrics.
+- Impact:
+  - Low risk; only artifacts and plan metadata are committed. No runtime code changes are being merged.
+- Sensitive info check:
+  - No secrets or credentials present in artifacts.
+- Draft commit message (concise, why-focused):
+  - "record baseline TypeScript diagnostics and explicit-any metrics; update plan.json and diary"
+</commit_analysis>=== Fri Aug 29 02:02:55 PST 2025 ===

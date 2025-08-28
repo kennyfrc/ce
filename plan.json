@@ -2052,6 +2052,66 @@
       "links": [],
       "createdAt": "2025-08-29T14:00:00Z",
       "updatedAt": "2025-08-29T14:05:00Z"
+    },
+    {
+      "id": "ts-live-20250829-0001",
+      "name": "Run live baseline: tsc + any-analyzer",
+      "description": "Execute TypeScript check and any-types analyzer, save outputs to .agent and record results in plan.json",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.test.json",
+        ".agent/find-any-types.js"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "baseline",
+        "metrics"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit output saved to .agent/ts-errors-live.txt",
+        "node .agent/find-any-types.js output saved to .agent/any-types-live.txt"
+      ],
+      "results": {
+        "tsErrors": 962,
+        "anyCount": 218,
+        "tsErrorsFile": ".agent/ts-errors-live.txt",
+        "anyReportFile": ".agent/any-types-live.txt"
+      },
+      "createdAt": "2025-08-29T14:30:00Z",
+      "updatedAt": "2025-08-29T14:35:00Z"
+    },
+    {
+      "id": "ts-zero-20250829-0002",
+      "name": "Type events.ts: guard optional context",
+      "description": "Narrow types and add guards in src/utils/events.ts to fix possible undefined/any issues",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 220
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "events",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "Reduce errors in events.ts and remove any on public API"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T14:20:00Z",
+      "updatedAt": "2025-08-29T14:20:00Z"
     }
   ]
 }
