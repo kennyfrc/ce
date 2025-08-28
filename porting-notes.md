@@ -280,3 +280,13 @@ Learnings:
 
 - Applied initial safe fixes: dispatch.prepareJson now accepts unknown with internal narrowing, persistence URL guarded, and optional moveColumn calls made safe in events.ts.
 - Next: continue the alias-and-guard pattern across events.ts hotspots and begin targeted unification/typing work in src/utils/internal.ts to reduce remaining strict-mode diagnostics.
+
+### Snapshot: 2025-08-28T18:40:04Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 981 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 216 (saved to .agent/any-types-report.txt)
+
+Learnings:
+
+- Small, defensive guards around optional fields (selection/selectedCell) produce quick reductions in TypeScript diagnostics; continue applying the pattern.
+- Next: iterate remaining hotspots in events.ts and internal.ts; add type-only tests for public API edges before further tightening.
