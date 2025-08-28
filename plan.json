@@ -1250,8 +1250,8 @@
       "name": "Utils: Standardize this typing in merges/orderBy/dispatch",
       "description": "Replace this:any with proper context types and fix call sites",
       "phase": 3,
-        "state": "in_progress",
-        "updatedAt": "2025-08-29T12:30:00Z",
+      "state": "in_progress",
+      "updatedAt": "2025-08-29T12:30:00Z",
       "candidateFiles": [
         "src/utils/merges.ts",
         "src/utils/orderBy.ts",
@@ -1880,8 +1880,7 @@
       ],
       "createdAt": "2025-08-29T00:00:00Z",
       "updatedAt": "2025-08-29T00:00:00Z"
-    }
-    ,
+    },
     {
       "id": "ts-auto-20250829-0002",
       "name": "events.ts: Guard optional calls and alias data dimensions",
@@ -1943,6 +1942,37 @@
       ],
       "createdAt": "2025-08-29T12:55:00Z",
       "updatedAt": "2025-08-29T12:55:00Z"
+    },
+    {
+      "id": "ts-auto-20250829-0004",
+      "name": "events.ts: alias current in remaining hotspots (automated)",
+      "description": "Introduce local current alias and guard optionals across events.ts hotspots to reduce TS18047/TS18048",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/events.ts",
+          "lineStart": 1,
+          "lineEnd": 2200
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "events",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No repeated libraryBase.jspreadsheet.current accesses in events.ts hot functions",
+        "TypeScript error count reduced by >=5"
+      ],
+      "createdAt": "2025-08-29T13:40:00Z",
+      "updatedAt": "2025-08-29T13:55:00Z"
     }
   ]
 }
