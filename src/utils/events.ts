@@ -37,6 +37,16 @@ const getAttrInt = (
 const getHTMLElement = (element: EventTarget | null): HTMLElement | null =>
   element instanceof HTMLElement ? element : null;
 
+// Narrow mouse button from various event shapes (MouseEvent, legacy event)
+const getMouseButton = (ev: unknown): number | undefined => {
+  if (!ev || typeof ev !== "object") return undefined;
+  const e = ev as Record<string, unknown>;
+  if (typeof e.buttons === "number") return e.buttons as number;
+  if (typeof e.button === "number") return e.button as number;
+  if (typeof e.which === "number") return e.which as number;
+  return undefined;
+};
+
 const getElement = function (
   element: Element | null | undefined
 ): [HTMLElement | null, number] {
@@ -763,21 +773,14 @@ const mouseMoveControls = function (e: MouseEvent) {
                    ? (target.parentElement?.nextSibling as Node | null)
                    : (target.parentElement as Node | null);
                const container = target.parentElement?.parentElement as Node | null;
-               if (
-                 libraryBase.jspreadsheet.current.dragging.element != siblingTarget &&
-                 container
-               ) {
-                 container.insertBefore(
-                   libraryBase.jspreadsheet.current.dragging.element,
-                   siblingTarget
-                 );
-                libraryBase.jspreadsheet.current.dragging.destination =
-                  Array.prototype.indexOf.call(
-                    libraryBase.jspreadsheet.current.dragging.element.parentNode
-                      .children,
-                    libraryBase.jspreadsheet.current.dragging.element
-                  );
-              }
+                const dragEl = libraryBase.jspreadsheet.current.dragging.element as Node | null;
+                if (dragEl && dragEl != siblingTarget && container) {
+                  container.insertBefore(dragEl, siblingTarget);
+                  if (dragEl.parentNode) {
+                    libraryBase.jspreadsheet.current.dragging.destination =
+                      Array.prototype.indexOf.call(dragEl.parentNode.children, dragEl);
+                  }
+                }
             }
           }
         }
@@ -1389,11 +1392,7 @@ const getElementIndex = function (element: HTMLElement): number {
 
 const contextMenuControls = function (e: MouseEvent): void {
   e = e || (window.event as unknown as MouseEvent);
-  if ("buttons" in e) {
-    var mouseButton = e.buttons;
-  } else {
-    var mouseButton = e.which || e.button;
-  }
+  const mouseButton = getMouseButton(e) ?? 0;
 
       if (libraryBase.jspreadsheet.current) {
         const spreadsheet = libraryBase.jspreadsheet.current.parent;

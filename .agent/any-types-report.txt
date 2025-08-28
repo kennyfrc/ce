@@ -1,6 +1,6 @@
-Any Types Analysis Report - 2025-08-28T13:51:15.370Z
-Total any types: 229
-Files with any types: 27
+Any Types Analysis Report - 2025-08-28T14:27:27.080Z
+Total any types: 232
+Files with any types: 29
 
 src/utils/merges.ts: 20 any types
   Line 13: this: any,
@@ -122,8 +122,9 @@ src/utils/orderBy.ts: 13 any types
   Line 155: return function (a: any, b: any) {
 
 src/utils/history.ts: 12 any types
-  Line 13: export const setHistory = function (this: any, changes: any) {
-  Line 13: export const setHistory = function (this: any, changes: any) {
+  Line 13: export c
+Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt
+y = function (this: any, changes: any) {
   Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
   Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
   Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
@@ -274,6 +275,10 @@ src/test.ts: 2 any types
   Line 6: (window as any).jss = jspreadsheet;
   Line 10: (window as any).instance = jspreadsheet(root, {
 
+src/utils/events.ts: 2 any types
+  Line 1121: } else if ((window as any).clipboardData) {
+  Line 1126: (window as any).clipboardData.getData("text")
+
 src/utils/footer.ts: 2 any types
   Line 3: export const setFooter = function (this: any, data?: any) {
   Line 3: export const setFooter = function (this: any, data?: any) {
@@ -284,3 +289,6 @@ src/utils/internalHelpers.ts: 2 any types
 
 src/utils/columnHelpers.ts: 1 any types
   Line 66: ): any | undefined {
+
+src/utils/selection.ts: 1 any types
+  Line 182: origin?: any

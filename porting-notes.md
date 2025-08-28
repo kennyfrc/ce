@@ -107,3 +107,30 @@ Changes performed:
 
 Next steps:
 - Continue typing hotspots in src/utils/events.ts (null-safety and EventTarget narrowing) and reconcile WorksheetInstance vs SpreadsheetContext in src/types/core.ts.
+
+### Work: 2025-08-28T14:00:00Z
+
+- Narrowed EventTarget usage in src/utils/events.ts, added HTMLElement guards, parsed coordinate attributes to numbers, and loosened updateSelectionFromCoords origin type to accept Event values. Committed changes (types/events).
+
+Next: continue guarding optional indexes and unify WorksheetInstance/SpreadsheetContext to resolve remaining strict-mode diagnostics.
+
+### Snapshot: 2025-08-28T14:11:59Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 517 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 232 (saved to .agent/any-types-report.txt)
+
+Learnings:
+- events.ts remains a large hotspot; will continue narrowing EventTarget and adding null guards.
+
+### Snapshot: 2025-08-28T14:27:27Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 506 (saved to .agent/ts-errors.txt)
+- Explicit any count (find-any-types): 232 (saved to .agent/any-types-report.txt)
+
+Changes performed:
+- Fixed typeof checks in getMouseButton and used it for contextMenuControls to avoid legacy-event branches.
+- Guarded dragging.element before DOM insert and adjusted WorksheetInstance.parent to SpreadsheetInstance to match runtime usage.
+
+Learnings:
+- Capturing stable local references and adding narrow guards quickly reduces 'possibly null' diagnostics.
+- Small, focused edits across hotspots (events.ts) give fast wins; next step: centralize local 'current' references in hot functions.
