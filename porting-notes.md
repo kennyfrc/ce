@@ -294,3 +294,18 @@ Learnings:
 
 - Small, defensive guards around optional fields (selection/selectedCell) produce quick reductions in TypeScript diagnostics; continue applying the pattern.
 - Next: iterate remaining hotspots in events.ts and internal.ts; add type-only tests for public API edges before further tightening.
+
+### Snapshot: 2025-08-29T14:15:00Z
+
+- TypeScript errors (tsconfig.test.json --noEmit): 959 (after applying optional chaining and signature tweaks)
+- Explicit any count (find-any-types): 216 (saved to .agent/any-types-report.txt)
+
+Changes performed:
+
+- Applied optional chaining to several method invocations in src/utils/events.ts and guarded prompt result before calling setHeader.
+- Made orderBy direction parameter optional in src/types/core.ts to match call sites that omit the direction.
+
+Next steps:
+
+- Continue alias-and-guard pattern across remaining hotspots in events.ts and internal.ts.
+- Replace remaining explicit `any` in hot paths and add small type-only tests for public API edges.

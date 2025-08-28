@@ -236,7 +236,7 @@ const mouseDownControls = function (e: MouseEvent) {
         if (current.edition) {
           closeEditor.call(current, current.edition[0], true);
         }
-        current.resetSelection();
+        current.resetSelection?.();
       }
       libraryBase.jspreadsheet.current = jssTable[0].jssWorksheet;
       current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
@@ -261,9 +261,9 @@ const mouseDownControls = function (e: MouseEvent) {
     const dataCols = (data[0] ? data[0].length : 0) as number;
     const columns = current.options.columns ?? [];
     if (target.classList.contains("jss_selectall")) {
-      if (current) {
-        selectAll.call(current);
-      }
+            if (current) {
+              selectAll.call(current);
+            }
     } else if (target.classList.contains("jss_corner")) {
       if (current.options.editable != false) {
         current.selectedCorner = true;
@@ -330,7 +330,7 @@ const mouseDownControls = function (e: MouseEvent) {
                 current.options.allowRenameColumn != false
               ) {
                 libraryBase.jspreadsheet.timeControl = setTimeout(function () {
-                  current.setHeader(columnId);
+                  current.setHeader?.(columnId);
                 }, 800);
               }
 
@@ -899,9 +899,9 @@ const doubleClickControls = function (e: MouseEvent): void {
       if (jssTable[1] == 1 && current.options.columnSorting != false) {
         // Check valid column header coords
         const columnId = target.getAttribute("data-x");
-        if (columnId) {
-          current.orderBy(parseInt(columnId));
-        }
+          if (columnId) {
+            current.orderBy?.(parseInt(columnId));
+          }
       }
 
       // Double click over body
@@ -1039,7 +1039,7 @@ const defaultContextMenu = function (
         title: jSuites.translate("Delete selected columns"),
         onclick: function () {
           worksheet.deleteColumn(
-            worksheet.getSelectedColumns().length ? undefined : x
+            (worksheet.getSelectedColumns?.() ?? []).length ? undefined : x
           );
         },
       });
@@ -1050,11 +1050,12 @@ const defaultContextMenu = function (
       items.push({
         title: jSuites.translate("Rename this column"),
         onclick: function () {
-          const oldValue = worksheet.getHeader(x);
+           const oldValue = worksheet.getHeader?.(x);
 
-          const newValue = prompt(jSuites.translate("Column name"), oldValue);
-
-          worksheet.setHeader(x, newValue);
+           const newValue = prompt(jSuites.translate("Column name"), oldValue as string);
+           if (newValue !== null) {
+             worksheet.setHeader?.(x, newValue);
+           }
         },
       });
     }
@@ -1067,13 +1068,13 @@ const defaultContextMenu = function (
       items.push({
         title: jSuites.translate("Order ascending"),
         onclick: function () {
-          worksheet.orderBy(x, 0);
+          worksheet.orderBy?.(x, "asc");
         },
       });
       items.push({
         title: jSuites.translate("Order descending"),
         onclick: function () {
-          worksheet.orderBy(x, 1);
+          worksheet.orderBy?.(x, "desc");
         },
       });
     }
@@ -1102,7 +1103,7 @@ const defaultContextMenu = function (
         title: jSuites.translate("Delete selected rows"),
         onclick: function () {
           worksheet.deleteRow(
-            worksheet.getSelectedRows().length ? undefined : y
+            (worksheet.getSelectedRows?.() ?? []).length ? undefined : y
           );
         },
       });
@@ -1119,9 +1120,9 @@ const defaultContextMenu = function (
         title: jSuites.translate(title ? "Edit comments" : "Add comments"),
         onclick: function () {
           const comment = prompt(jSuites.translate("Comments"), title);
-          if (comment) {
-            worksheet.setComments(getCellNameFromCoords(x, y), comment);
-          }
+            if (comment) {
+              worksheet.setComments?.(getCellNameFromCoords(x, y), comment);
+            }
         },
       });
 
@@ -1129,7 +1130,7 @@ const defaultContextMenu = function (
         items.push({
           title: jSuites.translate("Clear comments"),
           onclick: function () {
-            worksheet.setComments(getCellNameFromCoords(x, y), "");
+            worksheet.setComments?.(getCellNameFromCoords(x, y), "");
           },
         });
       }
@@ -1422,13 +1423,13 @@ const touchStartControls = function (e: TouchEvent): void {
   if (jssTable[0]) {
     if (libraryBase.jspreadsheet.current != jssTable[0].jssWorksheet) {
       if (libraryBase.jspreadsheet.current) {
-        libraryBase.jspreadsheet.current.resetSelection();
+        libraryBase.jspreadsheet.current.resetSelection?.();
       }
       libraryBase.jspreadsheet.current = jssTable[0].jssWorksheet;
     }
   } else {
     if (libraryBase.jspreadsheet.current) {
-      libraryBase.jspreadsheet.current.resetSelection();
+      libraryBase.jspreadsheet.current.resetSelection?.();
       libraryBase.jspreadsheet.current = null;
     }
   }

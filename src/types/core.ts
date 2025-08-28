@@ -78,114 +78,7 @@ export interface ColumnDefinition {
 
 import type { Resizing, Dragging } from "./events";
 
-export interface WorksheetInstance {
-  options: SpreadsheetOptions;
-  headers: HeaderCell[];
-  rows: Row[];
-  element: HTMLElement;
-  config: SpreadsheetOptions;
-  resizing?: Resizing | null;
-  dragging?: Dragging | null;
-  insertRow: (count: number) => void;
-  deleteRow: (index: number) => void;
-  insertColumn: {
-    (count: number): void;
-    (count: number, columnNumber: number, insertBefore: boolean): void;
-    (): void;
-  };
-  deleteColumn: {
-    (index: number): void;
-    (): void;
-    (columnNumber?: number, numOfColumns?: number): void;
-  };
-  getValue: (cell: string) => string | number | boolean | null;
-  setValue: (
-    cell: string,
-    value: string | number | boolean | null,
-    force?: boolean
-  ) => void;
-  undo: () => void;
-  redo: () => void;
-  download: (filename?: string, format?: string) => void;
-  getSelected: () => Array<{
-    element: HTMLElement;
-    x: number;
-    y: number;
-    colspan?: number;
-    rowspan?: number;
-  }>;
-  getSelectedColumns: (includeAll?: boolean) => number[];
-  getSelectedRows: () => number[];
-  resetSelection: (blur?: boolean) => number;
-  getData: (
-    processed?: boolean,
-    includeHeaders?: boolean
-  ) => (string | number | boolean | null)[][];
-  setStyle: (styles: Record<string, string>) => void;
-  removeMerge: (cell: string) => void;
-  setMerge: (cell: string, colspan: number, rowspan: number) => void;
-  selectedCell: number[];
-  updateSelectionFromCoords: (
-    x1: number,
-    y1: number,
-    x2: number,
-    y3: number
-  ) => void;
-  whichPage: (row: number) => number;
-  page: (pageNumber: number) => void;
-  records: Array<
-    Array<{
-      element: HTMLElement;
-      x: number;
-      y: number;
-      colspan?: number;
-      rowspan?: number;
-    }>
-  >;
-  filters?: Array<string[] | null>;
-  history?: Array<Record<string, unknown>>;
-  historyIndex?: number;
-  ignoreHistory?: boolean;
-  formula?: Record<string, string[]>;
-  parent: SpreadsheetInstance;
-  // Selection properties
-  highlighted: Array<{
-    element: HTMLElement;
-    x: number;
-    y: number;
-    colspan?: number;
-    rowspan?: number;
-  }>;
-  corner: HTMLElement;
-  content: HTMLElement;
-  table?: HTMLElement;
-  thead?: HTMLElement;
-  tbody?: HTMLTableSectionElement;
-  headerContainer?: HTMLElement;
-  colgroupContainer?: HTMLElement;
-  filter?: HTMLElement;
-  searchInput?: HTMLInputElement;
-  paginationDropdown?: HTMLSelectElement;
-  selectedContainer: number[];
-  selection: HTMLElement[];
-  cols: Array<{
-    colElement: HTMLElement;
-    x: number;
-  }>;
-  // Additional properties from events.ts
-  cursor?: HTMLElement | null;
-  edition?: [HTMLElement, string, number, number];
-  moveColumn?: (from: number, to: number) => void;
-  orderBy?: (column: number, direction: "asc" | "desc") => void;
-  results?: number[] | null;
-  pageNumber?: number;
-  selectedCorner?: boolean;
-  selectedHeader?: number | boolean | null;
-  selectedRow?: number | boolean | null;
-  setHeader?: (column: number, header: string) => void;
-  setComments?: (cellId: string, comments: string) => void;
-  getHeader?: (column: number) => string;
-}
+export type WorksheetInstance = SpreadsheetContext;
 
 // Context type for functions that use 'this'
 export interface SpreadsheetContext {
@@ -200,7 +93,7 @@ export interface SpreadsheetContext {
   table: HTMLElement;
   parent: SpreadsheetInstance;
   plugins?: Record<string, Function>;
-  records: Array<Array<{ element: HTMLElement; x: number; y: number }>>;
+  records: Array<Array<{ element: HTMLElement; x: number; y: number; colspan?: number; rowspan?: number }>>;
   fullscreen?: (enabled: boolean) => void;
   toolbar?: HTMLElement;
   cols: Array<{
@@ -219,6 +112,72 @@ export interface SpreadsheetContext {
     value: string | number | boolean | null,
     force?: boolean
   ) => void;
+
+  /* Worksheet-like members (merged into context for compatibility) */
+  resizing?: Resizing | null;
+  dragging?: Dragging | null;
+  insertRow?: (count: number) => void;
+  deleteRow?: (index: number) => void;
+  insertColumn?: (count: number) => void;
+  deleteColumn?: (index: number) => void;
+  getValue?: (cell: string) => string | number | boolean | null;
+  undo?: () => void;
+  redo?: () => void;
+  download?: (filename?: string, format?: string) => void;
+  getSelected?: () => Array<{
+    element: HTMLElement;
+    x: number;
+    y: number;
+    colspan?: number;
+    rowspan?: number;
+  }>;
+  getSelectedRows?: () => number[];
+  getData?: (
+    processed?: boolean,
+    includeHeaders?: boolean
+  ) => (string | number | boolean | null)[][];
+  setStyle?: (styles: Record<string, string>) => void;
+  removeMerge?: (cell: string) => void;
+  setMerge?: (cell: string, colspan: number, rowspan: number) => void;
+  selectedCell?: number[];
+  updateSelectionFromCoords?: (
+    x1: number,
+    y1: number,
+    x2: number,
+    y3: number
+  ) => void;
+  whichPage?: (row: number) => number;
+  page?: (pageNumber: number) => void;
+  filters?: Array<string[] | null>;
+  history?: Array<Record<string, unknown>>;
+  historyIndex?: number;
+  ignoreHistory?: boolean;
+  formula?: Record<string, string[]>;
+  // Selection properties
+  highlighted?: Array<{
+    element: HTMLElement;
+    x: number;
+    y: number;
+    colspan?: number;
+    rowspan?: number;
+  }>;
+  corner?: HTMLElement;
+  content?: HTMLElement;
+  searchInput?: HTMLInputElement;
+  paginationDropdown?: HTMLSelectElement;
+  selectedContainer?: number[];
+  selection?: HTMLElement[];
+  cursor?: HTMLElement | null;
+  edition?: [HTMLElement, string, number, number];
+  moveColumn?: (from: number, to: number) => void;
+  orderBy?: (column: number, direction?: "asc" | "desc") => void;
+  pageNumber?: number;
+  selectedCorner?: boolean;
+  selectedHeader?: number | boolean | null;
+  selectedRow?: number | boolean | null;
+  setHeader?: (column: number, header: string) => void;
+  setComments?: (cellId: string, comments: string) => void;
+  getHeader?: (column: number) => string;
 }
 
 export type CellValue = string | number | boolean | null;
