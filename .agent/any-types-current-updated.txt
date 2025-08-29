@@ -1,8 +1,0 @@
-Analyzing any types in TypeScript files...
-
-Found 0 any types across 0 files:
-
-
-Total any types found: 0
-
-Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

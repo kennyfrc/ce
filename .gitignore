@@ -1,5 +1,18 @@
- .idea
- /package-lock.json
- node_modules
- /vue/package-lock.json
- .agent/
+  .idea
+  /package-lock.json
+  node_modules
+  /vue/package-lock.json
+  .agent/
+
+  # Development and migration files
+  .agent/
+  plan*.json
+  plan-analysis.json
+  plan-v2.json
+  port*.md
+  porting-notes.md
+  debug-screenshot.png
+  *backup*
+  *tmp*
+  *original*
+  *orig*
