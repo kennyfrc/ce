@@ -52,6 +52,27 @@
   - Missing type imports (RowDefinition, NestedHeader) cause compilation failures
 - Next: Prioritize core type consolidation and data shape guards to reduce error count significantly
 
+### Snapshot: 2025-08-30T02:20:00Z — history.ts union type indexing completed: Fixed complex union types and method signatures
+
+- TypeScript errors (tsconfig.test.json --noEmit): 258 (stable, history.ts errors eliminated)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Fixed all TypeScript errors in src/utils/history.ts:
+  - Added runtime type guards to discriminate HistoryRecord.records union types (flat array vs nested array)
+  - Fixed merge cell element access with proper type guards and array indexing checks
+  - Corrected setMerge interface definition to match implementation (4 parameters instead of 3)
+  - Replaced setValue calls with setValueFromCoords loops to handle batch value updates
+  - Fixed resetStyle interface to match implementation (style object instead of cell identifier)
+  - Added null coalescing for potentially undefined CellValue properties
+  - Eliminated all TS7053, TS2339, TS2345, and TS2554 errors in history.ts
+- Learnings:
+  - Union types in HistoryRecord.records require explicit runtime discrimination before property access
+  - Interface definitions must match actual function implementations, not idealized signatures
+  - Batch operations should use individual method calls (setValueFromCoords) rather than expecting array parameters
+  - Type guards prevent 'possibly undefined' errors when accessing union type properties
+  - Null coalescing (??) safely handles optional CellValue properties in record operations
+  - Complex history replay logic requires careful type checking at each step
+- Next: Continue with remaining pending tasks (internal.ts data shape unions, rows.ts optional method calls, filter.ts dropdown options)
+
 - TypeScript errors (tsconfig.test.json --noEmit): 333 (down from 366, 33 errors fixed)
 - Explicit any count (find-any-types): 0 (maintained)
 - Changes: Fixed major hotspots lazyLoading.ts and pagination.ts:

@@ -165,7 +165,7 @@ export interface SpreadsheetContext {
   setStyle?: (o: string | Record<string, string | string[]>, k?: string | null | undefined, v?: string | null, force?: boolean, ignoreHistoryAndEvents?: boolean) => void;
   getStyle?: (cell?: string | number[], key?: string) => string | Record<string, string | null | undefined>;
   removeMerge?: (cell: string) => void;
-  setMerge?: (cell: string, colspan: number, rowspan: number) => void;
+  setMerge?: (cell: string | undefined, colspan: number | undefined, rowspan: number | undefined, ignoreHistoryAndEvents?: boolean) => void;
   selectedCell?: number[];
   updateSelectionFromCoords?: (
     x1: number | null,
@@ -213,7 +213,12 @@ export interface SpreadsheetContext {
   moveRow?: (from: number, to: number) => void;
   setWidth?: (column: number | string, width: number | string, force?: boolean) => void;
   setHeight?: (row: number, height: number | string, force?: boolean) => void;
-  resetStyle?: (cell: string | number[], style?: string) => void;
+  resetStyle?: (style: Record<string, string | string[]>, ignoreHistoryAndEvents?: boolean) => void;
+  // Lazy loading methods
+  loadPage?: (pageNumber: number) => void;
+  // Pagination methods
+  quantityOfPages?: () => number;
+  page?: (pageNumber: number | null | undefined) => void;
   // Additional properties used in copyPaste and other utilities
   style?: string[];
   textarea?: HTMLElement;

@@ -246,7 +246,12 @@ const historyProcessColumn = function (
             i < historyRecord.numOfColumns + columnIndex;
             i++
           ) {
-            const recordElement = historyRecord.records?.[j]?.[index]?.element;
+            // Check if records is the nested array variant
+            const recordRow = historyRecord.records?.[j];
+            let recordElement: HTMLElement | undefined;
+            if (Array.isArray(recordRow) && recordRow[index] && typeof recordRow[index] === 'object' && 'element' in recordRow[index]) {
+              recordElement = (recordRow[index] as { element: HTMLElement }).element;
+            }
             const targetElement = obj.rows[j]?.element?.children[i + 1];
             if (recordElement && targetElement && obj.rows[j]?.element) {
               obj.rows[j].element.insertBefore(recordElement, targetElement);
@@ -389,19 +394,36 @@ export const undo = function (this: WorksheetInstance) {
       // Redo for changes in cells
       if (historyRecord.records) {
         for (let i = 0; i < historyRecord.records.length; i++) {
-          records.push({
-            x: historyRecord.records[i].x,
-            y: historyRecord.records[i].y,
-            value: historyRecord.records[i].oldValue,
-          });
+          const record = historyRecord.records[i];
+          // Check if record is an array (nested structure) or object (flat structure)
+          if (Array.isArray(record)) {
+            // Handle array of arrays case - take first element
+            const firstElement = record[0];
+            if (firstElement && typeof firstElement === 'object' && 'x' in firstElement && 'y' in firstElement) {
+              records.push({
+                x: firstElement.x,
+                y: firstElement.y,
+                value: firstElement.oldValue,
+              });
+            }
+          } else if (record && typeof record === 'object' && 'x' in record && 'y' in record) {
+            // Handle flat array case
+            records.push({
+              x: record.x,
+              y: record.y,
+              value: record.oldValue,
+            });
+          }
 
           if (historyRecord.oldStyle) {
-            obj.resetStyle?.(historyRecord.oldStyle, true);
+            obj.resetStyle?.(historyRecord.oldStyle as Record<string, string | string[]>, true);
           }
         }
       }
       // Update records
-      obj.setValue?.(records);
+      for (const record of records) {
+        obj.setValueFromCoords?.(record.x, record.y, record.value ?? null, true);
+      }
 
       // Update selection
       if (historyRecord.selection) {
@@ -482,13 +504,25 @@ export const redo = function (this: WorksheetInstance) {
       updateOrderArrow.call(obj, historyRecord.column as number, Boolean(historyRecord.order));
       updateOrder.call(obj, historyRecord.rows as number[]);
     } else if (historyRecord.action === "setValue") {
-      obj.setValue?.(historyRecord.records);
       // Redo for changes in cells
       if (historyRecord.records) {
         for (let i = 0; i < historyRecord.records.length; i++) {
-          if (historyRecord.oldStyle) {
-            obj.resetStyle?.(historyRecord.oldStyle, true);
+          const record = historyRecord.records[i];
+          // Check if record is an array (nested structure) or object (flat structure)
+          if (Array.isArray(record)) {
+            // Handle array of arrays case - take first element
+            const firstElement = record[0];
+            if (firstElement && typeof firstElement === 'object' && 'x' in firstElement && 'y' in firstElement) {
+              obj.setValueFromCoords?.(firstElement.x, firstElement.y, firstElement.oldValue ?? null, true);
+            }
+          } else if (record && typeof record === 'object' && 'x' in record && 'y' in record) {
+            // Handle flat array case
+            obj.setValueFromCoords?.(record.x, record.y, record.oldValue ?? null, true);
           }
+        }
+        // Reset old style if present (do this once, not in loop)
+        if (historyRecord.oldStyle) {
+          obj.resetStyle?.(historyRecord.oldStyle as Record<string, string | string[]>, true);
         }
       }
       // Update selection
