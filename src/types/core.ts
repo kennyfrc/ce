@@ -1,6 +1,8 @@
 // Core TypeScript interfaces for jspreadsheet
 /// <reference path="global.d.ts" />
 
+import { RowDefinition } from "./rows";
+
 export interface SpreadsheetOptions {
   // data may be provided as array-of-arrays or as array-of-objects (legacy support)
   data?: CellValue[][] | Array<Record<string, CellValue>>;
@@ -11,6 +13,7 @@ export interface SpreadsheetOptions {
   editable?: boolean;
   nestedHeaders?: NestedHeader[][];
   columns?: ColumnDefinition[];
+  rows?: RowDefinition[];
   meta?: Record<string, Record<string, unknown>>;
   pagination?: number | boolean;
   style?: Record<string, CSSStyleDeclaration | number> | Array<CSSStyleDeclaration>;
@@ -187,6 +190,7 @@ export interface SpreadsheetContext {
   setHeader?: (column: number, header?: string) => void;
   setComments?: (cellId: string, comments: string) => void;
   getHeader?: (column: number) => string;
+  search?: (query: string) => void;
   // Additional properties used in copyPaste and other utilities
   style?: string[];
   textarea?: HTMLElement;

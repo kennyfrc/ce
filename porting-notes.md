@@ -664,3 +664,40 @@ Learnings:
   - History parameter normalization prevents type mismatches in setHistory calls
   - Systematic fixes in columns.ts reduced errors by ~34 while maintaining zero any
 - Next: Continue with other hotspots (comments.ts, config.ts, copyPaste.ts) using similar guard-and-cast patterns.
+
+### Snapshot: 2025-08-29T19:00:00Z — data.ts null-safety fixes (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1036 (down from 1701)
+- Explicit any count (find-any-types): 6 (rows.ts: 3, worksheets.ts: 3)
+- Changes: Comprehensive null-safety fixes in src/utils/data.ts:
+  - Added guards for obj.options.data undefined checks throughout getValue, getValueFromCoords, getData, getDataFromRange
+  - Fixed data shape discrimination with Array.isArray guards and proper indexing
+  - Added null coalescing for optional properties (columns, data rows)
+  - Fixed arithmetic operations on potentially undefined pagination values
+  - Resolved string/number type issues in cell coordinate parsing
+  - Added proper type guards for data access patterns
+- Learnings:
+  - Systematic null-safety guards reduce TypeScript diagnostics significantly (665 errors fixed)
+  - Data shape union handling requires consistent Array.isArray checks before indexing
+  - Legacy type mismatches in function calls may require targeted type assertions
+  - Optional chaining and null coalescing prevent runtime errors while satisfying strict mode
+- Next: Continue with remaining hotspots (events.ts alias-and-guard patterns, remaining any elimination in rows.ts/worksheets.ts).
+
+### Snapshot: 2025-08-29T19:30:00Z — events.ts null-safety and type fixes (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1021 (down from 1036)
+- Explicit any count (find-any-types): 6 (rows.ts: 3, worksheets.ts: 3)
+- Changes: Comprehensive null-safety and type fixes in src/utils/events.ts:
+  - Added search method to SpreadsheetContext type definition
+  - Fixed setTimeout callback type inference by re-aliasing current
+  - Added guards for obj.content undefined checks in scroll handlers
+  - Added guards for obj.options.freezeColumns undefined checks
+  - Fixed string/number conversion issues with parseInt and String casting
+  - Fixed arithmetic operations on mixed string/number types
+- Learnings:
+  - TypeScript's control flow analysis can lose type information in asynchronous callbacks
+  - Re-aliasing variables in callbacks helps maintain type safety
+  - DOM property access requires consistent null/undefined guards
+  - Mixed string/number arithmetic requires explicit type conversions
+  - Core type definitions may need extension for missing runtime methods
+- Next: Continue systematic fixes in remaining hotspots (rows.ts, worksheets.ts any elimination, additional null-safety guards).

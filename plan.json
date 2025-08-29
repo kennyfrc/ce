@@ -2102,7 +2102,7 @@
       "name": "events.ts: apply local current alias to remaining hotspots",
       "description": "Replace inline libraryBase.jspreadsheet.current uses with local `current` alias and guard optionals across events.ts hotspots",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -2627,7 +2627,7 @@
       "name": "data.ts: Fix types and guard optionals",
       "description": "Narrow optionals, index signatures, and remove anys in src/utils/data.ts",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/data.ts"
       ],

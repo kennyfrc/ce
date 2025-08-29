@@ -108,10 +108,10 @@ export const setData = function (this: SpreadsheetContext, data: CellValue[][]) 
     if (!obj.pageNumber) {
       obj.pageNumber = 0;
     }
-    var quantityPerPage = obj.options.pagination;
-    startNumber = obj.options.pagination * obj.pageNumber;
+    var quantityPerPage = obj.options.pagination as number;
+    startNumber = (obj.options.pagination as number) * obj.pageNumber;
     finalNumber =
-      obj.options.pagination * obj.pageNumber + obj.options.pagination;
+      (obj.options.pagination as number) * obj.pageNumber + (obj.options.pagination as number);
 
     if (obj.options.data.length < finalNumber) {
       finalNumber = obj.options.data.length;
@@ -173,9 +173,9 @@ export const getValue = function (this: SpreadsheetContext, cell: string, proces
     return null;
   }
 
-  cell = getIdFromColumnName(cell, true);
-  x = cell[0];
-  y = cell[1];
+  const columnId = getIdFromColumnName(cell, true);
+  x = columnId[0] as number;
+  y = columnId[1] as number;
 
   let value = null;
 
@@ -183,8 +183,20 @@ export const getValue = function (this: SpreadsheetContext, cell: string, proces
     if (obj.records[y] && obj.records[y][x] && processedValue) {
       value = obj.records[y][x].element.innerHTML;
     } else {
-      if (obj.options.data[y] && obj.options.data[y][x] !== undefined) {
-        value = obj.options.data[y][x];
+      const data = obj.options.data;
+      if (data && data[y] !== undefined) {
+        const row = data[y];
+        if (Array.isArray(row)) {
+          if (row[x] !== undefined) {
+            value = row[x];
+          }
+        } else {
+          const rowObj = row as Record<string, CellValue>;
+          const key = (obj.options.columns ?? [])[x]?.name ?? String(x);
+          if (key in rowObj) {
+            value = rowObj[key];
+          }
+        }
       }
     }
   }
@@ -213,8 +225,20 @@ export const getValueFromCoords = function (
     if (obj.records[y] && obj.records[y][x] && processedValue) {
       value = obj.records[y][x].element.innerHTML;
     } else {
-      if (obj.options.data[y] && obj.options.data[y][x] !== undefined) {
-        value = obj.options.data[y][x];
+      const data = obj.options.data;
+      if (data && data[y] !== undefined) {
+        const row = data[y];
+        if (Array.isArray(row)) {
+          if (row[x] !== undefined) {
+            value = row[x];
+          }
+        } else {
+          const rowObj = row as Record<string, CellValue>;
+          const key = (obj.options.columns ?? [])[x]?.name ?? String(x);
+          if (key in rowObj) {
+            value = rowObj[key];
+          }
+        }
       }
     }
   }
@@ -273,8 +297,8 @@ export const setValue = function (
 
         if (typeof item === "string") {
           const columnId = getIdFromColumnName(item, true);
-          xi = columnId[0];
-          yi = columnId[1];
+          xi = columnId[0] as number;
+          yi = columnId[1] as number;
         } else if (item && typeof item === "object") {
           if ("x" in item && "y" in item) {
             xi = Number((item as { x: unknown }).x);
@@ -313,8 +337,8 @@ export const setValue = function (
     return {
       x: record.x,
       y: record.y,
-      value: record.value,
-      oldValue: record.oldValue,
+      value: record.value ?? "",
+      oldValue: record.oldValue ?? "",
     };
   });
 
@@ -359,8 +383,8 @@ export const setValueFromCoords = function (
     return {
       x: record.x,
       y: record.y,
-      value: record.value,
-      oldValue: record.oldValue,
+      value: record.value ?? "",
+      oldValue: record.oldValue ?? "",
     };
   });
 
@@ -389,13 +413,14 @@ export const getData = function (
 
   // Column and row length
   const columnsLen = obj.options.columns ? obj.options.columns.length : 0;
+  const data = obj.options.data ?? [];
   const x = Math.max(
     0,
-    ...obj.options.data.map(function (row) {
+    ...data.map(function (row) {
       return Array.isArray(row) ? (row as CellValue[]).length : columnsLen;
     })
   );
-  const y = obj.options.data.length;
+  const y = data.length;
 
   // Go through the columns to get the data
   for (let j = 0; j < y; j++) {
@@ -413,12 +438,18 @@ export const getData = function (
         if (processed) {
           dataset[py][px] = obj.records[j][i].element.innerHTML;
         } else {
-          const rawRow = obj.options.data[j];
-          if (Array.isArray(rawRow)) {
-            dataset[py][px] = (rawRow as CellValue[])[i];
+          const data = obj.options.data ?? [];
+          const rawRow = data[j];
+          if (rawRow !== undefined) {
+            if (Array.isArray(rawRow)) {
+              dataset[py][px] = (rawRow as CellValue[])[i] ?? "";
+            } else {
+              const columns = obj.options.columns ?? [];
+              const key = columns[i]?.name ?? String(i);
+              dataset[py][px] = (rawRow as Record<string, CellValue>)[key] ?? "";
+            }
           } else {
-            const key = (obj.options.columns ?? [])[i]?.name ?? String(i);
-            dataset[py][px] = (rawRow as Record<string, CellValue>)[key];
+            dataset[py][px] = "";
           }
         }
         px++;
@@ -433,7 +464,7 @@ export const getData = function (
     return (
       dataset
         .map(function (row) {
-          return row.join(delimiter);
+          return row.map(cell => String(cell ?? "")).join(delimiter);
         })
         .join("\r\n") + "\r\n"
     );
@@ -472,12 +503,18 @@ export const getDataFromRange = function (
       if (processed) {
         dataset[dataset.length - 1].push(obj.records[y][x].element.innerHTML);
       } else {
-        const rawRow = obj.options.data[y];
-        if (Array.isArray(rawRow)) {
-          dataset[dataset.length - 1].push((rawRow as CellValue[])[x]);
+        const data = obj.options.data ?? [];
+        const rawRow = data[y];
+        if (rawRow !== undefined) {
+          if (Array.isArray(rawRow)) {
+            dataset[dataset.length - 1].push((rawRow as CellValue[])[x] ?? "");
+          } else {
+            const columns = obj.options.columns ?? [];
+            const key = columns[x]?.name ?? String(x);
+            dataset[dataset.length - 1].push((rawRow as Record<string, CellValue>)[key] ?? "");
+          }
         } else {
-          const key = (obj.options.columns ?? [])[x]?.name ?? String(x);
-          dataset[dataset.length - 1].push((rawRow as Record<string, CellValue>)[key]);
+          dataset[dataset.length - 1].push("");
         }
       }
     }

@@ -10,7 +10,7 @@ import {
 } from "./selection";
 import { setHistory } from "./history";
 import { getColumnNameFromId } from "./internalHelpers";
-import { WorksheetInstance, CellValue } from "../types/core";
+import { WorksheetInstance, CellValue, RowDefinition } from "../types/core";
 
 /**
  * Safely get cell value from data array, handling both array and object shapes
@@ -57,7 +57,7 @@ export const createRow = function (
   const row = {
     element: document.createElement("tr"),
     y: j,
-    cells: [] as any[], // Will be populated below
+    cells: [] as Cell[], // Will be populated below
     index: j,
     height: parseInt(obj.options.defaultRowHeight || "20", 10) || 20,
   };
@@ -74,8 +74,8 @@ export const createRow = function (
   }
 
   // Definitions
-  if (obj.options.rows && (obj.options.rows as any)[j]) {
-    const rowDef = (obj.options.rows as any)[j];
+  if (obj.options.rows && obj.options.rows[j]) {
+    const rowDef = obj.options.rows[j] as RowDefinition;
     if (rowDef.height) {
       row.element.style.height = String(rowDef.height);
     }

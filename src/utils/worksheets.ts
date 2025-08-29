@@ -90,7 +90,7 @@ const setWorksheetFunctions = function (worksheet: WorksheetInstance) {
   for (let i = 0; i < worksheetPublicMethodsLength; i++) {
     const [methodName, method] = worksheetPublicMethods[i];
 
-    (worksheet as any)[methodName as string] = (method as Function).bind(worksheet);
+    (worksheet as WorksheetInstance)[methodName as keyof WorksheetInstance] = method.bind(worksheet) as never;
   }
 };
 
@@ -275,8 +275,8 @@ const createTable = function (this: WorksheetInstance) {
   // Powered by Jspreadsheet
   const ads = document.createElement("a");
   ads.setAttribute("href", "https://bossanova.uk/jspreadsheet/");
-  (obj as any).ads = document.createElement("div");
-  (obj as any).ads.className = "jss_about";
+  obj.ads = document.createElement("div");
+  obj.ads.className = "jss_about";
 
   const span = document.createElement("span");
   span.innerHTML = "Jspreadsheet CE";

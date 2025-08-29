@@ -1826,8 +1826,9 @@ const keyDownControls = function (e: KeyboardEvent): void {
       }
       const searchEl = kdTarget as HTMLInputElement;
       libraryBase.jspreadsheet.timeControl = setTimeout(function () {
-        if (current) {
-          current.search?.(searchEl.value);
+        const curr = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+        if (curr) {
+          curr.search?.(searchEl.value);
         }
       }, 200);
     }
@@ -1856,7 +1857,7 @@ export const wheelControls = function (this: WorksheetInstance, e: WheelEvent): 
             }
             updateCornerPosition.call(obj);
           }
-        } else if (obj.content.scrollTop <= obj.content.clientHeight) {
+        } else if (obj.content && obj.content.scrollTop <= obj.content.clientHeight) {
           if (loadUp.call(obj)) {
             if (obj.content.scrollTop < 10) {
               obj.content.scrollTop =
@@ -1877,9 +1878,10 @@ let scrollLeft = 0;
 const updateFreezePosition = function (this: WorksheetInstance): void {
   const obj = this;
 
+  if (!obj.content) return;
   scrollLeft = obj.content.scrollLeft;
   let width = 0;
-  if (scrollLeft > 50) {
+  if (scrollLeft > 50 && obj.options.freezeColumns) {
     for (let i = 0; i < obj.options.freezeColumns; i++) {
       if (i > 0) {
         // Must check if the previous column is hidden or not to determin whether the width shoule be added or not!
@@ -1894,11 +1896,11 @@ const updateFreezePosition = function (this: WorksheetInstance): void {
             obj.options.columns[i - 1] &&
             obj.options.columns[i - 1].width !== undefined
           ) {
-            columnWidth = parseInt(obj.options.columns[i - 1].width);
+            columnWidth = parseInt(String(obj.options.columns[i - 1].width));
           } else {
             columnWidth =
               obj.options.defaultColWidth !== undefined
-                ? parseInt(obj.options.defaultColWidth)
+                ? parseInt(String(obj.options.defaultColWidth))
                 : 100;
           }
 
@@ -1911,7 +1913,7 @@ const updateFreezePosition = function (this: WorksheetInstance): void {
         if (obj.rows[j] && obj.records[j][i]) {
           const shifted =
             scrollLeft +
-            (i > 0 ? obj.records[j][i - 1].element.style.width : 0) -
+            (i > 0 ? parseInt(String(obj.records[j][i - 1].element.style.width)) : 0) -
             51 +
             "px";
           obj.records[j][i].element.classList.add("jss_freezed");
@@ -1919,7 +1921,7 @@ const updateFreezePosition = function (this: WorksheetInstance): void {
         }
       }
     }
-  } else {
+  } else if (obj.options.freezeColumns) {
     for (let i = 0; i < obj.options.freezeColumns; i++) {
       obj.headers[i].classList.remove("jss_freezed");
       obj.headers[i].style.left = "";
@@ -1941,7 +1943,7 @@ export const scrollControls = function (this: WorksheetInstance, e: Event): void
 
   wheelControls.call(obj, e as WheelEvent);
 
-  if (obj.options.freezeColumns > 0 && obj.content.scrollLeft != scrollLeft) {
+  if (obj.options.freezeColumns && obj.options.freezeColumns > 0 && obj.content && obj.content.scrollLeft != scrollLeft) {
     updateFreezePosition.call(obj);
   }
 
