@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T03:11:30Z"
+    "updatedAt": "2025-08-29T03:23:20Z"
   },
   "tasks": [
     {
@@ -147,7 +147,7 @@
       "name": "Priority: Baseline & CI gating",
       "description": "Ensure live metrics and CI gates (tsc --noEmit + any-analyzer) run after each major change; capture artifacts for trend analysis.",
       "phase": 5,
-      "state": "pending",
+      "state": "in_progress",
       "candidateFiles": [
         "tsconfig.test.json",
         ".agent/find-any-types.js",
@@ -167,7 +167,7 @@
         "Baseline artifacts (.agent) are produced for each major PR"
       ],
       "createdAt": "2025-08-29T15:55:00Z",
-      "updatedAt": "2025-08-29T15:55:00Z"
+      "updatedAt": "2025-08-29T16:10:00Z"
     },
     {
       "id": "ts-priority-20250829-0007",
@@ -2742,7 +2742,7 @@
       "name": "Fix anys: src/utils/editor.ts",
       "description": "Replace explicit any usages in editor.ts",
       "phase": 3,
-      "state": "pending",
+      "state": "in_progress",
       "candidateFiles": [
         "src/utils/editor.ts"
       ],

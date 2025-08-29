@@ -25,6 +25,67 @@ src/utils/columns.ts(675,38): error TS2349: This expression is not callable.
     Type 'string' has no call signatures.
 src/utils/columns.ts(996,20): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
   No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/copyPaste.ts(52,13): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/copyPaste.ts(53,13): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/copyPaste.ts(68,21): error TS2365: Operator '<' cannot be applied to types 'number' and 'string | number | boolean'.
+src/utils/copyPaste.ts(68,25): error TS18047: 'x' is possibly 'null'.
+src/utils/copyPaste.ts(113,7): error TS2339: Property 'style' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(120,21): error TS2365: Operator '<' cannot be applied to types 'number' and 'string | number | boolean'.
+src/utils/copyPaste.ts(120,25): error TS18047: 'x' is possibly 'null'.
+src/utils/copyPaste.ts(130,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/copyPaste.ts(130,21): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/copyPaste.ts(171,13): error TS2339: Property 'style' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(204,16): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(204,37): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(205,16): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(205,37): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(206,16): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(206,37): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(207,16): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(207,37): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(225,9): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(226,9): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(232,9): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(234,9): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(237,7): error TS2339: Property 'hashString' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(237,39): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(263,14): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(280,31): error TS2339: Property 'hashString' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(280,48): error TS2339: Property 'style' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(283,23): error TS2339: Property 'hashString' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(284,19): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(290,14): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(291,14): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/copyPaste.ts(297,16): error TS18046: 'data' is of type 'unknown'.
+src/utils/copyPaste.ts(311,20): error TS18046: 'data' is of type 'unknown'.
+src/utils/copyPaste.ts(319,16): error TS18046: 'data' is of type 'unknown'.
+src/utils/copyPaste.ts(330,14): error TS18046: 'data' is of type 'unknown'.
+src/utils/copyPaste.ts(340,5): error TS18046: 'data' is of type 'unknown'.
+src/utils/copyPaste.ts(372,58): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type '{}'.
+  Property '0' does not exist on type '{}'.
+src/utils/copyPaste.ts(375,11): error TS2339: Property 'skipUpdateTableReferences' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(376,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/copyPaste.ts(381,63): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/copyPaste.ts(384,11): error TS2339: Property 'skipUpdateTableReferences' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(385,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/copyPaste.ts(388,13): error TS2339: Property 'skipUpdateTableReferences' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(389,11): error TS2339: Property 'skipUpdateTableReferences' does not exist on type 'SpreadsheetContext'.
+src/utils/copyPaste.ts(394,19): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/copyPaste.ts(409,15): error TS2532: Object is possibly 'undefined'.
+src/utils/copyPaste.ts(424,38): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+src/utils/copyPaste.ts(436,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/copyPaste.ts(436,19): error TS2554: Expected 1 arguments, but got 0.
+src/utils/copyPaste.ts(447,11): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/copyPaste.ts(451,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/copyPaste.ts(451,17): error TS2554: Expected 1 arguments, but got 0.
+src/utils/copyPaste.ts(479,30): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/copyPaste.ts(480,27): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/copyPaste.ts(484,18): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
 src/utils/data.ts(112,19): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
 src/utils/data.ts(114,7): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
 src/utils/data.ts(114,7): error TS2365: Operator '+' cannot be applied to types 'number' and 'number | boolean'.
@@ -54,6 +115,65 @@ src/utils/data.ts(394,8): error TS18048: 'obj.options.data' is possibly 'undefin
 src/utils/data.ts(398,13): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/data.ts(416,26): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/data.ts(475,24): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(73,7): error TS2322: Type 'string | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/editor.ts(74,7): error TS2322: Type 'string | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/editor.ts(84,38): error TS2339: Property 'openEditor' does not exist on type '{ createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; }'.
+src/utils/editor.ts(86,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(86,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/editor.ts(125,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(125,22): error TS2345: Argument of type 'HTMLElement' is not assignable to parameter of type 'string | { element: HTMLElement; }[] | HTMLElement[]'.
+src/utils/editor.ts(127,9): error TS2322: Type 'null' is not assignable to type '[HTMLElement, string, number, number] | undefined'.
+src/utils/editor.ts(136,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(136,21): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/editor.ts(211,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(211,23): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/editor.ts(239,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(239,25): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/editor.ts(276,32): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(276,32): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/editor.ts(352,44): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(352,44): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/editor.ts(379,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/editor.ts(401,54): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string'.
+src/utils/editor.ts(453,43): error TS2339: Property 'closeEditor' does not exist on type '{ createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; }'.
+src/utils/editor.ts(476,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(482,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(488,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(494,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(545,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(545,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
+src/utils/editor.ts(546,24): error TS18048: 'obj.edition' is possibly 'undefined'.
+src/utils/editor.ts(548,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(548,20): error TS2345: Argument of type 'HTMLElement' is not assignable to parameter of type 'string | { element: HTMLElement; }[] | HTMLElement[]'.
+src/utils/editor.ts(557,35): error TS2339: Property 'closeEditor' does not exist on type '{ createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; }'.
+src/utils/editor.ts(571,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(577,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(583,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/editor.ts(600,3): error TS2322: Type 'null' is not assignable to type '[HTMLElement, string, number, number] | undefined'.
+src/utils/editor.ts(610,28): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(o: {}): string[]', gave the following error.
+    Argument of type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[] | undefined' is not assignable to parameter of type '{}'.
+      Type 'undefined' is not assignable to type '{}'.
+  Overload 2 of 2, '(o: object): string[]', gave the following error.
+    Argument of type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[] | undefined' is not assignable to parameter of type 'object'.
+      Type 'undefined' is not assignable to type 'object'.
+src/utils/editor.ts(612,15): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/editor.ts(613,15): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/editor.ts(616,7): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/editor.ts(617,7): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/editor.ts(620,41): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/editor.ts(620,48): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/editor.ts(620,65): error TS2538: Type 'null' cannot be used as an index type.
 src/utils/events.ts(406,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
 src/utils/events.ts(442,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.

@@ -1760,3 +1760,59 @@ Done — baseline captured and recorded.
 - Ran tsc + any-analyzer: TS errors = 938, explicit any = 189; outputs saved to .agent/ts-errors-run.txt and .agent/any-types-run.txt.
 - Updated plan.json (metadata.updatedAt + added ts-live-20250829-0002 results) and prepended snapshot to porting-notes.md; committed (chore(metrics): record baseline metrics…).=== Fri Aug 29 04:43:17 PST 2025 ===
 Done: typed src/utils/data.ts (SpreadsheetContext/CellValue), reduced explicit any count 189→179, added+completed plan task ts-auto-20250829-0001 in plan.json, saved analyzer/ts outputs under .agent, and committed changes.=== Fri Aug 29 04:52:05 PST 2025 ===
+Added task ts-fix-data-20250829-0001, tightened types in src/types/core.ts and src/utils/data.ts, saved tsc and any-analyzer outputs (.agent), updated porting-notes.md and plan.json; current metrics: tsc ≈ 970 errors, any-analyzer = 174; commit blocked by pre-commit any-types hook (next: address top any offenders and continue hotspot fixes).=== Fri Aug 29 05:00:09 PST 2025 ===
+<commit_analysis>
+- Files changed/added to commit:
+  - src/types/core.ts (updated SpreadsheetOptions.data and pagination)
+  - src/utils/data.ts (narrowed data row shapes, safe indexing, getData/getDataFromRange, setValue guards)
+  - plan.json (added task ts-fix-columns-20250829-0001, updated metadata.updatedAt)
+  - porting-notes.md (append snapshots/learnings)
+  - .agent/any-types-latest.txt, .agent/any-types-report.txt, .agent/ts-errors-latest.txt (analysis artifacts)
+- Nature of changes: types & bugfixes (core model), safety guards and narrowing in data handling, project plan update, and metrics capture.
+- Purpose/motivation: Fix root cause where SpreadsheetOptions.data was assumed to be only array-of-arrays; make runtime-supported object-row shape explicit and avoid unsafe numeric indexing on union types, reducing TS7053/TS7015 errors and lowering explicit any count; add follow-up task for columns.ts.
+- Impact assessment: Localized to core types and data utility; safe runtime behavior preserved; remaining work needed for columns.ts, internal.ts, and events.ts to finish union-driven fixes.
+- Sensitive info check: No secrets or credentials touched.
+- Draft commit message (concise, why-focused): "types(data): accept object-rows and safely narrow data indexing; record plan+notes and save analyzer artifacts"
+</commit_analysis>=== Fri Aug 29 05:08:53 PST 2025 ===
+<commit_analysis>
+- Files changed/added:
+  - src/utils/columns.ts (modified): compute currentNumOfColumns safely for data union (CellValue[][] | Record<string,CellValue>[]).
+  - plan.json (modified): added task ts-fix-columns-20250829-0002 (in_progress) and updated metadata.updatedAt.
+  - porting-notes.md (modified): appended automated snapshot and concise learnings.
+  - .agent/ts-errors-run.txt, .agent/any-types-run.txt (updated): saved tsc and any-analyzer outputs.
+
+- Nature of changes:
+  - Small, local type-safe refactor in columns.ts replacing a union-ambiguous map/spread with explicit guards (Array.isArray / Object.keys).
+  - Project bookkeeping: plan and notes updated; metrics persisted.
+
+- Purpose / motivation:
+  - Reduce TypeScript diagnostics caused by data shape union and avoid union-overload mismatches.
+  - Capture progress and create a follow-up task to continue columns.ts cleanup.
+
+- Impact assessment:
+  - Low-risk, type-only/logic-safe change: reduced tsc errors by 2 and explicit any count by 1 in current run.
+  - No secrets or sensitive data introduced.
+  - Limits: many other files still require work; this is an incremental, reviewable patch.
+
+- Sensitive information check:
+  - None detected.
+
+- Draft commit message (1 sentence focusing on why):
+  - "Reduce TypeScript diagnostics by guarding data union in columns insert logic; record progress in plan and notes."
+</commit_analysis>=== Fri Aug 29 10:50:36 PST 2025 ===
+Done: typed src/utils/internal.ts (updateCell/updateFormulaChain/getWorksheetInstance), ran tsc + any-analyzer (1059 TS errors, 170 anys), updated porting-notes.md and plan.json, and committed as 31d7e09d.=== Fri Aug 29 10:57:33 PST 2025 ===
+Baseline run done — npx tsc reported 1059 errors and find-any-types found 170 anys; outputs saved to .agent/ts-errors-run.txt and .agent/any-types-run.txt; plan.json updated (ts-priority-20250829-0007 set to in_progress) and porting-notes.md updated; changes committed.=== Fri Aug 29 11:04:30 PST 2025 ===
+Done — small triage pass completed and recorded.
+
+- Edited src/utils/copyPaste.ts to replace explicit any with SpreadsheetContext/NestedHeader and safer guards.
+- Updated plan.json (added per-file any-fix tasks; marked ts-anyfix-20250829-0001 completed) and appended a snapshot to porting-notes.md.
+- Re-ran checks: tsc errors ≈ 1313, explicit any count = 164.
+- Changes committed as a17970a5.=== Fri Aug 29 11:13:53 PST 2025 ===
+<commit_analysis>
+- Files to commit: plan.json, porting-notes.md, .agent/any-types-report.txt, .agent/any-types-run.txt, .agent/any-types-latest.txt, .agent/ts-errors-run.txt, .agent/ts-errors-latest.txt, .agent/diary.md
+- Nature: maintenance/metrics update — recorded baseline tsc diagnostics and any-analyzer output; advanced CI gating task to in_progress.
+- Purpose: persist baseline artifacts for trend tracking and start CI gating work so future PRs run tsc + any-analyzer.
+- Impact: non-functional (docs/plan/metrics) changes only; low risk.
+- Sensitive info check: none detected.
+- Commit message: "chore(metrics): record baseline tsc + any-analyzer outputs; start CI gating task"
+</commit_analysis>=== Fri Aug 29 11:18:44 PST 2025 ===

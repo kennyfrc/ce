@@ -1,12 +1,6 @@
 Analyzing any types in TypeScript files...
 
-Found 189 any types across 27 files:
-
-src/utils/data.ts: 18 any types
-  Line 10: export const setData = function (this: any, data: any) {
-  Line 10: export const setData = function (this: any, data: any) {
-  Line 141: export const getValue = function (this: any, cell: any, processedValue: any) {
-  ... and 15 more
+Found 174 any types across 27 files:
 
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
@@ -116,6 +110,11 @@ src/utils/config.ts: 4 any types
   Line 17: this: any,
   ... and 1 more
 
+src/utils/data.ts: 3 any types
+  Line 432: const resultRow: Record<number, any> = {};
+  Line 446: this: any,
+  Line 454: const dataset: any[][] = [];
+
 src/utils/merges.ts: 3 any types
   Line 146: alert((jSuites as any).translate("No cells selected"));
   Line 187: alert((jSuites as any).translate(test));
@@ -149,6 +148,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 189
+Total any types found: 174
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

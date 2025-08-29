@@ -1,18 +1,6 @@
 Analyzing any types in TypeScript files...
 
-Found 170 any types across 27 files:
-
-src/utils/copyPaste.ts: 13 any types
-  Line 28: this: any,
-  Line 53: let tmp: any = "";
-  Line 96: const colspan = parseInt((tmp[j][i] as any).colspan);
-  ... and 10 more
-
-src/utils/editor.ts: 13 any types
-  Line 6: dropdown?: any;
-  Line 7: calendar?: any;
-  Line 8: color?: any;
-  ... and 10 more
+Found 151 any types across 26 files:
 
 src/utils/meta.ts: 13 any types
   Line 8: export const getMeta = function (this: any, cell: any, key: any) {
@@ -61,6 +49,12 @@ src/utils/helpers.ts: 9 any types
   Line 31: export const invert = function (o: Record<string, any>) {
   Line 120: const arr: any[][] = [];
   ... and 6 more
+
+src/utils/copyPaste.ts: 7 any types
+  Line 311: const arrayB = data.map(function (row: any[], i: number) {
+  Line 340: data.map(function (row: any[]) {
+  Line 341: return row.map(function (item: any) {
+  ... and 4 more
 
 src/utils/headers.ts: 7 any types
   Line 11: export const getHeader = function (this: any, column: any) {
@@ -146,6 +140,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 170
+Total any types found: 151
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

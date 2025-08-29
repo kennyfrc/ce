@@ -1,12 +1,36 @@
-### Snapshot: 2025-08-29T03:11:59Z — src/utils/copyPaste.ts any-fix
+### Snapshot: 2025-08-29T03:23:20Z — src/utils/editor.ts typing
 
-- TypeScript errors (tsconfig.test.json --noEmit): 1313 (saved to .agent/ts-errors-run.txt)
-- Explicit any count (find-any-types): 164 (saved to .agent/any-types-run.txt)
+- TypeScript errors (tsconfig.test.json --noEmit): 1157 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 151 (saved to .agent/any-types-run.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
 
 Learnings:
 
-- Typed copy/paste public methods and nested header parsing; removed several explicit anys in src/utils/copyPaste.ts.
-- any-analyzer: explicit any count decreased by 6; tsc diagnostics increased and will need follow-up in related modules.
+- Typed jsuites controller shapes in src/utils/editor.ts and set `this` to SpreadsheetContext; removed explicit anys from editor.ts.
+- Replaced several `as any` casts and narrowed editor element type; any-analyzer shows a reduction of 13 explicit anys.
+- Next: continue per-file fixes starting with src/utils/meta.ts and src/utils/history.ts.
+
+### Snapshot: 2025-08-29T16:10:00Z — Baseline run (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 774 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 164 (saved to .agent/any-types-report.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-report.txt
+
+Learnings:
+
+- Captured baseline metrics: tsc reports 774 diagnostics; any-analyzer found 164 explicit anys across 27 files.
+- Primary hotspots: events.ts, copyPaste.ts, columns.ts — prioritize alias-and-guard edits and CellValue union narrowing.
+- Next: wire CI to run tsc and any-analyzer and persist artifacts; continue per-file any fixes starting with top offenders.
+
+### Snapshot: 2025-08-29T03:11:59Z — src/utils/copyPaste.ts any-fix
+
+ - TypeScript errors (tsconfig.test.json --noEmit): 1313 (saved to .agent/ts-errors-run.txt)
+ - Explicit any count (find-any-types): 164 (saved to .agent/any-types-run.txt)
+
+ Learnings:
+
+ - Typed copy/paste public methods and nested header parsing; removed several explicit anys in src/utils/copyPaste.ts.
+ - any-analyzer: explicit any count decreased by 6; tsc diagnostics increased and will need follow-up in related modules.
 
 ### Snapshot: 2025-08-29T16:06:00Z — internal.ts typing
 

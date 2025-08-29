@@ -1,13 +1,14 @@
 import jSuites from "jsuites";
 
 import dispatch from "./dispatch";
+import type { SpreadsheetContext, CellValue } from "../types/core";
 
 interface JSuitesElement extends HTMLElement {
-  dropdown?: any;
-  calendar?: any;
-  color?: any;
-  editor?: any;
-  mask?: any;
+  dropdown?: { close?: (force?: boolean) => CellValue | CellValue[] | undefined } & Record<string, unknown>;
+  calendar?: { close?: (force?: boolean) => CellValue | undefined } & Record<string, unknown>;
+  color?: { close?: (force?: boolean) => CellValue | undefined } & Record<string, unknown>;
+  editor?: { getData?: () => string | undefined } & Record<string, unknown>;
+  mask?: { input?: HTMLInputElement | null } & Record<string, unknown>;
 }
 import { getMask, isFormula, updateCell } from "./internal";
 import { setHistory } from "./history";
@@ -19,7 +20,7 @@ import { setHistory } from "./history";
  * @return void
  */
 export const openEditor = function (
-  this: any,
+  this: SpreadsheetContext,
   cell: HTMLElement,
   empty: boolean,
   e: Event
@@ -175,7 +176,7 @@ export const openEditor = function (
           x ? obj.options.columns[xNum] : null
         );
 
-        const options: any = {
+        const options: Record<string, unknown> = {
           data: data,
           multiple: x && obj.options.columns[xNum].multiple ? true : false,
           autocomplete:
@@ -237,7 +238,7 @@ export const openEditor = function (
         }
         options.value = obj.options.data[yNum][xNum];
         options.opened = true;
-        options.onclose = function (el: any, value: any) {
+        options.onclose = function (el?: HTMLElement, value?: unknown) {
           closeEditor.call(obj, cell, true);
         };
         // Current value
@@ -351,7 +352,7 @@ export const openEditor = function (
         const value = empty == true ? "" : obj.options.data[yNum][xNum];
 
         // Basic editor
-        let editor;
+        let editor: HTMLElement;
 
         if (
           (!obj.options.columns ||
@@ -401,9 +402,9 @@ export const openEditor = function (
                 }
               }
               // Input
-              (opt as any).input = editor;
+              (opt as { input?: HTMLElement }).input = editor;
               // Configuration
-              (editor as any).mask = opt;
+              (editor as HTMLElement & { mask?: unknown }).mask = opt;
               // Do not treat the decimals
               jSuites.mask.render(value, opt, false);
             }
@@ -427,7 +428,7 @@ export const openEditor = function (
  * @return void
  */
 export const closeEditor = function (
-  this: any,
+  this: SpreadsheetContext,
   cell: HTMLElement,
   save: boolean
 ) {
@@ -602,7 +603,7 @@ export const closeEditor = function (
 /**
  * Toogle
  */
-export const setCheckRadioValue = function (this: any) {
+export const setCheckRadioValue = function (this: SpreadsheetContext) {
   const obj = this;
 
   const records = [];

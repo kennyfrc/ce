@@ -1,36 +1,6 @@
-Any Types Analysis Report - 2025-08-28T20:58:30.259Z
-Total any types: 174
-Files with any types: 27
-
-src/utils/copyPaste.ts: 13 any types
-  Line 28: this: any,
-  Line 53: let tmp: any = "";
-  Line 96: const colspan = parseInt((tmp[j][i] as any).colspan);
-  Line 97: nested.push((tmp[j][i] as any).title);
-  Line 272: export const paste = function (this: any, x: number, y: number, data: any) {
-  Line 272: export const paste = function (this: any, x: number, y: number, data: any) {
-  Line 308: const arrayB = data.map(function (row: any[], i: number) {
-  Line 337: data.map(function (row: any[]) {
-  Line 338: return row.map(function (item: any) {
-  Line 357: const newStyle: Record<string, any> = {};
-  Line 358: const oldStyle: Record<string, any> = {};
-  Line 368: .filter((x: any) => x.style.display === "none").length;
-  Line 377: .filter((x: any) => x.element.style.display === "none").length;
-
-src/utils/editor.ts: 13 any types
-  Line 6: dropdown?: any;
-  Line 7: calendar?: any;
-  Line 8: color?: any;
-  Line 9: editor?: any;
-  Line 10: mask?: any;
-  Line 22: this: any,
-  Line 178: const options: any = {
-  Line 240: options.onclose = function (el: any, value: any) {
-  Line 240: options.onclose = function (el: any, value: any) {
-  Line 404: (opt as any).input = editor;
-  Line 406: (editor as any).mask = opt;
-  Line 430: this: any,
-  Line 605: export const setCheckRadioValue = function (this: any) {
+Any Types Analysis Report - 2025-08-29T03:23:39.379Z
+Total any types: 151
+Files with any types: 26
 
 src/utils/meta.ts: 13 any types
   Line 8: export const getMeta = function (this: any, cell: any, key: any) {
@@ -100,18 +70,6 @@ src/utils/toolbar.ts: 11 any types
   Line 597: onopen: function (o: any) {
   Line 626: any
 
-src/utils/columns.ts: 10 any types
-  Line 121: mixed?: number | any[],
-  Line 124: properties?: any
-  Line 154: ...(obj.options.data?.map(function (row: any[]) {
-  Line 222: "This action will destroy any existing merged cells. Are you sure?"
-  Line 247: const historyColgroup: any[] = [];
-  Line 248: const historyRecords: any[] = [];
-  Line 249: const historyData: any[] = [];
-  Line 250: const historyFooters: any[][] = [];
-  Line 441: "This action will destroy any existing merged cells. Are you sure?"
-  Line 626: "This action will destroy any existing merged cells. Are you sure?"
-
 src/utils/worksheets.ts: 10 any types
   Line 475: } as any);
   Line 509: const typedPlugin = plugin as any;
@@ -124,6 +82,17 @@ src/utils/worksheets.ts: 10 any types
   Line 750: value: any,
   Line 777: function (this: WorksheetInstance, cell: any) {
 
+src/utils/columns.ts: 9 any types
+  Line 121: mixed?: number | any[],
+  Line 124: properties?: any
+  Line 224: "This action will destroy any existing merged cells. Are you sure?"
+  Line 249: const historyColgroup: any[] = [];
+  Line 250: const historyRecords: any[] = [];
+  Line 251: const historyData: any[] = [];
+  Line 252: const historyFooters: any[][] = [];
+  Line 443: "This action will destroy any existing merged cells. Are you sure?"
+  Line 628: "This action will destroy any existing merged cells. Are you sure?"
+
 src/utils/helpers.ts: 9 any types
   Line 6: export const getCaretIndex = function (this: any, e: HTMLElement) {
   Line 31: export const invert = function (o: Record<string, any>) {
@@ -135,6 +104,15 @@ src/utils/helpers.ts: 9 any types
   Line 282: const classes: Record<string, any> = {};
   Line 402: const pattern: Record<string, any>[] = [];
 
+src/utils/copyPaste.ts: 7 any types
+  Line 311: const arrayB = data.map(function (row: any[], i: number) {
+  Line 340: data.map(function (row: any[]) {
+  Line 341: return row.map(function (item: any) {
+  Line 360: const newStyle: Record<string, any> = {};
+  Line 361: const oldStyle: Record<string, any> = {};
+  Line 371: .filter((x: any) => x.style.display === "none").length;
+  Line 380: .filter((x: any) => x.element.style.display === "none").length;
+
 src/utils/headers.ts: 7 any types
   Line 11: export const getHeader = function (this: any, column: any) {
   Line 11: export const getHeader = function (this: any, column: any) {
@@ -144,20 +122,19 @@ src/utils/headers.ts: 7 any types
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
   Line 41: export const setHeader = function (this: any, column: any, newValue: any) {
 
-src/utils/internal.ts: 6 any types
-  Line 545: const tmp = (jSuites.calendar as any).extractDateFromString(
-  Line 666: this: any,
-  Line 669: value: any,
-  Line 1002: this: any,
-  Line 1005: records: any
-  Line 1577: this: any,
-
 src/utils/comments.ts: 5 any types
   Line 10: this: any,
   Line 46: export const setComments = function (this: any, cellId: any, comments: any) {
   Line 46: export const setComments = function (this: any, cellId: any, comments: any) {
   Line 46: export const setComments = function (this: any, cellId: any, comments: any) {
   Line 57: const oldValue: Record<string, any> = {};
+
+src/utils/data.ts: 5 any types
+  Line 265: const items: any[] = Array.isArray(cell)
+  Line 266: ? (cell as any[])
+  Line 267: : Object.keys(cell).map((k) => (cell as any)[k]);
+  Line 270: const item = items[idx] as any;
+  Line 444: const resultRow: Record<number, any> = {};
 
 src/utils/filter.ts: 5 any types
   Line 8: export const openFilter = function (this: any, columnId: string | number) {
@@ -193,11 +170,6 @@ src/utils/config.ts: 4 any types
   Line 17: this: any,
   Line 18: config: any,
 
-src/utils/data.ts: 3 any types
-  Line 432: const resultRow: Record<number, any> = {};
-  Line 446: this: any,
-  Line 454: const dataset: any[][] = [];
-
 src/utils/merges.ts: 3 any types
   Line 146: alert((jSuites as any).translate("No cells selected"));
   Line 187: alert((jSuites as any).translate(test));
@@ -226,6 +198,9 @@ src/utils/internalHelpers.ts: 2 any types
 
 src/utils/columnHelpers.ts: 1 any types
   Line 66: ): any | undefined {
+
+src/utils/internal.ts: 1 any types
+  Line 545: const tmp = (jSuites.calendar as any).extractDateFromString(
 
 src/utils/selection.ts: 1 any types
   Line 182: origin?: any
