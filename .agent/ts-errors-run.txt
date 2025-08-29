@@ -1207,21 +1207,23 @@ src/utils/toolbar.ts(292,5): error TS2322: Type '(e: string) => string' is not a
   Types of parameters 'e' and 'element' are incompatible.
     Type 'HTMLElement' is not assignable to type 'string'.
 src/utils/toolbar.ts(422,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(566,27): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(566,27): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
-src/utils/toolbar.ts(566,49): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(568,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(570,27): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+src/utils/toolbar.ts(568,27): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(568,27): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
+src/utils/toolbar.ts(568,49): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(572,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(574,27): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
   Types of parameters 'cellName' and 'value' are incompatible.
     Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(587,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(587,29): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
-src/utils/toolbar.ts(587,51): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(589,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(591,29): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+src/utils/toolbar.ts(593,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(593,29): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
+src/utils/toolbar.ts(593,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(595,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(597,29): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
   Types of parameters 'cellName' and 'value' are incompatible.
     Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(648,5): error TS18048: 'worksheet.parent.toolbar.toolbar' is possibly 'undefined'.
+src/utils/toolbar.ts(604,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(608,25): error TS2339: Property 'open' does not exist on type 'never'.
+src/utils/toolbar.ts(658,5): error TS18048: 'worksheet.parent.toolbar.toolbar' is possibly 'undefined'.
 src/utils/worksheets.ts(86,5): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'SpreadsheetContext'.
   No index signature with a parameter of type 'string' was found on type 'SpreadsheetContext'.
 src/utils/worksheets.ts(125,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.

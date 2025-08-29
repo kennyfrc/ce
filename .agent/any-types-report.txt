@@ -1,19 +1,6 @@
-Any Types Analysis Report - 2025-08-29T03:59:07.664Z
-Total any types: 104
-Files with any types: 22
-
-src/utils/toolbar.ts: 11 any types
-  Line 516: onclick: function (a: any, b: any, c: any) {
-  Line 516: onclick: function (a: any, b: any, c: any) {
-  Line 516: onclick: function (a: any, b: any, c: any) {
-  Line 563: items[i].onchange = function (el: any, config: any, value: any) {
-  Line 563: items[i].onchange = function (el: any, config: any, value: any) {
-  Line 563: items[i].onchange = function (el: any, config: any, value: any) {
-  Line 581: items[i].onclick = function (a: any, b: any, c: any) {
-  Line 581: items[i].onclick = function (a: any, b: any, c: any) {
-  Line 581: items[i].onclick = function (a: any, b: any, c: any) {
-  Line 597: onopen: function (o: any) {
-  Line 626: any
+Any Types Analysis Report - 2025-08-29T04:09:55.805Z
+Total any types: 93
+Files with any types: 21
 
 src/utils/worksheets.ts: 10 any types
   Line 475: } as any);
