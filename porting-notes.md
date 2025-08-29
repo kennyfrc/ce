@@ -1,3 +1,18 @@
+### Snapshot: 2025-08-29T23:56:00Z — Test fixes: Started fixing test files for zero errors
+
+- TypeScript errors (tsconfig.test.json --noEmit): 574 (baseline)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Started fixing test files by correcting method signatures and adding guards:
+  - Updated getValue signature to include processedValue?: boolean parameter in core.ts and jspreadsheet.d.ts
+  - Updated insertRow and insertColumn signatures in jspreadsheet.d.ts to match implementation
+  - Fixed test/calculations.ts by adding const sheet = test[0]! and replacing all test[0] usages
+- Learnings:
+  - Test files require guards or assertions for possibly undefined array access (test[0])
+  - Type definitions must match runtime implementations for method signatures
+  - Non-null assertions (!) are acceptable for test code where setup is guaranteed
+  - Systematic fixes across multiple files needed to achieve zero errors
+- Next: Continue fixing remaining test files and src errors to reach zero TypeScript errors
+
 ### Snapshot: 2025-08-29T23:56:00Z — Any elimination: Achieved zero explicit any types (9→0) in history.ts
 
 - TypeScript errors (tsconfig.test.json --noEmit): 574 (slight increase from 568 due to revealed issues)

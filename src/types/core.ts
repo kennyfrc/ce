@@ -135,7 +135,7 @@ export interface SpreadsheetContext {
   deleteRow?: (index: number) => void;
   insertColumn?: (mixed?: number | CellValue[], columnNumber?: number, insertBefore?: boolean, properties?: ColumnDefinition[]) => boolean | void;
   deleteColumn?: (index: number) => void;
-  getValue?: (cell: string) => string | number | boolean | null;
+  getValue?: (cell: string, processedValue?: boolean) => string | number | boolean | null;
   undo?: () => void;
   redo?: () => void;
   download?: (filename?: string, format?: string) => void;

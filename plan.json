@@ -3710,6 +3710,29 @@
       ],
       "createdAt": "2025-08-29T23:56:00Z",
       "updatedAt": "2025-08-29T23:56:00Z"
+    },
+    {
+      "id": "ts-test-fixes-20250829-0001",
+      "name": "Fix test files: method names, undefined guards, type mismatches",
+      "description": "Fix TypeScript errors in test files by correcting method names (getComments->setComments), adding undefined guards, and fixing parameter types",
+      "phase": 4,
+      "state": "in_progress",
+      "candidateFiles": [
+        "test/*.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "tests",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in test files"
+      ],
+      "createdAt": "2025-08-29T23:56:00Z",
+      "updatedAt": "2025-08-29T23:56:00Z",
+      "results": "Fixed test/calculations.ts by adding const sheet = test[0]! and replacing test[0] with sheet; reduced errors but some remain due to type assertion limitations"
     }
   ]
 }

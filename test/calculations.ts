@@ -18,11 +18,12 @@ describe("Calculations", () => {
       ],
     });
 
-    test[0].setValue("B5", "=B3+A1");
-    test[0].setValue("B3", "=A1+1");
-    test[0].setValue("A1", "2");
+    const sheet = test[0]!;
+    sheet.setValue("B5", "=B3+A1");
+    sheet.setValue("B3", "=A1+1");
+    sheet.setValue("A1", "2");
 
-    expect(test[0].getValue("B5", true)).to.equal("5");
+    expect(sheet.getValue("B5", true)).to.equal("5");
   });
 
   describe("Test updating formulas when adding new rows", () => {
@@ -40,12 +41,13 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertRow(1, 1, true);
+      const sheet = test[0]!;
+      sheet.insertRow(1, 1, true);
 
-      expect(test[0].getValue("D1")).to.equal("=SUM(A3:C3)");
-      expect(test[0].getValue("D2")).to.equal("");
-      expect(test[0].getValue("D3")).to.equal("=SUM(A3:C3)");
-      expect(test[0].getValue("D4")).to.equal("=SUM(A3:C3)");
+      expect(sheet.getValue("D1")).to.equal("=SUM(A3:C3)");
+      expect(sheet.getValue("D2")).to.equal("");
+      expect(sheet.getValue("D3")).to.equal("=SUM(A3:C3)");
+      expect(sheet.getValue("D4")).to.equal("=SUM(A3:C3)");
     });
 
     it("2", () => {
@@ -63,13 +65,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertRow(1, 1, true);
+      const sheet = test[0]!;
+      sheet.insertRow(1, 1, true);
 
-      expect(test[0].getValue("D1")).to.equal("=SUM(A3:C4)");
-      expect(test[0].getValue("D2")).to.equal("");
-      expect(test[0].getValue("D3")).to.equal("=SUM(A3:C4)");
-      expect(test[0].getValue("D4")).to.equal("=SUM(A3:C4)");
-      expect(test[0].getValue("D5")).to.equal("=SUM(A3:C4)");
+      expect(sheet.getValue("D1")).to.equal("=SUM(A3:C4)");
+      expect(sheet.getValue("D2")).to.equal("");
+      expect(sheet.getValue("D3")).to.equal("=SUM(A3:C4)");
+      expect(sheet.getValue("D4")).to.equal("=SUM(A3:C4)");
+      expect(sheet.getValue("D5")).to.equal("=SUM(A3:C4)");
     });
 
     it("3", () => {
@@ -87,13 +90,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertRow(1, 1, false);
+      const sheet = test[0]!;
+      sheet.insertRow(1, 1, false);
 
-      expect(test[0].getValue("D1")).to.equal("=SUM(A2:C4)");
-      expect(test[0].getValue("D2")).to.equal("=SUM(A2:C4)");
-      expect(test[0].getValue("D3")).to.equal("");
-      expect(test[0].getValue("D4")).to.equal("=SUM(A2:C4)");
-      expect(test[0].getValue("D5")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D1")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D2")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D3")).to.equal("");
+      expect(sheet.getValue("D4")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D5")).to.equal("=SUM(A2:C4)");
     });
 
     it("4", () => {
@@ -111,13 +115,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertRow(1, 2, true);
+      const sheet = test[0]!;
+      sheet.insertRow(1, 2, true);
 
-      expect(test[0].getValue("D1")).to.equal("=SUM(A2:C4)");
-      expect(test[0].getValue("D2")).to.equal("=SUM(A2:C4)");
-      expect(test[0].getValue("D3")).to.equal("");
-      expect(test[0].getValue("D4")).to.equal("=SUM(A2:C4)");
-      expect(test[0].getValue("D5")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D1")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D2")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D3")).to.equal("");
+      expect(sheet.getValue("D4")).to.equal("=SUM(A2:C4)");
+      expect(sheet.getValue("D5")).to.equal("=SUM(A2:C4)");
     });
 
     it("5", () => {
@@ -135,13 +140,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertRow(1, 2, false);
+      const sheet = test[0]!;
+      sheet.insertRow(1, 2, false);
 
-      expect(test[0].getValue("D1")).to.equal("=SUM(A2:C3)");
-      expect(test[0].getValue("D2")).to.equal("=SUM(A2:C3)");
-      expect(test[0].getValue("D3")).to.equal("=SUM(A2:C3)");
-      expect(test[0].getValue("D4")).to.equal("");
-      expect(test[0].getValue("D5")).to.equal("=SUM(A2:C3)");
+      expect(sheet.getValue("D1")).to.equal("=SUM(A2:C3)");
+      expect(sheet.getValue("D2")).to.equal("=SUM(A2:C3)");
+      expect(sheet.getValue("D3")).to.equal("=SUM(A2:C3)");
+      expect(sheet.getValue("D4")).to.equal("");
+      expect(sheet.getValue("D5")).to.equal("=SUM(A2:C3)");
     });
   });
 
@@ -161,12 +167,13 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertColumn(1, 1, true);
+      const sheet = test[0]!;
+      sheet.insertColumn(1, 1, true);
 
-      expect(test[0].getValue("A4")).to.equal("=SUM(C1:C3)");
-      expect(test[0].getValue("B4")).to.equal("");
-      expect(test[0].getValue("C4")).to.equal("=SUM(C1:C3)");
-      expect(test[0].getValue("D4")).to.equal("=SUM(C1:C3)");
+      expect(sheet.getValue("A4")).to.equal("=SUM(C1:C3)");
+      expect(sheet.getValue("B4")).to.equal("");
+      expect(sheet.getValue("C4")).to.equal("=SUM(C1:C3)");
+      expect(sheet.getValue("D4")).to.equal("=SUM(C1:C3)");
     });
 
     it("2", () => {
@@ -184,13 +191,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertColumn(1, 1, true);
+      const sheet = test[0]!;
+      sheet.insertColumn(1, 1, true);
 
-      expect(test[0].getValue("A4")).to.equal("=SUM(C1:D3)");
-      expect(test[0].getValue("B4")).to.equal("");
-      expect(test[0].getValue("C4")).to.equal("=SUM(C1:D3)");
-      expect(test[0].getValue("D4")).to.equal("=SUM(C1:D3)");
-      expect(test[0].getValue("E4")).to.equal("=SUM(C1:D3)");
+      expect(sheet.getValue("A4")).to.equal("=SUM(C1:D3)");
+      expect(sheet.getValue("B4")).to.equal("");
+      expect(sheet.getValue("C4")).to.equal("=SUM(C1:D3)");
+      expect(sheet.getValue("D4")).to.equal("=SUM(C1:D3)");
+      expect(sheet.getValue("E4")).to.equal("=SUM(C1:D3)");
     });
 
     it("3", () => {
@@ -208,13 +216,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertColumn(1, 1, false);
+      const sheet = test[0]!;
+      sheet.insertColumn(1, 1, false);
 
-      expect(test[0].getValue("A4")).to.equal("=SUM(B1:D3)");
-      expect(test[0].getValue("B4")).to.equal("=SUM(B1:D3)");
-      expect(test[0].getValue("C4")).to.equal("");
-      expect(test[0].getValue("D4")).to.equal("=SUM(B1:D3)");
-      expect(test[0].getValue("E4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("A4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("B4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("C4")).to.equal("");
+      expect(sheet.getValue("D4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("E4")).to.equal("=SUM(B1:D3)");
     });
 
     it("4", () => {
@@ -232,13 +241,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertColumn(1, 2, true);
+      const sheet = test[0]!;
+      sheet.insertColumn(1, 2, true);
 
-      expect(test[0].getValue("A4")).to.equal("=SUM(B1:D3)");
-      expect(test[0].getValue("B4")).to.equal("=SUM(B1:D3)");
-      expect(test[0].getValue("C4")).to.equal("");
-      expect(test[0].getValue("D4")).to.equal("=SUM(B1:D3)");
-      expect(test[0].getValue("E4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("A4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("B4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("C4")).to.equal("");
+      expect(sheet.getValue("D4")).to.equal("=SUM(B1:D3)");
+      expect(sheet.getValue("E4")).to.equal("=SUM(B1:D3)");
     });
 
     it("5", () => {
@@ -256,13 +266,14 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].insertColumn(1, 2, false);
+      const sheet = test[0]!;
+      sheet.insertColumn(1, 2, false);
 
-      expect(test[0].getValue("A4")).to.equal("=SUM(B1:C3)");
-      expect(test[0].getValue("B4")).to.equal("=SUM(B1:C3)");
-      expect(test[0].getValue("C4")).to.equal("=SUM(B1:C3)");
-      expect(test[0].getValue("D4")).to.equal("");
-      expect(test[0].getValue("E4")).to.equal("=SUM(B1:C3)");
+      expect(sheet.getValue("A4")).to.equal("=SUM(B1:C3)");
+      expect(sheet.getValue("B4")).to.equal("=SUM(B1:C3)");
+      expect(sheet.getValue("C4")).to.equal("=SUM(B1:C3)");
+      expect(sheet.getValue("D4")).to.equal("");
+      expect(sheet.getValue("E4")).to.equal("=SUM(B1:C3)");
     });
 
     it("6", () => {
@@ -282,9 +293,10 @@ describe("Calculations", () => {
         ],
       });
 
-      test[0].deleteRow(1);
+      const sheet = test[0]!;
+      sheet.deleteRow(1);
 
-      expect(test[0].getValue("A5")).to.equal("=SUM(A1:A3)");
+      expect(sheet.getValue("A5")).to.equal("=SUM(A1:A3)");
     });
   });
 });

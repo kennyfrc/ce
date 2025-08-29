@@ -56,11 +56,11 @@ declare namespace jspreadsheet {
     rows: Row[];
     element: HTMLElement;
     config: Record<string, unknown>;
-    insertRow: (count: number) => void;
+    insertRow: (mixed: number | (string | number | boolean | null)[], rowNumber?: number, insertBefore?: boolean) => boolean;
     deleteRow: (index: number) => void;
-    insertColumn: (count: number) => void;
+    insertColumn: (mixed?: number | (string | number | boolean | null)[], columnNumber?: number, insertBefore?: boolean, properties?: ColumnDefinition[]) => boolean | void;
     deleteColumn: (index: number) => void;
-    getValue: (cell: string) => string | number | boolean | null;
+    getValue: (cell: string, processedValue?: boolean) => string | number | boolean | null;
     setValue: (cell: string, value: string | number | boolean | null) => void;
     undo: () => void;
     redo: () => void;

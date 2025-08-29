@@ -1,12 +1,18 @@
+src/utils/columns.ts(415,7): error TS2322: Type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
+  Type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }': element, x, y
+src/utils/columns.ts(760,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[][]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }': element, x, y
+src/utils/copyPaste.ts(492,14): error TS2322: Type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
+  Type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }': element, x, y
 src/utils/copyPaste.ts(492,23): error TS2352: Conversion of type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
   Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not comparable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
     Type '{ x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]': length, pop, push, concat, and 28 more.
-src/utils/data.ts(328,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]'.
-  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
-    Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]': length, pop, push, concat, and 28 more.
-src/utils/data.ts(374,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]'.
-  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
-    Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]': length, pop, push, concat, and 28 more.
+src/utils/data.ts(328,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
+  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
+    Property 'element' is missing in type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' but required in type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
+src/utils/data.ts(374,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
+  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
+    Property 'element' is missing in type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' but required in type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
 src/utils/editor.ts(393,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
 src/utils/editor.ts(503,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/editor.ts(509,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
@@ -32,9 +38,9 @@ src/utils/editor.ts(639,29): error TS2538: Type 'null' cannot be used as an inde
 src/utils/editor.ts(639,48): error TS2538: Type 'null' cannot be used as an index type.
 src/utils/editor.ts(641,41): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
   Type 'null' is not assignable to type 'number'.
-src/utils/editor.ts(649,7): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]'.
-  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
-    Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]': length, pop, push, concat, and 28 more.
+src/utils/editor.ts(649,7): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
+  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
+    Property 'element' is missing in type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' but required in type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
 src/utils/events.ts(1784,41): error TS2352: Conversion of type 'KeyboardEvent' to type 'ClipboardEvent' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
   Property 'clipboardData' is missing in type 'KeyboardEvent' but required in type 'ClipboardEvent'.
 src/utils/factory.ts(89,25): error TS2554: Expected 2 arguments, but got 1.
@@ -118,128 +124,26 @@ src/utils/helpers.ts(446,9): error TS2322: Type 'never[]' is not assignable to t
   Index signature for type 'string' is missing in type 'never[]'.
 src/utils/helpers.ts(448,25): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
   No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/history.ts(185,11): error TS2721: Cannot invoke an object which is possibly 'null'.
-src/utils/history.ts(185,31): error TS2349: This expression is not callable.
-  Not all constituents of type 'string | number | boolean | { (start: number, deleteCount?: number | undefined): CellValue[]; (start: number, deleteCount: number, ...items: CellValue[]): CellValue[]; }' are callable.
-    Type 'string' has no call signatures.
-src/utils/history.ts(227,11): error TS2322: Type 'unknown[]' is not assignable to type 'CellValue[] | Record<string, CellValue>'.
-  Type 'unknown[]' is not assignable to type 'CellValue[]'.
-    Type 'unknown' is not assignable to type 'CellValue'.
-src/utils/history.ts(228,13): error TS2345: Argument of type 'CellValue[] | Record<string, CellValue>' is not assignable to parameter of type 'unknown[]'.
-  Type 'Record<string, CellValue>' is missing the following properties from type 'unknown[]': length, pop, push, concat, and 28 more.
-src/utils/history.ts(234,11): error TS2322: Type 'unknown[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]'.
-  Type 'unknown' is not assignable to type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
-src/utils/history.ts(260,11): error TS2322: Type 'unknown[]' is not assignable to type 'string[]'.
-  Type 'unknown' is not assignable to type 'string'.
-src/utils/history.ts(263,13): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
-  No index signature with a parameter of type 'number' was found on type '{}'.
-src/utils/history.ts(293,13): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
-  Type 'undefined' is not assignable to type 'string'.
-src/utils/history.ts(296,26): error TS18048: 'historyRecord.numOfColumns' is possibly 'undefined'.
-src/utils/history.ts(301,13): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
-  Type 'undefined' is not assignable to type 'string'.
-src/utils/history.ts(304,48): error TS18048: 'historyRecord.numOfColumns' is possibly 'undefined'.
-src/utils/history.ts(307,33): error TS2304: Cannot find name 'j'.
-src/utils/history.ts(308,35): error TS2304: Cannot find name 'j'.
-src/utils/history.ts(309,19): error TS2304: Cannot find name 'colspan'.
-src/utils/history.ts(310,27): error TS2304: Cannot find name 'j'.
-src/utils/history.ts(311,28): error TS2304: Cannot find name 'j'.
-src/utils/history.ts(312,34): error TS2304: Cannot find name 'colspan'.
-src/utils/history.ts(353,21): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(355,24): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(357,47): error TS2554: Expected 1 arguments, but got 2.
-src/utils/history.ts(359,22): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string | Record<string, string | string[]>'.
-src/utils/history.ts(361,22): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string | number'.
-src/utils/history.ts(363,23): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(365,23): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(367,25): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string | Record<string, string>'.
-src/utils/history.ts(370,27): error TS18046: 'historyRecord.rows' is of type 'unknown'.
-src/utils/history.ts(371,14): error TS18046: 'historyRecord.rows' is of type 'unknown'.
-src/utils/history.ts(375,9): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(381,27): error TS18046: 'historyRecord.records' is of type 'unknown'.
-src/utils/history.ts(383,14): error TS18046: 'historyRecord.records' is of type 'unknown'.
-src/utils/history.ts(384,14): error TS18046: 'historyRecord.records' is of type 'unknown'.
-src/utils/history.ts(385,18): error TS18046: 'historyRecord.records' is of type 'unknown'.
-src/utils/history.ts(389,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/history.ts(389,26): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string | number[]'.
-src/utils/history.ts(393,11): error TS2554: Expected 2-3 arguments, but got 1.
-src/utils/history.ts(398,11): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type '{}'.
-  Property '0' does not exist on type '{}'.
-src/utils/history.ts(399,11): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type '{}'.
-  Property '1' does not exist on type '{}'.
-src/utils/history.ts(400,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type '{}'.
-  Property '2' does not exist on type '{}'.
-src/utils/history.ts(401,11): error TS7053: Element implicitly has an 'any' type because expression of type '3' can't be used to index type '{}'.
-  Property '3' does not exist on type '{}'.
-src/utils/history.ts(449,21): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(451,24): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(455,9): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string | undefined'.
-src/utils/history.ts(461,22): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string | Record<string, string | string[]>'.
-src/utils/history.ts(463,22): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string | number'.
-src/utils/history.ts(465,23): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(467,23): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(469,25): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string | Record<string, string>'.
-src/utils/history.ts(471,34): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number'.
-src/utils/history.ts(472,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'number[]'.
-src/utils/history.ts(474,11): error TS2554: Expected 2-3 arguments, but got 1.
-src/utils/history.ts(476,27): error TS18046: 'historyRecord.records' is of type 'unknown'.
-src/utils/history.ts(478,28): error TS18046: 'historyRecord.records' is of type 'unknown'.
-src/utils/history.ts(484,11): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type '{}'.
-  Property '0' does not exist on type '{}'.
-src/utils/history.ts(485,11): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type '{}'.
-  Property '1' does not exist on type '{}'.
-src/utils/history.ts(486,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type '{}'.
-  Property '2' does not exist on type '{}'.
-src/utils/history.ts(487,11): error TS7053: Element implicitly has an 'any' type because expression of type '3' can't be used to index type '{}'.
-  Property '3' does not exist on type '{}'.
-src/utils/internal.ts(1064,97): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+src/utils/history.ts(399,30): error TS2345: Argument of type 'Record<string, unknown>' is not assignable to parameter of type 'string | number[]'.
+  Type 'Record<string, unknown>' is missing the following properties from type 'number[]': length, pop, push, concat, and 28 more.
+src/utils/history.ts(404,11): error TS2554: Expected 2-3 arguments, but got 1.
+src/utils/history.ts(485,11): error TS2554: Expected 2-3 arguments, but got 1.
+src/utils/history.ts(490,30): error TS2345: Argument of type 'Record<string, unknown>' is not assignable to parameter of type 'string | number[]'.
+  Type 'Record<string, unknown>' is missing the following properties from type 'number[]': length, pop, push, concat, and 28 more.
+src/utils/internal.ts(1064,141): error TS2365: Operator '<' cannot be applied to types 'number' and 'string | number | boolean'.
+src/utils/internal.ts(1064,151): error TS2531: Object is possibly 'null'.
+src/utils/internal.ts(1064,187): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
   No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(1156,28): error TS2769: No overload matches this call.
-  Overload 1 of 2, '(o: {}): string[]', gave the following error.
-    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type '{}'.
-      Type 'undefined' is not assignable to type '{}'.
-  Overload 2 of 2, '(o: object): string[]', gave the following error.
-    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type 'object'.
-      Type 'undefined' is not assignable to type 'object'.
-src/utils/internal.ts(1160,19): error TS18048: 'obj.formula' is possibly 'undefined'.
-src/utils/internal.ts(1193,9): error TS2367: This comparison appears to be unintentional because the types 'string | null' and 'number' have no overlap.
-src/utils/internal.ts(1195,45): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/internal.ts(1208,11): error TS2367: This comparison appears to be unintentional because the types 'string | null' and 'number' have no overlap.
-src/utils/internal.ts(1210,52): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/internal.ts(1211,64): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/internal.ts(1213,9): error TS2322: Type 'number' is not assignable to type 'string'.
-src/utils/internal.ts(1225,56): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/internal.ts(1228,56): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/internal.ts(1248,53): error TS2322: Type 'string | null' is not assignable to type 'string | number'.
-  Type 'null' is not assignable to type 'string | number'.
-src/utils/internal.ts(1248,56): error TS2322: Type 'string | null' is not assignable to type 'string | number'.
-  Type 'null' is not assignable to type 'string | number'.
-src/utils/internal.ts(1254,34): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/internal.ts(1254,34): error TS18047: 'x' is possibly 'null'.
-src/utils/internal.ts(1255,34): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/internal.ts(1255,34): error TS18047: 'y' is possibly 'null'.
-src/utils/internal.ts(1260,26): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
-  Type 'null' is not assignable to type 'number'.
-src/utils/internal.ts(1271,26): error TS2367: This comparison appears to be unintentional because the types '[string, number, number]' and 'boolean' have no overlap.
-src/utils/internal.ts(1276,11): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'number'.
+src/utils/internal.ts(1485,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
   Type 'string' is not assignable to type 'number'.
-src/utils/internal.ts(1278,11): error TS2365: Operator '+' cannot be applied to types 'string | number' and 'number'.
-src/utils/internal.ts(1279,11): error TS2365: Operator '+' cannot be applied to types 'string | number' and 'number'.
-src/utils/internal.ts(1286,79): error TS2367: This comparison appears to be unintentional because the types '[number, number, HTMLElement[]]' and 'boolean' have no overlap.
-src/utils/internal.ts(1422,40): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
-src/utils/internal.ts(1423,5): error TS2322: Type 'number | true' is not assignable to type 'number'.
-  Type 'boolean' is not assignable to type 'number'.
-src/utils/internal.ts(1451,33): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
-src/utils/internal.ts(1478,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
+src/utils/internal.ts(1488,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/internal.ts(1525,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
   Type 'string' is not assignable to type 'number'.
-src/utils/internal.ts(1481,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/internal.ts(1518,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
-  Type 'string' is not assignable to type 'number'.
-src/utils/internal.ts(1521,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/internal.ts(1576,22): error TS2304: Cannot find name 'NestedHeader'.
-src/utils/internal.ts(1587,21): error TS2339: Property 'element' does not exist on type 'NestedHeader[]'.
-src/utils/internal.ts(1610,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/internal.ts(1611,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/internal.ts(1528,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/internal.ts(1583,22): error TS2304: Cannot find name 'NestedHeader'.
+src/utils/internal.ts(1594,21): error TS2339: Property 'element' does not exist on type 'NestedHeader[]'.
+src/utils/internal.ts(1617,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/internal.ts(1618,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
 src/utils/lazyLoading.ts(46,38): error TS2538: Type 'Row' cannot be used as an index type.
 src/utils/lazyLoading.ts(52,29): error TS2345: Argument of type 'ChildNode | null' is not assignable to parameter of type 'Node'.
   Type 'null' is not assignable to type 'Node'.
@@ -261,33 +165,19 @@ src/utils/lazyLoading.ts(159,30): error TS2345: Argument of type 'number' is not
 src/utils/lazyLoading.ts(168,44): error TS2538: Type 'Row' cannot be used as an index type.
 src/utils/lazyLoading.ts(173,35): error TS2345: Argument of type 'ChildNode | null' is not assignable to parameter of type 'Node'.
   Type 'null' is not assignable to type 'Node'.
-src/utils/orderBy.ts(47,5): error TS2322: Type '(CellValue[] | Record<string, CellValue>)[]' is not assignable to type 'CellValue[][] | Record<string, CellValue>[] | undefined'.
-  Type '(CellValue[] | Record<string, CellValue>)[]' is not assignable to type 'CellValue[][]'.
-    Type 'CellValue[] | Record<string, CellValue>' is not assignable to type 'CellValue[]'.
-      Type 'Record<string, CellValue>' is missing the following properties from type 'CellValue[]': length, pop, push, concat, and 28 more.
-src/utils/orderBy.ts(72,9): error TS18048: 'obj.searchInput' is possibly 'undefined'.
-src/utils/orderBy.ts(73,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/orderBy.ts(73,18): error TS18048: 'obj.searchInput' is possibly 'undefined'.
-src/utils/orderBy.ts(82,9): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/orderBy.ts(82,9): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
-src/utils/orderBy.ts(83,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/orderBy.ts(116,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/orderBy.ts(137,8): error TS2367: This comparison appears to be unintentional because the types '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"number"' have no overlap.
-src/utils/orderBy.ts(139,9): error TS2367: This comparison appears to be unintentional because the types '"text" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"percentage"' have no overlap.
-src/utils/orderBy.ts(140,9): error TS2367: This comparison appears to be unintentional because the types '"text" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"autonumber"' have no overlap.
-src/utils/orderBy.ts(146,34): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+src/utils/orderBy.ts(143,34): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
   No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/orderBy.ts(160,27): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+src/utils/orderBy.ts(157,27): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
   No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/orderBy.ts(187,17): error TS18047: 'valueA' is possibly 'null'.
-src/utils/orderBy.ts(187,26): error TS18047: 'valueB' is possibly 'null'.
-src/utils/orderBy.ts(189,17): error TS18047: 'valueA' is possibly 'null'.
-src/utils/orderBy.ts(189,26): error TS18047: 'valueB' is possibly 'null'.
-src/utils/orderBy.ts(197,17): error TS18047: 'valueA' is possibly 'null'.
-src/utils/orderBy.ts(197,26): error TS18047: 'valueB' is possibly 'null'.
-src/utils/orderBy.ts(199,17): error TS18047: 'valueA' is possibly 'null'.
-src/utils/orderBy.ts(199,26): error TS18047: 'valueB' is possibly 'null'.
-src/utils/orderBy.ts(207,22): error TS18046: 'obj.parent.config.sorting' is of type 'unknown'.
+src/utils/orderBy.ts(184,17): error TS18047: 'valueA' is possibly 'null'.
+src/utils/orderBy.ts(184,26): error TS18047: 'valueB' is possibly 'null'.
+src/utils/orderBy.ts(186,17): error TS18047: 'valueA' is possibly 'null'.
+src/utils/orderBy.ts(186,26): error TS18047: 'valueB' is possibly 'null'.
+src/utils/orderBy.ts(194,17): error TS18047: 'valueA' is possibly 'null'.
+src/utils/orderBy.ts(194,26): error TS18047: 'valueB' is possibly 'null'.
+src/utils/orderBy.ts(196,17): error TS18047: 'valueA' is possibly 'null'.
+src/utils/orderBy.ts(196,26): error TS18047: 'valueB' is possibly 'null'.
+src/utils/orderBy.ts(204,22): error TS18046: 'obj.parent.config.sorting' is of type 'unknown'.
 src/utils/pagination.ts(49,3): error TS18048: 'obj.pagination' is possibly 'undefined'.
 src/utils/pagination.ts(50,3): error TS18048: 'obj.pagination' is possibly 'undefined'.
 src/utils/pagination.ts(67,7): error TS18048: 'obj.pagination' is possibly 'undefined'.
@@ -301,53 +191,33 @@ src/utils/pagination.ts(104,9): error TS18048: 'obj.pagination' is possibly 'und
 src/utils/pagination.ts(117,9): error TS18048: 'obj.pagination' is possibly 'undefined'.
 src/utils/pagination.ts(128,7): error TS18048: 'obj.pagination' is possibly 'undefined'.
 src/utils/pagination.ts(130,10): error TS18048: 'obj.pageNumber' is possibly 'undefined'.
-src/utils/rows.ts(327,7): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[][]' is not assignable to type 'CellValue[][]'.
+src/utils/rows.ts(485,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(492,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(501,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(512,36): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(513,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(533,20): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(556,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(601,13): error TS2531: Object is possibly 'null'.
+src/utils/rows.ts(607,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(622,11): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/rows.ts(622,11): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
+src/utils/rows.ts(625,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(625,20): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/rows.ts(641,11): error TS2322: Type 'number' is not assignable to type 'boolean | undefined'.
+src/utils/rows.ts(642,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[][]' is not assignable to type 'CellValue[][]'.
   Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'CellValue[]'.
     Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'CellValue'.
-src/utils/rows.ts(369,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean | undefined'.
-src/utils/rows.ts(380,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/rows.ts(426,35): error TS2769: No overload matches this call.
-  Overload 1 of 3, '(start: number, deleteCount: number, ...items: Record<string, CellValue>[]): CellValue[][] | Record<string, CellValue>[]', gave the following error.
-    Argument of type 'CellValue[] | Record<string, CellValue>' is not assignable to parameter of type 'Record<string, CellValue>'.
-      Type 'CellValue[]' is not assignable to type 'Record<string, CellValue>'.
-        Index signature for type 'string' is missing in type 'CellValue[]'.
-  Overload 2 of 3, '(start: number, deleteCount: number, ...items: CellValue[][]): CellValue[][] | Record<string, CellValue>[]', gave the following error.
-    Argument of type 'CellValue[] | Record<string, CellValue>' is not assignable to parameter of type 'CellValue[]'.
-      Type 'Record<string, CellValue>' is missing the following properties from type 'CellValue[]': length, pop, push, concat, and 28 more.
-src/utils/rows.ts(444,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/rows.ts(444,5): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
-src/utils/rows.ts(447,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/rows.ts(447,14): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
-  Type 'undefined' is not assignable to type 'number'.
-src/utils/rows.ts(461,49): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/rows.ts(461,62): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/rows.ts(482,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(489,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(498,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(509,36): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(510,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(530,20): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/rows.ts(553,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/rows.ts(598,13): error TS2531: Object is possibly 'null'.
-src/utils/rows.ts(604,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(619,11): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/rows.ts(619,11): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
-src/utils/rows.ts(622,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/rows.ts(622,20): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
-  Type 'undefined' is not assignable to type 'number'.
-src/utils/rows.ts(638,11): error TS2322: Type 'number' is not assignable to type 'boolean | undefined'.
-src/utils/rows.ts(639,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[][]' is not assignable to type 'CellValue[][]'.
-  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'CellValue[]'.
-    Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'CellValue'.
-src/utils/rows.ts(640,11): error TS2322: Type 'CellValue[][] | Record<string, CellValue>[]' is not assignable to type 'CellValue[][] | undefined'.
+src/utils/rows.ts(643,11): error TS2322: Type 'CellValue[][] | Record<string, CellValue>[]' is not assignable to type 'CellValue[][] | undefined'.
   Type 'Record<string, CellValue>[]' is not assignable to type 'CellValue[][]'.
     Type 'Record<string, CellValue>' is missing the following properties from type 'CellValue[]': length, pop, push, concat, and 28 more.
-src/utils/rows.ts(692,3): error TS2322: Type 'string | string[]' is not assignable to type 'number | number[]'.
+src/utils/rows.ts(695,3): error TS2322: Type 'string | string[]' is not assignable to type 'number | number[]'.
   Type 'string' is not assignable to type 'number | number[]'.
-src/utils/rows.ts(713,7): error TS2322: Type 'string | null' is not assignable to type 'number | undefined'.
+src/utils/rows.ts(716,7): error TS2322: Type 'string | null' is not assignable to type 'number | undefined'.
   Type 'null' is not assignable to type 'number | undefined'.
-src/utils/rows.ts(722,23): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/rows.ts(824,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(725,23): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(827,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/search.ts(19,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/search.ts(26,9): error TS18048: 'obj.searchInput' is possibly 'undefined'.
 src/utils/search.ts(27,7): error TS18048: 'obj.searchInput' is possibly 'undefined'.
@@ -363,9 +233,9 @@ src/utils/search.ts(63,33): error TS7053: Element implicitly has an 'any' type b
   Property '1' does not exist on type 'false | [number, number, HTMLElement[]]'.
 src/utils/search.ts(86,3): error TS18048: 'obj.searchInput' is possibly 'undefined'.
 src/utils/search.ts(87,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(714,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]'.
-  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
-    Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]': length, pop, push, concat, and 28 more.
+src/utils/selection.ts(714,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
+  Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
+    Property 'element' is missing in type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' but required in type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }'.
 src/utils/toolbar.ts(621,29): error TS2339: Property 'open' does not exist on type 'never'.
 src/utils/toolbar.ts(622,26): error TS2339: Property 'open' does not exist on type 'never'.
 src/utils/worksheets.ts(93,6): error TS2352: Conversion of type 'SpreadsheetContext' to type 'Record<string, unknown>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
