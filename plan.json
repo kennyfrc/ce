@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-30T02:25:00Z"
+    "updatedAt": "2025-08-30T02:30:00Z"
   },
   "tasks": [
     {
@@ -4052,7 +4052,7 @@
       "name": "Fix rows.ts optional method calls and type mismatches",
       "description": "Add guards for optional method invocations, fix parameter types and return value assignments",
       "phase": 3,
-      "state": "pending",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/rows.ts"
       ],

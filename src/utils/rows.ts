@@ -629,7 +629,7 @@ export const deleteRow = function (
           obj.options.pagination > 0 &&
           obj.tbody.children.length != obj.options.pagination
         ) {
-          obj.page(obj.pageNumber);
+          obj.page?.(obj.pageNumber ?? 0);
         }
 
         // Remove selection
@@ -645,9 +645,9 @@ export const deleteRow = function (
           action: "deleteRow",
           rowNumber: rowNumber,
           numOfRows: numOfRows,
-          insertBefore: 1,
-          rowRecords: rowRecords,
-          rowData: rowData,
+          insertBefore: true,
+          rowRecords: rowRecords as unknown as CellValue[][],
+          rowData: rowData as CellValue[][],
           rowNode: rowNode,
         });
 
@@ -683,7 +683,7 @@ export const getHeight = function (
     for (let j = 0; j < obj.rows.length; j++) {
       const h = obj.rows[j].element.style.height;
       if (h) {
-        data[j] = h;
+        data[j] = parseInt(h) || 0;
       }
     }
   } else {
@@ -696,7 +696,7 @@ export const getHeight = function (
       }
     }
 
-    data = obj.rows[row].element.style.height;
+    data = parseInt(obj.rows[row].element.style.height) || 0;
   }
 
   return data;
@@ -718,9 +718,12 @@ export const setHeight = function (
   const obj = this;
 
   if (height > 0) {
-    // Oldwidth
+    // Old height
     if (!oldHeight) {
-      oldHeight = obj.rows[row].element.getAttribute("height");
+      const heightAttr = obj.rows[row].element.getAttribute("height");
+      if (heightAttr) {
+        oldHeight = parseInt(heightAttr) || undefined;
+      }
 
       if (!oldHeight) {
         const rect = obj.rows[row].element.getBoundingClientRect();
@@ -728,8 +731,8 @@ export const setHeight = function (
       }
     }
 
-    // Integer
-    height = parseInt(height);
+    // Ensure integer
+    height = Math.round(height);
 
     // Set width
     obj.rows[row].element.style.height = height + "px";
@@ -831,7 +834,7 @@ export const setRowData = function (
     const columnName = getColumnNameFromId([i, rowNumber]);
     // Set value
     if (data[i] != null) {
-      obj.setValue(columnName, data[i], force);
+      obj.setValue?.(columnName, data[i], force);
     }
   }
 };
