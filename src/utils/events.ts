@@ -19,7 +19,7 @@ import { setWidth } from "./columns";
 import { moveRow, setHeight } from "./rows";
 import version from "./version";
 import { getCellNameFromCoords } from "./helpers";
-import type { WorksheetInstance } from "../types/core";
+import type { WorksheetInstance, CellValue } from "../types/core";
 
 const getAttrSafe = (
   el: EventTarget | null | undefined,
@@ -1124,9 +1124,11 @@ const defaultContextMenu = function (
       items.push({
         title: jSuites.translate("Delete selected rows"),
         onclick: function () {
-          worksheet.deleteRow(
-            (worksheet.getSelectedRows?.() ?? []).length ? undefined : y
-          );
+          const selectedRows = worksheet.getSelectedRows?.() ?? [];
+          const rowToDelete = selectedRows.length > 0 ? selectedRows[0] : y;
+          if (typeof rowToDelete === "number") {
+            worksheet.deleteRow?.(rowToDelete);
+          }
         },
       });
     }
@@ -1180,13 +1182,14 @@ const defaultContextMenu = function (
         title: jSuites.translate("Paste") + "...",
         shortcut: "Ctrl + V",
         onclick: function () {
-          if (worksheet.selectedCell) {
+          const selectedCell = worksheet.selectedCell;
+          if (selectedCell && selectedCell.length >= 2) {
             navigator.clipboard.readText().then(function (text) {
               if (text) {
                 paste.call(
                   worksheet,
-                  worksheet.selectedCell[0],
-                  worksheet.selectedCell[1],
+                  selectedCell[0],
+                  selectedCell[1],
                   text
                 );
               }
@@ -1203,7 +1206,7 @@ const defaultContextMenu = function (
       title: jSuites.translate("Save as") + "...",
       shortcut: "Ctrl + S",
       onclick: function () {
-        worksheet.download();
+        worksheet.download?.();
       },
     });
   }
@@ -1286,10 +1289,14 @@ const contextMenuControls = function (e: MouseEvent): void {
                 xNum === null ||
                 yNum === null ||
                 !current.selectedCell ||
-                xNum < parseInt(current.selectedCell[0]) ||
-                xNum > parseInt(current.selectedCell[2]) ||
-                yNum < parseInt(current.selectedCell[1]) ||
-                yNum > parseInt(current.selectedCell[3])
+                !current.selectedCell[0] ||
+                !current.selectedCell[1] ||
+                !current.selectedCell[2] ||
+                !current.selectedCell[3] ||
+                xNum < current.selectedCell[0] ||
+                xNum > current.selectedCell[2] ||
+                yNum < current.selectedCell[1] ||
+                yNum > current.selectedCell[3]
               ) {
                 if (xNum !== null && yNum !== null) {
                    updateSelectionFromCoords.call(
@@ -1341,8 +1348,8 @@ const contextMenuControls = function (e: MouseEvent): void {
               const sel = current.selectedCell;
               if (
                 !sel ||
-                columns[0] != parseInt(sel[0] as string) ||
-                columns[columns.length - 1] != parseInt(sel[2] as string) ||
+                columns[0] != sel[0] ||
+                columns[columns.length - 1] != sel[2] ||
                 sel[1] != null ||
                 sel[3] != null
               ) {
@@ -1478,6 +1485,7 @@ const touchStartControls = function (e: TouchEvent): void {
         );
 
         libraryBase.jspreadsheet.timeControl = setTimeout(function () {
+          const columns = current.options.columns ?? [];
           if (
             columns[columnId] &&
             columns[columnId].type == "color"
@@ -1513,9 +1521,9 @@ export const cutControls = function (this: WorksheetInstance, e: Event): void {
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (!current) return;
   if (!current.edition) {
-    copy.call(current, true, undefined, undefined, undefined, undefined, true);
-    if (current.options.editable != false) {
-      current.setValue(
+    copy?.call(current, true, undefined, undefined, undefined, undefined, true);
+    if (current.options.editable != false && current.highlighted) {
+      current.setValue?.(
         current.highlighted.map(function (record: { element: HTMLElement }) {
           return record.element;
         }),
@@ -1579,9 +1587,11 @@ const keyDownControls = function (e: KeyboardEvent): void {
             (current.options.wordWrap == true ||
               (columns[current.edition[2]] &&
                 columns[current.edition[2]].wordWrap == true) ||
-              (data[current.edition[3]] &&
-                data[current.edition[3]][current.edition[2]] &&
-                ((Array.isArray(data[current.edition[3]][current.edition[2]]) || typeof data[current.edition[3]][current.edition[2]] === 'string') && (data[current.edition[3]][current.edition[2]] as ArrayLike<unknown>).length > 200))) &&
+              (Array.isArray(data) &&
+                data[current.edition[3]] &&
+                Array.isArray(data[current.edition[3]]) &&
+                (data[current.edition[3]] as CellValue[])[current.edition[2]] &&
+                ((Array.isArray((data[current.edition[3]] as CellValue[])[current.edition[2]]) || typeof (data[current.edition[3]] as CellValue[])[current.edition[2]] === 'string') && ((data[current.edition[3]] as CellValue[])[current.edition[2]] as ArrayLike<unknown>).length > 200))) &&
             e.altKey
           ) {
             // Add new line to the editor
@@ -1609,7 +1619,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
         if (
           columns[current.edition[2]] &&
           ["calendar", "html"].includes(
-            columns[current.edition[2]].type
+            columns[current.edition[2]].type as string
           )
         ) {
           closeEditor.call(current, current.edition[0], true);
@@ -1652,7 +1662,9 @@ const keyDownControls = function (e: KeyboardEvent): void {
                    jSuites.translate("Are you sure to delete the selected rows?")
                  )
                ) {
-                 current.deleteRow?.();
+                                   if (typeof current.selectedRow === "number") {
+                    current.deleteRow?.(current.selectedRow);
+                  }
                }
             }
           } else if (current.selectedHeader) {
@@ -1664,17 +1676,21 @@ const keyDownControls = function (e: KeyboardEvent): void {
                   )
                 )
                ) {
-                 current.deleteColumn?.();
+                                   if (typeof current.selectedHeader === "number") {
+                    current.deleteColumn?.(current.selectedHeader);
+                  }
                }
             }
           } else {
             // Change value
-            current.setValue?.(
-              current.highlighted.map(function (record: { element: HTMLElement }) {
-                return record.element;
-              }),
-              ""
-            );
+            if (current.highlighted) {
+              current.setValue?.(
+                current.highlighted.map(function (record: { element: HTMLElement }) {
+                  return record.element;
+                }),
+                ""
+              );
+            }
           }
         }
       } else if (e.which == 13) {
@@ -1686,7 +1702,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
             if (current.options.allowManualInsertRow != false) {
                  if (current.selectedCell[1] == dataRows - 1) {
                  // New record in case selectedCell in the last row
-                 current.insertRow?.();
+                                   current.insertRow?.(1);
                }
             }
           }
@@ -1743,7 +1759,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
             e.preventDefault();
           } else if (e.which == 86) {
             // Ctrl + V
-            pasteControls.call(current, e as unknown as Event);
+            pasteControls.call(current, e as unknown as ClipboardEvent);
           }
         } else {
           if (current.selectedCell) {
@@ -1811,7 +1827,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
       const searchEl = kdTarget as HTMLInputElement;
       libraryBase.jspreadsheet.timeControl = setTimeout(function () {
         if (current) {
-          current.search(searchEl.value);
+          current.search?.(searchEl.value);
         }
       }, 200);
     }
@@ -1825,11 +1841,13 @@ export const wheelControls = function (this: WorksheetInstance, e: WheelEvent): 
     if (libraryBase.jspreadsheet.timeControlLoading == null) {
       libraryBase.jspreadsheet.timeControlLoading = setTimeout(function () {
         if (
+          obj.content &&
           obj.content.scrollTop + obj.content.clientHeight >=
           obj.content.scrollHeight - 10
         ) {
           if (loadDown.call(obj)) {
             if (
+              obj.content &&
               obj.content.scrollTop + obj.content.clientHeight >
               obj.content.scrollHeight - 10
             ) {

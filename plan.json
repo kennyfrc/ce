@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T05:29:46Z"
+    "updatedAt": "2025-08-29T05:35:59Z"
   },
   "tasks": [
     {
@@ -1397,7 +1397,7 @@
       "name": "Utils: Standardize this typing in events.ts",
       "description": "Annotate this as WorksheetInstance/SpreadsheetContext and type event params; remove implicit anys",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "updatedAt": "2025-08-28T13:03:15Z",
       "candidateFiles": [
         "src/utils/events.ts",

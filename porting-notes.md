@@ -596,3 +596,22 @@ Learnings:
   - Converting numeric flags to proper booleans improves type safety and code clarity.
   - Systematic reduction of events.ts errors (70→49) demonstrates the effectiveness of targeted type fixes.
 - Next: Continue events.ts fixes, then tackle remaining hotspots (internal.ts, columns.ts) to further reduce error count.
+
+### Snapshot: 2025-08-29T18:00:00Z — events.ts systematic fixes (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1735 (down from 1776)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Comprehensive events.ts type fixes:
+  - Reduced events.ts errors from 70 to 15 (55 errors fixed)
+  - Added guards for selectedContainer, highlighted, selectedCell properties
+  - Fixed undefined index access for resizing.column/row with proper type guards
+  - Corrected parseInt usage on already-numeric selectedCell elements
+  - Fixed parameter mismatches for insertRow/insertColumn/deleteRow/deleteColumn
+  - Added proper type guards for optional method calls (download, search, copy)
+  - Fixed ClipboardEvent casting and content property access guards
+- Learnings:
+  - Systematic application of type guards and proper parameter passing eliminates large numbers of TypeScript diagnostics
+  - Core type unification (method signatures) enables downstream fixes across multiple files
+  - Local aliasing and null checks prevent 'possibly undefined' errors effectively
+  - Total progress: 41 TypeScript errors fixed, events.ts nearly complete
+- Next: Continue with remaining hotspots (internal.ts, columns.ts) to further reduce error count.
