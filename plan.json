@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T05:35:59Z"
+    "updatedAt": "2025-08-29T05:42:05Z"
   },
   "tasks": [
     {
@@ -2688,7 +2688,7 @@
       "name": "columns.ts: Fix numeric/indexing/union errors",
       "description": "Narrow data shapes and guard numeric/index accesses in columns.ts",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/columns.ts"
       ],
@@ -2712,7 +2712,7 @@
         "TypeScript error count reduced by >=2"
       ],
       "createdAt": "2025-08-28T21:12:24Z",
-      "updatedAt": "2025-08-28T21:12:24Z"
+      "updatedAt": "2025-08-29T05:42:05Z"
     },
     {
       "id": "ts-anyfix-20250829-0001",

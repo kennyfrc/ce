@@ -238,7 +238,7 @@ export const insertColumn = function (
       obj.options.columns || [],
       columnIndex,
       properties
-    );
+    ) as ColumnDefinition[];
 
     // Open space in the containers
     const currentHeaders = obj.headers.splice(columnIndex);
@@ -281,7 +281,9 @@ export const insertColumn = function (
     // Adding visual columns
     for (let row = 0; row < (obj.options.data?.length || 0); row++) {
       // Keep the current data
-      const currentData = obj.options.data?.[row]?.splice(columnIndex) || [];
+      const currentData = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
+        ? (obj.options.data[row] as CellValue[]).splice(columnIndex)
+        : [];
       const currentRecord = obj.records[row].splice(columnIndex);
 
       // History
@@ -291,15 +293,18 @@ export const insertColumn = function (
       for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
         // New value
         const value = data[row] ? data[row] : "";
-        if (obj.options.data && obj.options.data[row]) {
-          obj.options.data[row][col] = value;
+        if (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row])) {
+          (obj.options.data[row] as CellValue[])[col] = value;
         }
         // New cell
+        const cellValue = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
+          ? (obj.options.data[row] as CellValue[])[col] ?? ""
+          : "";
         const td = createCell.call(
           obj.worksheets[0],
           col,
           row,
-          obj.options.data?.[row]?.[col] ?? ""
+          cellValue
         );
         obj.records[row][col] = {
           element: td,
@@ -491,7 +496,10 @@ export const moveColumn = function (
   const lastAffectedIndex = Math.max(o, d);
 
   for (let j = 0; j < obj.rows.length; j++) {
-    obj.options.data?.[j]?.splice(d, 0, obj.options.data[j].splice(o, 1)[0]);
+    if (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j])) {
+      const movedValue = (obj.options.data[j] as CellValue[]).splice(o, 1)[0];
+      (obj.options.data[j] as CellValue[]).splice(d, 0, movedValue);
+    }
     obj.records[j].splice(d, 0, obj.records[j].splice(o, 1)[0]);
   }
 
@@ -559,13 +567,13 @@ export const deleteColumn = function (
           numOfColumns = 1;
         } else {
           // Remove selected
-          columnNumber = number[0];
+          columnNumber = number[0] ?? 0;
           numOfColumns = number.length;
         }
       }
 
-      // Lasat column
-      const lastColumn = obj.options.data?.[0]?.length
+      // Last column
+      const lastColumn = (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[0] && Array.isArray(obj.options.data[0]))
         ? obj.options.data[0].length - 1
         : 0;
 
@@ -578,13 +586,13 @@ export const deleteColumn = function (
       }
 
       // Minimum of columns to be delete is 1
-      if (!numOfColumns) {
+      if (!numOfColumns || numOfColumns < 1) {
         numOfColumns = 1;
       }
 
       // Can't delete more than the limit of the table
       if (
-        obj.options.data?.[0] &&
+        obj.options.data && Array.isArray(obj.options.data) && obj.options.data[0] && Array.isArray(obj.options.data[0]) &&
         numOfColumns > obj.options.data[0].length - columnNumber
       ) {
         numOfColumns = obj.options.data[0].length - columnNumber;
@@ -671,8 +679,9 @@ export const deleteColumn = function (
         // Delete headers
         for (let row = 0; row < (obj.options.data?.length || 0); row++) {
           // History
-          historyData[row] =
-            obj.options.data?.[row]?.splice(columnNumber, numOfColumns) || [];
+          historyData[row] = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
+            ? (obj.options.data[row] as CellValue[]).splice(columnNumber, numOfColumns)
+            : [];
           historyRecords[row] = obj.records[row].splice(
             columnNumber,
             numOfColumns
@@ -737,7 +746,7 @@ export const deleteColumn = function (
           action: "deleteColumn",
           columnNumber: columnNumber,
           numOfColumns: numOfColumns,
-          insertBefore: 1,
+          insertBefore: false,
           columns: columns,
           headers: historyHeaders,
           cols: historyColgroup,
@@ -885,10 +894,14 @@ export const setWidth = function (
     }
 
     // Keeping history of changes
+    const historyColumn = Array.isArray(column)
+      ? (typeof column[0] === 'number' ? column[0] : 0)
+      : (typeof column === 'number' ? column : 0);
+    const historyOldValue = Array.isArray(finalOldWidth) ? finalOldWidth[0] : finalOldWidth;
     setHistory.call(obj, {
       action: "setWidth",
-      column: column,
-      oldValue: finalOldWidth,
+      column: historyColumn,
+      oldValue: historyOldValue,
       newValue: width,
     });
 
@@ -993,7 +1006,10 @@ export const getColumnData = function (
     if (processed) {
       dataset.push(obj.records[j][columnNumber].element.innerHTML);
     } else {
-      dataset.push(obj.options.data?.[j]?.[columnNumber]);
+      const cellValue = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j]))
+        ? (obj.options.data[j] as CellValue[])[columnNumber]
+        : undefined;
+      dataset.push(cellValue);
     }
   }
   return dataset.filter(

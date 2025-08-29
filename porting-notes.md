@@ -615,3 +615,20 @@ Learnings:
   - Local aliasing and null checks prevent 'possibly undefined' errors effectively
   - Total progress: 41 TypeScript errors fixed, events.ts nearly complete
 - Next: Continue with remaining hotspots (internal.ts, columns.ts) to further reduce error count.
+
+### Snapshot: 2025-08-29T18:30:00Z — columns.ts data shape guards (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1701 (down from 1735)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Fixed src/utils/columns.ts data shape union issues:
+  - Added Array.isArray guards for obj.options.data[row] before splice/array operations
+  - Cast union types to CellValue[] after guards to satisfy TypeScript
+  - Fixed injectArray return type cast to ColumnDefinition[]
+  - Corrected history parameter types (boolean flags, normalized column/oldValue)
+  - Resolved indexing errors by discriminating CellValue[] vs Record<string, CellValue>
+- Learnings:
+  - Data shape discrimination requires consistent Array.isArray guards before array operations
+  - Type assertions after guards eliminate union indexing errors
+  - History parameter normalization prevents type mismatches in setHistory calls
+  - Systematic fixes in columns.ts reduced errors by ~34 while maintaining zero any
+- Next: Continue with other hotspots (comments.ts, config.ts, copyPaste.ts) using similar guard-and-cast patterns.
