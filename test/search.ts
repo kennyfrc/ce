@@ -20,9 +20,9 @@ describe('Use search', () => {
             ]
         })
 
-        instance[0].search('Honda')
+        instance[0].search?.('Honda')
 
-        expect(instance[0].searchInput.value).to.equal('Honda')
+        expect(instance[0].searchInput?.value).to.equal('Honda')
 
         const bodyTag = root.querySelector('tbody');
 
@@ -32,9 +32,9 @@ describe('Use search', () => {
         expect(bodyTag.children[0].getAttribute('data-y')).to.equal('2')
         expect(bodyTag.children[1].getAttribute('data-y')).to.equal('3')
 
-        instance[0].resetSearch()
+        instance[0].resetSearch?.()
 
-        expect(instance[0].searchInput.value).to.equal('')
+        expect(instance[0].searchInput?.value).to.equal('')
 
         expect(bodyTag.children[0].getAttribute('data-y')).to.equal('0')
         expect(bodyTag.children[1].getAttribute('data-y')).to.equal('1')
