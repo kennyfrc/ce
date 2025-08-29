@@ -1,3 +1,14 @@
+### Snapshot: 2025-08-29T03:38:26Z — assistant: history.ts any-fix
+
+- TypeScript errors (tsc): see last run
+- Explicit any count (find-any-types): 126 (saved to .agent/any-types-report.txt)
+- Files: .agent/any-types-report.txt
+
+Learnings:
+
+- Typed src/utils/history.ts: replaced explicit  with WorksheetInstance and a focused HistoryRecord type; removed explicit anys in this file.
+- any-analyzer: explicit any count decreased by 2; next targets: src/utils/pagination.ts and src/utils/style.ts.
+
 ### Snapshot: 2025-08-29T03:23:20Z — src/utils/editor.ts typing
 
  - TypeScript errors (tsconfig.test.json --noEmit): 1157 (saved to .agent/ts-errors-run.txt)

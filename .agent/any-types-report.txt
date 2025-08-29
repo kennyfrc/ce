@@ -1,35 +1,6 @@
-Any Types Analysis Report - 2025-08-29T03:25:07.854Z
-Total any types: 151
-Files with any types: 26
-
-src/utils/meta.ts: 13 any types
-  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
-  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
-  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
-  Line 33: export const updateMeta = function (this: any, affectedCells: any) {
-  Line 33: export const updateMeta = function (this: any, affectedCells: any) {
-  Line 37: const newMeta: Record<string, any> = {};
-  Line 56: export const setMeta = function (this: any, o: any, k: any, v: any) {
-  Line 56: export const setMeta = function (this: any, o: any, k: any, v: any) {
-  Line 56: export const setMeta = function (this: any, o: any, k: any, v: any) {
-  Line 56: export const setMeta = function (this: any, o: any, k: any, v: any) {
-  Line 60: obj.options.meta = {} as Record<string, any>;
-  Line 66: obj.options.meta[o] = {} as Record<string, any>;
-  Line 76: obj.options.meta[keys[i]] = {} as Record<string, any>;
-
-src/utils/history.ts: 12 any types
-  Line 13: export const setHistory = function (this: any, changes: any) {
-  Line 13: export const setHistory = function (this: any, changes: any) {
-  Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
-  Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
-  Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
-  Line 59: const records = historyRecord.rowRecords.map((row: any) => {
-  Line 64: const data = historyRecord.rowData.map((row: any) => {
-  Line 103: this: any,
-  Line 104: type: any,
-  Line 105: historyRecord: any
-  Line 252: export const undo = function (this: any) {
-  Line 344: export const redo = function (this: any) {
+Any Types Analysis Report - 2025-08-29T03:40:03.572Z
+Total any types: 126
+Files with any types: 24
 
 src/utils/pagination.ts: 11 any types
   Line 9: export const whichPage = function (this: any, row: any): number {

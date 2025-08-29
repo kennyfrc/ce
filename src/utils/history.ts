@@ -4,13 +4,42 @@ import { updateTableReferences } from "./internal";
 import { setMerge } from "./merges";
 import { updateOrder, updateOrderArrow } from "./orderBy";
 import { conditionalSelectionUpdate } from "./selection";
+import type { WorksheetInstance, CellValue, ColumnDefinition } from "../types/core";
+
+type HistoryRecord = {
+  action?: string;
+  insertBefore?: boolean;
+  rowNumber?: number;
+  numOfRows?: number;
+  rowRecords?: CellValue[][];
+  rowData?: CellValue[][];
+  rowNode?: Array<{ element: HTMLElement }>;
+  columnNumber?: number;
+  numOfColumns?: number;
+  columns?: ColumnDefinition[];
+  headers?: HTMLElement[];
+  cols?: Array<{ colElement: HTMLElement }>;
+  data?: CellValue[][];
+  records?: Array<Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>>;
+  rows?: number[];
+  column?: number;
+  oldValue?: CellValue | number | string | null;
+  newValue?: CellValue | number | string | null;
+  selection?: number[];
+  colspan?: number;
+  rowspan?: number;
+  oldStyle?: Record<string, unknown> | null;
+  newStyle?: Record<string, unknown> | null;
+  order?: boolean | number;
+  [key: string]: unknown;
+};
 
 /**
  * Initializes a new history record for undo/redo
  *
  * @return null
  */
-export const setHistory = function (this: any, changes: any) {
+export const setHistory = function (this: WorksheetInstance, changes: HistoryRecord) {
   const obj = this;
 
   if (obj.ignoreHistory != true) {
@@ -28,7 +57,7 @@ export const setHistory = function (this: any, changes: any) {
 /**
  * Process row
  */
-const historyProcessRow = function (this: any, type: any, historyRecord: any) {
+const historyProcessRow = function (this: WorksheetInstance, type: number, historyRecord: HistoryRecord) {
   const obj = this;
 
   const rowIndex = !historyRecord.insertBefore
@@ -56,14 +85,14 @@ const historyProcessRow = function (this: any, type: any, historyRecord: any) {
     conditionalSelectionUpdate.call(obj, 1, rowIndex, numOfRows + rowIndex - 1);
   } else {
     // Insert data
-    const records = historyRecord.rowRecords.map((row: any) => {
+    const records = historyRecord.rowRecords?.map((row: CellValue[]) => {
       return [...row];
-    });
+    }) ?? [];
     obj.records = injectArray(obj.records, rowIndex, records);
 
-    const data = historyRecord.rowData.map((row: any) => {
+    const data = historyRecord.rowData?.map((row: CellValue[]) => {
       return [...row];
-    });
+    }) ?? [];
     obj.options.data = injectArray(obj.options.data, rowIndex, data);
 
     obj.rows = injectArray(obj.rows, rowIndex, historyRecord.rowNode);
@@ -100,9 +129,9 @@ const historyProcessRow = function (this: any, type: any, historyRecord: any) {
  * Process column
  */
 const historyProcessColumn = function (
-  this: any,
-  type: any,
-  historyRecord: any
+  this: WorksheetInstance,
+  type: number,
+  historyRecord: HistoryRecord
 ) {
   const obj = this;
 
@@ -249,7 +278,7 @@ const historyProcessColumn = function (
 /**
  * Undo last action
  */
-export const undo = function (this: any) {
+export const undo = function (this: WorksheetInstance) {
   const obj = this;
 
   // Ignore events and history
@@ -341,7 +370,7 @@ export const undo = function (this: any) {
 /**
  * Redo previously undone action
  */
-export const redo = function (this: any) {
+export const redo = function (this: WorksheetInstance) {
   const obj = this;
 
   // Ignore events and history
