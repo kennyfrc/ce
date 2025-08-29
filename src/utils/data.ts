@@ -8,7 +8,7 @@ import { setMerge } from "./merges";
 import { getCoordsFromRange } from "./helpers";
 import type { SpreadsheetContext, CellValue } from "../types/core";
 
-export const setData = function (this: SpreadsheetContext, data: CellValue[][]) {
+export const setData = function (this: SpreadsheetContext, data?: CellValue[][]) {
   const obj = this;
 
   // Local aliases and defaults to satisfy strict checks

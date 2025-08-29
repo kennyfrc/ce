@@ -138,19 +138,20 @@ export interface SpreadsheetContext {
   undo?: () => void;
   redo?: () => void;
   download?: (filename?: string, format?: string) => void;
-  getSelected?: () => Array<{
+  getSelected?: (columnNameOnly?: boolean) => string[] | Array<{
     element: HTMLElement;
     x: number;
     y: number;
     colspan?: number;
     rowspan?: number;
   }>;
+  setData?: (data?: CellValue[][]) => void;
   getSelectedRows?: () => number[];
   getData?: (
     processed?: boolean,
     includeHeaders?: boolean
   ) => (string | number | boolean | null)[][];
-  setStyle?: (styles: Record<string, string>) => void;
+  setStyle?: (o: string | Record<string, string | string[]>, k?: string | null | undefined, v?: string | null, force?: boolean, ignoreHistoryAndEvents?: boolean) => void;
   getStyle?: (cell: string) => string;
   removeMerge?: (cell: string) => void;
   setMerge?: (cell: string, colspan: number, rowspan: number) => void;
@@ -193,7 +194,7 @@ export interface SpreadsheetContext {
   selectedHeader?: number | boolean | null;
   selectedRow?: number | boolean | null;
   setHeader?: (column: number, header?: string) => void;
-  setComments?: (cellId: string, comments: string) => void;
+  setComments?: (cellId: string | Record<string, string>, comments?: string) => void;
   getHeader?: (column: number) => string;
   search?: (query: string) => void;
   // Additional properties used in copyPaste and other utilities

@@ -10,7 +10,7 @@ import {
 } from "./internal";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 import { updateToolbar } from "./toolbar";
-import { WorksheetInstance } from "../types/core";
+import { WorksheetInstance, CellValue } from "../types/core";
 
 export const updateCornerPosition = function (this: WorksheetInstance): void {
   const obj = this;
@@ -202,7 +202,7 @@ export const updateSelectionFromCoords = function (
   } else if (x1 == null) {
     // select row
     x1 = 0;
-    x2 = (obj.options.data?.[0]?.length ?? 1) - 1;
+    x2 = (Array.isArray(obj.options.data) && Array.isArray(obj.options.data[0]) ? obj.options.data[0].length : 1) - 1;
   }
 
   // Ensure all coordinates are numbers
@@ -588,7 +588,7 @@ export const copyData = function (
     }
 
     // Controls
-    if (!data || data[posy] == undefined) {
+    if (!data || !Array.isArray(data) || data[posy] == undefined) {
       posy = 0;
     }
     posx = 0;
@@ -612,7 +612,7 @@ export const copyData = function (
       ) {
         // Stop if contains value
         if (!obj.selection?.length) {
-          const cellValue = obj.options.data?.[j]?.[i] || "";
+          const cellValue = (Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j]) && (obj.options.data as CellValue[][])[j][i]) || "";
           if (cellValue != "") {
             breakControl = true;
             continue;
@@ -620,16 +620,19 @@ export const copyData = function (
         }
 
         // Column
-        if (data[posy] == undefined) {
+        if (!Array.isArray(data) || data[posy] == undefined) {
           posx = 0;
-        } else if (data[posy][posx] == undefined) {
+        } else if (Array.isArray(data[posy]) && data[posy][posx] == undefined) {
           posx = 0;
         }
 
         // Value
-        let value = data[posy][posx];
+        let value: CellValue = "";
+        if (Array.isArray(data) && Array.isArray(data[posy])) {
+          value = data[posy][posx];
+        }
 
-        if (value && !data[1] && obj.parent.config.autoIncrement != false) {
+        if (value && Array.isArray(data) && !data[1] && obj.parent.config.autoIncrement != false) {
           if (
             obj.options.columns &&
             obj.options.columns[i] &&
@@ -661,7 +664,7 @@ export const copyData = function (
                   }
                 }
                 // Update formula
-                if (affectedTokens) {
+                if (affectedTokens && typeof value === 'string') {
                   value = updateFormula(value, affectedTokens);
                 }
               }
@@ -819,7 +822,7 @@ export const selectAll = function (this: WorksheetInstance): void {
   obj.selectedCell[2] = obj.headers.length - 1;
   obj.selectedCell[3] = obj.records.length - 1;
 
-  obj.updateSelectionFromCoords(
+  obj.updateSelectionFromCoords?.(
     obj.selectedCell[0],
     obj.selectedCell[1],
     obj.selectedCell[2],

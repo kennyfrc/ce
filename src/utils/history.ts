@@ -20,11 +20,11 @@ type HistoryRecord = {
   headers?: HTMLElement[];
   cols?: Array<{ colElement: HTMLElement }>;
   data?: CellValue[][];
-  records?: Array<Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>>;
+     records?: Array<{ x: number; y: number; col: number; row: number; value?: CellValue; oldValue?: CellValue }>;
   rows?: number[];
   column?: number;
-  oldValue?: CellValue | number | string | null;
-  newValue?: CellValue | number | string | null;
+  oldValue?: CellValue | number | string | null | Record<string, string | string[]>;
+  newValue?: CellValue | number | string | null | Record<string, string | string[]>;
   selection?: number[];
   colspan?: number;
   rowspan?: number;

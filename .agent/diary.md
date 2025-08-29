@@ -2184,3 +2184,4 @@ I have successfully completed comprehensive aliasing work in `src/utils/events.t
 The remaining 1101 TypeScript errors are likely in other files (columns.ts, internal.ts, etc.). The systematic approach of local aliasing and option guarding has proven effective for events.ts and can be applied to other hotspots.
 
 All changes maintain zero explicit any types and pass pre-commit validation. The codebase now has significantly improved type safety in the events handling layer.=== Fri Aug 29 15:16:24 PST 2025 ===
+AI_APICallError: Bad Request=== Fri Aug 29 15:26:30 PST 2025 ===

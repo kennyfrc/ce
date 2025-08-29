@@ -90,7 +90,7 @@ const setWorksheetFunctions = function (worksheet: WorksheetInstance) {
   for (let i = 0; i < worksheetPublicMethodsLength; i++) {
     const [methodName, method] = worksheetPublicMethods[i];
 
-    (worksheet as unknown as Record<string, unknown>)[methodName] = method.bind(worksheet);
+    (worksheet as Record<string, unknown>)[methodName] = (method as unknown).bind(worksheet);
   }
 };
 
@@ -321,15 +321,15 @@ const createTable = function (this: WorksheetInstance) {
   // Overflow
   if (obj.options.tableOverflow == true) {
     if (obj.options.tableHeight) {
-      obj.content.style["overflow-y"] = "auto";
-      obj.content.style["box-shadow"] = "rgb(221 221 221) 2px 2px 5px 0.1px";
+      (obj.content.style as CSSStyleDeclaration & Record<string, string>)["overflow-y"] = "auto";
+      (obj.content.style as CSSStyleDeclaration & Record<string, string>)["box-shadow"] = "rgb(221 221 221) 2px 2px 5px 0.1px";
       obj.content.style.maxHeight =
         typeof obj.options.tableHeight === "string"
           ? obj.options.tableHeight
           : obj.options.tableHeight + "px";
     }
     if (obj.options.tableWidth) {
-      obj.content.style["overflow-x"] = "auto";
+      (obj.content.style as CSSStyleDeclaration & Record<string, string>)["overflow-x"] = "auto";
       obj.content.style.width =
         typeof obj.options.tableWidth === "string"
           ? obj.options.tableWidth
@@ -357,11 +357,11 @@ const createTable = function (this: WorksheetInstance) {
   }
 
   // Load data
-  obj.setData.call(obj, undefined);
+  obj.setData?.(undefined);
 
   // Style
   if (obj.options.style) {
-    obj.setStyle(obj.options.style, null, null, 1, 1);
+    obj.setStyle?.(obj.options.style as Record<string, string | string[]>, null, null, true, true);
 
     delete obj.options.style;
   }
@@ -370,12 +370,12 @@ const createTable = function (this: WorksheetInstance) {
     enumerable: true,
     configurable: true,
     get() {
-      return obj.getStyle();
+      return obj.getStyle?.(undefined);
     },
   });
 
   if (obj.options.comments) {
-    obj.setComments(obj.options.comments);
+    obj.setComments?.(obj.options.comments);
   }
 
   // Classes
@@ -789,12 +789,13 @@ const worksheetPublicMethods = [
     "setStyle",
     function (
       this: WorksheetInstance,
-      cell: string | Record<string, string | string[]>,
-      property: string,
-      value?: string | null,
-      forceOverwrite?: boolean
+      o: string | Record<string, string | string[]>,
+      k?: string | null | undefined,
+      v?: string | null,
+      force?: boolean,
+      ignoreHistoryAndEvents?: boolean
     ) {
-      return setStyle.call(this, cell, property, value, forceOverwrite);
+      return setStyle.call(this, o, k, v, force, ignoreHistoryAndEvents);
     },
   ],
   ["resetStyle", resetStyle],

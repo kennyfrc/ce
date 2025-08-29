@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T21:15:00Z"
+    "updatedAt": "2025-08-29T21:30:00Z"
   },
   "tasks": [
     {
@@ -3277,8 +3277,14 @@
         "No explicit any introduced",
         "All hotspots compile clean under strict mode"
       ],
+      "results": {
+        "tsErrors": 907,
+        "anyCount": 0,
+        "tsErrorsFile": ".agent/ts-errors-current.txt",
+        "anyReportFile": ".agent/any-types-report.txt"
+      },
       "createdAt": "2025-08-29T21:15:00Z",
-      "updatedAt": "2025-08-29T21:15:00Z"
+      "updatedAt": "2025-08-29T22:00:00Z"
     }
   ]
 }

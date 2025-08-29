@@ -537,161 +537,79 @@ src/utils/search.ts(63,33): error TS7053: Element implicitly has an 'any' type b
   Property '1' does not exist on type 'false | [number, number]'.
 src/utils/search.ts(86,3): error TS18048: 'obj.searchInput' is possibly 'undefined'.
 src/utils/search.ts(87,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(170,39): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
-  Type 'null' is not assignable to type 'number'.
 src/utils/selection.ts(205,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/selection.ts(264,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(265,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(267,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(270,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(343,25): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(343,25): error TS18048: 'obj.resetSelection' is possibly 'undefined'.
-src/utils/selection.ts(361,9): error TS18048: 'obj.highlighted' is possibly 'undefined'.
-src/utils/selection.ts(410,40): error TS2322: Type 'number | null' is not assignable to type 'number'.
-  Type 'null' is not assignable to type 'number'.
-src/utils/selection.ts(410,64): error TS2322: Type 'number | null' is not assignable to type 'number'.
-  Type 'null' is not assignable to type 'number'.
-src/utils/selection.ts(471,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(489,23): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/selection.ts(490,5): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/selection.ts(491,5): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/selection.ts(492,5): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/selection.ts(493,5): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/selection.ts(494,5): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/selection.ts(519,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(519,16): error TS18048: 'obj.getData' is possibly 'undefined'.
-src/utils/selection.ts(525,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(526,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(527,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(528,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/selection.ts(536,7): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(538,14): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(539,24): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(545,14): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(546,24): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(570,9): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(571,16): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(572,26): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(587,14): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/selection.ts(588,29): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+src/utils/selection.ts(615,29): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
   No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/selection.ts(617,23): error TS7034: Variable 'affectedTokens' implicitly has type 'any[]' in some locations where its type cannot be determined.
-src/utils/selection.ts(632,23): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
-src/utils/selection.ts(632,38): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/selection.ts(637,21): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
-src/utils/selection.ts(638,41): error TS2345: Argument of type 'string | number | true' is not assignable to parameter of type 'string'.
+src/utils/selection.ts(623,13): error TS18048: 'data' is possibly 'undefined'.
+src/utils/selection.ts(625,20): error TS18048: 'data' is possibly 'undefined'.
+src/utils/selection.ts(630,21): error TS18048: 'data' is possibly 'undefined'.
+src/utils/selection.ts(632,23): error TS18048: 'data' is possibly 'undefined'.
+src/utils/selection.ts(665,41): error TS2345: Argument of type 'string | number | true' is not assignable to parameter of type 'string'.
   Type 'number' is not assignable to type 'string'.
-src/utils/selection.ts(638,48): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
-src/utils/selection.ts(671,11): error TS18048: 'h' is possibly 'undefined'.
-src/utils/selection.ts(682,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]'.
+src/utils/selection.ts(711,5): error TS2322: Type '({ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; })[]' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[][]'.
   Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; } | { x: number; y: number; col: number; row: number; value: CellValue; oldValue: CellValue | undefined; }' is not assignable to type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]'.
     Type '{ x: number; y: number; col: number; row: number; value?: undefined; oldValue?: undefined; }' is missing the following properties from type '{ element: HTMLElement; x: number; y: number; oldValue?: CellValue | undefined; newValue?: CellValue | undefined; }[]': length, pop, push, concat, and 28 more.
-src/utils/selection.ts(736,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(745,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(793,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/selection.ts(850,3): error TS2322: Type '(string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; })[]' is not assignable to type 'string[] | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]'.
-  Type '(string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; })[]' is not assignable to type 'string[]'.
-    Type 'string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-      Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/style.ts(24,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/style.ts(25,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/style.ts(29,23): error TS2365: Operator '<' cannot be applied to types 'number' and 'string | number | boolean'.
-src/utils/style.ts(29,27): error TS18047: 'x' is possibly 'null'.
-src/utils/style.ts(32,45): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(50,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(51,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(79,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(80,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(81,20): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(86,40): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(91,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(93,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(104,24): error TS2339: Property 'push' does not exist on type 'string | string[]'.
+src/utils/selection.ts(822,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/style.ts(33,23): error TS2365: Operator '<' cannot be applied to types 'number' and 'string | number | boolean'.
+src/utils/style.ts(38,34): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(56,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(57,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(85,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(86,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(87,20): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(92,40): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(97,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(99,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(110,24): error TS2339: Property 'push' does not exist on type 'string | string[]'.
   Property 'push' does not exist on type 'string'.
-src/utils/style.ts(105,24): error TS2339: Property 'push' does not exist on type 'string | string[]'.
+src/utils/style.ts(111,24): error TS2339: Property 'push' does not exist on type 'string | string[]'.
   Property 'push' does not exist on type 'string'.
-src/utils/style.ts(136,43): error TS2339: Property 'join' does not exist on type 'string | string[]'.
+src/utils/style.ts(142,43): error TS2339: Property 'join' does not exist on type 'string | string[]'.
   Property 'join' does not exist on type 'string'.
-src/utils/style.ts(140,43): error TS2339: Property 'join' does not exist on type 'string | string[]'.
+src/utils/style.ts(146,43): error TS2339: Property 'join' does not exist on type 'string | string[]'.
   Property 'join' does not exist on type 'string'.
-src/utils/style.ts(147,7): error TS2322: Type 'Record<string, string | string[]>' is not assignable to type 'CellValue | undefined'.
-src/utils/style.ts(148,7): error TS2322: Type 'Record<string, string | string[]>' is not assignable to type 'CellValue | undefined'.
-src/utils/style.ts(166,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(166,45): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(167,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/style.ts(170,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/style.ts(170,19): error TS2554: Expected 1 arguments, but got 5.
-src/utils/toolbar.ts(40,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(49,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(59,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/style.ts(153,7): error TS2322: Type 'Record<string, string | string[]>' is not assignable to type 'CellValue | undefined'.
+src/utils/style.ts(154,7): error TS2322: Type 'Record<string, string | string[]>' is not assignable to type 'CellValue | undefined'.
+src/utils/style.ts(172,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(172,45): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(173,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(176,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/style.ts(176,19): error TS2554: Expected 1 arguments, but got 5.
 src/utils/toolbar.ts(72,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
   Types of parameters 'e' and 'element' are incompatible.
     Type 'HTMLElement' is not assignable to type 'string'.
-src/utils/toolbar.ts(84,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
-  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(84,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(84,51): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(88,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(107,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+src/utils/toolbar.ts(84,43): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(90,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(108,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
   Types of parameters 'e' and 'element' are incompatible.
     Type 'HTMLElement' is not assignable to type 'string'.
-src/utils/toolbar.ts(113,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
-  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(113,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(113,51): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(115,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(132,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+src/utils/toolbar.ts(114,43): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(134,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
   Types of parameters 'e' and 'element' are incompatible.
     Type 'HTMLElement' is not assignable to type 'string'.
-src/utils/toolbar.ts(138,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
-  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(138,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(138,51): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(140,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(159,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
-  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(159,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(159,51): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(161,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(202,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+src/utils/toolbar.ts(140,43): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(162,43): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(206,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
   Types of parameters 'e' and 'element' are incompatible.
     Type 'HTMLElement' is not assignable to type 'string'.
-src/utils/toolbar.ts(215,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
-  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(215,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(215,51): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(217,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(261,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(267,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(292,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+src/utils/toolbar.ts(219,43): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(266,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(272,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(297,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
   Types of parameters 'e' and 'element' are incompatible.
     Type 'HTMLElement' is not assignable to type 'string'.
-src/utils/toolbar.ts(422,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(568,27): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(568,27): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
-src/utils/toolbar.ts(568,49): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(572,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(574,27): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+src/utils/toolbar.ts(427,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(573,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(580,27): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
   Types of parameters 'cellName' and 'value' are incompatible.
     Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(593,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(593,29): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
-src/utils/toolbar.ts(593,51): error TS2554: Expected 0 arguments, but got 1.
-src/utils/toolbar.ts(595,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(597,29): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+src/utils/toolbar.ts(599,53): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(604,29): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
   Types of parameters 'cellName' and 'value' are incompatible.
     Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/toolbar.ts(604,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/toolbar.ts(608,25): error TS2339: Property 'open' does not exist on type 'never'.
-src/utils/toolbar.ts(658,5): error TS18048: 'worksheet.parent.toolbar.toolbar' is possibly 'undefined'.
+src/utils/toolbar.ts(611,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(615,25): error TS2339: Property 'open' does not exist on type 'never'.
+src/utils/toolbar.ts(665,5): error TS18048: 'worksheet.parent.toolbar.toolbar' is possibly 'undefined'.
 src/utils/worksheets.ts(93,55): error TS2538: Type '(this: SpreadsheetContext | SpreadsheetInstance, event: string, ...args: unknown[]) => unknown' cannot be used as an index type.
 src/utils/worksheets.ts(93,55): error TS2538: Type '(this: SpreadsheetContext, cell: HTMLElement, empty: boolean, e: Event) => void' cannot be used as an index type.
 src/utils/worksheets.ts(93,55): error TS2538: Type '(this: SpreadsheetContext, cell: string | HTMLElement[] | { element: HTMLElement; }[], value: CellValue, force?: boolean | undefined) => void' cannot be used as an index type.
