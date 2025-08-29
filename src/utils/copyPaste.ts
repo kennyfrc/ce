@@ -1,4 +1,5 @@
 import jSuites from "jsuites";
+import type { SpreadsheetContext, NestedHeader } from "../types/core";
 
 import { parseCSV } from "./helpers";
 import dispatch from "./dispatch";
@@ -25,7 +26,7 @@ import { getColumnNameFromId } from "./internalHelpers";
  * @return string value
  */
 export const copy = function (
-  this: any,
+  this: SpreadsheetContext,
   highlighted?: boolean,
   delimiter?: string,
   returnData?: boolean,
@@ -50,7 +51,8 @@ export const copy = function (
   const rowLabel = [];
   const x = obj.options.data[0].length;
   const y = obj.options.data.length;
-  let tmp: any = "";
+  // tmp was previously reused for different purposes; keep it string-only here
+  let tmp: string = "";
   let copyHeader = false;
   let headers = "";
   let nestedHeaders = "";
@@ -88,13 +90,14 @@ export const copy = function (
   ) {
     // Nested headers
     if (obj.options.nestedHeaders && obj.options.nestedHeaders.length > 0) {
-      tmp = obj.options.nestedHeaders;
+      const nestedData = obj.options.nestedHeaders as NestedHeader[][];
 
-      for (let j = 0; j < tmp.length; j++) {
+      for (let j = 0; j < nestedData.length; j++) {
         const nested = [];
-        for (let i = 0; i < tmp[j].length; i++) {
-          const colspan = parseInt((tmp[j][i] as any).colspan);
-          nested.push((tmp[j][i] as any).title);
+        for (let i = 0; i < nestedData[j].length; i++) {
+          const cell = nestedData[j][i];
+          const colspan = cell && cell.colspan ? Number(cell.colspan) : 1;
+          nested.push(cell && cell.title ? String(cell.title) : "");
           for (let c = 0; c < colspan - 1; c++) {
             nested.push("");
           }
@@ -164,9 +167,8 @@ export const copy = function (
         colLabel.push(label);
 
         // Get style
-        tmp = obj.records[j][i].element.getAttribute("style");
-        tmp = tmp.replace("display: none;", "");
-        obj.style.push(tmp ? tmp : "");
+        const styleAttr = obj.records[j][i].element.getAttribute("style") || "";
+        obj.style.push(styleAttr.replace("display: none;", ""));
       }
     }
 
@@ -269,20 +271,21 @@ export const copy = function (
  * @param data paste data. if data hash is the same as the copied data, apply style from copied cells
  * @return string value
  */
-export const paste = function (this: any, x: number, y: number, data: any) {
+export const paste = function (this: SpreadsheetContext, x: number, y: number, data: unknown) {
   const obj = this;
 
   // Controls
-  const dataHash = hash(data);
+  let dataStr = typeof data === "string" ? data : String(data);
+  const dataHash = hash(dataStr);
   let style = dataHash == obj.hashString ? obj.style : null;
 
   // Depending on the behavior
   if (dataHash == obj.hashString) {
-    data = obj.data;
+    dataStr = obj.data;
   }
 
   // Split new line
-  data = parseCSV(data, "\t");
+  data = parseCSV(dataStr, "\t");
 
   const ex = obj.selectedCell[2];
   const ey = obj.selectedCell[3];

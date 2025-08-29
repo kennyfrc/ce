@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T02:55:26Z"
+    "updatedAt": "2025-08-29T03:11:30Z"
   },
   "tasks": [
     {
@@ -114,7 +114,7 @@
       "name": "Priority: Remove explicit any in top offenders (triage batch)",
       "description": "Triage and fix explicit `any` usages in the highest-impact files reported by the any-analyzer (copyPaste, editor, meta, history, pagination, style, toolbar, columns, worksheets, helpers).",
       "phase": 3,
-      "state": "pending",
+      "state": "in_progress",
       "candidateFiles": [
         "src/utils/copyPaste.ts",
         "src/utils/editor.ts",
@@ -140,7 +140,7 @@
         "No any on hot public API surfaces introduced"
       ],
       "createdAt": "2025-08-29T15:55:00Z",
-      "updatedAt": "2025-08-29T15:55:00Z"
+      "updatedAt": "2025-08-29T03:05:20Z"
     },
     {
       "id": "ts-priority-20250829-0006",
@@ -2713,6 +2713,236 @@
       ],
       "createdAt": "2025-08-28T21:12:24Z",
       "updatedAt": "2025-08-28T21:12:24Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0001",
+      "name": "Fix anys: src/utils/copyPaste.ts",
+      "description": "Replace explicit any usages in copyPaste.ts with unknown + guards or precise types",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/copyPaste.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:11:30Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0002",
+      "name": "Fix anys: src/utils/editor.ts",
+      "description": "Replace explicit any usages in editor.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/editor.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0003",
+      "name": "Fix anys: src/utils/meta.ts",
+      "description": "Replace explicit any usages in meta.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/meta.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0004",
+      "name": "Fix anys: src/utils/history.ts",
+      "description": "Replace explicit any usages in history.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/history.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0005",
+      "name": "Fix anys: src/utils/pagination.ts",
+      "description": "Replace explicit any usages in pagination.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/pagination.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0006",
+      "name": "Fix anys: src/utils/style.ts",
+      "description": "Replace explicit any usages in style.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/style.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0007",
+      "name": "Fix anys: src/utils/toolbar.ts",
+      "description": "Replace explicit any usages in toolbar.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/toolbar.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0008",
+      "name": "Fix anys: src/utils/worksheets.ts",
+      "description": "Replace explicit any usages in worksheets.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/worksheets.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0009",
+      "name": "Fix anys: src/utils/columns.ts",
+      "description": "Replace explicit any usages in columns.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/columns.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
+    },
+    {
+      "id": "ts-anyfix-20250829-0010",
+      "name": "Fix anys: src/utils/helpers.ts",
+      "description": "Replace explicit any usages in helpers.ts",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/helpers.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "any",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in file"
+      ],
+      "createdAt": "2025-08-29T03:06:46Z",
+      "updatedAt": "2025-08-29T03:06:46Z"
     }
   ]
 }

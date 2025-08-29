@@ -1,3 +1,13 @@
+### Snapshot: 2025-08-29T03:11:59Z — src/utils/copyPaste.ts any-fix
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1313 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 164 (saved to .agent/any-types-run.txt)
+
+Learnings:
+
+- Typed copy/paste public methods and nested header parsing; removed several explicit anys in src/utils/copyPaste.ts.
+- any-analyzer: explicit any count decreased by 6; tsc diagnostics increased and will need follow-up in related modules.
+
 ### Snapshot: 2025-08-29T16:06:00Z — internal.ts typing
 
 - TypeScript errors (tsconfig.test.json --noEmit): 1059 (saved to .agent/ts-errors-run.txt)
