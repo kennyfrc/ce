@@ -1133,8 +1133,34 @@ src/utils/selection.ts(841,3): error TS2322: Type '(string | { element: HTMLElem
   Type '(string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; })[]' is not assignable to type 'string[]'.
     Type 'string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
       Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
-src/utils/style.ts(141,7): error TS2322: Type 'Record<string, any>' is not assignable to type 'CellValue | undefined'.
-src/utils/style.ts(142,7): error TS2322: Type 'Record<string, any>' is not assignable to type 'CellValue | undefined'.
+src/utils/style.ts(24,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/style.ts(25,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/style.ts(29,23): error TS2365: Operator '<' cannot be applied to types 'number' and 'string | number | boolean'.
+src/utils/style.ts(29,27): error TS18047: 'x' is possibly 'null'.
+src/utils/style.ts(32,45): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(50,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(51,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(79,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(80,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(81,20): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(86,40): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(91,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(93,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(104,24): error TS2339: Property 'push' does not exist on type 'string | string[]'.
+  Property 'push' does not exist on type 'string'.
+src/utils/style.ts(105,24): error TS2339: Property 'push' does not exist on type 'string | string[]'.
+  Property 'push' does not exist on type 'string'.
+src/utils/style.ts(136,43): error TS2339: Property 'join' does not exist on type 'string | string[]'.
+  Property 'join' does not exist on type 'string'.
+src/utils/style.ts(140,43): error TS2339: Property 'join' does not exist on type 'string | string[]'.
+  Property 'join' does not exist on type 'string'.
+src/utils/style.ts(147,7): error TS2322: Type 'Record<string, string | string[]>' is not assignable to type 'CellValue | undefined'.
+src/utils/style.ts(148,7): error TS2322: Type 'Record<string, string | string[]>' is not assignable to type 'CellValue | undefined'.
+src/utils/style.ts(166,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(166,45): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(167,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/style.ts(170,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/style.ts(170,19): error TS2554: Expected 1 arguments, but got 5.
 src/utils/toolbar.ts(40,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/toolbar.ts(49,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/toolbar.ts(59,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.

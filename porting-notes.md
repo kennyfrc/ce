@@ -1,3 +1,14 @@
+### Snapshot: 2025-08-29T04:01:56Z — Baseline run (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1350 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 104 (saved to .agent/any-types-report.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-report.txt
+
+Learnings:
+
+- Captured baseline metrics: find-any-types reports 104 explicit anys; starting per-file fixes at src/utils/toolbar.ts.
+- Saved artifacts to .agent for traceability; next: implement toolbar.ts any removals.
+
 ### Snapshot: 2025-08-29T03:48:41Z — pagination.ts any-fix
 
 - TypeScript errors (tsconfig.test.json --noEmit): 1328 (saved to .agent/ts-errors-run.txt)
