@@ -1288,7 +1288,24 @@ Learnings:
   - Declaration audit revealed that proper .d.ts generation requires zero TypeScript errors
 - **Next Phase**: Continue error reduction in toolbar.ts and worksheets.ts to enable proper declaration generation
 
-### Snapshot: 2025-08-30T02:45:00Z — Core type fixes: Reduced TS errors from 301 to 240 (61 errors fixed), maintained 0 any types
+### Snapshot: 2025-08-30T03:30:00Z — Test file fixes: Reduced TS errors from 214 to 176 (38 errors fixed), maintained 0 any types
+
+- TypeScript errors (tsconfig.test.json --noEmit): 176 (down from 214, 38 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Fixed major test file errors by adding missing methods to SpreadsheetContext interface and fixing syntax/null-safety issues:
+  - Added getMerge, setMeta, getMeta, paste, copy, hideRow methods to SpreadsheetContext with proper signatures
+  - Fixed merge cell array format in test/merges.ts to include HTMLElement[] (was [number, number], now [number, number, HTMLElement[]])
+  - Fixed syntax errors in test files (missing semicolons, combined statements on single lines)
+  - Added null checks and optional chaining for optional method calls (setHeader, getHeader, getHeaders, paste, etc.)
+  - Fixed data access patterns in test/data.ts with proper null checks and non-null assertions
+  - Fixed selectedCell access in test/paste.ts with optional chaining and null coalescing
+- Learnings:
+  - Test files require systematic optional chaining for all method calls since SpreadsheetContext methods are optional
+  - Interface definitions must include all implemented methods to avoid TS2339/TS2551 property not found errors
+  - Merge cell type consistency is crucial - runtime uses [number, number, HTMLElement[]] but tests were using [number, number]
+  - Syntax errors in test files can hide many type errors; fixing them reveals the true scope of remaining work
+  - Null coalescing (??) and optional chaining (?.) effectively handle nullable test data without introducing any types
+- Next: Continue with remaining test files (rows.ts, redo.ts) and address core type unification issues
 
 - TypeScript errors (tsconfig.test.json --noEmit): 240 (down from 301, 61 errors fixed)
 - Explicit any count (find-any-types): 0 (maintained)
