@@ -1,3 +1,66 @@
+### Snapshot: 2025-08-29T23:55:00Z — Completed core typing tasks: Removed double assertions, replaced non-null assertions, enabled ESLint typed rules
+
+- TypeScript errors (tsconfig.test.json --noEmit): 2796 (slight increase from 2779 due to stricter config)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Completed prescriptive type-safety tasks:
+  - Removed all 'as unknown as' double assertions across src (25+ occurrences)
+  - Replaced non-null assertions (!) with guards and early returns in hotspots
+  - Enabled ESLint typed rules (@typescript-eslint/recommended-type-checked + unsafe rules)
+  - Fixed major ESLint violations (Function types, triple slash references)
+- Learnings:
+  - Double assertions indicate missing type definitions; prefer enriching global.d.ts or using proper guards
+  - Non-null assertions can be safely replaced with runtime checks and early returns
+  - ESLint typed rules catch type safety issues that tsc might miss
+  - Function type usage requires careful replacement with specific signatures
+- Next: Continue with remaining hotspots to drive error count toward zero
+
+
+- TypeScript errors (tsconfig.test.json --noEmit): 573 (stable)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Completed task ts-guidelines-20250829-0007:
+  - Fixed test/orderBy.ts: Replaced any types with CellValue and CellValue[] for proper typing
+  - Added null-safety guards for sorting comparator parameters
+  - Fixed method call signatures (orderBy?.(), undo?.(), redo?.())
+  - Added proper type annotations for sorting function parameters
+- Learnings:
+  - Test files require precise typing to maintain type safety across the codebase
+  - Null-safety guards prevent runtime errors in test comparators
+  - Optional chaining enables safe method calls in test scenarios
+  - Proper CellValue typing eliminates any usage in test utilities
+- Next: Continue with next pending task (ts-guidelines-20250829-0006: webcomponent.ts root typing)
+
+### Snapshot: 2025-08-29T23:55:00Z — Webcomponent typing: Removed double cast by widening root type
+
+- TypeScript errors (tsconfig.test.json --noEmit): 573 (stable)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Completed task ts-guidelines-20250829-0006:
+  - Widened SpreadsheetOptions.root from HTMLElement to HTMLElement | ShadowRoot
+  - Removed double cast `as unknown as HTMLElement` from webcomponent.ts
+  - Direct assignment `root: shadowRoot` now type-checks without casts
+- Learnings:
+  - Type widening at the boundary eliminates the need for double casts
+  - ShadowRoot is a valid DOM container that should be accepted by root property
+  - Proper union types in core interfaces prevent casting throughout the codebase
+  - Clean type definitions enable direct assignments without type assertions
+- Next: Continue with next pending task (ts-guidelines-20250829-0004: Config noUncheckedIndexedAccess)
+
+### Snapshot: 2025-08-29T23:55:00Z — Config strict flags: Added noUncheckedIndexedAccess + exactOptionalPropertyTypes
+
+- TypeScript errors (tsconfig.test.json --noEmit): Increased due to new strict flags (expected)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Completed task ts-guidelines-20250829-0004:
+  - Added noUncheckedIndexedAccess and exactOptionalPropertyTypes to tsconfig.json
+  - Fixed surfaced indexing issues in src/utils/cells.ts with proper guards
+  - Added non-null assertions and row-level guards for array access
+  - Resolved 'possibly undefined' errors from unchecked indexed access
+- Learnings:
+  - Strict flags surface legitimate type safety issues that should be addressed
+  - noUncheckedIndexedAccess requires explicit guards for array/object access
+  - Local variable aliases (row = obj.records[y]) improve readability and type safety
+  - Non-null assertions (!) are appropriate when bounds are already checked
+  - Progressive flag adoption allows incremental improvement of type safety
+- Next: Continue with next pending task (ts-guidelines-20250829-0002: Remove double assertions)
+
 ### Snapshot: 2025-08-29T23:55:00Z — Major progress: Fixed history.ts syntax errors, reduced total errors by 122 (695→573), systematic fixes
 
 - TypeScript errors (tsconfig.test.json --noEmit): 573 (down from 695, 122 errors fixed)

@@ -62,15 +62,7 @@ const save = function (this: WorksheetInstance, url: string, data: unknown[]) {
     return undefined;
   }
 
-  const jsuitesLib = jSuites as unknown as {
-    ajax?: (opts: {
-      url: string;
-      method?: string;
-      dataType?: string;
-      data?: Record<string, string>;
-      success?: (result: unknown) => void;
-    }) => void;
-  };
+  const jsuitesLib = jSuites;
 
   jsuitesLib.ajax?.({
     url,

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T23:55:00Z"
+    "updatedAt": "2025-08-29T08:59:16Z"
   },
   "tasks": [
     {
@@ -3435,6 +3435,189 @@
       "createdAt": "2025-08-29T23:55:00Z",
       "updatedAt": "2025-08-29T23:55:00Z",
       "results": "Fixed syntax errors and reduced from 54 to 56 errors (syntax fix revealed additional type errors)"
+    },
+    {
+      "id": "ts-guidelines-20250829-0001",
+      "name": "helpers.ts: Guard data-celltype and remove 'as any'",
+      "description": "Introduce isColumnType guard; assign only valid ColumnDefinition.type values in createFromTable header parsing.",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/helpers.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/helpers.ts",
+          "lineStart": 236,
+          "lineEnd": 248
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No 'as any' at helpers.ts around data-celltype",
+        "Invalid values fall back to 'text'"
+      ],
+      "createdAt": "2025-08-29T17:20:00Z",
+      "updatedAt": "2025-08-29T17:20:00Z"
+    },
+    {
+      "id": "ts-guidelines-20250829-0002",
+      "name": "Remove double assertions ('as unknown as') across src",
+      "description": "Replace double assertions by enriching types or adding typed wrappers for jSuites/DOM; rely on global.d.ts.",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/index.ts",
+        "src/webcomponent.ts",
+        "src/utils/internal.ts",
+        "src/utils/factory.ts",
+        "src/utils/events.ts",
+        "src/utils/worksheets.ts",
+        "src/utils/pagination.ts",
+        "src/utils/merges.ts",
+        "src/utils/toolbar.ts",
+        "src/utils/dispatch.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "rg 'as unknown as' src returns 0",
+        "All replacements compile without casts"
+      ],
+      "createdAt": "2025-08-29T17:20:00Z",
+      "updatedAt": "2025-08-29T17:20:00Z"
+    },
+    {
+      "id": "ts-guidelines-20250829-0003",
+      "name": "Replace non-null assertions with guards in hotspots",
+      "description": "Eliminate '!' by adding explicit guards/initialization in selection.ts, factory.ts (contextMenu), worksheets.ts, filter.ts, freeze.ts.",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/selection.ts",
+        "src/utils/factory.ts",
+        "src/utils/worksheets.ts",
+        "src/utils/filter.ts",
+        "src/utils/freeze.ts",
+        "src/index.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "null-safety"
+      ],
+      "acceptanceCriteria": [
+        "No '!' remains in selection.ts and factory.ts",
+        "All affected branches have explicit guards/early returns"
+      ],
+      "createdAt": "2025-08-29T17:20:00Z",
+      "updatedAt": "2025-08-29T17:20:00Z"
+    },
+    {
+      "id": "ts-guidelines-20250829-0004",
+      "name": "Config: add noUncheckedIndexedAccess + exactOptionalPropertyTypes",
+      "description": "Strengthen tsconfig to surface unsafe indexed access and exact optionals; fix surfaced issues.",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.json"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "config",
+        "strict"
+      ],
+      "acceptanceCriteria": [
+        "Flags enabled in tsconfig.json",
+        "npx tsc -p tsconfig.test.json --noEmit passes"
+      ],
+      "createdAt": "2025-08-29T17:20:00Z",
+      "updatedAt": "2025-08-29T17:20:00Z"
+    },
+    {
+      "id": "ts-guidelines-20250829-0005",
+      "name": "ESLint: enable typed rules and unsafe checks",
+      "description": "Extend typed config and add no-unsafe-* and no-unnecessary-type-assertion; consider no-non-null-assertion.",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        ".eslintrc.js",
+        "package.json"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "eslint",
+        "quality"
+      ],
+      "acceptanceCriteria": [
+        "Config updated; eslint runs with typed rules",
+        "Zero new violations on touched files"
+      ],
+      "createdAt": "2025-08-29T17:20:00Z",
+      "updatedAt": "2025-08-29T17:20:00Z"
+    },
+    {
+      "id": "ts-guidelines-20250829-0006",
+      "name": "webcomponent.ts: fix root typing (remove double cast)",
+      "description": "Widen SpreadsheetOptions.root to HTMLElement | ShadowRoot or pass container so no 'as unknown as HTMLElement' is needed.",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/webcomponent.ts",
+        "src/types/core.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "dom-types"
+      ],
+      "acceptanceCriteria": [
+        "No double cast at webcomponent.ts line ~48",
+        "Component compiles and works in tests"
+      ],
+      "createdAt": "2025-08-29T17:20:00Z",
+      "updatedAt": "2025-08-29T17:20:00Z"
+    },
+    {
+      "id": "ts-guidelines-20250829-0007",
+      "name": "Tests: type comparators; remove any in test/orderBy.ts",
+      "description": "Provide proper types for sorting callbacks; remove 'any' from tests.",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "test/orderBy.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "tests",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No explicit any in test/orderBy.ts",
+        "Mocha suite still passes"
+      ],
+      "createdAt": "2025-08-29T17:20:00Z",
+      "updatedAt": "2025-08-29T17:20:00Z"
     }
   ]
 }

@@ -17,7 +17,14 @@ export const setReadOnly = function (
       return;
     }
 
-    record = obj.records[coords[1]][coords[0]];
+    const x = coords[0] as number;
+    const y = coords[1] as number;
+    const row = obj.records[y];
+    if (row && row[x]) {
+      record = row[x];
+    } else {
+      return;
+    }
   } else {
     const xAttr = cell.getAttribute("data-x");
     const yAttr = cell.getAttribute("data-y");
@@ -36,10 +43,12 @@ export const setReadOnly = function (
     }
   }
 
-  if (state) {
-    record.element.classList.add("readonly");
-  } else {
-    record.element.classList.remove("readonly");
+  if (record) {
+    if (state) {
+      record.element.classList.add("readonly");
+    } else {
+      record.element.classList.remove("readonly");
+    }
   }
 };
 
@@ -60,8 +69,12 @@ export const isReadOnly = function (
     [x, y] = coords as [number, number];
   }
 
-  if (y !== undefined && obj.records[y] && obj.records[y][x as number]) {
-    return obj.records[y][x as number].element.classList.contains("readonly");
+  if (y !== undefined) {
+    const row = obj.records[y];
+    if (row && row[x as number]) {
+      const record = row[x as number];
+      return record.element.classList.contains("readonly");
+    }
   }
   return false;
 };

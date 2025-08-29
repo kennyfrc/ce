@@ -1,7 +1,6 @@
 import jSuites from "jsuites";
 
 import libraryBase from "./utils/libraryBase";
-import * as jspreadsheet from "./types/jspreadsheet";
 import {
   SpreadsheetOptions,
   WorksheetInstance,
@@ -23,10 +22,10 @@ libraryBase.jspreadsheet = (function (
   options: SpreadsheetOptions
 ): WorksheetInstance[] {
   try {
-    let worksheets: WorksheetInstance[] = [];
+    const worksheets: WorksheetInstance[] = [];
 
     // Create spreadsheet
-    Factory.spreadsheet(el, options, worksheets).then((spreadsheet) => {
+    void Factory.spreadsheet(el, options, worksheets).then((spreadsheet) => {
       libraryBase.jspreadsheet.spreadsheet!.push(spreadsheet);
 
       // Global onload event
@@ -126,7 +125,7 @@ libraryBase.jspreadsheet.version = function () {
 };
 
 Object.entries(helpers).forEach(([key, value]) => {
-  libraryBase.jspreadsheet.helpers[key] = value as unknown as HelperFn;
+  libraryBase.jspreadsheet.helpers[key] = value as HelperFn;
 });
 
 export default libraryBase.jspreadsheet;

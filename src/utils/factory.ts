@@ -159,7 +159,7 @@ const createWorksheets = async function (
         history: [],
         selection: [],
         historyIndex: -1,
-      } as unknown as WorksheetInstance);
+      } as WorksheetInstance);
 
       await buildWorksheet.call(spreadsheet.worksheets[i]);
     }
@@ -291,7 +291,7 @@ factory.worksheet = function (
     tbody: document.createElement("tbody"),
     table: document.createElement("table"),
     records: [],
-  } as unknown as SpreadsheetContext;
+  } as SpreadsheetContext;
 
   // Create the worksheets object
   if (typeof position === "undefined") {

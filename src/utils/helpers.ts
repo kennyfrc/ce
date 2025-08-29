@@ -16,7 +16,7 @@ export const getCaretIndex = function (
     d = window;
   }
   let pos = 0;
-  const owner = d as unknown as { getSelection?: () => Selection | null };
+  const owner = d as { getSelection?: () => Selection | null };
   const s = owner.getSelection ? owner.getSelection() : null;
   if (s) {
     if (s.rangeCount !== 0) {

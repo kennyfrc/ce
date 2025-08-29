@@ -277,8 +277,8 @@ export const setValue = function (
     }
   } else {
     // Single HTMLElement passed (non-array)
-    if (!Array.isArray(cell) && (cell as unknown as HTMLElement)?.getAttribute) {
-      const el = cell as unknown as HTMLElement;
+    if (!Array.isArray(cell) && (cell as HTMLElement)?.getAttribute) {
+      const el = cell as HTMLElement;
       const xVal = parseInt(el.getAttribute("data-x") || "", 10);
       const yVal = parseInt(el.getAttribute("data-y") || "", 10);
       if (!isNaN(xVal) && !isNaN(yVal)) {

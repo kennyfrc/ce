@@ -551,7 +551,7 @@ export const createCell = function (
       // Try formatted date
       let formatted = null;
       if (!validDate(value)) {
-        const tmp = (jSuites.calendar as unknown as { extractDateFromString: (value: string, format: string) => unknown }).extractDateFromString(
+        const tmp = jSuites.calendar.extractDateFromString(
           String(value),
           (obj.options.columns[i].options &&
             obj.options.columns[i].options.format) ||

@@ -489,7 +489,7 @@ export const paste = function (this: SpreadsheetContext, x: number, y: number, d
     // Update history
     setHistory.call(obj, {
       action: "setValue",
-             records: records as unknown as Array<Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>>,
+             records: records as Array<Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>>,
       selection: obj.selectedCell || [],
       newStyle: newStyle,
       oldStyle: oldStyle,

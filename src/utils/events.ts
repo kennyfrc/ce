@@ -208,7 +208,7 @@ const mouseUpControls = function (e: MouseEvent) {
 };
 
 const mouseDownControls = function (e: MouseEvent) {
-  e = e || (window.event as unknown as MouseEvent);
+  e = e || (window.event as MouseEvent);
 
   let mouseButton;
 
@@ -544,7 +544,7 @@ const mouseDownControls = function (e: MouseEvent) {
 
 // Mouse move controls
 const mouseMoveControls = function (e: MouseEvent) {
-  e = e || (window.event as unknown as MouseEvent);
+  e = e || (window.event as MouseEvent);
 
   let mouseButton;
 
@@ -764,7 +764,7 @@ const updateCopySelection = function (this: WorksheetInstance, x3: number, y3: n
 };
 
 const mouseOverControls = function (e: MouseEvent): boolean | void {
-  e = e || (window.event as unknown as MouseEvent);
+  e = e || (window.event as MouseEvent);
 
   let mouseButton;
 
@@ -1261,7 +1261,7 @@ const getElementIndex = function (element: HTMLElement): number {
 };
 
 const contextMenuControls = function (e: MouseEvent): void {
-  e = e || (window.event as unknown as MouseEvent);
+  e = e || (window.event as MouseEvent);
   const mouseButton = getMouseButton(e) ?? 0;
 
       const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
@@ -1349,10 +1349,10 @@ const contextMenuControls = function (e: MouseEvent): void {
                  );
               }
             } else if (role === "nested") {
-              const columns = (targetEl as HTMLElement)
-                .getAttribute("data-column")!
-                .split(",")
-                .map((v) => parseInt(v, 10));
+              const dataColumn = (targetEl as HTMLElement).getAttribute("data-column");
+              const columns = dataColumn
+                ? dataColumn.split(",").map((v) => parseInt(v, 10))
+                : [];
 
               xNum = getElementIndex(targetEl as HTMLElement) - 1;
               yNum = getElementIndex((targetEl as HTMLElement).parentElement as HTMLElement);
@@ -1774,14 +1774,14 @@ const keyDownControls = function (e: KeyboardEvent): void {
           } else if (e.which == 88) {
             // Ctrl + X
             if (editable) {
-              cutControls.call(current, e as unknown as Event);
+              cutControls.call(current, e as Event);
             } else {
-              copyControls.call(current, e as unknown as Event);
+              copyControls.call(current, e as Event);
             }
             e.preventDefault();
           } else if (e.which == 86) {
             // Ctrl + V
-            pasteControls.call(current, e as unknown as ClipboardEvent);
+            pasteControls.call(current, e as ClipboardEvent);
           }
         } else {
           if (current.selectedCell) {

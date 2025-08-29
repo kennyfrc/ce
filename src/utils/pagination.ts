@@ -17,8 +17,8 @@ export const whichPage = function (this: SpreadsheetContext, row: unknown): numb
       rowNum = row;
     } else if (typeof row === "string") {
       rowNum = parseInt(row, 10);
-    } else if (row && typeof (row as unknown as { index?: number }).index === "number") {
-      rowNum = (row as unknown as { index?: number }).index as number;
+    } else if (row && typeof (row as { index?: number }).index === "number") {
+      rowNum = (row as { index?: number }).index as number;
     } else {
       rowNum = Number(String(row));
       if (Number.isNaN(rowNum)) rowNum = 0;
@@ -29,7 +29,7 @@ export const whichPage = function (this: SpreadsheetContext, row: unknown): numb
   } else {
     if (typeof row === "number") rowNum = row;
     else if (typeof row === "string") rowNum = parseInt(row, 10);
-    else if (row && typeof (row as unknown as { index?: number }).index === "number") rowNum = (row as unknown as { index?: number }).index as number;
+    else if (row && typeof (row as { index?: number }).index === "number") rowNum = (row as { index?: number }).index as number;
     else rowNum = 0;
   }
 
@@ -64,7 +64,7 @@ export const updatePagination = function (this: SpreadsheetContext): void {
     }
 
     if (!results) {
-      obj.pagination.children[0].innerHTML = (jSuites as unknown as { translate: (s: string) => string }).translate("No records found");
+      obj.pagination.children[0].innerHTML = jSuites.translate("No records found");
     } else {
       // Pagination container
       const total = typeof results === "number" ? results : results.length;
@@ -126,7 +126,7 @@ export const updatePagination = function (this: SpreadsheetContext): void {
       };
 
       obj.pagination.children[0].innerHTML = format(
-        (jSuites as unknown as { translate: (s: string) => string }).translate("Showing page {0} of {1} entries"),
+        jSuites.translate("Showing page {0} of {1} entries"),
         (obj.pageNumber + 1).toString(),
         quantyOfPages.toString()
       );

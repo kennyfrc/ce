@@ -1,5 +1,4 @@
 // Core TypeScript interfaces for jspreadsheet
-/// <reference path="global.d.ts" />
 
 import { RowDefinition } from "./rows";
 
@@ -36,7 +35,7 @@ export interface SpreadsheetOptions {
   plugins?: Record<string, Function>;
      mergeCells?: Record<string, [number, number, HTMLElement[]] | false>;
   tabs?: boolean | Record<string, unknown>;
-  root?: HTMLElement;
+     root?: HTMLElement | ShadowRoot;
   fullscreen?: boolean;
   [key: string]: unknown;
 }
@@ -260,9 +259,9 @@ export interface SpreadsheetInstance extends SpreadsheetContext {
   showToolbar?: () => void;
   hideToolbar?: () => void;
   /** Registered plugins on the spreadsheet instance. */
-  plugins?: Record<string, Function & { onevent?: Function; persistence?: Function; [key: string]: unknown }>;
+  plugins?: Record<string, ((...args: unknown[]) => unknown) & { onevent?: (...args: unknown[]) => unknown; persistence?: (...args: unknown[]) => unknown; [key: string]: unknown }>;
   /** Setter used by the factory to initialize plugins. */
-  setPlugins?: (newPlugins: Record<string, Function> | undefined) => void;
+  setPlugins?: (newPlugins: Record<string, (...args: unknown[]) => unknown> | undefined) => void;
   ignoreEvents?: boolean;
   [key: string]: unknown;
 }

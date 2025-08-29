@@ -105,7 +105,7 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
     ) {
       if (
         !confirm(
-          (jSuites as unknown as { translate: (key: string) => string }).translate(
+          jSuites.translate(
             "This action will destroy any existing merged cells. Are you sure?"
           )
         )

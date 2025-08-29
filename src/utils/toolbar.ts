@@ -595,7 +595,7 @@ const adjustToolbarSettingsForJSuites = function (
       items[i].onclick = function (a: unknown, b: unknown, c: unknown) {
         const target = c as ColorWidget;
         if (!target.color) {
-          jSuites.color(target as unknown as HTMLElement, {
+          jSuites.color(target as HTMLElement, {
             onchange: function (o: HTMLElement, v: string) {
               const worksheet = getWorksheetInstance.call(spreadsheet);
 

@@ -566,7 +566,7 @@ export const buildWorksheet = async function (this: WorksheetInstance) {
 
   if (typeof spreadsheet.plugins === "object") {
     Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
-      const typedPlugin = plugin as unknown as PluginWithHooks;
+      const typedPlugin = plugin as PluginWithHooks;
       if (typeof typedPlugin.beforeinit === "function") {
         typedPlugin.beforeinit(obj);
       }
@@ -648,7 +648,7 @@ export const buildWorksheet = async function (this: WorksheetInstance) {
 
   if (typeof spreadsheet.plugins === "object") {
     Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
-      const typedPlugin = plugin as unknown as PluginWithHooks;
+      const typedPlugin = plugin as PluginWithHooks;
       if (typeof typedPlugin.init === "function") {
         typedPlugin.init(obj);
       }
@@ -682,7 +682,7 @@ export const createWorksheetObj = function (
     spreadsheet.config.worksheets = [];
   }
   spreadsheet.config.worksheets.push(newWorksheet.options);
-  spreadsheet.worksheets.push(newWorksheet as unknown as WorksheetInstance);
+  spreadsheet.worksheets.push(newWorksheet as WorksheetInstance);
 
   return newWorksheet;
 };

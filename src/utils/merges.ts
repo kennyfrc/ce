@@ -150,7 +150,7 @@ export const setMerge = function (
 
   if (!cellName) {
     if (!obj.highlighted || !obj.highlighted.length) {
-      alert((jSuites as unknown as { translate: (key: string) => string }).translate("No cells selected"));
+      alert(jSuites.translate("No cells selected"));
       return;
     } else {
       const firstHighlighted = obj.highlighted[0];
@@ -198,7 +198,7 @@ export const setMerge = function (
   }
 
   if (test) {
-    alert((jSuites as unknown as { translate: (key: string) => string }).translate(test));
+    alert(jSuites.translate(test));
   } else {
     // Add property
     if (colspan && colspan > 1) {
