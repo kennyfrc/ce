@@ -2,6 +2,34 @@ import { getColumnNameFromId } from "./internalHelpers";
 import type { SpreadsheetOptions } from "../types/core";
 
 /**
+ * Type guard to check if a string is a valid column type
+ */
+export function isColumnType(value: string): value is
+  | "text"
+  | "numeric"
+  | "calendar"
+  | "dropdown"
+  | "checkbox"
+  | "color"
+  | "hidden"
+  | "radio"
+  | "image"
+  | "html" {
+  return [
+    "text",
+    "numeric",
+    "calendar",
+    "dropdown",
+    "checkbox",
+    "color",
+    "hidden",
+    "radio",
+    "image",
+    "html"
+  ].includes(value);
+}
+
+/**
  * Get carret position for one element
  */
 export const getCaretIndex = function (
@@ -239,19 +267,9 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
       if (!options.columns[i]) {
         options.columns[i] = {};
       }
-      if (header.getAttribute("data-celltype")) {
-        const cellType = header.getAttribute("data-celltype") as
-          | "text"
-          | "numeric"
-          | "calendar"
-          | "dropdown"
-          | "checkbox"
-          | "color"
-          | "hidden"
-          | "radio"
-          | "image"
-          | "html";
-        options.columns[i].type = cellType;
+      const cellTypeAttr = header.getAttribute("data-celltype");
+      if (cellTypeAttr && isColumnType(cellTypeAttr)) {
+        options.columns[i].type = cellTypeAttr;
       } else {
         options.columns[i].type = "text";
       }

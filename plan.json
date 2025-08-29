@@ -3441,7 +3441,7 @@
       "name": "helpers.ts: Guard data-celltype and remove 'as any'",
       "description": "Introduce isColumnType guard; assign only valid ColumnDefinition.type values in createFromTable header parsing.",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/helpers.ts",
         "src/types/core.ts"
