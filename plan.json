@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T03:23:20Z"
+    "updatedAt": "2025-08-29T03:31:42Z"
   },
   "tasks": [
     {
@@ -2742,7 +2742,7 @@
       "name": "Fix anys: src/utils/editor.ts",
       "description": "Replace explicit any usages in editor.ts",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/editor.ts"
       ],
@@ -2765,7 +2765,7 @@
       "name": "Fix anys: src/utils/meta.ts",
       "description": "Replace explicit any usages in meta.ts",
       "phase": 3,
-      "state": "pending",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/meta.ts"
       ],
@@ -2781,7 +2781,7 @@
         "No explicit any in file"
       ],
       "createdAt": "2025-08-29T03:06:46Z",
-      "updatedAt": "2025-08-29T03:06:46Z"
+      "updatedAt": "2025-08-29T03:31:42Z"
     },
     {
       "id": "ts-anyfix-20250829-0004",

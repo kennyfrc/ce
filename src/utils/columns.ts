@@ -149,12 +149,14 @@ export const insertColumn = function (
     insertBefore = insertBefore ? true : false;
 
     // Current column number
-    const currentNumOfColumns = Math.max(
-      obj.options.columns?.length || 0,
-      ...(obj.options.data?.map(function (row: any[]) {
-        return row.length;
-      }) || [])
-    );
+    let maxFromData = 0;
+    if (obj.options.data) {
+      for (const row of obj.options.data) {
+        const len = Array.isArray(row) ? row.length : Object.keys(row).length;
+        if (len > maxFromData) maxFromData = len;
+      }
+    }
+    const currentNumOfColumns = Math.max(obj.options.columns?.length || 0, maxFromData);
 
     const lastColumn = currentNumOfColumns - 1;
 

@@ -1,12 +1,6 @@
 Analyzing any types in TypeScript files...
 
-Found 151 any types across 26 files:
-
-src/utils/meta.ts: 13 any types
-  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
-  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
-  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
-  ... and 10 more
+Found 138 any types across 25 files:
 
 src/utils/history.ts: 12 any types
   Line 13: export const setHistory = function (this: any, changes: any) {
@@ -140,6 +134,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 151
+Total any types found: 138
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

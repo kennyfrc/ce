@@ -54,13 +54,24 @@ export const setData = function (this: SpreadsheetContext, data: CellValue[][]) 
   const max_j = min_j > size_j ? min_j : size_j;
 
   for (j = 0; j < max_j; j++) {
-    for (i = 0; i < max_i; i++) {
-      if (obj.options.data[j] == undefined) {
-        obj.options.data[j] = [];
+    if (!obj.options.data[j]) {
+      obj.options.data[j] = [];
+    }
+    const row = obj.options.data[j];
+    if (Array.isArray(row)) {
+      const arr = row as CellValue[];
+      for (i = 0; i < max_i; i++) {
+        if (arr[i] == undefined) {
+          arr[i] = "";
+        }
       }
-
-      if (obj.options.data[j][i] == undefined) {
-        obj.options.data[j][i] = "";
+    } else {
+      const rowObj = row as Record<string, CellValue>;
+      for (i = 0; i < max_i; i++) {
+        const key = columns[i]?.name ?? String(i);
+        if (rowObj[key] == undefined) {
+          rowObj[key] = "";
+        }
       }
     }
   }
@@ -112,9 +123,13 @@ export const setData = function (this: SpreadsheetContext, data: CellValue[][]) 
 
   // Append nodes to the HTML
   for (j = 0; j < obj.options.data.length; j++) {
-    // Create row
-    const row = createRow.call(obj, j, obj.options.data[j]);
-    // Append line to the table
+    const rawRow = obj.options.data[j];
+    const rowData: CellValue[] = Array.isArray(rawRow)
+      ? (rawRow as CellValue[])
+      : (obj.options.columns ?? []).map((col, idx) =>
+          (rawRow as Record<string, CellValue>)[col?.name ?? String(idx)]
+        );
+    const row = createRow.call(obj, j, rowData);
     if (j >= startNumber && j < finalNumber) {
       obj.tbody.appendChild(row.element);
     }
@@ -237,58 +252,47 @@ export const setValue = function (
       updateFormulaChain.call(obj, x, y, records);
     }
   } else {
-    let x: number | null = null;
-    let y: number | null = null;
-    if (cell && cell.getAttribute) {
-      x = parseInt(cell.getAttribute("data-x") || "", 10);
-      y = parseInt(cell.getAttribute("data-y") || "", 10);
-    }
-
-    // Update cell
-    if (x !== null && y !== null && !isNaN(x) && !isNaN(y)) {
-      records.push(updateCell.call(obj, x, y, value, force));
-
-      // Update all formulas in the chain
-      updateFormulaChain.call(obj, x, y, records);
-    }
-
-    // Update cell
-    if (x != null && y != null) {
-      records.push(updateCell.call(obj, x, y, value, force));
-
-      // Update all formulas in the chain
-      updateFormulaChain.call(obj, x, y, records);
+    // Single HTMLElement passed (non-array)
+    if (!Array.isArray(cell) && (cell as unknown as HTMLElement)?.getAttribute) {
+      const el = cell as unknown as HTMLElement;
+      const xVal = parseInt(el.getAttribute("data-x") || "", 10);
+      const yVal = parseInt(el.getAttribute("data-y") || "", 10);
+      if (!isNaN(xVal) && !isNaN(yVal)) {
+        records.push(updateCell.call(obj, xVal, yVal, value, force));
+        updateFormulaChain.call(obj, xVal, yVal, records);
+      }
     } else {
-      const keys = Object.keys(cell);
-      if (keys.length > 0) {
-        for (let i = 0; i < keys.length; i++) {
-          let x, y;
+      const items: any[] = Array.isArray(cell)
+        ? (cell as any[])
+        : Object.keys(cell).map((k) => (cell as any)[k]);
 
-          if (typeof cell[i] == "string") {
-            const columnId = getIdFromColumnName(cell[i], true);
-            x = columnId[0];
-            y = columnId[1];
+      for (let idx = 0; idx < items.length; idx++) {
+        const item = items[idx] as any;
+        let xi: number | null = null;
+        let yi: number | null = null;
+
+        if (typeof item === "string") {
+          const columnId = getIdFromColumnName(item, true);
+          xi = columnId[0];
+          yi = columnId[1];
+        } else if (item && typeof item === "object") {
+          if (item.x != null && item.y != null) {
+            xi = Number(item.x);
+            yi = Number(item.y);
+            if (item.value != null) value = item.value;
           } else {
-            if (cell[i].x != null && cell[i].y != null) {
-              x = cell[i].x;
-              y = cell[i].y;
-              // Flexible setup
-              if (cell[i].value != null) {
-                value = cell[i].value;
-              }
-            } else {
-              x = cell[i].getAttribute("data-x");
-              y = cell[i].getAttribute("data-y");
-            }
+            const el =
+              item.element && (item.element as HTMLElement).getAttribute
+                ? (item.element as HTMLElement)
+                : (item as HTMLElement);
+            xi = parseInt(el.getAttribute("data-x") || "", 10);
+            yi = parseInt(el.getAttribute("data-y") || "", 10);
           }
+        }
 
-          // Update cell
-          if (x != null && y != null) {
-            records.push(updateCell.call(obj, x, y, value, force));
-
-            // Update all formulas in the chain
-            updateFormulaChain.call(obj, x, y, records);
-          }
+        if (xi != null && yi != null && !isNaN(xi) && !isNaN(yi)) {
+          records.push(updateCell.call(obj, xi, yi, value, force));
+          updateFormulaChain.call(obj, xi, yi, records);
         }
       }
     }
@@ -384,9 +388,11 @@ export const getData = function (
   let py = 0;
 
   // Column and row length
+  const columnsLen = obj.options.columns ? obj.options.columns.length : 0;
   const x = Math.max(
-    ...obj.options.data.map(function (row: CellValue[]) {
-      return row.length;
+    0,
+    ...obj.options.data.map(function (row) {
+      return Array.isArray(row) ? (row as CellValue[]).length : columnsLen;
     })
   );
   const y = obj.options.data.length;
@@ -407,7 +413,13 @@ export const getData = function (
         if (processed) {
           dataset[py][px] = obj.records[j][i].element.innerHTML;
         } else {
-          dataset[py][px] = obj.options.data[j][i];
+          const rawRow = obj.options.data[j];
+          if (Array.isArray(rawRow)) {
+            dataset[py][px] = (rawRow as CellValue[])[i];
+          } else {
+            const key = (obj.options.columns ?? [])[i]?.name ?? String(i);
+            dataset[py][px] = (rawRow as Record<string, CellValue>)[key];
+          }
         }
         px++;
       }
@@ -443,7 +455,7 @@ export const getData = function (
 };
 
 export const getDataFromRange = function (
-  this: any,
+  this: SpreadsheetContext,
   range: string,
   processed: boolean
 ) {
@@ -451,7 +463,7 @@ export const getDataFromRange = function (
 
   const coords = getCoordsFromRange(range);
 
-  const dataset: any[][] = [];
+  const dataset: CellValue[][] = [];
 
   for (let y = coords[1]; y <= coords[3]; y++) {
     dataset.push([]);
@@ -460,7 +472,13 @@ export const getDataFromRange = function (
       if (processed) {
         dataset[dataset.length - 1].push(obj.records[y][x].element.innerHTML);
       } else {
-        dataset[dataset.length - 1].push(obj.options.data[y][x]);
+        const rawRow = obj.options.data[y];
+        if (Array.isArray(rawRow)) {
+          dataset[dataset.length - 1].push((rawRow as CellValue[])[x]);
+        } else {
+          const key = (obj.options.columns ?? [])[x]?.name ?? String(x);
+          dataset[dataset.length - 1].push((rawRow as Record<string, CellValue>)[key]);
+        }
       }
     }
   }

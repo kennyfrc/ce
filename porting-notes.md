@@ -1,8 +1,20 @@
 ### Snapshot: 2025-08-29T03:23:20Z — src/utils/editor.ts typing
 
-- TypeScript errors (tsconfig.test.json --noEmit): 1157 (saved to .agent/ts-errors-run.txt)
-- Explicit any count (find-any-types): 151 (saved to .agent/any-types-run.txt)
-- Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+ - TypeScript errors (tsconfig.test.json --noEmit): 1157 (saved to .agent/ts-errors-run.txt)
+ - Explicit any count (find-any-types): 151 (saved to .agent/any-types-run.txt)
+ - Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+
+### Snapshot: 2025-08-29T03:32:03Z — assistant: meta.ts fix
+
+ - TypeScript errors (tsconfig.test.json --noEmit): 1157 (saved to .agent/ts-errors-post-meta.txt)
+ - Explicit any count (find-any-types): 138 (saved to .agent/any-types-run.txt)
+ - Files: .agent/ts-errors-post-meta.txt, .agent/any-types-run.txt
+
+Learnings:
+
+ - Typed src/utils/meta.ts: replaced `any` with SpreadsheetContext and precise nested meta types; avoided Record<string, any>.
+- any-analyzer: explicit any count decreased to 138; many tsc diagnostics remain and belong to other hotspots (events.ts, columns.ts).
+- Next: continue per-file fixes starting with src/utils/history.ts and src/utils/pagination.ts; create small PRs per file.
 
 Learnings:
 

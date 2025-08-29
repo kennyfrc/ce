@@ -1,11 +1,12 @@
 import dispatch from "./dispatch";
+import type { SpreadsheetContext } from "../types/core";
 
 /**
  * Get meta information from cell(s)
  *
- * @return integer
+ * @return unknown
  */
-export const getMeta = function (this: any, cell: any, key: any) {
+export const getMeta = function (this: SpreadsheetContext, cell?: string, key?: string): unknown {
   const obj = this;
 
   if (!cell) {
@@ -28,19 +29,20 @@ export const getMeta = function (this: any, cell: any, key: any) {
 /**
  * Update meta information
  *
- * @return integer
+ * @return void
  */
-export const updateMeta = function (this: any, affectedCells: any) {
+export const updateMeta = function (this: SpreadsheetContext, affectedCells: Record<string, string>): void {
   const obj = this;
 
   if (obj.options.meta) {
-    const newMeta: Record<string, any> = {};
+    const newMeta: Record<string, Record<string, unknown>> = {};
     const keys = Object.keys(obj.options.meta);
     for (let i = 0; i < keys.length; i++) {
-      if (affectedCells[keys[i]]) {
-        newMeta[affectedCells[keys[i]]] = obj.options.meta[keys[i]];
+      const k = keys[i];
+      if (affectedCells[k]) {
+        newMeta[affectedCells[k]] = obj.options.meta[k];
       } else {
-        newMeta[keys[i]] = obj.options.meta[keys[i]];
+        newMeta[k] = obj.options.meta[k];
       }
     }
     // Update meta information
@@ -51,34 +53,38 @@ export const updateMeta = function (this: any, affectedCells: any) {
 /**
  * Set meta information to cell(s)
  *
- * @return integer
+ * @return void
  */
-export const setMeta = function (this: any, o: any, k: any, v: any) {
+export const setMeta = function (this: SpreadsheetContext, o: string | Record<string, Record<string, unknown>>, k?: string, v?: unknown): void {
   const obj = this;
 
   if (!obj.options.meta) {
-    obj.options.meta = {} as Record<string, any>;
+    obj.options.meta = {} as Record<string, Record<string, unknown>>;
   }
 
-  if (k && v) {
+  if (k !== undefined && v !== undefined) {
     // Set data value
-    if (!obj.options.meta[o]) {
-      obj.options.meta[o] = {} as Record<string, any>;
+    const cellId = o as string;
+    if (!obj.options.meta[cellId]) {
+      obj.options.meta[cellId] = {} as Record<string, unknown>;
     }
-    obj.options.meta[o][k] = v;
+    obj.options.meta[cellId][k] = v;
 
-    dispatch.call(obj, "onchangemeta", obj, { [o]: { [k]: v } });
+    dispatch.call(obj, "onchangemeta", obj, { [cellId]: { [k]: v } });
   } else {
     // Apply that for all cells
-    const keys = Object.keys(o);
+    const source = o as Record<string, Record<string, unknown>>;
+    const keys = Object.keys(source);
     for (let i = 0; i < keys.length; i++) {
-      if (!obj.options.meta[keys[i]]) {
-        obj.options.meta[keys[i]] = {} as Record<string, any>;
+      const cellId = keys[i];
+      if (!obj.options.meta[cellId]) {
+        obj.options.meta[cellId] = {} as Record<string, unknown>;
       }
 
-      const prop = Object.keys(o[keys[i]]);
+      const prop = Object.keys(source[cellId]);
       for (let j = 0; j < prop.length; j++) {
-        obj.options.meta[keys[i]][prop[j]] = o[keys[i]][prop[j]];
+        const p = prop[j];
+        obj.options.meta[cellId][p] = source[cellId][p];
       }
     }
 

@@ -2,7 +2,8 @@
 /// <reference path="global.d.ts" />
 
 export interface SpreadsheetOptions {
-  data?: CellValue[][];
+  // data may be provided as array-of-arrays or as array-of-objects (legacy support)
+  data?: CellValue[][] | Array<Record<string, CellValue>>;
   minSpareRows?: number;
   minSpareCols?: number;
   minDimensions?: [number, number];
@@ -11,7 +12,7 @@ export interface SpreadsheetOptions {
   nestedHeaders?: NestedHeader[][];
   columns?: ColumnDefinition[];
   meta?: Record<string, Record<string, unknown>>;
-  pagination?: number;
+  pagination?: number | boolean;
   style?: Record<string, CSSStyleDeclaration | number> | Array<CSSStyleDeclaration>;
   footers?: string[][];
   onload?: () => void;
