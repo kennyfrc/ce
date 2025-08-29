@@ -1061,8 +1061,8 @@ export const updateFormulaChain = function (
         ) as number[];
         // Update cell
         let cellValue = "";
-        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[cell[1]] && obj.options.data[cell[1]][cell[0]] !== undefined) {
-          cellValue = "" + (obj.options.data as CellValue[][])[cell[1]][cell[0]];
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[cell[1]] && Array.isArray(obj.options.data[cell[1]]) && cell[0] < obj.options.data[cell[1]].length && obj.options.data[cell[1]][cell[0]] !== undefined) {
+          cellValue = "" + (obj.options.data[cell[1]] as CellValue[])[cell[0]];
         }
         if (cellValue.substr(0, 1) == "=") {
           records.push(updateCell.call(obj, cell[0], cell[1], cellValue, true));
@@ -1153,11 +1153,11 @@ const updateFormulas = function (
 
   // Update formula chain
   const formula: Record<string, string[]> = {};
-  const keys = Object.keys(obj.formula);
+  const keys = obj.formula ? Object.keys(obj.formula) : [];
   for (let j = 0; j < keys.length; j++) {
     // Current key and values
     let key = keys[j];
-    const value = obj.formula[key];
+    const value = obj.formula![key];
     // Update key
     if (referencesToUpdate[key]) {
       key = referencesToUpdate[key];
@@ -1190,9 +1190,9 @@ export const updateTableReferences = function (this: WorksheetInstance): void {
   for (let i = 0; i < obj.headers.length; i++) {
     const x = obj.headers[i].getAttribute("data-x");
 
-    if (x != i) {
+    if (x !== null && parseInt(x) !== i) {
       // Update coords
-      obj.headers[i].setAttribute("data-x", i);
+      obj.headers[i].setAttribute("data-x", i.toString());
       // Title
       if (!obj.headers[i].getAttribute("title")) {
         obj.headers[i].innerHTML = getColumnName(i);
@@ -1205,12 +1205,12 @@ export const updateTableReferences = function (this: WorksheetInstance): void {
     if (obj.rows[j]) {
       const y = obj.rows[j].element.getAttribute("data-y");
 
-      if (y != j) {
+      if (y !== null && parseInt(y) !== j) {
         // Update coords
-        obj.rows[j].element.setAttribute("data-y", j);
-        obj.rows[j].element.children[0].setAttribute("data-y", j);
+        obj.rows[j].element.setAttribute("data-y", j.toString());
+        obj.rows[j].element.children[0].setAttribute("data-y", j.toString());
         // Row number
-        obj.rows[j].element.children[0].innerHTML = j + 1;
+        obj.rows[j].element.children[0].innerHTML = (j + 1).toString();
       }
     }
   }
@@ -1222,10 +1222,10 @@ export const updateTableReferences = function (this: WorksheetInstance): void {
   // Update cell
   const updatePosition = function (x: number, y: number, i: number, j: number) {
     if (x != i) {
-      obj.records[j][i].element.setAttribute("data-x", i);
+      obj.records[j][i].element.setAttribute("data-x", i.toString());
     }
     if (y != j) {
-      obj.records[j][i].element.setAttribute("data-y", j);
+      obj.records[j][i].element.setAttribute("data-y", j.toString());
     }
 
     // Other updates
@@ -1240,23 +1240,27 @@ export const updateTableReferences = function (this: WorksheetInstance): void {
     for (let i = 0; i < obj.records[0].length; i++) {
       if (obj.records[j][i]) {
         // Current values
-        const x = obj.records[j][i].element.getAttribute("data-x");
-        const y = obj.records[j][i].element.getAttribute("data-y");
+        const xAttr = obj.records[j][i].element.getAttribute("data-x");
+        const yAttr = obj.records[j][i].element.getAttribute("data-y");
+        const x = xAttr !== null ? parseInt(xAttr) : null;
+        const y = yAttr !== null ? parseInt(yAttr) : null;
 
         // Update column
         if (obj.records[j][i].element.getAttribute("data-merged")) {
-          const columnIdFrom = getColumnNameFromId([x, y]);
-          const columnIdTo = getColumnNameFromId([i, j]);
-          if (mergeCellUpdates[columnIdFrom] == null) {
-            if (columnIdFrom == columnIdTo) {
-              mergeCellUpdates[columnIdFrom] = false;
-            } else {
-              const totalX = i - x;
-              const totalY = j - y;
-              mergeCellUpdates[columnIdFrom] = [columnIdTo, totalX, totalY];
+          if (x !== null && y !== null) {
+            const columnIdFrom = getColumnNameFromId([x, y]);
+            const columnIdTo = getColumnNameFromId([i, j]);
+            if (mergeCellUpdates[columnIdFrom] == null) {
+              if (columnIdFrom == columnIdTo) {
+                mergeCellUpdates[columnIdFrom] = false;
+              } else {
+                const totalX = i - x;
+                const totalY = j - y;
+                mergeCellUpdates[columnIdFrom] = [columnIdTo, totalX, totalY];
+              }
             }
           }
-        } else {
+        } else if (x !== null && y !== null) {
           updatePosition(x, y, i, j);
         }
       }
@@ -1268,23 +1272,26 @@ export const updateTableReferences = function (this: WorksheetInstance): void {
   if (keys.length) {
     for (let i = 0; i < keys.length; i++) {
       const mergeUpdate = mergeCellUpdates[keys[i]];
-      if (mergeUpdate && mergeUpdate !== false) {
+      if (mergeUpdate !== false && mergeUpdate !== null && mergeUpdate !== undefined) {
         const info = getIdFromColumnName(keys[i], true);
-        let x = info[0];
-        let y = info[1];
-        updatePosition(
-          x,
-          y,
-          x + mergeUpdate[1],
-          y + mergeUpdate[2]
-        );
+        if (Array.isArray(info) && info.length >= 2) {
+          let x = typeof info[0] === 'number' ? info[0] : parseInt(info[0]);
+          let y = typeof info[1] === 'number' ? info[1] : parseInt(info[1]);
+          updatePosition(
+            x,
+            y,
+            x + mergeUpdate[1],
+            y + mergeUpdate[2]
+          );
+        }
 
         const columnIdFrom = keys[i];
         const columnIdTo = mergeUpdate[0];
 
         // Guard against missing mergeCells or false values
-        if (obj.options.mergeCells && obj.options.mergeCells[columnIdFrom] && obj.options.mergeCells[columnIdFrom] !== false) {
+        if (obj.options.mergeCells && obj.options.mergeCells[columnIdFrom] !== false && obj.options.mergeCells[columnIdFrom] !== null && obj.options.mergeCells[columnIdFrom] !== undefined) {
           const mergeCellEntry = obj.options.mergeCells[columnIdFrom];
+          let x: number, y: number;
           for (
             let j = 0;
             j < mergeCellEntry[2].length;
@@ -1419,7 +1426,7 @@ export const updateResult = function (this: SpreadsheetContext) {
   // Page 1
   if (obj.options.lazyLoading == true) {
     total = 100;
-  } else if (obj.options.pagination && obj.options.pagination > 0) {
+  } else if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
     total = obj.options.pagination;
   } else {
     if (obj.results) {
@@ -1448,7 +1455,7 @@ export const updateResult = function (this: SpreadsheetContext) {
   }
 
   // Update pagination
-  if (obj.options.pagination && obj.options.pagination > 0) {
+  if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
     updatePagination.call(obj);
   }
 

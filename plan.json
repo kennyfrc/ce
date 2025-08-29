@@ -3662,6 +3662,30 @@
       ],
       "createdAt": "2025-08-29T17:45:00Z",
       "updatedAt": "2025-08-29T17:45:00Z"
+    },
+    {
+      "id": "ts-fix-internal-20250829-0001",
+      "name": "Fix TypeScript errors in internal.ts",
+      "description": "Address the 34 TypeScript errors in internal.ts including null-safety, type mismatches, and data shape issues",
+      "phase": "4",
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "errors"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in internal.ts"
+      ],
+      "createdAt": "2025-08-29T23:55:00Z",
+      "updatedAt": "2025-08-29T23:55:00Z",
+      "results": "Reduced errors from 34 to 11 (23 errors fixed) through null-safety guards, type assertions, and proper string/number conversions"
     }
   ]
 }
