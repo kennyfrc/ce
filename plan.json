@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T04:10:47Z"
+    "updatedAt": "2025-08-29T04:30:05Z"
   },
   "tasks": [
     {
@@ -2880,7 +2880,7 @@
       "name": "Fix anys: src/utils/worksheets.ts",
       "description": "Replace explicit any usages in worksheets.ts",
       "phase": 3,
-      "state": "pending",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/worksheets.ts"
       ],
@@ -2896,14 +2896,14 @@
         "No explicit any in file"
       ],
       "createdAt": "2025-08-29T03:06:46Z",
-      "updatedAt": "2025-08-29T03:06:46Z"
+      "updatedAt": "2025-08-29T04:18:00Z"
     },
     {
       "id": "ts-anyfix-20250829-0009",
       "name": "Fix anys: src/utils/columns.ts",
       "description": "Replace explicit any usages in columns.ts",
       "phase": 3,
-      "state": "pending",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/columns.ts"
       ],
@@ -2919,14 +2919,14 @@
         "No explicit any in file"
       ],
       "createdAt": "2025-08-29T03:06:46Z",
-      "updatedAt": "2025-08-29T03:06:46Z"
+      "updatedAt": "2025-08-29T04:29:17Z"
     },
     {
       "id": "ts-anyfix-20250829-0010",
       "name": "Fix anys: src/utils/helpers.ts",
       "description": "Replace explicit any usages in helpers.ts",
       "phase": 3,
-      "state": "pending",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/helpers.ts"
       ],
@@ -2942,7 +2942,7 @@
         "No explicit any in file"
       ],
       "createdAt": "2025-08-29T03:06:46Z",
-      "updatedAt": "2025-08-29T03:06:46Z"
+      "updatedAt": "2025-08-29T04:30:05Z"
     }
   ]
 }

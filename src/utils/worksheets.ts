@@ -1,7 +1,7 @@
 import jSuites from "jsuites";
 
 import libraryBase from "./libraryBase";
-import { WorksheetInstance, SpreadsheetInstance } from "../types/core";
+import { WorksheetInstance, SpreadsheetInstance, SpreadsheetOptions, CellValue } from "../types/core";
 
 import { parseCSV } from "./helpers";
 import {
@@ -78,6 +78,13 @@ import { copy, paste } from "./copyPaste";
 import { isReadOnly, setReadOnly } from "./cells";
 import { openFilter, resetFilters } from "./filter";
 import { redo, undo } from "./history";
+
+// Narrow plugin shapes used by this module (avoid blanket `any` casts)
+type PluginWithHooks = {
+  beforeinit?: (worksheet: WorksheetInstance) => void;
+  init?: (worksheet: WorksheetInstance) => void;
+  [key: string]: unknown;
+};
 
 const setWorksheetFunctions = function (worksheet: WorksheetInstance) {
   for (let i = 0; i < worksheetPublicMethodsLength; i++) {
@@ -472,7 +479,7 @@ const prepareTable = function (this: WorksheetInstance) {
       success: function (this: WorksheetInstance) {
         createTable.call(obj);
       },
-    } as any);
+    } as unknown as { url: unknown; success: (this: WorksheetInstance) => void });
   }
 };
 
@@ -506,7 +513,7 @@ export const buildWorksheet = async function (this: WorksheetInstance) {
 
   if (typeof spreadsheet.plugins === "object") {
     Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
-      const typedPlugin = plugin as any;
+      const typedPlugin = plugin as unknown as PluginWithHooks;
       if (typeof typedPlugin.beforeinit === "function") {
         typedPlugin.beforeinit(obj);
       }
@@ -587,7 +594,7 @@ export const buildWorksheet = async function (this: WorksheetInstance) {
 
   if (typeof spreadsheet.plugins === "object") {
     Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
-      const typedPlugin = plugin as any;
+      const typedPlugin = plugin as unknown as PluginWithHooks;
       if (typeof typedPlugin.init === "function") {
         typedPlugin.init(obj);
       }
@@ -597,7 +604,7 @@ export const buildWorksheet = async function (this: WorksheetInstance) {
 
 export const createWorksheetObj = function (
   this: WorksheetInstance,
-  options: any
+  options: SpreadsheetOptions
 ) {
   const obj = this;
 
@@ -625,7 +632,7 @@ export const createWorksheetObj = function (
 
 export const createWorksheet = function (
   this: WorksheetInstance,
-  options: any
+  options: SpreadsheetOptions
 ) {
   const obj = this;
   const spreadsheet = obj.parent;
@@ -731,7 +738,7 @@ const worksheetPublicMethods = [
   ],
   [
     "removeMerge",
-    function (this: any, cellName: string, data: any) {
+    function (this: WorksheetInstance, cellName: string, data?: CellValue[]) {
       return removeMerge.call(this, cellName, data, undefined);
     },
   ],
@@ -745,10 +752,10 @@ const worksheetPublicMethods = [
     "setStyle",
     function (
       this: WorksheetInstance,
-      cell: any,
+      cell: string | Record<string, string | string[]>,
       property: string,
-      value: any,
-      forceOverwrite: boolean
+      value?: string | null,
+      forceOverwrite?: boolean
     ) {
       return setStyle.call(this, cell, property, value, forceOverwrite);
     },
@@ -774,7 +781,7 @@ const worksheetPublicMethods = [
   ["setConfig", setConfig],
   [
     "getMeta",
-    function (this: WorksheetInstance, cell: any) {
+    function (this: WorksheetInstance, cell?: string) {
       return getMeta.call(this, cell, undefined);
     },
   ],

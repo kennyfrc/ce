@@ -1,18 +1,6 @@
-Any Types Analysis Report - 2025-08-29T04:09:55.805Z
-Total any types: 93
-Files with any types: 21
-
-src/utils/worksheets.ts: 10 any types
-  Line 475: } as any);
-  Line 509: const typedPlugin = plugin as any;
-  Line 590: const typedPlugin = plugin as any;
-  Line 600: options: any
-  Line 628: options: any
-  Line 734: function (this: any, cellName: string, data: any) {
-  Line 734: function (this: any, cellName: string, data: any) {
-  Line 748: cell: any,
-  Line 750: value: any,
-  Line 777: function (this: WorksheetInstance, cell: any) {
+Any Types Analysis Report - 2025-08-29T04:19:03.809Z
+Total any types: 82
+Files with any types: 20
 
 src/utils/columns.ts: 9 any types
   Line 121: mixed?: number | any[],
@@ -102,11 +90,6 @@ src/utils/config.ts: 4 any types
   Line 17: this: any,
   Line 18: config: any,
 
-src/utils/merges.ts: 3 any types
-  Line 146: alert((jSuites as any).translate("No cells selected"));
-  Line 187: alert((jSuites as any).translate(test));
-  Line 253: data: any,
-
 src/utils/rows.ts: 3 any types
   Line 181: "This action will destroy any existing merged cells. Are you sure?"
   Line 331: "This action will destroy any existing merged cells. Are you sure?"
@@ -127,6 +110,10 @@ src/utils/footer.ts: 2 any types
 src/utils/internalHelpers.ts: 2 any types
   Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
   Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
+
+src/utils/merges.ts: 2 any types
+  Line 146: alert((jSuites as any).translate("No cells selected"));
+  Line 187: alert((jSuites as any).translate(test));
 
 src/utils/columnHelpers.ts: 1 any types
   Line 66: ): any | undefined {

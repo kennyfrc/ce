@@ -513,13 +513,15 @@ export const getDefault = function (this: SpreadsheetContext) {
   items.push({
     content: "fullscreen",
     tooltip: "Toggle Fullscreen",
-    onclick: function (a: any, b: any, c: any) {
-      if (c.children[0].textContent === "fullscreen") {
+    onclick: function (a: unknown, b: unknown, c: unknown) {
+      if (!(c instanceof HTMLElement)) return;
+      const label = c.children?.[0] as HTMLElement | undefined;
+      if (label && label.textContent === "fullscreen") {
         spreadsheet.fullscreen?.(true);
-        c.children[0].textContent = "fullscreen_exit";
-      } else {
+        label.textContent = "fullscreen_exit";
+      } else if (label) {
         spreadsheet.fullscreen?.(false);
-        c.children[0].textContent = "fullscreen";
+        label.textContent = "fullscreen";
       }
     },
     updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
@@ -560,15 +562,17 @@ const adjustToolbarSettingsForJSuites = function (
         delete items[i].v;
 
         if (items[i].k && !items[i].onchange) {
-          items[i].onchange = function (el: any, config: any, value: any) {
+          items[i].onchange = function (el: unknown, config: unknown, value: unknown) {
             const worksheet = getWorksheetInstance.call(spreadsheet);
 
             const cells = worksheet.getSelected(true);
 
+            const val = value == null ? "" : String(value);
+
             worksheet.setStyle(
               Object.fromEntries(
                 cells.map(function (cellName: string) {
-                  return [cellName, items[i].k + ": " + value];
+                  return [cellName, items[i].k + ": " + val];
                 })
               )
             );
@@ -578,9 +582,11 @@ const adjustToolbarSettingsForJSuites = function (
     } else if (items[i].type == "color") {
       items[i].type = "i";
 
-      items[i].onclick = function (a: any, b: any, c: any) {
-        if (!c.color) {
-          jSuites.color(c, {
+      items[i].onclick = function (a: unknown, b: unknown, c: unknown) {
+        type ColorWidget = { color?: { open?: () => void; select?: (s: string) => void } };
+        const target = c as ColorWidget;
+        if (!target.color) {
+          jSuites.color(target as unknown as HTMLElement, {
             onchange: function (o: HTMLElement, v: string) {
               const worksheet = getWorksheetInstance.call(spreadsheet);
 
@@ -594,12 +600,12 @@ const adjustToolbarSettingsForJSuites = function (
                 )
               );
             },
-            onopen: function (o: any) {
-              o.color.select("");
+            onopen: function (o: unknown) {
+              (o as ColorWidget).color?.select("");
             },
           });
 
-          c.color.open();
+          target.color?.open();
         }
       };
     }
@@ -623,10 +629,14 @@ export const createToolbar = function (
   if (typeof spreadsheet.plugins === "object") {
     Object.entries(spreadsheet.plugins).forEach(function ([, plugin]: [
       string,
-      any
+      unknown
     ]) {
-      if (typeof plugin.toolbar === "function") {
-        const result = plugin.toolbar(toolbar);
+      const p = plugin as {
+        toolbar?: (t: { items: ToolbarItem[] }) => { items: ToolbarItem[] } | undefined;
+      };
+
+      if (typeof p.toolbar === "function") {
+        const result = p.toolbar(toolbar);
 
         if (result) {
           toolbar = result;

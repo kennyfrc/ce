@@ -5,7 +5,7 @@ import { updateCell } from "./internal";
 import { setHistory } from "./history";
 import dispatch from "./dispatch";
 import { updateSelection } from "./selection";
-import type { WorksheetInstance } from "../types/core";
+import type { WorksheetInstance, CellValue } from "../types/core";
 
 /**
  * Is column merged
@@ -250,7 +250,7 @@ export const setMerge = function (
 export const removeMerge = function (
   this: WorksheetInstance,
   cellName: string,
-  data: any,
+  data?: CellValue[] | null,
   keepOptions?: boolean
 ) {
   const obj = this;

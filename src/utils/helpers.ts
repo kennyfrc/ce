@@ -1,18 +1,23 @@
 import { getColumnNameFromId } from "./internalHelpers";
+import type { SpreadsheetOptions } from "../types/core";
 
 /**
  * Get carret position for one element
  */
-export const getCaretIndex = function (this: any, e: HTMLElement) {
-  let d;
+export const getCaretIndex = function (
+  this: { config?: { root?: { getSelection: () => Selection | null } } },
+  e: HTMLElement
+) {
+  let d: { getSelection: () => Selection | null } | Window | Document;
 
-  if (this.config.root) {
-    d = this.config.root;
+  if (this.config && this.config.root) {
+    d = this.config.root as { getSelection: () => Selection | null };
   } else {
     d = window;
   }
   let pos = 0;
-  const s = d.getSelection();
+  const owner = d as unknown as { getSelection?: () => Selection | null };
+  const s = owner.getSelection ? owner.getSelection() : null;
   if (s) {
     if (s.rangeCount !== 0) {
       const r = s.getRangeAt(0);
@@ -28,11 +33,13 @@ export const getCaretIndex = function (this: any, e: HTMLElement) {
 /**
  * Invert keys and values
  */
-export const invert = function (o: Record<string, any>) {
-  const d = [];
+export const invert = function (
+  o: Record<string, string | number | boolean | null | undefined>
+) {
+  const d: Record<string, string> = {};
   const k = Object.keys(o);
   for (let i = 0; i < k.length; i++) {
-    d[o[k[i]]] = k[i];
+    d[String(o[k[i]])] = k[i];
   }
   return d;
 };
@@ -117,7 +124,7 @@ export const parseCSV = function (str: string, delimiter?: string) {
   // Remove last line break
   str = str.replace(/\r?\n$|\r$|\n$/g, "");
 
-  const arr: any[][] = [];
+  const arr: string[][] = [];
   let quote = false; // true means we're inside a quoted field
   // iterate over each character, keep track of current row and column (of the returned array)
   let maxCol = 0;
@@ -184,7 +191,7 @@ export const parseCSV = function (str: string, delimiter?: string) {
   return arr;
 };
 
-export const createFromTable = function (el: HTMLElement, options?: any) {
+export const createFromTable = function (el: HTMLElement, options?: Partial<SpreadsheetOptions>) {
   if (el.tagName != "TABLE") {
     console.log("Element is not a table");
   } else {
@@ -276,10 +283,10 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
 
     // Content
     let rowNumber = 0;
-    const mergeCells: Record<string, any> = {};
-    const rows: Record<string, any> = {};
-    const style: Record<string, any> = {};
-    const classes: Record<string, any> = {};
+    const mergeCells: Record<string, [number, number]> = {};
+    const rows: Record<number, { height: string }> = {};
+    const style: Record<string, string> = {};
+    const classes: Record<string, string> = {};
 
     let content = el.querySelectorAll(":scope > tr, :scope > tbody > tr");
     for (let j = 0; j < content.length; j++) {
@@ -399,7 +406,7 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
 
     // I guess in terms the better column type
     if (options.parseTableAutoCellType == true) {
-      const pattern: Record<string, any>[] = [];
+      const pattern: Record<string, number>[] = [];
       for (let i = 0; i < options.columns.length; i++) {
         let test = true;
         let testCalendar = true;

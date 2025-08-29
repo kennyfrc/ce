@@ -7,7 +7,7 @@ import { createCell, updateTableReferences } from "./internal";
 import { conditionalSelectionUpdate, updateCornerPosition } from "./selection";
 import { setFooter } from "./footer";
 import { getColumnNameFromId, injectArray } from "./internalHelpers";
-import type { ColumnDefinition, WorksheetInstance, SpreadsheetInstance, SpreadsheetContext } from "../types/core";
+import type { ColumnDefinition, WorksheetInstance, SpreadsheetInstance, SpreadsheetContext, CellValue } from "../types/core";
 
 export const getNumberOfColumns = function (
   this: WorksheetInstance | SpreadsheetInstance | SpreadsheetContext
@@ -118,10 +118,10 @@ export const createCellHeader = function (
  */
 export const insertColumn = function (
   this: import("../types/core").SpreadsheetContext,
-  mixed?: number | any[],
+  mixed?: number | CellValue[],
   columnNumber?: number,
   insertBefore?: boolean,
-  properties?: any
+  properties?: ColumnDefinition[]
 ): boolean | void {
   const obj = this;
 
@@ -131,7 +131,7 @@ export const insertColumn = function (
     var records = [];
 
     // Data to be insert
-    let data = [];
+    let data: CellValue[] = [];
 
     // The insert could be lead by number of rows or the array of data
     let numOfColumns;
@@ -169,14 +169,14 @@ export const insertColumn = function (
       columnNumber = lastColumn;
     }
 
-    // Create default properties
-    if (!properties) {
-      properties = [];
+    // Normalize properties to an array of ColumnDefinition
+    if (!Array.isArray(properties)) {
+      properties = properties ? [properties] as ColumnDefinition[] : [];
     }
 
     for (let i = 0; i < numOfColumns; i++) {
       if (!properties[i]) {
-        properties[i] = {};
+        properties[i] = {} as ColumnDefinition;
       }
     }
 
@@ -192,7 +192,7 @@ export const insertColumn = function (
         columns.push(column);
       }
     } else {
-      const data = [];
+      const data: CellValue[] = [];
 
       for (let i = 0; i < (obj.options.data?.length || 0); i++) {
         data.push(i < mixed.length ? mixed[i] : "");
@@ -245,11 +245,11 @@ export const insertColumn = function (
     const currentColgroup = obj.cols.splice(columnIndex);
 
     // History
-    const historyHeaders = [];
-    const historyColgroup: any[] = [];
-    const historyRecords: any[] = [];
-    const historyData: any[] = [];
-    const historyFooters: any[][] = [];
+    const historyHeaders: HTMLElement[] = [];
+    const historyColgroup: Array<{ colElement: HTMLElement }> = [];
+    const historyRecords: Array<Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>> = [];
+    const historyData: CellValue[][] = [];
+    const historyFooters: string[][] = [];
 
     // Add new headers
     for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
