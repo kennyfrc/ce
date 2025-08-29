@@ -7,6 +7,7 @@ const chai_1 = require("chai");
 const index_1 = __importDefault(require("../src/index"));
 describe('Comment tests', () => {
     it('Set comment', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             worksheets: [
                 {
@@ -29,12 +30,13 @@ describe('Comment tests', () => {
         if (!table)
             throw new Error('Element not found');
         const rows = table.children;
-        instance[0].setComments('C2', 'Test');
+        (_b = (_a = instance[0]).setComments) === null || _b === void 0 ? void 0 : _b.call(_a, 'C2', 'Test');
         (0, chai_1.expect)(rows[1].children[3].getAttribute('title')).to.equal('Test');
-        instance[0].setComments('C2', '');
+        (_d = (_c = instance[0]).setComments) === null || _d === void 0 ? void 0 : _d.call(_c, 'C2', '');
         (0, chai_1.expect)(rows[1].children[3].getAttribute('title')).to.equal('');
     });
     it('Get comment', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             worksheets: [
                 {
@@ -53,10 +55,11 @@ describe('Comment tests', () => {
                 }
             ],
         });
-        instance[0].setComments('B3', 'something');
-        (0, chai_1.expect)(instance[0].getComments('B3')).to.equal('something');
+        (_b = (_a = instance[0]).setComments) === null || _b === void 0 ? void 0 : _b.call(_a, 'B3', 'something');
+        (0, chai_1.expect)((_d = (_c = instance[0]).getComments) === null || _d === void 0 ? void 0 : _d.call(_c, 'B3')).to.equal('something');
     });
     it('setComments history', () => {
+        var _a, _b, _c, _d, _e, _f;
         const instance = (0, index_1.default)(root, {
             worksheets: [
                 {
@@ -79,11 +82,11 @@ describe('Comment tests', () => {
         if (!table)
             throw new Error('Element not found');
         const rows = table.children;
-        instance[0].setComments('C2', 'Test');
+        (_b = (_a = instance[0]).setComments) === null || _b === void 0 ? void 0 : _b.call(_a, 'C2', 'Test');
         (0, chai_1.expect)(rows[1].children[3].getAttribute('title')).to.equal('Test');
-        instance[0].undo();
+        (_d = (_c = instance[0]).undo) === null || _d === void 0 ? void 0 : _d.call(_c);
         (0, chai_1.expect)(rows[1].children[3].getAttribute('title')).to.equal('');
-        instance[0].redo();
+        (_f = (_e = instance[0]).redo) === null || _f === void 0 ? void 0 : _f.call(_e);
         (0, chai_1.expect)(rows[1].children[3].getAttribute('title')).to.equal('Test');
     });
 });

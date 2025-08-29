@@ -78,6 +78,7 @@ declare module "jsuites" {
     render: () => void;
     extract: () => string | null;
     open: () => void;
+    select: (value: string) => void;
   }
 
   interface JSuitesEditor {

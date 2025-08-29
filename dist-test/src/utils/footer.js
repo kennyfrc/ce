@@ -42,7 +42,7 @@ const setFooter = function (data) {
                         "center";
                     td.style.textAlign = colAlign;
                 }
-                td.textContent = internal_1.parseValue.call(obj, +obj.records.length + i, j, obj.options.footers[j][i], td);
+                td.textContent = String(internal_1.parseValue.call(obj, +obj.records.length + i, j, obj.options.footers[j][i], td));
                 // Hide/Show with hideColumn()/showColumn()
                 td.style.display = (_e = (_d = obj.cols[i]) === null || _d === void 0 ? void 0 : _d.colElement.style.display) !== null && _e !== void 0 ? _e : "";
             }

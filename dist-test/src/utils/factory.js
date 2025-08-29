@@ -42,14 +42,14 @@ const createWorksheets = async function (spreadsheet, options, el) {
                 const newWorksheet = spreadsheet.worksheets[spreadsheet.worksheets.length - 1];
                 newWorksheet.element = newTabContent;
                 worksheets_1.buildWorksheet.call(newWorksheet).then(function () {
-                    toolbar_1.updateToolbar.call(newWorksheet);
+                    toolbar_1.updateToolbar.call(spreadsheet, newWorksheet);
                     dispatch_1.default.call(newWorksheet, "oncreateworksheet", newWorksheet, options, spreadsheet.worksheets.length - 1);
                 });
             },
             onchange: function (element, instance, tabIndex) {
                 if (spreadsheet.worksheets.length != 0 &&
                     spreadsheet.worksheets[tabIndex]) {
-                    toolbar_1.updateToolbar.call(spreadsheet.worksheets[tabIndex]);
+                    toolbar_1.updateToolbar.call(spreadsheet, spreadsheet.worksheets[tabIndex]);
                 }
             },
         };
@@ -76,10 +76,11 @@ const createWorksheets = async function (spreadsheet, options, el) {
         const spreadsheetStyles = (_a = options.style) !== null && _a !== void 0 ? _a : {};
         delete options.style;
         for (let i = 0; i < o.length; i++) {
-            if (o[i].style) {
-                Object.entries(o[i].style).forEach(function ([cellName, value]) {
+            if (o[i].style && typeof o[i].style === "object" && !Array.isArray(o[i].style)) {
+                const styleObj = o[i].style;
+                Object.entries(styleObj).forEach(function ([cellName, value]) {
                     if (typeof value === "number" && spreadsheetStyles[value]) {
-                        o[i].style[cellName] = spreadsheetStyles[value];
+                        styleObj[cellName] = spreadsheetStyles[value];
                     }
                 });
             }
@@ -125,6 +126,7 @@ factory.spreadsheet = async function (el, options, worksheets) {
         options: options,
         headers: [],
         rows: [],
+        cols: [],
         tbody: document.createElement("tbody"),
         table: document.createElement("table"),
         parent: {},
@@ -151,7 +153,7 @@ factory.spreadsheet = async function (el, options, worksheets) {
     };
     spreadsheet.setPlugins(options.plugins);
     // Create as worksheets
-    await createWorksheets(spreadsheet, options, el);
+    await createWorksheets.call(spreadsheet, spreadsheet, options, el);
     spreadsheet.element.appendChild(spreadsheet.contextMenu);
     // Create element
     jsuites_1.default.contextmenu(spreadsheet.contextMenu, {
@@ -165,7 +167,7 @@ factory.spreadsheet = async function (el, options, worksheets) {
     }
     toolbar_1.showToolbar.call(spreadsheet.worksheets[0] || spreadsheet);
     // Build handlers
-    if (options.root) {
+    if (options.root && options.root instanceof HTMLElement) {
         (0, events_1.setEvents)(options.root);
     }
     else {
@@ -183,6 +185,7 @@ factory.worksheet = function (spreadsheet, options, position) {
         options: {},
         headers: [],
         rows: [],
+        cols: [],
         element: document.createElement("div"),
         config: spreadsheet.config,
         worksheets: [],

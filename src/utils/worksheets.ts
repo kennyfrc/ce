@@ -867,7 +867,7 @@ const worksheetPublicMethods = [
   ["paste", paste],
   ["executeFormula", executeFormula],
   ["getDataFromRange", getDataFromRange],
-  ["quantiyOfPages", quantiyOfPages],
+  ["quantityOfPages", quantityOfPages],
   ["getRange", getRange],
   ["isSelected", isSelected],
   ["setReadOnly", setReadOnly],

@@ -7,6 +7,7 @@ const chai_1 = require("chai");
 const index_1 = __importDefault(require("../src/index"));
 describe('Use the columns method', () => {
     it('insertColumn and column is inserted in the position 0', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -22,13 +23,14 @@ describe('Use the columns method', () => {
         let rows = table.children;
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);
         // Insert [3, 3] column in the first column
-        instance[0].insertColumn([3, 3], 0, 1);
+        (_b = (_a = instance[0]).insertColumn) === null || _b === void 0 ? void 0 : _b.call(_a, [3, 3], 0, true);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(3);
         // Insert [2, 2] column in the first column
-        instance[0].insertColumn([2, 2], 0, 1);
+        (_d = (_c = instance[0]).insertColumn) === null || _d === void 0 ? void 0 : _d.call(_c, [2, 2], 0, true);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(2);
     });
     it('insertColumn and column is inserted in the position 1', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -44,11 +46,11 @@ describe('Use the columns method', () => {
         let rows = table.children;
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(9);
         // Insert [3, 3] column in the second column
-        instance[0].insertColumn([3, 3], 0);
+        (_b = (_a = instance[0]).insertColumn) === null || _b === void 0 ? void 0 : _b.call(_a, [3, 3], 0);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(3);
         // Insert [2, 2] column in the second column
-        instance[0].insertColumn([2, 2], 0);
+        (_d = (_c = instance[0]).insertColumn) === null || _d === void 0 ? void 0 : _d.call(_c, [2, 2], 0);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(2);
     });
@@ -137,6 +139,7 @@ describe('Use the columns method', () => {
         (0, chai_1.expect)(window.getComputedStyle(headers[2]).display).not.to.include('none');
     });
     it('insertColumn history', () => {
+        var _a, _b;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -152,7 +155,7 @@ describe('Use the columns method', () => {
         let rows = table.children;
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);
         // Insert [3, 3] column in the first column
-        instance[0].insertColumn([3, 3], 0, 1);
+        (_b = (_a = instance[0]).insertColumn) === null || _b === void 0 ? void 0 : _b.call(_a, [3, 3], 0, true);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(3);
         instance[0].undo();
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);

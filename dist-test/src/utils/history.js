@@ -108,7 +108,7 @@ const historyProcessRow = function (type, historyRecord) {
  * Process column
  */
 const historyProcessColumn = function (type, historyRecord) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5;
     const obj = this;
     const columnIndex = !historyRecord.insertBefore
         ? ((_a = historyRecord.columnNumber) !== null && _a !== void 0 ? _a : 0) + 1
@@ -182,9 +182,14 @@ const historyProcessColumn = function (type, historyRecord) {
                 if (historyRecord.numOfColumns !== undefined) {
                     let index = 0;
                     for (let i = columnIndex; i < historyRecord.numOfColumns + columnIndex; i++) {
-                        const recordElement = (_x = (_w = historyRecord.records) === null || _w === void 0 ? void 0 : _w[index]) === null || _x === void 0 ? void 0 : _x.element;
-                        const targetElement = (_z = (_y = obj.rows[j]) === null || _y === void 0 ? void 0 : _y.element) === null || _z === void 0 ? void 0 : _z.children[i + 1];
-                        if (recordElement && targetElement && ((_0 = obj.rows[j]) === null || _0 === void 0 ? void 0 : _0.element)) {
+                        // Check if records is the nested array variant
+                        const recordRow = (_w = historyRecord.records) === null || _w === void 0 ? void 0 : _w[j];
+                        let recordElement;
+                        if (Array.isArray(recordRow) && recordRow[index] && typeof recordRow[index] === 'object' && 'element' in recordRow[index]) {
+                            recordElement = recordRow[index].element;
+                        }
+                        const targetElement = (_y = (_x = obj.rows[j]) === null || _x === void 0 ? void 0 : _x.element) === null || _y === void 0 ? void 0 : _y.children[i + 1];
+                        if (recordElement && targetElement && ((_z = obj.rows[j]) === null || _z === void 0 ? void 0 : _z.element)) {
                             obj.rows[j].element.insertBefore(recordElement, targetElement);
                         }
                         index++;
@@ -196,7 +201,7 @@ const historyProcessColumn = function (type, historyRecord) {
         if (obj.options.footers) {
             for (let j = 0; j < obj.options.footers.length; j++) {
                 if (obj.options.footers[j]) {
-                    const footerData = (_1 = historyRecord.footers) === null || _1 === void 0 ? void 0 : _1[j];
+                    const footerData = (_0 = historyRecord.footers) === null || _0 === void 0 ? void 0 : _0[j];
                     obj.options.footers[j] = (0, internalHelpers_1.injectArray)(obj.options.footers[j], columnIndex, footerData !== null && footerData !== void 0 ? footerData : []);
                 }
             }
@@ -223,14 +228,14 @@ const historyProcessColumn = function (type, historyRecord) {
             let colspan;
             if (type === 1) {
                 colspan =
-                    parseInt(obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan) - ((_2 = historyRecord.numOfColumns) !== null && _2 !== void 0 ? _2 : 0);
+                    parseInt(obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan) - ((_1 = historyRecord.numOfColumns) !== null && _1 !== void 0 ? _1 : 0);
             }
             else {
                 colspan =
-                    parseInt(obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan) + ((_3 = historyRecord.numOfColumns) !== null && _3 !== void 0 ? _3 : 0);
+                    parseInt(obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan) + ((_2 = historyRecord.numOfColumns) !== null && _2 !== void 0 ? _2 : 0);
             }
             obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan = colspan;
-            (_6 = (_5 = (_4 = obj.thead) === null || _4 === void 0 ? void 0 : _4.children[j]) === null || _5 === void 0 ? void 0 : _5.children[obj.thead.children[j].children.length - 1]) === null || _6 === void 0 ? void 0 : _6.setAttribute("colspan", colspan.toString());
+            (_5 = (_4 = (_3 = obj.thead) === null || _3 === void 0 ? void 0 : _3.children[j]) === null || _4 === void 0 ? void 0 : _4.children[obj.thead.children[j].children.length - 1]) === null || _5 === void 0 ? void 0 : _5.setAttribute("colspan", colspan.toString());
         }
     }
     internal_1.updateTableReferences.call(obj);
@@ -239,7 +244,7 @@ const historyProcessColumn = function (type, historyRecord) {
  * Undo last action
  */
 const undo = function () {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     const obj = this;
     // Ignore events and history
     const ignoreEvents = ((_a = obj.parent) === null || _a === void 0 ? void 0 : _a.ignoreEvents) ? true : false;
@@ -305,21 +310,39 @@ const undo = function () {
             // Redo for changes in cells
             if (historyRecord.records) {
                 for (let i = 0; i < historyRecord.records.length; i++) {
-                    records.push({
-                        x: historyRecord.records[i].x,
-                        y: historyRecord.records[i].y,
-                        value: historyRecord.records[i].oldValue,
-                    });
+                    const record = historyRecord.records[i];
+                    // Check if record is an array (nested structure) or object (flat structure)
+                    if (Array.isArray(record)) {
+                        // Handle array of arrays case - take first element
+                        const firstElement = record[0];
+                        if (firstElement && typeof firstElement === 'object' && 'x' in firstElement && 'y' in firstElement) {
+                            records.push({
+                                x: firstElement.x,
+                                y: firstElement.y,
+                                value: firstElement.oldValue,
+                            });
+                        }
+                    }
+                    else if (record && typeof record === 'object' && 'x' in record && 'y' in record) {
+                        // Handle flat array case
+                        records.push({
+                            x: record.x,
+                            y: record.y,
+                            value: record.oldValue,
+                        });
+                    }
                     if (historyRecord.oldStyle) {
                         (_k = obj.resetStyle) === null || _k === void 0 ? void 0 : _k.call(obj, historyRecord.oldStyle, true);
                     }
                 }
             }
             // Update records
-            (_l = obj.setValue) === null || _l === void 0 ? void 0 : _l.call(obj, records);
+            for (const record of records) {
+                (_l = obj.setValueFromCoords) === null || _l === void 0 ? void 0 : _l.call(obj, record.x, record.y, (_m = record.value) !== null && _m !== void 0 ? _m : null, true);
+            }
             // Update selection
             if (historyRecord.selection) {
-                (_m = obj.updateSelectionFromCoords) === null || _m === void 0 ? void 0 : _m.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
+                (_o = obj.updateSelectionFromCoords) === null || _o === void 0 ? void 0 : _o.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
             }
         }
     }
@@ -335,7 +358,7 @@ exports.undo = undo;
  * Redo previously undone action
  */
 const redo = function () {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
     const obj = this;
     // Ignore events and history
     const ignoreEvents = ((_a = obj.parent) === null || _a === void 0 ? void 0 : _a.ignoreEvents) ? true : false;
@@ -392,18 +415,31 @@ const redo = function () {
             orderBy_1.updateOrder.call(obj, historyRecord.rows);
         }
         else if (historyRecord.action === "setValue") {
-            (_j = obj.setValue) === null || _j === void 0 ? void 0 : _j.call(obj, historyRecord.records);
             // Redo for changes in cells
             if (historyRecord.records) {
                 for (let i = 0; i < historyRecord.records.length; i++) {
-                    if (historyRecord.oldStyle) {
-                        (_k = obj.resetStyle) === null || _k === void 0 ? void 0 : _k.call(obj, historyRecord.oldStyle, true);
+                    const record = historyRecord.records[i];
+                    // Check if record is an array (nested structure) or object (flat structure)
+                    if (Array.isArray(record)) {
+                        // Handle array of arrays case - take first element
+                        const firstElement = record[0];
+                        if (firstElement && typeof firstElement === 'object' && 'x' in firstElement && 'y' in firstElement) {
+                            (_j = obj.setValueFromCoords) === null || _j === void 0 ? void 0 : _j.call(obj, firstElement.x, firstElement.y, (_k = firstElement.oldValue) !== null && _k !== void 0 ? _k : null, true);
+                        }
                     }
+                    else if (record && typeof record === 'object' && 'x' in record && 'y' in record) {
+                        // Handle flat array case
+                        (_l = obj.setValueFromCoords) === null || _l === void 0 ? void 0 : _l.call(obj, record.x, record.y, (_m = record.oldValue) !== null && _m !== void 0 ? _m : null, true);
+                    }
+                }
+                // Reset old style if present (do this once, not in loop)
+                if (historyRecord.oldStyle) {
+                    (_o = obj.resetStyle) === null || _o === void 0 ? void 0 : _o.call(obj, historyRecord.oldStyle, true);
                 }
             }
             // Update selection
             if (historyRecord.selection) {
-                (_l = obj.updateSelectionFromCoords) === null || _l === void 0 ? void 0 : _l.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
+                (_p = obj.updateSelectionFromCoords) === null || _p === void 0 ? void 0 : _p.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
             }
         }
     }

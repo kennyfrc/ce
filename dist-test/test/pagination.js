@@ -7,6 +7,7 @@ const chai_1 = require("chai");
 const index_1 = __importDefault(require("../src/index"));
 describe('Use pagination', () => {
     it('Start the worksheet with pagination', () => {
+        var _a, _b;
         const instance = (0, index_1.default)(root, {
             worksheets: [
                 {
@@ -27,7 +28,7 @@ describe('Use pagination', () => {
                 },
             ]
         });
-        (0, chai_1.expect)(instance[0].quantiyOfPages()).to.equal(4);
+        (0, chai_1.expect)((_b = (_a = instance[0]).quantityOfPages) === null || _b === void 0 ? void 0 : _b.call(_a)).to.equal(4);
         const bodyTag = root.querySelector('tbody');
         if (!bodyTag)
             throw new Error('Element not found');
@@ -37,6 +38,7 @@ describe('Use pagination', () => {
         (0, chai_1.expect)(bodyTag.children[2].getAttribute('data-y')).to.equal('2');
     });
     it('page method', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             worksheets: [
                 {
@@ -57,8 +59,8 @@ describe('Use pagination', () => {
                 },
             ]
         });
-        instance[0].page(2);
-        (0, chai_1.expect)(instance[0].quantiyOfPages()).to.equal(4);
+        (_b = (_a = instance[0]).page) === null || _b === void 0 ? void 0 : _b.call(_a, 2);
+        (0, chai_1.expect)((_d = (_c = instance[0]).quantityOfPages) === null || _d === void 0 ? void 0 : _d.call(_c)).to.equal(4);
         const bodyTag = root.querySelector('tbody');
         if (!bodyTag)
             throw new Error('Element not found');

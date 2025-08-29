@@ -1,6 +1,7 @@
 const { expect } = require("chai");
 
 import jspreadsheet from "../src/index";
+import type { WorksheetInstance } from "../src/types/core";
 
 global.document.execCommand = function execCommandMock(): boolean {
   return true;
@@ -93,7 +94,7 @@ describe("Paste", () => {
 
     const pasteText = "0-0\n1-0";
     sheet.updateSelectionFromCoords(0, 0, 0, 4);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["0-0", 2001, 2000, 1],
@@ -163,7 +164,7 @@ describe("Paste", () => {
     const pasteText = "0-0\t0-1\n1-0\t1-1";
     sheet.hideRow(1);
     sheet.updateSelectionFromCoords(1, 0, 1, 0);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["Mazda", "0-0", "0-1", 1],
@@ -191,7 +192,7 @@ describe("Paste", () => {
     sheet.hideRow(0);
     sheet.hideColumn(0);
     sheet.updateSelectionFromCoords(2, 2, 2, 2);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], sheet.data);
+    sheet.paste(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, sheet.data);
 
     expect(sheet.getData()).to.eql([
       [1, 2, "", ""],
@@ -227,7 +228,7 @@ describe("Paste", () => {
       ["", "", "", "", "", "", "", "", "", ""],
     ]);
 
-    sheet.paste(7, 2, sheet.data);
+    sheet.paste?.(7, 2, sheet.data);
 
     expect(sheet.getData()).to.eql([
       [1, 2, 3, "", "", "", "", "", "", "", "", ""],
@@ -239,14 +240,14 @@ describe("Paste", () => {
   });
 
   it("large data paste", () => {
-    let count = {};
+    let count: Record<string, number> = {};
     let sheet = jspreadsheet(root, {
       worksheets: [
         {
           data: fixtureData(),
         },
       ],
-      onevent: (event) => {
+      onevent: (event: string) => {
         count[event] = (count[event] ?? 0) + 1;
       },
     })[0];
@@ -261,7 +262,7 @@ describe("Paste", () => {
       )
       .join("\n");
     sheet.updateSelectionFromCoords(3, 3, 3, 3);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
     expect(count.onbeforechange).to.eql(20000);
     expect(count.onbeforeinsertcolumn).to.eql(1);
     expect(count.onbeforeinsertrow).to.eql(1);
@@ -272,7 +273,7 @@ describe("Paste", () => {
   }).timeout(10 * 1000);
 
   it("expand with hidden cells", () => {
-    let count = {};
+    let count: Record<string, number> = {};
     let sheet = jspreadsheet(root, {
       worksheets: [
         {
@@ -285,7 +286,7 @@ describe("Paste", () => {
           data: fixtureData(),
         },
       ],
-      onevent: (event) => {
+      onevent: (event: string) => {
         count[event] = (count[event] ?? 0) + 1;
       },
     })[0];
@@ -294,7 +295,7 @@ describe("Paste", () => {
       "0-0\t0-1\t0-2\t0-3\n1-0\t1-1\t1-2\t1-3\n2-0\t2-1\t2-2\t2-3\n3-0\t3-1\t3-2\t3-3";
     sheet.hideRow(2);
     sheet.updateSelectionFromCoords(1, 1, 1, 1);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
     expect(sheet.getData()).to.eql([
       ["Mazda", 2001, 2000, 1, "", ""],
       ["Peugeot", "0-0", 5000, "0-1", "0-2", "0-3"],
@@ -332,7 +333,7 @@ describe("Paste", () => {
   });
 
   it("copy and repeat paste with style", () => {
-    global.document.execCommand = function execCommandMock() {};
+    global.document.execCommand = function execCommandMock(commandId: string, showUI?: boolean, value?: string): boolean { return true; };
 
     let count = {};
     let sheet = jspreadsheet(root, {
@@ -369,7 +370,7 @@ describe("Paste", () => {
   });
 
   it("copy and paste to another sheet", async () => {
-    global.document.execCommand = function execCommandMock() {};
+    global.document.execCommand = function execCommandMock(commandId: string, showUI?: boolean, value?: string): boolean { return true; };
 
     let isLoaded = false;
     let sheets = jspreadsheet(root, {
@@ -384,17 +385,17 @@ describe("Paste", () => {
           worksheetName: "Sheet2",
         },
       ],
-      onload: (instance) => {
+      onload: () => {
         isLoaded = true;
       },
     });
 
-    const awaitLoop = (resolve) => {
+    const awaitLoop = (resolve: (value?: unknown) => void, reject?: (reason?: any) => void) => {
       setTimeout(() => {
         if (isLoaded) {
           resolve();
         } else {
-          resolve(awaitLoop);
+          awaitLoop(resolve, reject);
         }
       }, 100);
     };
@@ -428,7 +429,7 @@ describe("Paste", () => {
     const pasteText =
       "0-0\t0-1\t0-2\t0-3\n1-0\t1-1\t1-2\t1-3\n2-0\t2-1\t2-2\t2-3\n3-0\t3-1\t3-2\t";
     sheet.updateSelectionFromCoords(0, 0, 0, 0);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["0-0", "0-1", "0-2", "0-3"],
@@ -450,7 +451,7 @@ describe("Paste", () => {
     const pasteText =
       "0-0\t\n" + "1-0\t1-1\t1-2\t1-3\n" + "2-0\n" + "3-0\t3-1\t3-2\t";
     sheet.updateSelectionFromCoords(0, 0, 0, 0);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["0-0", "", "", ""],

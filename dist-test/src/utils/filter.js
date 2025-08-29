@@ -34,10 +34,10 @@ const openFilter = function (columnId) {
             const dataRows = (_d = obj.options.data) !== null && _d !== void 0 ? _d : [];
             for (let j = 0; j < dataRows.length; j++) {
                 const row = Array.isArray(dataRows[j]) ? dataRows[j] : [];
-                const k = row[columnIdNum];
+                const k = Array.isArray(row) ? row[columnIdNum] : undefined;
                 const v = (_f = (_e = obj.records[j]) === null || _e === void 0 ? void 0 : _e[columnIdNum]) === null || _f === void 0 ? void 0 : _f.element.innerHTML;
-                if (k && v) {
-                    options[k] = v;
+                if (k !== undefined && k !== null && v) {
+                    options[String(k)] = v;
                 }
                 else {
                     hasBlanks = true;
@@ -50,7 +50,7 @@ const openFilter = function (columnId) {
             }
             // Has blank options
             if (hasBlanks) {
-                optionsFiltered.push({ value: "", id: "", name: "(Blanks)" });
+                optionsFiltered.push({ id: "", name: "(Blanks)" });
             }
         }
         // Create dropdown
@@ -75,13 +75,15 @@ const openFilter = function (columnId) {
                 ((_k = (_j = obj.parent) === null || _j === void 0 ? void 0 : _j.config) === null || _k === void 0 ? void 0 : _k.fullscreen) == true
                 ? true
                 : false,
-            onclose: function (o) {
+            onclose: function (element, instance) {
                 var _a;
                 exports.resetFilters.call(obj);
-                filters[columnIdNum] = o.dropdown.getValue(true);
+                const dropdownInstance = instance;
+                const dropdownValue = dropdownInstance.getValue(true);
+                filters[columnIdNum] = dropdownValue;
                 const filterChild = (_a = obj.filter) === null || _a === void 0 ? void 0 : _a.children[columnIdNum + 1];
                 if (filterChild) {
-                    filterChild.innerHTML = o.dropdown.getText();
+                    filterChild.innerHTML = dropdownInstance.getText();
                     filterChild.style.paddingLeft = "";
                     filterChild.style.paddingRight = "";
                     filterChild.style.overflow = "";
@@ -96,7 +98,7 @@ const openFilter = function (columnId) {
 };
 exports.openFilter = openFilter;
 const closeFilter = function (columnId) {
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d;
     const obj = this;
     const filters = (_a = obj.filters) !== null && _a !== void 0 ? _a : {};
     if (!columnId) {
@@ -121,10 +123,9 @@ const closeFilter = function (columnId) {
         }
         return false;
     };
-    const filters = (_d = obj.filters) !== null && _d !== void 0 ? _d : {};
     const query = filters[columnId];
     obj.results = [];
-    const dataRows = (_e = obj.options.data) !== null && _e !== void 0 ? _e : [];
+    const dataRows = (_d = obj.options.data) !== null && _d !== void 0 ? _d : [];
     for (let j = 0; j < dataRows.length; j++) {
         if (search(query, columnId, j)) {
             obj.results.push(j);

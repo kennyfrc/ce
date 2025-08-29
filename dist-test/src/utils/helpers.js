@@ -196,8 +196,8 @@ const createFromTable = function (el, options) {
         if (!options) {
             options = {};
         }
-        options.columns = [];
-        options.data = [];
+        options.columns = options.columns || [];
+        options.data = options.data || [];
         // Colgroup
         const colgroup = el.querySelectorAll("colgroup > col");
         if (colgroup.length) {
@@ -304,7 +304,7 @@ const createFromTable = function (el, options) {
                     else {
                         value = content[j].children[i].innerHTML;
                     }
-                    if (options.data[rowNumber]) {
+                    if (options.data && Array.isArray(options.data[rowNumber])) {
                         options.data[rowNumber].push(value);
                     }
                     // Key
@@ -320,7 +320,7 @@ const createFromTable = function (el, options) {
                     const mergedColspan = colspanAttr ? parseInt(colspanAttr) : 0;
                     const mergedRowspan = rowspanAttr ? parseInt(rowspanAttr) : 0;
                     if (mergedColspan || mergedRowspan) {
-                        mergeCells[cellName] = [mergedColspan || 1, mergedRowspan || 1];
+                        mergeCells[cellName] = [mergedColspan || 1, mergedRowspan || 1, []];
                     }
                     // Avoid problems with hidden cells
                     if (content[j].children[i].style &&
@@ -365,7 +365,9 @@ const createFromTable = function (el, options) {
         }
         // Row height
         if (Object.keys(rows).length > 0) {
-            options.rows = rows;
+            options.rows = Object.keys(rows).map(key => ({
+                height: parseInt(rows[parseInt(key)].height) || undefined
+            }));
         }
         // Classes
         if (Object.keys(classes).length > 0) {
@@ -392,9 +394,10 @@ const createFromTable = function (el, options) {
             for (let i = 0; i < options.columns.length; i++) {
                 let test = true;
                 let testCalendar = true;
-                pattern[i] = [];
+                pattern[i] = {};
                 for (let j = 0; j < options.data.length; j++) {
-                    const value = options.data[j][i];
+                    const dataRow = Array.isArray(options.data[j]) ? options.data[j] : [];
+                    const value = String(dataRow[i] || '');
                     if (!pattern[i][value]) {
                         pattern[i][value] = 0;
                     }

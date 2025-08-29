@@ -7,6 +7,7 @@ const chai_1 = require("chai");
 const index_1 = __importDefault(require("../src/index"));
 describe('Use the data method', () => {
     it('getData and it returns the data properly', () => {
+        var _a, _b;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -23,7 +24,7 @@ describe('Use the data method', () => {
                 },
             ]
         });
-        const data = instance[0].getData();
+        const data = (_b = (_a = instance[0]).getData) === null || _b === void 0 ? void 0 : _b.call(_a);
         (0, chai_1.expect)(data.length).to.eq(7);
         (0, chai_1.expect)(data[0].length).to.eq(7);
         (0, chai_1.expect)(data[0][0]).to.eq(1);
@@ -43,6 +44,7 @@ describe('Use the data method', () => {
         (0, chai_1.expect)(data[4][2]).to.eq(15);
     });
     it('setData and it sets data properly', () => {
+        var _a, _b;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -52,7 +54,7 @@ describe('Use the data method', () => {
                 },
             ]
         });
-        const data = instance[0].setData([['Hello', 'World'], ['Testing', 'CE']]);
+        (_b = (_a = instance[0]).setData) === null || _b === void 0 ? void 0 : _b.call(_a, [['Hello', 'World'], ['Testing', 'CE']]);
         const table = root.querySelector('tbody');
         if (!table)
             throw new Error('Element not found');
@@ -69,6 +71,7 @@ describe('Use the data method', () => {
         (0, chai_1.expect)(secondRow.children[2].innerHTML).not.to.include('Testing');
     });
     it('setValue and it sets the value of a cell', () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -89,18 +92,19 @@ describe('Use the data method', () => {
         (0, chai_1.expect)(firstRow.children[2].innerHTML).to.include('World');
         (0, chai_1.expect)(secondRow.children[1].innerHTML).to.include('Testing');
         (0, chai_1.expect)(secondRow.children[2].innerHTML).to.include('CE');
-        instance[0].setValue('A1', 'New Value');
+        (_b = (_a = instance[0]).setValue) === null || _b === void 0 ? void 0 : _b.call(_a, 'A1', 'New Value');
         (0, chai_1.expect)(firstRow.children[1].innerHTML).to.include('New Value');
         (0, chai_1.expect)(firstRow.children[2].innerHTML).to.include('World');
-        instance[0].setValue('A1', 'olleH');
-        instance[0].setValue('B1', 'dlroW');
+        (_d = (_c = instance[0]).setValue) === null || _d === void 0 ? void 0 : _d.call(_c, 'A1', 'olleH');
+        (_f = (_e = instance[0]).setValue) === null || _f === void 0 ? void 0 : _f.call(_e, 'B1', 'dlroW');
         (0, chai_1.expect)(firstRow.children[1].innerHTML).to.include('olleH');
         (0, chai_1.expect)(firstRow.children[2].innerHTML).to.include('dlroW');
-        instance[0].setValue('B2', 'TESTING');
+        (_h = (_g = instance[0]).setValue) === null || _h === void 0 ? void 0 : _h.call(_g, 'B2', 'TESTING');
         (0, chai_1.expect)(secondRow.children[1].innerHTML).to.include('Testing');
         (0, chai_1.expect)(secondRow.children[2].innerHTML).to.include('TESTING');
     });
     it('getValue and it gets the value from the cell', () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -117,12 +121,13 @@ describe('Use the data method', () => {
         const rows = table.children;
         const firstRow = rows[0];
         const secondRow = rows[1];
-        (0, chai_1.expect)(instance[0].getValue('A1')).to.include('Hello');
-        (0, chai_1.expect)(instance[0].getValue('B1')).to.include('World');
-        (0, chai_1.expect)(instance[0].getValue('A2')).to.include('Testing');
-        (0, chai_1.expect)(instance[0].getValue('B2')).to.include('CE');
+        (0, chai_1.expect)((_b = (_a = instance[0]).getValue) === null || _b === void 0 ? void 0 : _b.call(_a, 'A1')).to.include('Hello');
+        (0, chai_1.expect)((_d = (_c = instance[0]).getValue) === null || _d === void 0 ? void 0 : _d.call(_c, 'B1')).to.include('World');
+        (0, chai_1.expect)((_f = (_e = instance[0]).getValue) === null || _f === void 0 ? void 0 : _f.call(_e, 'A2')).to.include('Testing');
+        (0, chai_1.expect)((_h = (_g = instance[0]).getValue) === null || _h === void 0 ? void 0 : _h.call(_g, 'B2')).to.include('CE');
     });
     it('getValueFromCoords and it gets the not processed cell value', () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -139,12 +144,13 @@ describe('Use the data method', () => {
         const rows = table.children;
         const firstRow = rows[0];
         const secondRow = rows[1];
-        (0, chai_1.expect)(instance[0].getValueFromCoords(0, 0)).to.include('=1+1');
-        (0, chai_1.expect)(instance[0].getValueFromCoords(1, 0)).to.include('=2+2');
-        (0, chai_1.expect)(instance[0].getValueFromCoords(0, 1)).to.include('Testing');
-        (0, chai_1.expect)(instance[0].getValueFromCoords(1, 1)).to.include('CE');
+        (0, chai_1.expect)((_b = (_a = instance[0]).getValueFromCoords) === null || _b === void 0 ? void 0 : _b.call(_a, 0, 0)).to.include('=1+1');
+        (0, chai_1.expect)((_d = (_c = instance[0]).getValueFromCoords) === null || _d === void 0 ? void 0 : _d.call(_c, 1, 0)).to.include('=2+2');
+        (0, chai_1.expect)((_f = (_e = instance[0]).getValueFromCoords) === null || _f === void 0 ? void 0 : _f.call(_e, 0, 1)).to.include('Testing');
+        (0, chai_1.expect)((_h = (_g = instance[0]).getValueFromCoords) === null || _h === void 0 ? void 0 : _h.call(_g, 1, 1)).to.include('CE');
     });
     it('getValueFromCoords and it gets the processed cell value', () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -161,12 +167,13 @@ describe('Use the data method', () => {
         const rows = table.children;
         const firstRow = rows[0];
         const secondRow = rows[1];
-        (0, chai_1.expect)(instance[0].getValueFromCoords(0, 0, true)).to.include('2');
-        (0, chai_1.expect)(instance[0].getValueFromCoords(1, 0, true)).to.include('4');
-        (0, chai_1.expect)(instance[0].getValueFromCoords(0, 1, true)).to.include('Testing');
-        (0, chai_1.expect)(instance[0].getValueFromCoords(1, 1, true)).to.include('CE');
+        (0, chai_1.expect)((_b = (_a = instance[0]).getValueFromCoords) === null || _b === void 0 ? void 0 : _b.call(_a, 0, 0, true)).to.include('2');
+        (0, chai_1.expect)((_d = (_c = instance[0]).getValueFromCoords) === null || _d === void 0 ? void 0 : _d.call(_c, 1, 0, true)).to.include('4');
+        (0, chai_1.expect)((_f = (_e = instance[0]).getValueFromCoords) === null || _f === void 0 ? void 0 : _f.call(_e, 0, 1, true)).to.include('Testing');
+        (0, chai_1.expect)((_h = (_g = instance[0]).getValueFromCoords) === null || _h === void 0 ? void 0 : _h.call(_g, 1, 1, true)).to.include('CE');
     });
     it('setValueFromCoords and it sets the value of a cell', () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -187,18 +194,19 @@ describe('Use the data method', () => {
         (0, chai_1.expect)(firstRow.children[2].innerHTML).to.include('World');
         (0, chai_1.expect)(secondRow.children[1].innerHTML).to.include('Testing');
         (0, chai_1.expect)(secondRow.children[2].innerHTML).to.include('CE');
-        instance[0].setValueFromCoords(0, 0, 'New Value');
+        (_b = (_a = instance[0]).setValueFromCoords) === null || _b === void 0 ? void 0 : _b.call(_a, 0, 0, 'New Value');
         (0, chai_1.expect)(firstRow.children[1].innerHTML).to.include('New Value');
         (0, chai_1.expect)(firstRow.children[2].innerHTML).to.include('World');
-        instance[0].setValueFromCoords(0, 0, 'olleH');
-        instance[0].setValueFromCoords(1, 0, 'dlroW');
+        (_d = (_c = instance[0]).setValueFromCoords) === null || _d === void 0 ? void 0 : _d.call(_c, 0, 0, 'olleH');
+        (_f = (_e = instance[0]).setValueFromCoords) === null || _f === void 0 ? void 0 : _f.call(_e, 1, 0, 'dlroW');
         (0, chai_1.expect)(firstRow.children[1].innerHTML).to.include('olleH');
         (0, chai_1.expect)(firstRow.children[2].innerHTML).to.include('dlroW');
-        instance[0].setValueFromCoords(1, 1, 'TESTING');
+        (_h = (_g = instance[0]).setValueFromCoords) === null || _h === void 0 ? void 0 : _h.call(_g, 1, 1, 'TESTING');
         (0, chai_1.expect)(secondRow.children[1].innerHTML).to.include('Testing');
         (0, chai_1.expect)(secondRow.children[2].innerHTML).to.include('TESTING');
     });
     it('setValueFromCoords history', () => {
+        var _a, _b, _c, _d, _e, _f;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -214,11 +222,11 @@ describe('Use the data method', () => {
             throw new Error('Element not found');
         const rows = table.children;
         const firstRow = rows[0];
-        instance[0].setValueFromCoords(0, 0, 'New Value');
+        (_b = (_a = instance[0]).setValueFromCoords) === null || _b === void 0 ? void 0 : _b.call(_a, 0, 0, 'New Value');
         (0, chai_1.expect)(firstRow.children[1].innerHTML).to.include('New Value');
-        instance[0].undo();
+        (_d = (_c = instance[0]).undo) === null || _d === void 0 ? void 0 : _d.call(_c);
         (0, chai_1.expect)(firstRow.children[1].innerHTML).to.include('Hello');
-        instance[0].redo();
+        (_f = (_e = instance[0]).redo) === null || _f === void 0 ? void 0 : _f.call(_e);
         (0, chai_1.expect)(firstRow.children[1].innerHTML).to.include('New Value');
     });
 });

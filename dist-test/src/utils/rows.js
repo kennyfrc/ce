@@ -363,7 +363,12 @@ exports.moveRow = moveRow;
  * @return void
  */
 const deleteRow = function (rowNumber, numOfRows) {
+    var _a, _b, _c, _d;
     const obj = this;
+    // Ensure data exists
+    if (!obj.options.data) {
+        return false;
+    }
     // Global Configuration
     if (obj.options.allowDeleteRow != false) {
         if (obj.options.allowDeletingAllRows == true ||
@@ -400,7 +405,7 @@ const deleteRow = function (rowNumber, numOfRows) {
             if (dispatch_1.default.call(obj, "onbeforedeleterow", obj, onbeforedeleterowRecords) === false) {
                 return false;
             }
-            if (parseInt(rowNumber) > -1) {
+            if (rowNumber > -1) {
                 // Merged cells
                 let mergeExists = false;
                 if (obj.options.mergeCells &&
@@ -416,7 +421,7 @@ const deleteRow = function (rowNumber, numOfRows) {
                         return false;
                     }
                     else {
-                        obj.destroyMerge();
+                        (_a = obj.destroyMerge) === null || _a === void 0 ? void 0 : _a.call(obj);
                     }
                 }
                 // Clear any search
@@ -443,7 +448,7 @@ const deleteRow = function (rowNumber, numOfRows) {
                 for (let row = rowNumber; row < rowNumber + numOfRows; row++) {
                     if (Array.prototype.indexOf.call(obj.tbody.children, obj.rows[row].element) >= 0) {
                         obj.rows[row].element.className = "";
-                        obj.rows[row].element.parentNode.removeChild(obj.rows[row].element);
+                        (_b = obj.rows[row].element.parentNode) === null || _b === void 0 ? void 0 : _b.removeChild(obj.rows[row].element);
                     }
                 }
                 // Remove data
@@ -459,9 +464,11 @@ const deleteRow = function (rowNumber, numOfRows) {
                     }
                 }
                 // Respect pagination
-                if (obj.options.pagination > 0 &&
+                if (obj.options.pagination &&
+                    typeof obj.options.pagination === 'number' &&
+                    obj.options.pagination > 0 &&
                     obj.tbody.children.length != obj.options.pagination) {
-                    obj.page(obj.pageNumber);
+                    (_c = obj.page) === null || _c === void 0 ? void 0 : _c.call(obj, (_d = obj.pageNumber) !== null && _d !== void 0 ? _d : 0);
                 }
                 // Remove selection
                 selection_1.conditionalSelectionUpdate.call(obj, 1, rowNumber, rowNumber + numOfRows - 1);
@@ -470,7 +477,7 @@ const deleteRow = function (rowNumber, numOfRows) {
                     action: "deleteRow",
                     rowNumber: rowNumber,
                     numOfRows: numOfRows,
-                    insertBefore: 1,
+                    insertBefore: true,
                     rowRecords: rowRecords,
                     rowData: rowData,
                     rowNode: rowNode,
@@ -502,7 +509,7 @@ const getHeight = function (row) {
         for (let j = 0; j < obj.rows.length; j++) {
             const h = obj.rows[j].element.style.height;
             if (h) {
-                data[j] = h;
+                data[j] = parseInt(h) || 0;
             }
         }
     }
@@ -515,7 +522,7 @@ const getHeight = function (row) {
                 row = parseInt(dataY);
             }
         }
-        data = obj.rows[row].element.style.height;
+        data = parseInt(obj.rows[row].element.style.height) || 0;
     }
     return data;
 };
@@ -530,16 +537,19 @@ exports.getHeight = getHeight;
 const setHeight = function (row, height, oldHeight) {
     const obj = this;
     if (height > 0) {
-        // Oldwidth
+        // Old height
         if (!oldHeight) {
-            oldHeight = obj.rows[row].element.getAttribute("height");
+            const heightAttr = obj.rows[row].element.getAttribute("height");
+            if (heightAttr) {
+                oldHeight = parseInt(heightAttr) || undefined;
+            }
             if (!oldHeight) {
                 const rect = obj.rows[row].element.getBoundingClientRect();
                 oldHeight = rect.height;
             }
         }
-        // Integer
-        height = parseInt(height);
+        // Ensure integer
+        height = Math.round(height);
         // Set width
         obj.rows[row].element.style.height = height + "px";
         if (!obj.options.rows) {
@@ -610,13 +620,14 @@ exports.getRowData = getRowData;
  * Set a row data by rowNumber
  */
 const setRowData = function (rowNumber, data, force) {
+    var _a;
     const obj = this;
     for (let i = 0; i < obj.headers.length; i++) {
         // Update cell
         const columnName = (0, internalHelpers_1.getColumnNameFromId)([i, rowNumber]);
         // Set value
         if (data[i] != null) {
-            obj.setValue(columnName, data[i], force);
+            (_a = obj.setValue) === null || _a === void 0 ? void 0 : _a.call(obj, columnName, data[i], force);
         }
     }
 };

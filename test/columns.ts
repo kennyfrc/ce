@@ -84,14 +84,14 @@ describe('Use the columns method', () => {
         expect(rows[0].children[3].innerHTML).to.include(9)
 
         // Delete first column
-        instance[0].deleteColumn(0)
+        instance[0].deleteColumn?.(0)
 
         expect(rows[0].children[1].innerHTML).to.include(6)
         expect(rows[0].children[2].innerHTML).to.include(9)
         expect(rows[0].children[3].innerHTML).to.include(9)
 
         // Delete first column
-        instance[0].deleteColumn(0)
+        instance[0].deleteColumn?.(0)
 
         expect(rows[0].children[1].innerHTML).to.include(9)
         expect(rows[0].children[2].innerHTML).to.include(9)
@@ -152,7 +152,7 @@ describe('Use the columns method', () => {
         expect(window.getComputedStyle(headers[1]).display).not.to.include('none')
 
         // Hides the first column 'A'
-        instance[0].hideColumn(0)
+        instance[0].hideColumn?.(0)
 
         expect(headers[1].innerHTML).to.include('A')
         expect(window.getComputedStyle(headers[1]).display).to.include('none')
@@ -160,7 +160,7 @@ describe('Use the columns method', () => {
         expect(window.getComputedStyle(headers[2]).display).not.to.include('none')
 
         // Shows the column that was hidden
-        instance[0].showColumn(0)
+        instance[0].showColumn?.(0)
 
         expect(headers[1].innerHTML).to.include('A')
         expect(window.getComputedStyle(headers[1]).display).not.to.include('none')
@@ -191,11 +191,11 @@ describe('Use the columns method', () => {
 
         expect(rows[0].children[1].innerHTML).to.include(3)
 
-        instance[0].undo()
+        instance[0].undo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(9)
 
-        instance[0].redo()
+        instance[0].redo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(3)
     });
@@ -221,19 +221,19 @@ describe('Use the columns method', () => {
         expect(rows[0].children[3].innerHTML).to.include(3)
 
         // Delete first column
-        instance[0].deleteColumn(0)
+        instance[0].deleteColumn?.(0)
 
         expect(rows[0].children[1].innerHTML).to.include(2)
         expect(rows[0].children[2].innerHTML).to.include(3)
         expect(rows[0].children[3].innerHTML).to.include(4)
 
-        instance[0].undo(0)
+        instance[0].undo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(1)
         expect(rows[0].children[2].innerHTML).to.include(2)
         expect(rows[0].children[3].innerHTML).to.include(3)
 
-        instance[0].redo(0)
+        instance[0].redo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(2)
         expect(rows[0].children[2].innerHTML).to.include(3)

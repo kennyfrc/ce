@@ -3,13 +3,13 @@
 
 // Test that core types are properly defined
 type _TestSpreadsheetOptions =
-  import("../src/types/jspreadsheet").SpreadsheetOptions;
+  import("../src/types/core").SpreadsheetOptions;
 type _TestWorksheetInstance =
-  import("../src/types/jspreadsheet").WorksheetInstance;
+  import("../src/types/core").WorksheetInstance;
 type _TestSpreadsheetInstance =
-  import("../src/types/jspreadsheet").SpreadsheetInstance;
+  import("../src/types/core").SpreadsheetInstance;
 type _TestColumnDefinition =
-  import("../src/types/jspreadsheet").ColumnDefinition;
+  import("../src/types/core").ColumnDefinition;
 
 // Test that JSpreadsheet interface has required methods
 type JSpreadsheet = typeof import("../src/index").default;

@@ -31,31 +31,38 @@ const loadPage = function (pageNumber) {
     if (startRow < 0) {
         startRow = 0;
     }
-    // Appeding items
+    // Appending items
     for (let j = startRow; j < finalRow; j++) {
         if ((obj.options.search == true || obj.options.filters == true) &&
             obj.results) {
-            obj.tbody.appendChild(obj.rows[results[j]].element);
+            // results is number[] when obj.results exists
+            const rowIndex = results[j];
+            obj.tbody.appendChild(obj.rows[rowIndex].element);
         }
         else {
-            obj.tbody.appendChild(obj.rows[j].element);
+            // results is obj.rows (Row[]) when no search/filters
+            obj.tbody.appendChild(results[j].element);
         }
-        if (obj.tbody.children.length > quantityPerPage) {
+        if (obj.tbody.children.length > quantityPerPage && obj.tbody.firstChild) {
             obj.tbody.removeChild(obj.tbody.firstChild);
         }
     }
 };
 exports.loadPage = loadPage;
 const loadValidation = function () {
+    var _a;
     const obj = this;
-    if (obj.selectedCell) {
-        const dataY = obj.tbody.firstChild.getAttribute("data-y");
-        const currentPage = dataY ? parseInt(dataY) / 100 : 0;
-        const selectedPage = Math.floor(parseInt(obj.selectedCell[3]) / 100);
+    if (obj.selectedCell && obj.tbody.firstChild) {
+        const firstChild = obj.tbody.firstChild;
+        const dataY = firstChild.getAttribute("data-y");
+        const currentPage = dataY ? parseInt(dataY, 10) / 100 : 0;
+        const selectedCellIndex = obj.selectedCell[3];
+        const selectedPage = Math.floor(parseInt(String(selectedCellIndex), 10) / 100);
         const totalPages = Math.floor(obj.rows.length / 100);
-        if (currentPage != selectedPage && selectedPage <= totalPages) {
-            if (!Array.prototype.indexOf.call(obj.tbody.children, obj.rows[obj.selectedCell[3]].element)) {
-                obj.loadPage(selectedPage);
+        if (currentPage !== selectedPage && selectedPage <= totalPages) {
+            const selectedRowIndex = typeof selectedCellIndex === 'number' ? selectedCellIndex : parseInt(String(selectedCellIndex), 10);
+            if (!Array.prototype.indexOf.call(obj.tbody.children, obj.rows[selectedRowIndex].element)) {
+                (_a = obj.loadPage) === null || _a === void 0 ? void 0 : _a.call(obj, selectedPage);
                 return true;
             }
         }
@@ -75,10 +82,11 @@ const loadUp = function () {
         results = obj.rows;
     }
     let test = 0;
-    if (results.length > 100) {
+    if (results.length > 100 && obj.tbody.firstChild) {
         // Get the first element in the page
-        const dataY = obj.tbody.firstChild.getAttribute("data-y");
-        let item = dataY ? parseInt(dataY) : 0;
+        const firstChild = obj.tbody.firstChild;
+        const dataY = firstChild.getAttribute("data-y");
+        let item = dataY ? parseInt(dataY, 10) : 0;
         if ((obj.options.search == true || obj.options.filters == true) &&
             obj.results) {
             item = results.indexOf(item);
@@ -86,15 +94,15 @@ const loadUp = function () {
         if (item > 0) {
             for (let j = 0; j < 30; j++) {
                 item = item - 1;
-                if (item > -1) {
+                if (item > -1 && obj.tbody.firstChild) {
                     if ((obj.options.search == true || obj.options.filters == true) &&
                         obj.results) {
                         obj.tbody.insertBefore(obj.rows[results[item]].element, obj.tbody.firstChild);
                     }
                     else {
-                        obj.tbody.insertBefore(obj.rows[item].element, obj.tbody.firstChild);
+                        obj.tbody.insertBefore(results[item].element, obj.tbody.firstChild);
                     }
-                    if (obj.tbody.children.length > 100) {
+                    if (obj.tbody.children.length > 100 && obj.tbody.lastChild) {
                         obj.tbody.removeChild(obj.tbody.lastChild);
                         test = 1;
                     }
@@ -117,23 +125,24 @@ const loadDown = function () {
         results = obj.rows;
     }
     let test = 0;
-    if (results.length > 100) {
+    if (results.length > 100 && obj.tbody.lastChild) {
         // Get the last element in the page
-        const dataY = obj.tbody.lastChild.getAttribute("data-y");
-        let item = dataY ? parseInt(dataY) : 0;
+        const lastChild = obj.tbody.lastChild;
+        const dataY = lastChild.getAttribute("data-y");
+        let item = dataY ? parseInt(dataY, 10) : 0;
         if ((obj.options.search == true || obj.options.filters == true) &&
             obj.results) {
             item = results.indexOf(item);
         }
         if (item < obj.rows.length - 1) {
             for (let j = 0; j <= 30; j++) {
-                if (item < results.length) {
+                if (item < results.length && obj.tbody.firstChild) {
                     if ((obj.options.search == true || obj.options.filters == true) &&
                         obj.results) {
                         obj.tbody.appendChild(obj.rows[results[item]].element);
                     }
                     else {
-                        obj.tbody.appendChild(obj.rows[item].element);
+                        obj.tbody.appendChild(results[item].element);
                     }
                     if (obj.tbody.children.length > 100) {
                         obj.tbody.removeChild(obj.tbody.firstChild);

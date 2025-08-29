@@ -35,10 +35,10 @@ describe('Merge tests', () => {
                 }]
             })
 
-            expect(instance[0].getMerge('C1')).to.have.length(3) // [colspan, rowspan, elements]
-            expect(instance[0].getMerge('C2')).to.equal(null)
+            expect(instance[0].getMerge?.('C1')).to.have.length(3) // [colspan, rowspan, elements]
+            expect(instance[0].getMerge?.('C2')).to.equal(null)
 
-            expect(instance[0].getMerge()).to.have.property('C1')
+            expect(instance[0].getMerge?.()).to.have.property('C1')
         });
 
         it('Worksheet started without merges', () => {
@@ -69,9 +69,9 @@ describe('Merge tests', () => {
                 }]
             })
 
-            expect(instance[0].getMerge('C1')).to.equal(null)
+            expect(instance[0].getMerge?.('C1')).to.equal(null)
 
-            expect(instance[0].getMerge()).to.eql({})
+            expect(instance[0].getMerge?.()).to.eql({})
         });
     });
 
@@ -152,7 +152,7 @@ describe('Merge tests', () => {
         if (!table) throw new Error('Element not found');
         const rows = table.children;
 
-        instance[0].removeMerge('A1')
+        instance[0].removeMerge?.('A1')
 
         expect(rows[0].children[1].getAttribute('colspan')).to.equal(null)
         expect(rows[0].children[1].getAttribute('rowspan')).to.equal(null)
@@ -199,7 +199,7 @@ describe('Merge tests', () => {
         if (!table) throw new Error('Element not found');
         const rows = table.children;
 
-        instance[0].destroyMerge()
+        instance[0].destroyMerge?.()
 
         expect(rows[0].children[1].getAttribute('colspan')).to.equal(null)
         expect(rows[0].children[1].getAttribute('rowspan')).to.equal(null)
@@ -247,12 +247,12 @@ describe('Merge tests', () => {
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')
 
-        instance[0].undo()
+        instance[0].undo?.()
 
         expect(rows[0].children[1].getAttribute('colspan')).to.equal(null)
         expect(rows[0].children[1].getAttribute('rowspan')).to.equal(null)
 
-        instance[0].redo()
+        instance[0].redo?.()
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')

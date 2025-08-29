@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.quantiyOfPages = exports.page = exports.updatePagination = exports.whichPage = void 0;
+exports.quantityOfPages = exports.page = exports.updatePagination = exports.whichPage = void 0;
 const jsuites_1 = __importDefault(require("jsuites"));
 const dispatch_1 = __importDefault(require("./dispatch"));
 const selection_1 = require("./selection");
@@ -52,7 +52,10 @@ exports.whichPage = whichPage;
  * Update the pagination
  */
 const updatePagination = function () {
+    var _a;
     const obj = this;
+    if (!obj.pagination)
+        return;
     // Reset container
     obj.pagination.children[0].innerHTML = "";
     obj.pagination.children[1].innerHTML = "";
@@ -62,25 +65,28 @@ const updatePagination = function () {
         let results;
         if ((obj.options.search == true || obj.options.filters == true) &&
             obj.results) {
-            results = obj.results.length;
+            results = obj.results;
         }
         else {
-            results = obj.rows.length;
+            results = obj.rows;
         }
-        if (!results) {
-            obj.pagination.children[0].innerHTML = jsuites_1.default.translate("No records found");
+        if (!results || results.length === 0) {
+            if (obj.pagination) {
+                obj.pagination.children[0].innerHTML = jsuites_1.default.translate("No records found");
+            }
         }
         else {
             // Pagination container
-            const total = typeof results === "number" ? results : results.length;
+            const total = Array.isArray(results) ? results.length : results;
             const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
             const quantyOfPages = pagination ? Math.ceil(total / pagination) : 0;
             let startNumber, finalNumber;
-            if (obj.pageNumber < 6) {
+            const currentPage = (_a = obj.pageNumber) !== null && _a !== void 0 ? _a : 0;
+            if (currentPage < 6) {
                 startNumber = 1;
                 finalNumber = quantyOfPages < 10 ? quantyOfPages : 10;
             }
-            else if (quantyOfPages - obj.pageNumber < 5) {
+            else if (quantyOfPages - currentPage < 5) {
                 startNumber = quantyOfPages - 9;
                 finalNumber = quantyOfPages;
                 if (startNumber < 1) {
@@ -88,11 +94,11 @@ const updatePagination = function () {
                 }
             }
             else {
-                startNumber = obj.pageNumber - 4;
-                finalNumber = obj.pageNumber + 5;
+                startNumber = currentPage - 4;
+                finalNumber = currentPage + 5;
             }
             // First
-            if (startNumber > 1) {
+            if (startNumber > 1 && obj.pagination) {
                 const paginationItem = document.createElement("div");
                 paginationItem.className = "jss_page";
                 paginationItem.innerHTML = "<";
@@ -104,13 +110,15 @@ const updatePagination = function () {
                 const paginationItem = document.createElement("div");
                 paginationItem.className = "jss_page";
                 paginationItem.innerHTML = i.toString();
-                obj.pagination.children[1].appendChild(paginationItem);
-                if (obj.pageNumber == i - 1) {
+                if (obj.pagination) {
+                    obj.pagination.children[1].appendChild(paginationItem);
+                }
+                if (currentPage == i - 1) {
                     paginationItem.classList.add("jss_page_selected");
                 }
             }
             // Last
-            if (finalNumber < quantyOfPages) {
+            if (finalNumber < quantyOfPages && obj.pagination) {
                 const paginationItem = document.createElement("div");
                 paginationItem.className = "jss_page";
                 paginationItem.innerHTML = ">";
@@ -124,7 +132,9 @@ const updatePagination = function () {
                     return typeof args[idx] !== "undefined" ? String(args[idx]) : _match;
                 });
             };
-            obj.pagination.children[0].innerHTML = format(jsuites_1.default.translate("Showing page {0} of {1} entries"), (obj.pageNumber + 1).toString(), quantyOfPages.toString());
+            if (obj.pagination) {
+                obj.pagination.children[0].innerHTML = format(jsuites_1.default.translate("Showing page {0} of {1} entries"), (currentPage + 1).toString(), quantyOfPages.toString());
+            }
         }
     }
 };
@@ -183,7 +193,7 @@ const page = function (pageNumber) {
     dispatch_1.default.call(obj, "onchangepage", obj, pageNumber, oldPage, obj.options.pagination);
 };
 exports.page = page;
-const quantiyOfPages = function () {
+const quantityOfPages = function () {
     const obj = this;
     const total = (obj.options.search == true || obj.options.filters == true) && obj.results ? obj.results.length : obj.rows.length;
     const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
@@ -191,4 +201,4 @@ const quantiyOfPages = function () {
         return 0;
     return Math.ceil(total / pagination);
 };
-exports.quantiyOfPages = quantiyOfPages;
+exports.quantityOfPages = quantityOfPages;

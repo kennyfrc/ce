@@ -9,7 +9,7 @@ import {
   ColumnDefinition,
 } from "../types/core";
 
-type ColorWidget = { color?: { open?: () => void; select?: (s: string) => void } };
+type ColorWidget = { color?: { open: () => void; select: (value: string) => void; render: () => void; extract: () => string | null } };
 
 interface BorderOptions {
   thickness?: number;
@@ -618,8 +618,9 @@ const adjustToolbarSettingsForJSuites = function (
             },
           });
 
-          if (target.color?.open) {
-            (target.color as { open: () => void }).open();
+          const colorWidget = target as ColorWidget;
+          if (colorWidget.color?.open) {
+            colorWidget.color.open();
           }
         }
       };
