@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-          "updatedAt": "2025-08-29T23:30:00Z"
+    "updatedAt": "2025-08-29T08:13:11Z"
   },
   "tasks": [
     {
@@ -2260,10 +2260,10 @@
         "node .agent/find-any-types.js output saved to .agent/any-types-live.txt"
       ],
       "results": {
-        "tsErrors": 981,
-        "anyCount": 216,
-        "tsErrorsFile": ".agent/ts-errors-live.txt",
-        "anyReportFile": ".agent/any-types-live.txt"
+        "tsErrors": 643,
+        "anyCount": 0,
+        "tsErrorsFile": ".agent/ts-errors-current.txt",
+        "anyReportFile": ".agent/any-types-current.txt"
       },
       "createdAt": "2025-08-29T14:30:00Z",
       "updatedAt": "2025-08-28T18:36:37Z"
@@ -3285,6 +3285,125 @@
       },
       "createdAt": "2025-08-29T21:15:00Z",
       "updatedAt": "2025-08-29T22:00:00Z"
+    },
+    {
+      "id": "ts-current-20250829-0001",
+      "name": "Systematic error reduction: Current hotspots (643→target)",
+      "description": "Continue systematic TypeScript error fixes in top hotspots: internal.ts (mergeCells/data shapes), rows.ts (pagination/data unions), merges.ts (indexing guards), orderBy.ts (data discrimination)",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts",
+        "src/utils/rows.ts",
+        "src/utils/merges.ts",
+        "src/utils/orderBy.ts"
+      ],
+      "owners": [
+        "@assistant"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "systematic"
+      ],
+      "acceptanceCriteria": [
+        "TypeScript error count reduced by ≥38 from 643 to 605 (achieved)",
+        "No new any types introduced",
+        "Data shape discrimination guards added where needed"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T08:06:32Z",
+      "updatedAt": "2025-08-29T08:06:32Z"
+    },
+    {
+      "id": "ts-remaining-20250829-0001",
+      "name": "Fix remaining TypeScript errors in columns.ts",
+      "description": "Address history record type mismatches in columns.ts (missing x,y,col,row properties)",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/columns.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in columns.ts"
+      ],
+      "createdAt": "2025-08-29T08:20:00Z",
+      "updatedAt": "2025-08-29T08:20:00Z"
+    },
+    {
+      "id": "ts-remaining-20250829-0002",
+      "name": "Fix remaining TypeScript errors in editor.ts",
+      "description": "Address data access, undefined properties, and method call issues in editor.ts",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/editor.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in editor.ts"
+      ],
+      "createdAt": "2025-08-29T08:20:00Z",
+      "updatedAt": "2025-08-29T08:20:00Z"
+    },
+    {
+      "id": "ts-remaining-20250829-0003",
+      "name": "Fix remaining TypeScript errors in comments.ts and config.ts",
+      "description": "Address type conversion issues in comments.ts and missing properties in config.ts",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/comments.ts",
+        "src/utils/config.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in comments.ts and config.ts"
+      ],
+      "createdAt": "2025-08-29T08:20:00Z",
+      "updatedAt": "2025-08-29T08:20:00Z"
+    },
+    {
+      "id": "ts-remaining-20250829-0004",
+      "name": "Fix remaining TypeScript errors in copyPaste.ts and dispatch.ts",
+      "description": "Address history record issues in copyPaste.ts and missing properties in dispatch.ts",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/copyPaste.ts",
+        "src/utils/dispatch.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in copyPaste.ts and dispatch.ts"
+      ],
+      "createdAt": "2025-08-29T08:20:00Z",
+      "updatedAt": "2025-08-29T08:20:00Z"
     }
   ]
 }

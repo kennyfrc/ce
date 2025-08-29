@@ -70,8 +70,8 @@ export const openEditor = function (
     obj.edition = [
       obj.records[yNum][xNum].element,
       obj.records[yNum][xNum].element.innerHTML,
-      x,
-      y,
+      xNum,
+      yNum,
     ];
 
     // If there is a custom editor for it
@@ -81,9 +81,13 @@ export const openEditor = function (
       typeof obj.options.columns[xNum].type === "object"
     ) {
       // Custom editors
-      obj.options.columns[xNum].type.openEditor(
+      const cellValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+        ? (obj.options.data[yNum] as CellValue[])[xNum] ?? ""
+        : "";
+      const customType = obj.options.columns[xNum].type as { openEditor?: Function };
+      customType.openEditor?.(
         cell,
-        obj.options.data[yNum][xNum],
+        cellValue,
         xNum,
         yNum,
         obj,
@@ -122,9 +126,9 @@ export const openEditor = function (
             ? false
             : true;
         // Toogle value
-        obj.setValue(cell, value);
+        obj.setValue?.([{ element: cell }], value);
         // Do not keep edition open
-        obj.edition = null;
+        obj.edition = undefined;
       } else if (
         obj.options.columns &&
         x &&
@@ -133,9 +137,11 @@ export const openEditor = function (
         y
       ) {
         // Get current value
-        let value = obj.options.data[yNum][xNum];
+        let value: string | number | boolean | string[] = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+          ? (obj.options.data[yNum] as CellValue[])[xNum] ?? ""
+          : "";
         if (obj.options.columns[xNum].multiple && !Array.isArray(value)) {
-          value = value.split(";");
+          value = String(value).split(";");
         }
 
         // Create dropdown
@@ -208,7 +214,9 @@ export const openEditor = function (
           obj.options.columns[xNum].type == "color")
       ) {
         // Value
-        const value = obj.options.data[yNum][xNum];
+        const value = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+          ? (obj.options.data[yNum] as CellValue[])[xNum] ?? ""
+          : "";
         // Create editor
         const editor = createEditor("input");
 
@@ -223,7 +231,7 @@ export const openEditor = function (
           x ? obj.options.columns[xNum] : null
         );
 
-        (editor as HTMLInputElement).value = value;
+        (editor as HTMLInputElement).value = String(value);
 
         const options =
           x && obj.options.columns[xNum].options
@@ -236,7 +244,9 @@ export const openEditor = function (
         ) {
           options.position = true;
         }
-        options.value = obj.options.data[yNum][xNum];
+        options.value = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+          ? (obj.options.data[yNum] as CellValue[])[xNum] ?? ""
+          : "";
         options.opened = true;
         options.onclose = function (el?: HTMLElement, value?: unknown) {
           closeEditor.call(obj, cell, true);
@@ -273,7 +283,9 @@ export const openEditor = function (
         obj.options.columns[xNum] &&
         obj.options.columns[xNum].type == "html"
       ) {
-        const value = x && y ? obj.options.data[yNum][xNum] : "";
+        const value = x && y && obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+          ? (obj.options.data[yNum] as CellValue[])[xNum] ?? ""
+          : "";
         // Create editor
         const editor = createEditor("div");
 
@@ -294,7 +306,7 @@ export const openEditor = function (
         editor.appendChild(div);
         jSuites.editor(div, {
           focus: true,
-          value: value,
+          value: String(value),
         });
         const rect = cell.getBoundingClientRect();
         const rectContent = div.getBoundingClientRect();
@@ -349,7 +361,9 @@ export const openEditor = function (
         div.style.left = rect.left + "px";
       } else {
         // Value
-        const value = empty == true ? "" : obj.options.data[yNum][xNum];
+        const value = empty == true ? "" : (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+          ? (obj.options.data[yNum] as CellValue[])[xNum] ?? ""
+          : "");
 
         // Basic editor
         let editor: HTMLElement;
@@ -380,7 +394,7 @@ export const openEditor = function (
         );
 
         editor.focus();
-        (editor as HTMLInputElement).value = value;
+        (editor as HTMLInputElement).value = String(value);
 
         // Column options
         const options = obj.options.columns && obj.options.columns[xNum];
@@ -398,7 +412,7 @@ export const openEditor = function (
                   const m = options.mask.split(";");
                   editor.setAttribute("data-mask", m[0]);
                 } else if (options.locale) {
-                  editor.setAttribute("data-locale", options.locale);
+                  editor.setAttribute("data-locale", String(options.locale));
                 }
               }
               // Input
@@ -406,7 +420,7 @@ export const openEditor = function (
               // Configuration
               (editor as HTMLElement & { mask?: unknown }).mask = opt;
               // Do not treat the decimals
-              jSuites.mask.render(value, opt, false);
+              jSuites.mask.render(String(value), opt, false);
             }
           }
         }
@@ -450,7 +464,8 @@ export const closeEditor = function (
       typeof obj.options.columns[x].type === "object"
     ) {
       // Custom editor
-      value = obj.options.columns[x].type.closeEditor(
+      const customType = obj.options.columns[x].type as { closeEditor?: Function };
+      value = customType.closeEditor?.(
         cell,
         save,
         x,
@@ -473,13 +488,13 @@ export const closeEditor = function (
         obj.options.columns[x] &&
         obj.options.columns[x].type == "dropdown"
       ) {
-        value = (cell.children[0] as JSuitesElement).dropdown?.close(true);
+        value = (cell.children[0] as JSuitesElement).dropdown?.close?.(true);
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
         obj.options.columns[x].type == "calendar"
       ) {
-        value = (cell.children[0] as JSuitesElement).calendar?.close(true);
+        value = (cell.children[0] as JSuitesElement).calendar?.close?.(true);
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
@@ -542,10 +557,13 @@ export const closeEditor = function (
     }
 
     // Ignore changes if the value is the same
-    if (obj.options.data[y][x] == value) {
+    const currentValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[y])
+      ? (obj.options.data[y] as CellValue[])[x] ?? ""
+      : "";
+    if (currentValue == value) {
       cell.innerHTML = obj.edition[1];
     } else {
-      obj.setValue(cell, value);
+      obj.setValue?.([{ element: cell }], value);
     }
   } else {
     if (
@@ -617,7 +635,10 @@ export const setCheckRadioValue = function (this: SpreadsheetContext) {
       obj.options.columns[parseInt(x || "0")].type == "radio"
     ) {
       // Update cell
-      records.push(updateCell.call(obj, x, y, !obj.options.data[y][x]));
+      const currentValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[y])
+        ? (obj.options.data[y] as CellValue[])[x] ?? ""
+        : "";
+      records.push(updateCell.call(obj, x, y, !currentValue));
     }
   }
 

@@ -222,30 +222,45 @@ export const setMerge = function (
     // Overflow
     obj.records[cell[1]][cell[0]].element.style.overflow = "hidden";
     // History data
-    const data: CellValue[] = [];
+    const data: CellValue[][] = [];
     // Adjust the nodes
     for (let y = cell[1]; y < cell[1] + rowspan; y++) {
+      const rowData: CellValue[] = [];
       for (let x = cell[0]; x < cell[0] + colspan; x++) {
         if (!(cell[0] == x && cell[1] == y)) {
+          // Collect data for history
           if (obj.options.data && obj.options.data[y]) {
-            data.push(obj.options.data[y][x]);
+            if (Array.isArray(obj.options.data[y])) {
+              rowData.push((obj.options.data[y] as CellValue[])[x]);
+            } else {
+              rowData.push((obj.options.data[y] as Record<string, CellValue>)[x]);
+            }
+          } else {
+            rowData.push("");
           }
+
+          // Update cell and handle merge
           updateCell.call(obj, x, y, "", true);
-          if (obj.options.mergeCells[cellName] && obj.records[y] && obj.records[y][x]) {
-            obj.options.mergeCells[cellName][2].push(obj.records[y][x].element);
+          if (obj.options.mergeCells[cellName] && obj.options.mergeCells[cellName] !== false && obj.records[y] && obj.records[y][x]) {
+            (obj.options.mergeCells[cellName] as [number, number, HTMLElement[]])[2].push(obj.records[y][x].element);
             obj.records[y][x].element.style.display = "none";
             obj.records[y][x].element = obj.records[cell[1]][cell[0]].element;
           }
+        } else {
+          rowData.push("");
         }
       }
+      data.push(rowData);
     }
+
     // In the initialization is not necessary keep the history
-    updateSelection.call(
-      obj,
-      obj.records[cell[1]][cell[0]].element,
-      undefined,
-      undefined
-    );
+    if (obj.records[cell[1]] && obj.records[cell[1]][cell[0]]) {
+      updateSelection.call(
+        obj,
+        obj.records[cell[1]][cell[0]].element,
+        null
+      );
+    }
 
     if (!ignoreHistoryAndEvents) {
       setHistory.call(obj, {

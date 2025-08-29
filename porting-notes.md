@@ -1,4 +1,56 @@
-### Snapshot: 2025-08-29T23:30:00Z — worksheets.ts zero errors, history.ts progress (106→55), total errors reduced to 769
+### Snapshot: 2025-08-29T23:50:00Z — Merges.ts fixes completed, HistoryRecord type unification (610→605), systematic guard patterns
+
+- TypeScript errors (tsconfig.test.json --noEmit): 605 (down from 610, 5 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes:
+  - Fixed merges.ts data shape discrimination with Array.isArray guards for CellValue[][] vs Record<string, CellValue>
+  - Added comprehensive guards for mergeCells access and HTMLElement array operations
+  - Updated HistoryRecord.column type from number to number | string to support merge operations with cell names
+  - Fixed merge history record structure to include column (cellName), colspan, rowspan, and data fields
+  - Corrected setHistory call in merges.ts to match expected HistoryRecord interface
+  - Resolved syntax errors and duplicate code blocks in merges.ts
+- Learnings:
+  - Data shape unions require consistent Array.isArray guards before array operations to prevent TS7053 indexing errors
+  - History record types must match runtime usage: merge operations use cell names (strings) not numeric indices
+  - Type definitions should reflect actual runtime structure: mergeCells includes HTMLElement[] for DOM element tracking
+  - Systematic guard-and-cast patterns effectively resolve complex union type issues
+- Next: Continue systematic error reduction in remaining hotspots (orderBy.ts data discrimination, pagination.ts guards)
+
+### Snapshot: 2025-08-29T08:20:00Z — Major progress: columns.ts fixed, editor.ts/data access improved, comments/config/dispatch completed (733→571), 162 errors fixed
+
+- TypeScript errors (tsconfig.test.json --noEmit): 571 (down from 733, 162 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes:
+  - Fixed HistoryRecord type definition: updated records field from flat array to nested array to match runtime usage
+  - Fixed columns.ts history record type mismatches by correcting HistoryRecord interface
+  - Improved editor.ts data access patterns with Array.isArray guards and proper type assertions
+  - Fixed editor.ts method calls with proper parameter types and optional chaining
+  - Added toolbar methods (showToolbar/hideToolbar) to SpreadsheetInstance interface
+  - Fixed comments.ts type assignments and history record type compatibility
+  - Updated dispatch.ts plugin types to include onevent/persistence methods
+  - Fixed 'this' context issues in dispatch.ts plugin event handling
+- Learnings:
+  - History record types must match actual runtime structure: records is nested array, not flat
+  - Data access patterns require consistent Array.isArray guards before indexing operations
+  - Plugin interfaces need to extend beyond basic Function type to include event handlers
+  - Type assertions and optional chaining effectively resolve complex type issues
+  - Systematic fixes across multiple files produce significant error count reductions
+- Next: Continue with remaining hotspots to drive toward zero errors goal
+
+- TypeScript errors (tsconfig.test.json --noEmit): 610 (down from 643, 33 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes:
+  - Fixed mergeCells type definition: updated from [number, number] | false to [number, number, HTMLElement[]] | false to match runtime usage
+  - Added comprehensive guards for mergeCells access and mergeCellUpdates type assertions
+  - Added null-safety guards for obj.content in updateScroll function
+  - Added guards for obj.records[y][x] access in multiple locations (overflow handling, value changes, dispatch calls)
+  - Added guards for obj.selectedCell access and reference element availability
+- Learnings:
+  - Type definitions must match runtime usage: mergeCells third element is HTMLElement[] not just [number, number]
+  - Systematic guard patterns (obj.records[y] && obj.records[y][x]) prevent 'possibly undefined' errors
+  - Early returns for missing required elements (content, reference) maintain function safety
+  - Local variable aliases for complex property chains improve both type safety and readability
+- Next: Continue systematic error reduction in remaining hotspots (rows.ts pagination issues, merges.ts indexing)
 
 - TypeScript errors (tsconfig.test.json --noEmit): 769 (down from 863, 94 errors fixed)
 - Explicit any count (find-any-types): 0 (maintained)

@@ -652,7 +652,9 @@ export const createCell = function (
   if (i > 0) {
     if (this.options.textOverflow == true) {
       if (value || td.innerHTML) {
-        obj.records[j][i - 1].element.style.overflow = "hidden";
+        if (obj.records[j] && obj.records[j][i - 1]) {
+          obj.records[j][i - 1].element.style.overflow = "hidden";
+        }
       } else {
         if (obj.options.columns && i == obj.options.columns.length - 1) {
           td.style.overflow = "hidden";
@@ -685,6 +687,7 @@ export const updateCell = function (
 
   // Changing value depending on the column type
   if (
+    obj.records[y] && obj.records[y][x] &&
     obj.records[y][x].element.classList.contains("readonly") == true &&
     !force
   ) {
@@ -709,7 +712,7 @@ export const updateCell = function (
     }
 
     // On change
-    const val = dispatch.call(
+    const val = obj.records[y] && obj.records[y][x] ? dispatch.call(
       obj,
       "onbeforechange",
       obj,
@@ -717,7 +720,7 @@ export const updateCell = function (
       x,
       y,
       value
-    );
+    ) : undefined;
 
     // If you return something this will overwrite the value
     if (val != undefined) {
@@ -1264,43 +1267,48 @@ export const updateTableReferences = function (this: WorksheetInstance): void {
   const keys = Object.keys(mergeCellUpdates);
   if (keys.length) {
     for (let i = 0; i < keys.length; i++) {
-      if (mergeCellUpdates[keys[i]]) {
+      const mergeUpdate = mergeCellUpdates[keys[i]];
+      if (mergeUpdate && mergeUpdate !== false) {
         const info = getIdFromColumnName(keys[i], true);
         let x = info[0];
         let y = info[1];
         updatePosition(
           x,
           y,
-          x + mergeCellUpdates[keys[i]][1],
-          y + mergeCellUpdates[keys[i]][2]
+          x + mergeUpdate[1],
+          y + mergeUpdate[2]
         );
 
         const columnIdFrom = keys[i];
-        const columnIdTo = mergeCellUpdates[keys[i]][0];
-        for (
-          let j = 0;
-          j < obj.options.mergeCells[columnIdFrom][2].length;
-          j++
-        ) {
-          x = parseInt(
-            obj.options.mergeCells[columnIdFrom][2][j].getAttribute("data-x")
-          );
-          y = parseInt(
-            obj.options.mergeCells[columnIdFrom][2][j].getAttribute("data-y")
-          );
-          obj.options.mergeCells[columnIdFrom][2][j].setAttribute(
-            "data-x",
-            x + mergeCellUpdates[keys[i]][1]
-          );
-          obj.options.mergeCells[columnIdFrom][2][j].setAttribute(
-            "data-y",
-            y + mergeCellUpdates[keys[i]][2]
-          );
-        }
+        const columnIdTo = mergeUpdate[0];
 
-        obj.options.mergeCells[columnIdTo] =
-          obj.options.mergeCells[columnIdFrom];
-        delete obj.options.mergeCells[columnIdFrom];
+        // Guard against missing mergeCells or false values
+        if (obj.options.mergeCells && obj.options.mergeCells[columnIdFrom] && obj.options.mergeCells[columnIdFrom] !== false) {
+          const mergeCellEntry = obj.options.mergeCells[columnIdFrom];
+          for (
+            let j = 0;
+            j < mergeCellEntry[2].length;
+            j++
+          ) {
+            x = parseInt(
+              mergeCellEntry[2][j].getAttribute("data-x") || "0"
+            );
+            y = parseInt(
+              mergeCellEntry[2][j].getAttribute("data-y") || "0"
+            );
+            mergeCellEntry[2][j].setAttribute(
+              "data-x",
+              (x + mergeUpdate[1]).toString()
+            );
+            mergeCellEntry[2][j].setAttribute(
+              "data-y",
+              (y + mergeUpdate[2]).toString()
+            );
+          }
+
+          obj.options.mergeCells[columnIdTo] = mergeCellEntry;
+          delete obj.options.mergeCells[columnIdFrom];
+        }
       }
     }
   }
@@ -1327,6 +1335,11 @@ export const updateScroll = function (
 ): void {
   const obj = this;
 
+  // Guard against missing content
+  if (!obj.content) {
+    return;
+  }
+
   // Jspreadsheet Container information
   const contentRect = obj.content.getBoundingClientRect();
   const x1 = contentRect.left;
@@ -1335,8 +1348,16 @@ export const updateScroll = function (
   const h1 = contentRect.height;
 
   // Direction Left or Up
-  const reference =
-    obj.records[obj.selectedCell[3]][obj.selectedCell[2]].element;
+  const reference = obj.selectedCell &&
+    obj.records[obj.selectedCell[3]] &&
+    obj.records[obj.selectedCell[3]][obj.selectedCell[2]]
+    ? obj.records[obj.selectedCell[3]][obj.selectedCell[2]].element
+    : null;
+
+  // Guard against missing reference
+  if (!reference) {
+    return;
+  }
 
   // Reference
   const referenceRect = reference.getBoundingClientRect();

@@ -20,9 +20,9 @@ type HistoryRecord = {
   headers?: HTMLElement[];
   cols?: Array<{ colElement: HTMLElement }>;
   data?: CellValue[][];
-     records?: Array<{ x: number; y: number; col: number; row: number; value?: CellValue; oldValue?: CellValue }>;
+     records?: Array<Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>>;
   rows?: number[];
-  column?: number;
+  column?: number | string;
   oldValue?: CellValue | number | string | null | Record<string, string | string[]>;
   newValue?: CellValue | number | string | null | Record<string, string | string[]>;
   selection?: number[];

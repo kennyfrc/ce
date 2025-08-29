@@ -81,7 +81,7 @@ export const setComments = function (this: SpreadsheetContext, cellId: string | 
       );
 
       if (!obj.options.comments) {
-        (obj.options.comments as Record<string, string>) = {};
+        obj.options.comments = {};
       }
 
       (obj.options.comments as Record<string, string>)[cellName] = comment;
@@ -100,8 +100,8 @@ export const setComments = function (this: SpreadsheetContext, cellId: string | 
   // Save history
   setHistory.call(obj, {
     action: "setComments",
-    newValue: commentsObj,
-    oldValue: oldValue,
+    newValue: commentsObj as Record<string, string | string[]>,
+    oldValue: oldValue as Record<string, string | string[]>,
   });
 
   // Set comments

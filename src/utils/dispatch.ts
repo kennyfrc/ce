@@ -122,7 +122,7 @@ const dispatch = function (
     if (spreadsheet.plugins) {
       Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
         if (plugin && typeof plugin.onevent === "function") {
-          ret = plugin.onevent.apply(this, [event, ...args]);
+          ret = plugin.onevent.apply(obj, [event, ...args]);
         }
       });
     }

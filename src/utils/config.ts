@@ -1,4 +1,4 @@
-import type { SpreadsheetContext } from "../types/core";
+import type { SpreadsheetContext, SpreadsheetInstance } from "../types/core";
 
 /**
  * Get table config information
@@ -44,10 +44,11 @@ export const setConfig = function (
       spreadsheet.config[key] = configRecord[key];
 
       if (key === "toolbar") {
+        const spreadsheetInstance = spreadsheet as SpreadsheetInstance;
         if (configRecord[key] === true) {
-          spreadsheet.showToolbar?.();
+          spreadsheetInstance.showToolbar?.();
         } else if (configRecord[key] === false) {
-          spreadsheet.hideToolbar?.();
+          spreadsheetInstance.hideToolbar?.();
         }
       }
     } else {

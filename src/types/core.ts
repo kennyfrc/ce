@@ -34,7 +34,7 @@ export interface SpreadsheetOptions {
   defaultColAlign?: "left" | "center" | "right";
   worksheets?: SpreadsheetOptions[];
   plugins?: Record<string, Function>;
-  mergeCells?: Record<string, [number, number] | false>;
+     mergeCells?: Record<string, [number, number, HTMLElement[]] | false>;
   tabs?: boolean | Record<string, unknown>;
   root?: HTMLElement;
   fullscreen?: boolean;
@@ -249,8 +249,14 @@ export interface SpreadsheetInstance extends SpreadsheetContext {
       [key: string]: unknown;
     };
   };
+
+  /**
+   * Toolbar control methods
+   */
+  showToolbar?: () => void;
+  hideToolbar?: () => void;
   /** Registered plugins on the spreadsheet instance. */
-  plugins?: Record<string, Function>;
+  plugins?: Record<string, Function & { onevent?: Function; persistence?: Function; [key: string]: unknown }>;
   /** Setter used by the factory to initialize plugins. */
   setPlugins?: (newPlugins: Record<string, Function> | undefined) => void;
   ignoreEvents?: boolean;
