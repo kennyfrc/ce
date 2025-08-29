@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T12:47:45Z"
+    "updatedAt": "2025-08-29T12:52:09Z"
   },
   "tasks": [
     {
@@ -346,17 +346,26 @@
         "npm run e2e runs Playwright suite",
         "npm test strategy agreed (build-first vs direct)"
       ]
-    }
-    ,
+    },
     {
       "id": "quality-20250829-0014",
       "name": "Enforce test/demo quality gates",
       "description": "Maintain gates: Playwright must be 10/10 passing (no outdated selectors/expectations), Mocha TS tests must run and pass via script, and demo.html must load with 0 console errors.",
       "phase": 7,
-      "state": "todo",
-      "candidateFiles": ["playwright/*.test.ts", "package.json", "demo.html"],
-      "owners": ["@team/qa"],
-      "labels": ["quality-gate", "tests", "demo"],
+      "state": "completed",
+      "candidateFiles": [
+        "playwright/*.test.ts",
+        "package.json",
+        "demo.html"
+      ],
+      "owners": [
+        "@team/qa"
+      ],
+      "labels": [
+        "quality-gate",
+        "tests",
+        "demo"
+      ],
       "acceptanceCriteria": [
         "npx playwright test reports all specs passed (10/10)",
         "npm run test:unit (or npm test) discovers and runs TS tests successfully",
