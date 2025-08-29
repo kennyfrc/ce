@@ -1,19 +1,6 @@
-Any Types Analysis Report - 2025-08-29T03:49:52.510Z
-Total any types: 115
-Files with any types: 23
-
-src/utils/style.ts: 11 any types
-  Line 10: export const getStyle = function (this: any, cell: any, key: string) {
-  Line 10: export const getStyle = function (this: any, cell: any, key: string) {
-  Line 16: const data: Record<string, any> = {};
-  Line 56: this: any,
-  Line 57: o: any,
-  Line 59: v: any,
-  Line 65: const newValue: Record<string, any> = {};
-  Line 66: const oldValue: Record<string, any> = {};
-  Line 69: const applyStyle = function (cellId: string, key: string, value: any) {
-  Line 150: this: any,
-  Line 151: o: Record<string, any>,
+Any Types Analysis Report - 2025-08-29T03:57:10.389Z
+Total any types: 104
+Files with any types: 22
 
 src/utils/toolbar.ts: 11 any types
   Line 516: onclick: function (a: any, b: any, c: any) {

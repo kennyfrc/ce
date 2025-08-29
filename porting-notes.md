@@ -509,3 +509,14 @@ Learnings:
 - Use Array.isArray guards to handle data union CellValue[][] | Array<Record<string,CellValue>>.
 - Created task ts-fix-columns-20250829-0002 to continue columns.ts cleanup.
 
+
+### Snapshot: 2025-08-29T16:30:00Z — assistant: style.ts any-fix
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1328 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 104 (saved to .agent/any-types-run.txt)
+- Files changed: src/utils/style.ts
+
+Learnings:
+
+- Removed 11 explicit `any` occurrences from src/utils/style.ts by typing `this` as WorksheetInstance and narrowing style parameters to string/string[] shapes.
+- any-analyzer total decreased (115 -> 104); continue targeting toolbar and worksheets next.

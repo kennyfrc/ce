@@ -1,19 +1,24 @@
 import dispatch from "./dispatch";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 import { setHistory } from "./history";
+import type { WorksheetInstance } from "../types/core";
 
 /**
  * Get style information from cell(s)
  *
  * @return integer
  */
-export const getStyle = function (this: any, cell: any, key: string) {
+export const getStyle = function (
+  this: WorksheetInstance,
+  cell?: string | number[],
+  key?: string
+) {
   const obj = this;
 
   // Cell
   if (!cell) {
     // Control vars
-    const data: Record<string, any> = {};
+    const data: Record<string, string | null | undefined> = {};
 
     // Column and row length
     const x = obj.options.data[0].length;
@@ -39,7 +44,7 @@ export const getStyle = function (this: any, cell: any, key: string) {
 
     return data;
   } else {
-    cell = getIdFromColumnName(cell, true);
+    cell = getIdFromColumnName(cell as unknown as string, true);
 
     return key
       ? obj.records[cell[1]][cell[0]].element.style[key]
@@ -53,20 +58,20 @@ export const getStyle = function (this: any, cell: any, key: string) {
  * @return integer
  */
 export const setStyle = function (
-  this: any,
-  o: any,
-  k: string,
-  v: any,
+  this: WorksheetInstance,
+  o: string | Record<string, string | string[]>,
+  k: string | null | undefined,
+  v?: string | null,
   force?: boolean,
   ignoreHistoryAndEvents?: boolean
 ) {
   const obj = this;
 
-  const newValue: Record<string, any> = {};
-  const oldValue: Record<string, any> = {};
+  const newValue: Record<string, string[] | string> = {};
+  const oldValue: Record<string, string[] | string> = {};
 
   // Apply style
-  const applyStyle = function (cellId: string, key: string, value: any) {
+  const applyStyle = function (cellId: string, key: string, value: string) {
     // Position
     const cell = getIdFromColumnName(cellId, true);
 
@@ -104,22 +109,23 @@ export const setStyle = function (
   if (k && v) {
     // Get object from string
     if (typeof o == "string") {
-      applyStyle(o, k, v);
+      applyStyle(o, k, v as string);
     }
   } else {
-    const keys = Object.keys(o);
+    const keys = Object.keys(o as Record<string, string | string[]>);
     for (let i = 0; i < keys.length; i++) {
-      let style = o[keys[i]];
+      let style = (o as Record<string, string | string[]>)[keys[i]];
       if (typeof style == "string") {
         style = style.split(";");
       }
       for (let j = 0; j < style.length; j++) {
         if (typeof style[j] == "string") {
-          style[j] = style[j].split(":");
-        }
-        // Apply value
-        if (style[j][0].trim()) {
-          applyStyle(keys[i], style[j][0].trim(), style[j][1]);
+          // style[j] is like "key:value"
+          const parts = style[j].split(":");
+          // Apply value
+          if (parts[0] && parts[0].trim()) {
+            applyStyle(keys[i], parts[0].trim(), parts[1]);
+          }
         }
       }
     }
@@ -147,8 +153,8 @@ export const setStyle = function (
 };
 
 export const resetStyle = function (
-  this: any,
-  o: Record<string, any>,
+  this: WorksheetInstance,
+  o: Record<string, string | string[]>,
   ignoreHistoryAndEvents?: boolean
 ) {
   const obj = this;

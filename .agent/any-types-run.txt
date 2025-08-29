@@ -1,12 +1,6 @@
 Analyzing any types in TypeScript files...
 
-Found 115 any types across 23 files:
-
-src/utils/style.ts: 11 any types
-  Line 10: export const getStyle = function (this: any, cell: any, key: string) {
-  Line 10: export const getStyle = function (this: any, cell: any, key: string) {
-  Line 16: const data: Record<string, any> = {};
-  ... and 8 more
+Found 104 any types across 22 files:
 
 src/utils/toolbar.ts: 11 any types
   Line 516: onclick: function (a: any, b: any, c: any) {
@@ -122,6 +116,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 115
+Total any types found: 104
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt
