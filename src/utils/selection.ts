@@ -17,12 +17,16 @@ export const updateCornerPosition = function (this: WorksheetInstance): void {
 
   // If any selected cells
   if (!obj.highlighted || !obj.highlighted.length) {
-    obj.corner.style.top = "-2000px";
-    obj.corner.style.left = "-2000px";
+    if (obj.corner) {
+      obj.corner.style.top = "-2000px";
+      obj.corner.style.left = "-2000px";
+    }
   } else {
     // Get last cell
     const last = obj.highlighted[obj.highlighted.length - 1].element;
     const lastX = parseInt(last.getAttribute("data-x") || "0");
+
+    if (!obj.content) return;
 
     const contentRect = obj.content.getBoundingClientRect();
     const x1 = contentRect.left;
@@ -38,22 +42,24 @@ export const updateCornerPosition = function (this: WorksheetInstance): void {
     const y = y2 - y1 + obj.content.scrollTop + h2 - 4;
 
     // Place the corner in the correct place
-    obj.corner.style.top = y + "px";
-    obj.corner.style.left = x + "px";
+    if (obj.corner) {
+      obj.corner.style.top = y + "px";
+      obj.corner.style.left = x + "px";
 
-    if (obj.options.freezeColumns) {
-      const width = getFreezeWidth.call(obj);
-      // Only check if the last column is not part of the merged cells
-      if (lastX > obj.options.freezeColumns - 1 && x2 - x1 + w2 < width) {
-        obj.corner.style.display = "none";
+      if (obj.options.freezeColumns) {
+        const width = getFreezeWidth.call(obj);
+        // Only check if the last column is not part of the merged cells
+        if (lastX > obj.options.freezeColumns - 1 && x2 - x1 + w2 < width) {
+          obj.corner.style.display = "none";
+        } else {
+          if (obj.options.selectionCopy != false) {
+            obj.corner.style.display = "";
+          }
+        }
       } else {
         if (obj.options.selectionCopy != false) {
           obj.corner.style.display = "";
         }
-      }
-    } else {
-      if (obj.options.selectionCopy != false) {
-        obj.corner.style.display = "";
       }
     }
   }
@@ -83,18 +89,18 @@ export const resetSelection = function (
       obj.highlighted[i].element.classList.remove("highlight-bottom");
       obj.highlighted[i].element.classList.remove("highlight-selected");
 
-      const px = parseInt(obj.highlighted[i].element.getAttribute("data-x"));
-      const py = parseInt(obj.highlighted[i].element.getAttribute("data-y"));
+      const px = parseInt(obj.highlighted[i].element.getAttribute("data-x") || "0");
+      const py = parseInt(obj.highlighted[i].element.getAttribute("data-y") || "0");
 
       // Check for merged cells
       let ux, uy;
 
       if (obj.highlighted[i].element.getAttribute("data-merged")) {
         const colspan = parseInt(
-          obj.highlighted[i].element.getAttribute("colspan")
+          obj.highlighted[i].element.getAttribute("colspan") || "1"
         );
         const rowspan = parseInt(
-          obj.highlighted[i].element.getAttribute("rowspan")
+          obj.highlighted[i].element.getAttribute("rowspan") || "1"
         );
         ux = colspan > 0 ? px + (colspan - 1) : px;
         uy = rowspan > 0 ? py + (rowspan - 1) : py;
@@ -123,11 +129,13 @@ export const resetSelection = function (
   obj.highlighted = [];
 
   // Reset
-  obj.selectedCell = null;
+  obj.selectedCell = undefined;
 
   // Hide corner
-  obj.corner.style.top = "-2000px";
-  obj.corner.style.left = "-2000px";
+  if (obj.corner) {
+    obj.corner.style.top = "-2000px";
+    obj.corner.style.left = "-2000px";
+  }
 
   if (blur == true && previousStatus == 1) {
     dispatch.call(obj, "onblur", obj);
@@ -194,7 +202,7 @@ export const updateSelectionFromCoords = function (
   } else if (x1 == null) {
     // select row
     x1 = 0;
-    x2 = obj.options.data[0].length - 1;
+    x2 = (obj.options.data?.[0]?.length ?? 1) - 1;
   }
 
   // Same element
@@ -577,7 +585,8 @@ export const copyData = function (
       ) {
         // Stop if contains value
         if (!obj.selection.length) {
-          if (obj.options.data[j][i] != "") {
+          const cellValue = obj.options.data?.[j]?.[i] || "";
+          if (cellValue != "") {
             breakControl = true;
             continue;
           }

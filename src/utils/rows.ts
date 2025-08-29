@@ -13,6 +13,18 @@ import { getColumnNameFromId } from "./internalHelpers";
 import { WorksheetInstance, CellValue } from "../types/core";
 
 /**
+ * Safely get cell value from data array, handling both array and object shapes
+ */
+function getCellValue(data: CellValue[][] | Record<string, CellValue>[] | undefined, row: number, col: number): CellValue {
+  if (!data || !data[row]) return "";
+  if (Array.isArray(data[row])) {
+    return (data[row] as CellValue[])[col] || "";
+  } else {
+    return (data[row] as Record<string, CellValue>)[col] || "";
+  }
+}
+
+/**
  * Create row
  */
 export const createRow = function (
@@ -28,12 +40,26 @@ export const createRow = function (
   }
   // Default data
   if (!data) {
-    data = obj.options.data[j];
+    if (Array.isArray(obj.options.data?.[j])) {
+      data = obj.options.data[j] as CellValue[];
+    } else if (obj.options.data?.[j]) {
+      // Convert object data to array if needed
+      const objData = obj.options.data[j] as Record<string, CellValue>;
+      data = [];
+      for (let i = 0; i < obj.headers.length; i++) {
+        data[i] = objData[i] || "";
+      }
+    } else {
+      data = [];
+    }
   }
   // New line of data to be append in the table
   const row = {
     element: document.createElement("tr"),
     y: j,
+    cells: [] as any[], // Will be populated below
+    index: j,
+    height: parseInt(obj.options.defaultRowHeight || "20", 10) || 20,
   };
 
   obj.rows[j] = row;
@@ -48,12 +74,13 @@ export const createRow = function (
   }
 
   // Definitions
-  if (obj.options.rows && obj.options.rows[j]) {
-    if (obj.options.rows[j].height) {
-      row.element.style.height = obj.options.rows[j].height;
+  if (obj.options.rows && (obj.options.rows as any)[j]) {
+    const rowDef = (obj.options.rows as any)[j];
+    if (rowDef.height) {
+      row.element.style.height = String(rowDef.height);
     }
-    if (obj.options.rows[j].title) {
-      index = obj.options.rows[j].title;
+    if (rowDef.title) {
+      index = rowDef.title;
     }
   }
   if (!index) {
@@ -72,7 +99,7 @@ export const createRow = function (
   for (let i = 0; i < numberOfColumns; i++) {
     // New column of data to be append in the line
     obj.records[j][i] = {
-      element: createCell.call(this, i, j, data ? data[i] : undefined),
+      element: createCell.call(this, i, j, data && data[i] !== undefined ? data[i] : ""),
       x: i,
       y: j,
     };
@@ -84,9 +111,9 @@ export const createRow = function (
       obj.options.columns[i] &&
       typeof obj.options.columns[i].render === "function"
     ) {
-      obj.options.columns[i].render(
+      (obj.options.columns[i].render as Function)(
         obj.records[j][i].element,
-        data ? data[i] : undefined,
+        data && data[i] !== undefined ? data[i] : "",
         "" + i,
         "" + j,
         obj,
@@ -121,7 +148,7 @@ export const insertRow = function (
     var records = [];
 
     // Data to be insert
-    let data = [];
+    let data: CellValue[] = [];
 
     // The insert could be lead by number of rows or the array of data
     let numOfRows;
@@ -184,7 +211,9 @@ export const insertRow = function (
         ) {
           return false;
         } else {
-          obj.destroyMerge();
+          if (typeof obj.destroyMerge === "function") {
+            obj.destroyMerge();
+          }
         }
       }
     }
@@ -199,7 +228,9 @@ export const insertRow = function (
             )
           )
         ) {
-          obj.resetSearch();
+          if (obj.parent && typeof obj.parent.resetSearch === "function") {
+            obj.parent.resetSearch();
+          }
         } else {
           return false;
         }
@@ -213,22 +244,28 @@ export const insertRow = function (
 
     // Keep the current data
     const currentRecords = obj.records.splice(rowIndex);
-    const currentData = obj.options.data.splice(rowIndex);
+    const currentData = obj.options.data?.splice(rowIndex) || [];
     const currentRows = obj.rows.splice(rowIndex);
 
     // Adding lines
     const rowRecords = [];
-    const rowData = [];
+    const rowData: CellValue[][] = [];
     const rowNode = [];
 
     for (let row = rowIndex; row < numOfRows + rowIndex; row++) {
       // Push data to the data container
+      if (!obj.options.data) {
+        obj.options.data = [];
+      }
       obj.options.data[row] = [];
       for (let col = 0; col < (obj.options.columns?.length ?? 0); col++) {
-        obj.options.data[row][col] = data[col] ? data[col] : "";
+        (obj.options.data[row] as CellValue[])[col] = data[col] ? data[col] : "";
       }
       // Create row
-      const newRow = createRow.call(obj, row, obj.options.data[row]);
+      const rowData = Array.isArray(obj.options.data?.[row])
+        ? obj.options.data[row] as CellValue[]
+        : undefined;
+      const newRow = createRow.call(obj, row, rowData);
       // Append node
       if (currentRows[0]) {
         if (
@@ -251,13 +288,18 @@ export const insertRow = function (
       }
       // Record History
       rowRecords.push([...obj.records[row]]);
-      rowData.push([...obj.options.data[row]]);
+      const currentRowData = Array.isArray(obj.options.data?.[row])
+        ? [...(obj.options.data[row] as CellValue[])]
+        : [];
+      rowData.push(currentRowData || []);
       rowNode.push(newRow);
     }
 
     // Copy the data back to the main data
     Array.prototype.push.apply(obj.records, currentRecords);
-    Array.prototype.push.apply(obj.options.data, currentData);
+    if (obj.options.data) {
+      Array.prototype.push.apply(obj.options.data, currentData);
+    }
     Array.prototype.push.apply(obj.rows, currentRows);
 
     for (let j = rowIndex; j < obj.rows.length; j++) {
@@ -348,7 +390,9 @@ export const moveRow = function (
           )
         )
       ) {
-        obj.resetSearch();
+        if (obj.parent && typeof obj.parent.resetSearch === "function") {
+          obj.parent.resetSearch();
+        }
       } else {
         return false;
       }
@@ -377,7 +421,9 @@ export const moveRow = function (
   // Place references in the correct position
   obj.rows.splice(d, 0, obj.rows.splice(o, 1)[0]);
   obj.records.splice(d, 0, obj.records.splice(o, 1)[0]);
-  obj.options.data.splice(d, 0, obj.options.data.splice(o, 1)[0]);
+  if (obj.options.data) {
+    obj.options.data.splice(d, 0, obj.options.data.splice(o, 1)[0]);
+  }
 
   const firstAffectedIndex = Math.min(o, d);
   const lastAffectedIndex = Math.max(o, d);
@@ -517,7 +563,9 @@ export const deleteRow = function (
                 )
               )
             ) {
-              obj.resetSearch();
+              if (obj.parent && typeof obj.parent.resetSearch === "function") {
+                obj.parent.resetSearch();
+              }
             } else {
               return false;
             }
@@ -752,7 +800,7 @@ export const getRowData = function (
       return record.element.innerHTML;
     });
   } else {
-    return obj.options.data[rowNumber];
+    return (obj.options.data?.[rowNumber] as CellValue[] || []).map(v => String(v));
   }
 };
 

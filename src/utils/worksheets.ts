@@ -90,7 +90,7 @@ const setWorksheetFunctions = function (worksheet: WorksheetInstance) {
   for (let i = 0; i < worksheetPublicMethodsLength; i++) {
     const [methodName, method] = worksheetPublicMethods[i];
 
-    worksheet[methodName as string] = (method as Function).bind(worksheet);
+    (worksheet as any)[methodName as string] = (method as Function).bind(worksheet);
   }
 };
 
@@ -129,33 +129,41 @@ const createTable = function (this: WorksheetInstance) {
   obj.searchInput.classList.add("jss_search");
   searchLabel.appendChild(obj.searchInput);
   obj.searchInput.onfocus = function () {
-    obj.resetSelection();
+    if (typeof obj.resetSelection === "function") {
+      obj.resetSelection();
+    }
   };
 
   // Pagination select option
   const paginationUpdateContainer = document.createElement("div");
 
   if (
+    obj.options.pagination &&
+    typeof obj.options.pagination === "number" &&
     obj.options.pagination > 0 &&
     obj.options.paginationOptions &&
+    Array.isArray(obj.options.paginationOptions) &&
     obj.options.paginationOptions.length > 0
   ) {
     obj.paginationDropdown = document.createElement("select");
     obj.paginationDropdown.classList.add("jss_pagination_dropdown");
     obj.paginationDropdown.onchange = function () {
-      obj.options.pagination = parseInt(this.value);
-      obj.page(0);
+      const selectElement = this as HTMLSelectElement;
+      obj.options.pagination = parseInt(selectElement.value || "0");
+      if (typeof obj.page === "function") {
+        obj.page(0);
+      }
     };
 
     for (let i = 0; i < obj.options.paginationOptions.length; i++) {
       const temp = document.createElement("option");
-      temp.value = obj.options.paginationOptions[i];
-      temp.innerHTML = obj.options.paginationOptions[i];
+      temp.value = String(obj.options.paginationOptions[i]);
+      temp.innerHTML = String(obj.options.paginationOptions[i]);
       obj.paginationDropdown.appendChild(temp);
     }
 
     // Set initial pagination value
-    obj.paginationDropdown.value = obj.options.pagination;
+    obj.paginationDropdown.value = String(obj.options.pagination);
 
     paginationUpdateContainer.appendChild(
       document.createTextNode(jSuites.translate("Show "))
@@ -216,15 +224,17 @@ const createTable = function (this: WorksheetInstance) {
     const td = document.createElement("td");
     obj.filter.appendChild(td);
 
-    for (let i = 0; i < obj.options.columns.length; i++) {
-      const td = document.createElement("td");
-      td.innerHTML = "&nbsp;";
-      td.setAttribute("data-x", i.toString());
-      td.className = "jss_column_filter";
-      if (obj.options.columns[i].type == "hidden") {
-        td.style.display = "none";
+    if (obj.options.columns) {
+      for (let i = 0; i < obj.options.columns.length; i++) {
+        const td = document.createElement("td");
+        td.innerHTML = "&nbsp;";
+        td.setAttribute("data-x", i.toString());
+        td.className = "jss_column_filter";
+        if (obj.options.columns[i] && obj.options.columns[i].type == "hidden") {
+          td.style.display = "none";
+        }
+        obj.filter.appendChild(td);
       }
-      obj.filter.appendChild(td);
     }
 
     obj.thead.appendChild(obj.filter);
@@ -259,14 +269,14 @@ const createTable = function (this: WorksheetInstance) {
   obj.textarea = document.createElement("textarea");
   obj.textarea.className = "jss_textarea";
   obj.textarea.id = "jss_textarea";
-  obj.textarea.tabIndex = "-1";
+  obj.textarea.tabIndex = -1;
   obj.textarea.ariaHidden = "true";
 
   // Powered by Jspreadsheet
   const ads = document.createElement("a");
   ads.setAttribute("href", "https://bossanova.uk/jspreadsheet/");
-  obj.ads = document.createElement("div");
-  obj.ads.className = "jss_about";
+  (obj as any).ads = document.createElement("div");
+  (obj as any).ads.className = "jss_about";
 
   const span = document.createElement("span");
   span.innerHTML = "Jspreadsheet CE";

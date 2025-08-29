@@ -15,6 +15,18 @@ import { updatePagination } from "./pagination";
 import { setFooter } from "./footer";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 
+/**
+ * Safely get cell value from data array, handling both array and object shapes
+ */
+function getCellValue(data: CellValue[][] | Record<string, CellValue>[] | undefined, row: number, col: number): CellValue {
+  if (!data || !data[row]) return "";
+  if (Array.isArray(data[row])) {
+    return (data[row] as CellValue[])[col] || "";
+  } else {
+    return (data[row] as Record<string, CellValue>)[col] || "";
+  }
+}
+
 export const updateTable = function (this: WorksheetInstance) {
   const obj = this;
 
@@ -24,7 +36,7 @@ export const updateTable = function (this: WorksheetInstance) {
     for (let j = obj.rows.length - 1; j >= 0; j--) {
       let test = false;
       for (let i = 0; i < obj.headers.length; i++) {
-        if (obj.options.data && obj.options.data[j] && obj.options.data[j][i]) {
+        if (getCellValue(obj.options.data, j, i)) {
           test = true;
         }
       }
@@ -37,7 +49,8 @@ export const updateTable = function (this: WorksheetInstance) {
 
     if (
       obj.options.minSpareRows &&
-      obj.options.minSpareRows - numBlankRows > 0
+      obj.options.minSpareRows - numBlankRows > 0 &&
+      typeof obj.insertRow === "function"
     ) {
       obj.insertRow(obj.options.minSpareRows - numBlankRows);
     }
@@ -48,7 +61,7 @@ export const updateTable = function (this: WorksheetInstance) {
     for (let i = obj.headers.length - 1; i >= 0; i--) {
       let test = false;
       for (let j = 0; j < obj.rows.length; j++) {
-        if (obj.options.data && obj.options.data[j] && obj.options.data[j][i]) {
+        if (getCellValue(obj.options.data, j, i)) {
           test = true;
         }
       }
@@ -59,7 +72,7 @@ export const updateTable = function (this: WorksheetInstance) {
       }
     }
 
-    if (obj.options.minSpareCols - numBlankCols > 0) {
+    if (obj.options.minSpareCols - numBlankCols > 0 && typeof obj.insertColumn === "function") {
       obj.insertColumn(obj.options.minSpareCols - numBlankCols);
     }
   }
@@ -225,15 +238,7 @@ export const executeFormula = function (
             // Get value
             let value;
 
-            if (
-              obj.options.data &&
-              typeof obj.options.data[position[1]] != "undefined" &&
-              typeof obj.options.data[position[1]][position[0]] != "undefined"
-            ) {
-              value = obj.options.data[position[1]][position[0]];
-            } else {
-              value = "";
-            }
+            value = getCellValue(obj.options.data, position[1], position[0]);
             // Get column data
             if (("" + value).substr(0, 1) == "=") {
               if (typeof formulaResults[tokens[i]] !== "undefined") {
@@ -264,7 +269,7 @@ export const executeFormula = function (
                 if (obj.parent.config.autoCasting != false && number) {
                   formulaExpressions[tokens[i]] = number;
                 } else {
-                  formulaExpressions[tokens[i]] = '"' + value + '"';
+                  formulaExpressions[tokens[i]] = '"' + String(value || "") + '"';
                 }
               }
             }
@@ -276,7 +281,7 @@ export const executeFormula = function (
       if (ret === false) {
         return expression;
       } else if (ret) {
-        expression = ret;
+        expression = String(ret);
       }
 
       // Convert formula to javascript
@@ -329,7 +334,7 @@ export const parseValue = function (
         value = Number(value);
       }
       // Process the decimals to match the mask
-      let masked = jSuites.mask.render(value as string | number, opt, true);
+      let masked = jSuites.mask.render(typeof value === "string" || typeof value === "number" ? value : String(value), opt, true);
       // Negative indication
       if (
         cell &&
@@ -425,9 +430,9 @@ const validDate = function (date: unknown): boolean {
     const dateParts = dateStr.split("-");
     if (
       dateParts[0].length == 4 &&
-      dateParts[0] == Number(dateParts[0]) &&
+      Number(dateParts[0]).toString() == dateParts[0] &&
       dateParts[1].length == 2 &&
-      dateParts[1] == Number(dateParts[1])
+      Number(dateParts[1]).toString() == dateParts[1]
     ) {
       return true;
     }
@@ -442,8 +447,10 @@ const stripScript = function (a: string): string {
   const b = new Option();
   b.innerHTML = a;
   let c = null;
-  for (a = b.getElementsByTagName("script"); (c = a[0]); )
-    c.parentNode.removeChild(c);
+  const scripts = b.getElementsByTagName("script");
+  for (let i = 0; i < scripts.length; i++) {
+    scripts[i].parentNode?.removeChild(scripts[i]);
+  }
   return b.innerHTML;
 };
 
@@ -515,10 +522,12 @@ export const createCell = function (
       element.checked =
         value == 1 || value == true || value == "true" ? true : false;
       element.onclick = function () {
-        obj.setValue(
-          getColumnName(i) + (j + 1),
-          (this as HTMLInputElement).checked
-        );
+        if (typeof obj.setValue === "function") {
+          obj.setValue(
+            getColumnName(i) + (j + 1),
+            (this as HTMLInputElement).checked
+          );
+        }
       };
 
       if (
@@ -543,7 +552,7 @@ export const createCell = function (
       let formatted = null;
       if (!validDate(value)) {
         const tmp = (jSuites.calendar as unknown as { extractDateFromString: (value: string, format: string) => unknown }).extractDateFromString(
-          value,
+          String(value),
           (obj.options.columns[i].options &&
             obj.options.columns[i].options.format) ||
             "YYYY-MM-DD"
@@ -554,7 +563,7 @@ export const createCell = function (
       }
       // Create calendar cell
       td.textContent = jSuites.calendar.getDateString(
-        formatted ? formatted : value,
+        formatted ? formatted : String(value),
         obj.options.columns[i].options && obj.options.columns[i].options.format
       );
     } else if (

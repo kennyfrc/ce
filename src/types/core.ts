@@ -145,6 +145,7 @@ export interface SpreadsheetContext {
     includeHeaders?: boolean
   ) => (string | number | boolean | null)[][];
   setStyle?: (styles: Record<string, string>) => void;
+  getStyle?: (cell: string) => string;
   removeMerge?: (cell: string) => void;
   setMerge?: (cell: string, colspan: number, rowspan: number) => void;
   selectedCell?: number[];
@@ -186,6 +187,12 @@ export interface SpreadsheetContext {
   setHeader?: (column: number, header?: string) => void;
   setComments?: (cellId: string, comments: string) => void;
   getHeader?: (column: number) => string;
+  // Additional properties used in copyPaste and other utilities
+  style?: string[];
+  textarea?: HTMLElement;
+  hashString?: string;
+  data?: string;
+  skipUpdateTableReferences?: boolean;
 }
 
 export type CellValue = string | number | boolean | null;

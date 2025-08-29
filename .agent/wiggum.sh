@@ -4,7 +4,7 @@ trap 'echo "Exiting..."; kill -TERM $OPENCODE_PID 2>/dev/null; exit 0' SIGINT SI
 
 ITERATIONS="${1:-32}"
 
-for i in $(seq "$ITERATIONS"); do
+while :; do
   echo "=== $(date) ===" | tee -a ./.agent/diary.md
   
   cat port.md | opencode run --agent build --model opencode/grok-code | tee -a ./.agent/diary.md &
@@ -13,6 +13,7 @@ for i in $(seq "$ITERATIONS"); do
   wait $OPENCODE_PID
   
   echo -e "===SLEEP===\n===SLEEP===\n"
-  echo "looping ($i/$ITERATIONS)"
+  echo "looping..."
+  # echo "looping ($i/$ITERATIONS)"
   sleep 20 
 done
