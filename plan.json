@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T14:00:00Z"
+    "updatedAt": "2025-08-29T12:46:57Z"
   },
   "tasks": [
     {
@@ -263,6 +263,88 @@
       "acceptanceCriteria": [
         "demo.html loads with http-server on port 8080",
         "Window.jspreadsheet available; basic init works"
+      ]
+    },
+    {
+      "id": "cleanup-20250829-0011",
+      "name": "Remove backup/tmp/original files from repo",
+      "description": "Delete legacy backup/tmp/original artifacts left from migration: src/utils/*.{backup,backup2,orig,original,tmp}, test/rows.ts.backup, columns_backup.ts, plan_backup.json.",
+      "phase": 7,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/data.backup",
+        "src/utils/data.backup2",
+        "src/utils/data.ts.backup",
+        "src/utils/data.ts.backup2",
+        "src/utils/editor.ts.backup",
+        "src/utils/editor.ts.orig",
+        "src/utils/events.ts.backup",
+        "src/utils/events.ts.backup.test",
+        "src/utils/events.ts.original",
+        "src/utils/events.ts.tmp",
+        "src/utils/keys.ts.backup",
+        "src/utils/keys.ts.original",
+        "test/rows.ts.backup",
+        "columns_backup.ts",
+        "plan_backup.json"
+      ],
+      "owners": [
+        "@team/cleanup"
+      ],
+      "labels": [
+        "cleanup",
+        "repo-hygiene"
+      ],
+      "acceptanceCriteria": [
+        "fd --regex '(\\.backup|\\.backup2|\\.orig|\\.original|\\.tmp)$' returns no results outside node_modules/dist",
+        "git history retains originals; working tree clean"
+      ]
+    },
+    {
+      "id": "cleanup-20250829-0012",
+      "name": "Consolidate or remove stray top-level test files",
+      "description": "Move root-level test files into test/ or playwright/ or drop if obsolete: test.ts, test_parseValue.ts, test_events_snippet.ts, test-header.ts; ensure configs include their new locations if kept.",
+      "phase": 7,
+      "state": "todo",
+      "candidateFiles": [
+        "test.ts",
+        "test_parseValue.ts",
+        "test_events_snippet.ts",
+        "test-header.ts"
+      ],
+      "owners": [
+        "@team/test"
+      ],
+      "labels": [
+        "cleanup",
+        "tests"
+      ],
+      "acceptanceCriteria": [
+        "No *.ts test files at repo root",
+        "Unit/E2E configs updated if files are retained"
+      ]
+    },
+    {
+      "id": "scripts-20250829-0013",
+      "name": "Harden npm scripts for unit and e2e",
+      "description": "Add test:unit (mocha with --extension ts) and e2e (playwright test) scripts; adjust test script to avoid hard dependency on production build or ensure build passes first.",
+      "phase": 7,
+      "state": "todo",
+      "candidateFiles": [
+        "package.json"
+      ],
+      "owners": [
+        "@team/test"
+      ],
+      "labels": [
+        "scripts",
+        "mocha",
+        "playwright"
+      ],
+      "acceptanceCriteria": [
+        "npm run test:unit executes TS tests",
+        "npm run e2e runs Playwright suite",
+        "npm test strategy agreed (build-first vs direct)"
       ]
     }
   ]
