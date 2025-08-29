@@ -174,7 +174,7 @@
       "name": "Priority: Break into per-file PRs & estimates",
       "description": "Turn priority plan into a set of small, reviewable per-file tasks with owners and time estimates to enable steady progress and CI-friendly commits.",
       "phase": 1,
-      "state": "pending",
+      "state": "in_progress",
       "owners": [
         "@assistant",
         "@team/types"
@@ -188,7 +188,7 @@
         "Each task includes candidateFiles and acceptanceCriteria"
       ],
       "createdAt": "2025-08-29T15:55:00Z",
-      "updatedAt": "2025-08-29T15:55:00Z"
+      "updatedAt": "2025-08-29T03:02:38Z"
     },
     {
       "id": "ts-zero-20250829-0001",

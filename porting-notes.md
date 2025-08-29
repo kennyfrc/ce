@@ -3,7 +3,15 @@
 - TypeScript errors (tsconfig.test.json --noEmit): 1059 (saved to .agent/ts-errors-run.txt)
 - Explicit any count (find-any-types): 170 (saved to .agent/any-types-run.txt)
 - Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+### Snapshot: 2025-08-29T03:02:38Z — automated run
 
+- TypeScript errors (tsconfig.test.json --noEmit): 1059 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 170 (saved to .agent/any-types-run.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+
+Learnings:
+
+- Automated baseline recorded; proceeding to split priority work into per-file tasks and start fixes on high-impact hotspots.
 Learnings:
 
 - Typed updateCell, updateFormulaChain, and getWorksheetInstance in src/utils/internal.ts; removed `this:any` from internal.ts.
