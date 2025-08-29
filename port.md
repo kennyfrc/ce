@@ -16,9 +16,8 @@ Reach and maintain zero TypeScript type errors with strict settings, remove expl
 
 ## Prescriptive type-safety playbook (do this)
 
-- Strengthen config first
-  - Enable strict already present; add exactOptionalPropertyTypes in tsconfig.json; keep skipLibCheck:true until types stabilize.
-  - Adopt typed ESLint: extend plugin:@typescript-eslint/recommended-type-checked (project set) and enable: no-unsafe-assignment, no-unsafe-call, no-unsafe-member-access, no-unsafe-argument, no-unsafe-return, no-unnecessary-type-assertion, consistent-type-assertions; consider no-non-null-assertion (warn or error).
+- Strengthen config (simple and pragmatic)
+  - Use only "strict": true; keep skipLibCheck:true during migration. Avoid additional strict flags unless a specific issue requires them.
 
 - Model data at the edges
   - Define precise unions for public options and records; prefer discriminated unions with kind where applicable.
@@ -31,13 +30,13 @@ Reach and maintain zero TypeScript type errors with strict settings, remove expl
   - For jSuites, use the declared types in src/types/global.d.ts; add tiny typed wrappers if an API isn’t modeled—do not double-assert.
 
 - Replace casts with code
-  - Eliminate as unknown as by introducing helper functions with precise signatures or by enriching our d.ts types.
-  - Replace non-null assertions (!) with explicit guards or initializations; initialize state so optionals become required where safe.
+  - Minimize assertions (as); never use as any or double assertions (as unknown as); prefer guards, satisfies, and typed helpers.
+  - Use targeted assertions only when narrowing can’t express intent; add a brief comment; avoid non-null (!) except well-documented invariants.
   - Prefer readonly where mutation is not needed and const type parameters to preserve literal inference.
 
 - Pragmatic enforcement
   - Apply rules incrementally: enforce on new/changed code; refactor legacy areas opportunistically to avoid churn.
-  - Start strict ESLint rules as warnings in legacy files; require errors to be fixed for new or modified files.
+  - Keep lint light; rely primarily on tsc strict and targeted code fixes.
   - Allow localized @ts-expect-error or minimal boundary casts only with a comment and tracking ticket; encapsulate in small wrappers.
   - Favor the smallest change that improves types without adding complexity; prefer improving data models over widespread cast edits.
 

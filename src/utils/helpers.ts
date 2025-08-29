@@ -240,7 +240,18 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
         options.columns[i] = {};
       }
       if (header.getAttribute("data-celltype")) {
-        options.columns[i].type = header.getAttribute("data-celltype") as any;
+        const cellType = header.getAttribute("data-celltype") as
+          | "text"
+          | "numeric"
+          | "calendar"
+          | "dropdown"
+          | "checkbox"
+          | "color"
+          | "hidden"
+          | "radio"
+          | "image"
+          | "html";
+        options.columns[i].type = cellType;
       } else {
         options.columns[i].type = "text";
       }

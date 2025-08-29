@@ -41,3 +41,20 @@ jobs:
           else
             echo "✅ No any types found"
           fi
+
+      - name: Check for banned type assertions
+        run: |
+          echo "Checking for banned type assertions..."
+          as_any_count=$(grep -r "as any" src/ --include="*.ts" | wc -l)
+          as_unknown_as_count=$(grep -r "as unknown as" src/ --include="*.ts" | wc -l)
+
+          if [ "$as_any_count" -gt 0 ] || [ "$as_unknown_as_count" -gt 0 ]; then
+            echo "❌ CI failed: Found banned type assertions"
+            echo "Found $as_any_count 'as any' assertions"
+            echo "Found $as_unknown_as_count 'as unknown as' assertions"
+            echo ""
+            echo "'as any' and 'as unknown as' are banned. Use proper typing or guards instead."
+            exit 1
+          else
+            echo "✅ No banned type assertions found"
+          fi
