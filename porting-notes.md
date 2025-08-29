@@ -694,10 +694,18 @@ Learnings:
   - Added guards for obj.options.freezeColumns undefined checks
   - Fixed string/number conversion issues with parseInt and String casting
   - Fixed arithmetic operations on mixed string/number types
+
+### Snapshot: 2025-08-29T20:00:00Z — Fix any types in rows and worksheets utilities
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1021 (stable)
+- Explicit any count (find-any-types): 0 (achieved goal!)
+- Changes: Fixed any types in src/utils/rows.ts and src/utils/worksheets.ts:
+  - Created src/types/rows.ts with RowDefinition interface
+  - Added rows property to SpreadsheetOptions interface
+  - Replaced any types with proper RowDefinition typing in rows.ts
+  - Fixed any types in worksheets.ts by using proper method binding
 - Learnings:
-  - TypeScript's control flow analysis can lose type information in asynchronous callbacks
-  - Re-aliasing variables in callbacks helps maintain type safety
-  - DOM property access requires consistent null/undefined guards
-  - Mixed string/number arithmetic requires explicit type conversions
-  - Core type definitions may need extension for missing runtime methods
-- Next: Continue systematic fixes in remaining hotspots (rows.ts, worksheets.ts any elimination, additional null-safety guards).
+  - Creating specific type definitions for data structures eliminates any types
+  - Proper method binding with keyof eliminates need for any casting
+  - Type-safe property access prevents runtime errors
+- Next: Continue with remaining TypeScript error fixes in other utilities.
