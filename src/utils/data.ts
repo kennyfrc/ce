@@ -11,6 +11,9 @@ import type { SpreadsheetContext, CellValue } from "../types/core";
 export const setData = function (this: SpreadsheetContext, data: CellValue[][]) {
   const obj = this;
 
+  // Local aliases and defaults to satisfy strict checks
+  const columns = obj.options.columns ?? [];
+
   // Update data
   if (data) {
     obj.options.data = data;
@@ -21,14 +24,16 @@ export const setData = function (this: SpreadsheetContext, data: CellValue[][]) 
     obj.options.data = [];
   }
 
-  // Prepare data
+  // Prepare data: support both array-of-arrays and array-of-objects
   if (obj.options.data && obj.options.data[0]) {
     if (!Array.isArray(obj.options.data[0])) {
       data = [];
       for (let j = 0; j < obj.options.data.length; j++) {
-        const row = [];
-        for (let i = 0; i < obj.options.columns.length; i++) {
-          row[i] = obj.options.data[j][obj.options.columns[i].name];
+        const row: CellValue[] = [];
+        const rowObj = obj.options.data[j] as Record<string, CellValue>;
+        for (let i = 0; i < columns.length; i++) {
+          const key = columns[i]?.name ?? String(i);
+          row[i] = rowObj[key];
         }
         data.push(row);
       }
@@ -40,10 +45,11 @@ export const setData = function (this: SpreadsheetContext, data: CellValue[][]) 
   // Adjust minimal dimensions
   let j = 0;
   let i = 0;
-  const size_i = (obj.options.columns && obj.options.columns.length) || 0;
+  const size_i = columns.length;
   const size_j = obj.options.data.length;
-  const min_i = obj.options.minDimensions[0];
-  const min_j = obj.options.minDimensions[1];
+  const minDims = obj.options.minDimensions ?? [0, 0];
+  const min_i = minDims[0];
+  const min_j = minDims[1];
   const max_i = min_i > size_i ? min_i : size_i;
   const max_j = min_j > size_j ? min_j : size_j;
 
@@ -122,10 +128,13 @@ export const setData = function (this: SpreadsheetContext, data: CellValue[][]) 
 
   // Merge cells
   if (obj.options.mergeCells) {
-    const keys = Object.keys(obj.options.mergeCells);
+    const mergeCells = obj.options.mergeCells as Record<string, [number, number] | false>;
+    const keys = Object.keys(mergeCells);
     for (let i = 0; i < keys.length; i++) {
-      const num = obj.options.mergeCells[keys[i]];
-      setMerge.call(obj, keys[i], num[0], num[1], true);
+      const num = mergeCells[keys[i]];
+      if (Array.isArray(num)) {
+        setMerge.call(obj, keys[i], num[0], num[1], true);
+      }
     }
   }
 
@@ -159,7 +168,7 @@ export const getValue = function (this: SpreadsheetContext, cell: string, proces
     if (obj.records[y] && obj.records[y][x] && processedValue) {
       value = obj.records[y][x].element.innerHTML;
     } else {
-      if (obj.options.data[y] && obj.options.data[y][x] != "undefined") {
+      if (obj.options.data[y] && obj.options.data[y][x] !== undefined) {
         value = obj.options.data[y][x];
       }
     }
@@ -189,7 +198,7 @@ export const getValueFromCoords = function (
     if (obj.records[y] && obj.records[y][x] && processedValue) {
       value = obj.records[y][x].element.innerHTML;
     } else {
-      if (obj.options.data[y] && obj.options.data[y][x] != "undefined") {
+      if (obj.options.data[y] && obj.options.data[y][x] !== undefined) {
         value = obj.options.data[y][x];
       }
     }
@@ -317,10 +326,10 @@ export const setValue = function (
  * @return void
  */
 export const setValueFromCoords = function (
-  this: any,
+  this: SpreadsheetContext,
   x: number,
   y: number,
-  value: any,
+  value: CellValue,
   force?: boolean
 ) {
   const obj = this;
@@ -361,22 +370,22 @@ export const setValueFromCoords = function (
  * @return array data
  */
 export const getData = function (
-  this: any,
+  this: SpreadsheetContext,
   highlighted: boolean,
   processed: boolean,
-  delimiter: string,
-  asJson: boolean
+  delimiter?: string,
+  asJson?: boolean
 ) {
   const obj = this;
 
   // Control vars
-  const dataset: any[][] = [];
+  const dataset: CellValue[][] = [];
   let px = 0;
   let py = 0;
 
   // Column and row length
   const x = Math.max(
-    ...obj.options.data.map(function (row: any[]) {
+    ...obj.options.data.map(function (row: CellValue[]) {
       return row.length;
     })
   );

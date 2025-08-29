@@ -1,3 +1,14 @@
+### Snapshot: 2025-08-29T16:06:00Z — internal.ts typing
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1059 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 170 (saved to .agent/any-types-run.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+
+Learnings:
+
+- Typed updateCell, updateFormulaChain, and getWorksheetInstance in src/utils/internal.ts; removed `this:any` from internal.ts.
+- Running tsc shows remaining nullability/indexing errors in columns/data/events; next step: narrow CellValue unions and add guards.
+
 ### Snapshot: 2025-08-29T15:50:00Z — automated run
 
 - TypeScript errors (tsconfig.test.json --noEmit): 938 (saved to .agent/ts-errors-run.txt)
@@ -8,6 +19,11 @@ Learnings:
 
 - Ran baseline now; events.ts and internal.ts remain primary hotspots.
 - Next: continue alias-and-guard edits in events.ts and reconcile core WorksheetInstance/SpreadsheetContext shapes.
+
+### Snapshot: 2025-08-29T15:52:00Z — data.ts edits
+
+- Added plan task ts-fix-data-20250829-0001 and tightened core/data typings (ColumnDefinition.name, SpreadsheetOptions.mergeCells/lazyLoading, safer indexing in data.ts).
+- Observed tsc ~970 errors and 174 explicit anys; pre-commit hook blocked committing due to anys—next: target top any offenders and consider whitelisting plan/.agent maintenance commits.
 
 ### Snapshot: 2025-08-29T15:51:00Z — data.ts typing
 
@@ -403,3 +419,16 @@ Learnings / Next steps:
 
 - events.ts and internal.ts remain the largest hotspots; prioritize alias-and-guard edits in events.ts handlers to reduce 'possibly undefined' diagnostics.
 - Created plan task ts-work-20250829-9999 (in_progress) to apply local `current` aliases and add runtime guards in remaining hotspots; will land small, reviewable patches.
+
+### Snapshot: 2025-08-28T21:13:18Z — automated patch
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1016 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 175 (saved to .agent/any-types-run.txt)
+- Files: .agent/ts-errors-run.txt, .agent/any-types-run.txt
+
+Learnings:
+
+- Small targeted data-shape fix in src/utils/columns.ts reduced tsc errors by 2 and any count by 1.
+- Use Array.isArray guards to handle data union CellValue[][] | Array<Record<string,CellValue>>.
+- Created task ts-fix-columns-20250829-0002 to continue columns.ts cleanup.
+

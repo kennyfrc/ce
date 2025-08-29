@@ -1,154 +1,93 @@
-src/utils/columns.ts(284,27): error TS2721: Cannot invoke an object which is possibly 'null'.
-src/utils/columns.ts(284,52): error TS2349: This expression is not callable.
-  Not all constituents of type 'string | number | boolean | { (start: number, deleteCount?: number | undefined): CellValue[]; (start: number, deleteCount: number, ...items: CellValue[]): CellValue[]; }' are callable.
-    Type 'string' has no call signatures.
-src/utils/columns.ts(295,11): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/columns.ts(302,11): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/columns.ts(494,5): error TS2721: Cannot invoke an object which is possibly 'null'.
-src/utils/columns.ts(494,28): error TS2349: This expression is not callable.
-  Not all constituents of type 'string | number | boolean | { (start: number, deleteCount?: number | undefined): CellValue[]; (start: number, deleteCount: number, ...items: CellValue[]): CellValue[]; }' are callable.
-    Type 'string' has no call signatures.
-src/utils/columns.ts(494,41): error TS2721: Cannot invoke an object which is possibly 'null'.
-src/utils/columns.ts(494,61): error TS2349: This expression is not callable.
-  Not all constituents of type 'string | number | boolean | { (start: number, deleteCount?: number | undefined): CellValue[]; (start: number, deleteCount: number, ...items: CellValue[]): CellValue[]; }' are callable.
-    Type 'string' has no call signatures.
-src/utils/columns.ts(569,11): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/columns.ts(588,24): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/columns.ts(588,24): error TS2531: Object is possibly 'null'.
-src/utils/columns.ts(590,24): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/columns.ts(590,24): error TS2531: Object is possibly 'null'.
-src/utils/columns.ts(675,13): error TS2721: Cannot invoke an object which is possibly 'null'.
-src/utils/columns.ts(675,38): error TS2349: This expression is not callable.
-  Not all constituents of type 'string | number | boolean | { (start: number, deleteCount?: number | undefined): CellValue[]; (start: number, deleteCount: number, ...items: CellValue[]): CellValue[]; }' are callable.
-    Type 'string' has no call signatures.
-src/utils/columns.ts(996,20): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/data.ts(112,19): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/data.ts(114,7): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/data.ts(114,7): error TS2365: Operator '+' cannot be applied to types 'number' and 'number | boolean'.
-src/utils/data.ts(176,3): error TS2322: Type 'string | number[]' is not assignable to type 'string'.
-  Type 'number[]' is not assignable to type 'string'.
-src/utils/data.ts(183,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(183,39): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(184,27): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(186,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(186,28): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(186,34): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(186,51): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(187,17): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(187,34): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(216,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(216,34): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(216,34): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/data.ts(217,17): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(217,17): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/data.ts(276,11): error TS2322: Type 'string | number' is not assignable to type 'number | null'.
-  Type 'string' is not assignable to type 'number'.
-src/utils/data.ts(277,11): error TS2322: Type 'string | number' is not assignable to type 'number | null'.
-  Type 'string' is not assignable to type 'number'.
-src/utils/data.ts(394,8): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(398,13): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(416,26): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(475,24): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/events.ts(406,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+src/utils/events.ts(333,27): error TS2554: Expected 2 arguments, but got 1.
+src/utils/events.ts(348,15): error TS2345: Argument of type 'number | true' is not assignable to parameter of type 'number'.
+  Type 'boolean' is not assignable to type 'number'.
+src/utils/events.ts(405,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
-src/utils/events.ts(442,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.
+src/utils/events.ts(441,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
-src/utils/events.ts(572,84): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(581,26): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(571,84): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(580,26): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(691,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
 src/utils/events.ts(692,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
 src/utils/events.ts(693,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
 src/utils/events.ts(694,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
-src/utils/events.ts(695,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
+src/utils/events.ts(718,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(719,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(720,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(721,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(722,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(723,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(740,11): error TS18048: 'obj.selection' is possibly 'undefined'.
-src/utils/events.ts(824,17): error TS2345: Argument of type 'number | boolean' is not assignable to parameter of type 'number'.
+src/utils/events.ts(739,11): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/events.ts(823,17): error TS2345: Argument of type 'number | boolean' is not assignable to parameter of type 'number'.
   Type 'boolean' is not assignable to type 'number'.
-src/utils/events.ts(874,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(876,20): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(879,13): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(879,33): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(885,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(885,31): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(888,52): error TS2538: Type 'null' cannot be used as an index type.
-src/utils/events.ts(888,85): error TS2538: Type 'null' cannot be used as an index type.
-src/utils/events.ts(894,32): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string | number'.
+src/utils/events.ts(873,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(875,20): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(878,13): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(878,33): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(884,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(884,31): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(887,52): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(887,85): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(893,32): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string | number'.
   Type 'null' is not assignable to type 'string | number'.
-src/utils/events.ts(1023,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1023,37): error TS2554: Expected 1 arguments, but got 3.
-src/utils/events.ts(1032,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1032,37): error TS2554: Expected 1 arguments, but got 3.
-src/utils/events.ts(1042,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1043,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+src/utils/events.ts(1022,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1022,37): error TS2554: Expected 1 arguments, but got 3.
+src/utils/events.ts(1031,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1031,37): error TS2554: Expected 1 arguments, but got 3.
+src/utils/events.ts(1041,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1042,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
-src/utils/events.ts(1090,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1090,34): error TS2554: Expected 1 arguments, but got 3.
-src/utils/events.ts(1097,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1097,34): error TS2554: Expected 1 arguments, but got 2.
-src/utils/events.ts(1106,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1107,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+src/utils/events.ts(1089,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1089,34): error TS2554: Expected 1 arguments, but got 3.
+src/utils/events.ts(1096,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1096,34): error TS2554: Expected 1 arguments, but got 2.
+src/utils/events.ts(1105,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1106,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(1166,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
 src/utils/events.ts(1167,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
-src/utils/events.ts(1168,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
-src/utils/events.ts(1185,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1184,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1267,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1268,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1269,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
 src/utils/events.ts(1270,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(1271,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
-src/utils/events.ts(1323,40): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-src/utils/events.ts(1324,57): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-src/utils/events.ts(1494,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/events.ts(1495,9): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(1562,17): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/events.ts(1563,33): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/events.ts(1563,105): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/events.ts(1563,184): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/events.ts(1592,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1322,40): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+src/utils/events.ts(1323,57): error TS2352: Conversion of type 'number' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+src/utils/events.ts(1493,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1494,9): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1591,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/events.ts(1635,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1647,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1653,15): error TS18048: 'current.highlighted' is possibly 'undefined'.
-src/utils/events.ts(1669,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1686,26): error TS2554: Expected 1 arguments, but got 0.
-src/utils/events.ts(1726,41): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'ClipboardEvent'.
+src/utils/events.ts(1634,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1646,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1652,15): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1668,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1685,26): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1725,41): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'ClipboardEvent'.
   Property 'clipboardData' is missing in type 'Event' but required in type 'ClipboardEvent'.
-src/utils/events.ts(1796,44): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
+src/utils/events.ts(1795,44): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
+src/utils/events.ts(1809,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1809,35): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/events.ts(1810,11): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1810,35): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1811,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1814,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1814,39): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/events.ts(1815,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1815,39): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1816,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1818,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1819,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1819,41): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1823,20): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1823,45): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1825,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1826,15): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1827,17): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1827,41): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1844,16): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/events.ts(1847,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1861,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1817,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1818,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1818,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1822,20): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1822,45): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1824,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1825,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1826,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1826,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1843,16): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1846,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1860,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/events.ts(1865,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1864,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
   Type 'number' is not assignable to type 'string'.
-src/utils/events.ts(1877,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
-src/utils/events.ts(1887,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1908,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
-src/utils/events.ts(1908,40): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1876,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
+src/utils/events.ts(1886,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1907,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1907,40): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/factory.ts(89,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
 src/utils/factory.ts(110,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
 src/utils/factory.ts(131,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
@@ -176,16 +115,8 @@ src/utils/factory.ts(283,48): error TS2345: Argument of type '{ parent: Spreadsh
 src/utils/history.ts(304,9): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean'.
   Type 'number' is not assignable to type 'boolean'.
 src/utils/history.ts(382,9): error TS2345: Argument of type '1' is not assignable to parameter of type 'boolean | undefined'.
-src/utils/internal.ts(27,56): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/internal.ts(42,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/internal.ts(51,56): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/internal.ts(63,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/internal.ts(231,22): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(233,23): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/internal.ts(279,9): error TS2322: Type '{}' is not assignable to type 'string'.
 src/utils/internal.ts(428,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
 src/utils/internal.ts(430,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
@@ -194,94 +125,20 @@ src/utils/internal.ts(446,7): error TS2339: Property 'parentNode' does not exist
 src/utils/internal.ts(468,31): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
   Type 'null' is not assignable to type 'string'.
 src/utils/internal.ts(518,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/internal.ts(535,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/internal.ts(598,36): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
   Type 'null' is not assignable to type 'string'.
 src/utils/internal.ts(601,38): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
   Type 'null' is not assignable to type 'string'.
 src/utils/internal.ts(603,11): error TS2322: Type 'CellValue' is not assignable to type 'string | null'.
   Type 'number' is not assignable to type 'string'.
-src/utils/internal.ts(694,33): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/internal.ts(714,7): error TS2322: Type '{}' is not assignable to type 'CellValue'.
-src/utils/internal.ts(721,42): error TS2339: Property 'updateCell' does not exist on type '{ createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; }'.
-src/utils/internal.ts(723,50): error TS2339: Property 'updateCell' does not exist on type '{ createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; }'.
-src/utils/internal.ts(744,17): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(744,17): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(755,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(755,7): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(756,25): error TS2339: Property 'setValue' does not exist on type '{ createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; }'.
-src/utils/internal.ts(757,16): error TS2339: Property 'setValue' does not exist on type '{ createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; }'.
-src/utils/internal.ts(769,31): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(770,13): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(770,13): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(775,47): error TS2339: Property 'checked' does not exist on type 'Element'.
-src/utils/internal.ts(779,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(779,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(779,72): error TS2339: Property 'checked' does not exist on type 'Element'.
-src/utils/internal.ts(786,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(786,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(787,9): error TS2322: Type 'string | number | null' is not assignable to type 'string | null'.
-  Type 'number' is not assignable to type 'string'.
-src/utils/internal.ts(790,11): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string | number'.
-  Type 'null' is not assignable to type 'string | number'.
-src/utils/internal.ts(801,13): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/internal.ts(811,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(811,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(813,11): error TS2345: Argument of type 'CellValue | Date' is not assignable to parameter of type 'Date'.
-  Type 'null' is not assignable to type 'Date'.
-src/utils/internal.ts(823,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(823,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(832,11): error TS2322: Type 'CellValue' is not assignable to type 'string'.
-  Type 'null' is not assignable to type 'string'.
-src/utils/internal.ts(841,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(841,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(850,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(850,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/internal.ts(858,13): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
   Type 'null' is not assignable to type 'string'.
 src/utils/internal.ts(863,15): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
   Type 'null' is not assignable to type 'string'.
-src/utils/internal.ts(866,13): error TS2322: Type 'CellValue' is not assignable to type 'string | null'.
-  Type 'number' is not assignable to type 'string'.
-src/utils/internal.ts(1010,7): error TS18048: 'obj.formula' is possibly 'undefined'.
-src/utils/internal.ts(1010,30): error TS18048: 'obj.formula' is possibly 'undefined'.
-src/utils/internal.ts(1013,7): error TS18048: 'obj.formula' is possibly 'undefined'.
-src/utils/internal.ts(1013,7): error TS2322: Type 'string' is not assignable to type 'string[]'.
-src/utils/internal.ts(1018,27): error TS18048: 'obj.formula' is possibly 'undefined'.
-src/utils/internal.ts(1020,11): error TS18048: 'obj.formula' is possibly 'undefined'.
-src/utils/internal.ts(1024,28): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(1024,28): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/internal.ts(1029,18): error TS18048: 'obj.formula' is possibly 'undefined'.
-src/utils/internal.ts(1029,42): error TS2769: No overload matches this call.
-  Overload 1 of 2, '(o: {}): string[]', gave the following error.
-    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type '{}'.
-      Type 'undefined' is not assignable to type '{}'.
-  Overload 2 of 2, '(o: object): string[]', gave the following error.
-    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type 'object'.
-      Type 'undefined' is not assignable to type 'object'.
 src/utils/internal.ts(1094,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(1095,21): error TS2365: Operator '<' cannot be applied to types 'number' and 'string | number | boolean'.
 src/utils/internal.ts(1095,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(1095,25): error TS2531: Object is possibly 'null'.
 src/utils/internal.ts(1096,26): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(1096,26): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/internal.ts(1102,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/internal.ts(1102,11): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/internal.ts(1110,28): error TS2769: No overload matches this call.
   Overload 1 of 2, '(o: {}): string[]', gave the following error.
     Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type '{}'.
@@ -317,28 +174,18 @@ src/utils/internal.ts(1232,15): error TS7053: Element implicitly has an 'any' ty
   Property '2' does not exist on type 'false | [string, number, number]'.
 src/utils/internal.ts(1236,28): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [string, number, number]'.
   Property '0' does not exist on type 'false | [string, number, number]'.
-src/utils/internal.ts(1239,15): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
-src/utils/internal.ts(1239,15): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
-  Property '2' does not exist on type 'false | [number, number]'.
-src/utils/internal.ts(1243,13): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
-src/utils/internal.ts(1243,13): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
-  Property '2' does not exist on type 'false | [number, number]'.
-src/utils/internal.ts(1246,13): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
-src/utils/internal.ts(1246,13): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
-  Property '2' does not exist on type 'false | [number, number]'.
-src/utils/internal.ts(1248,11): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
-src/utils/internal.ts(1248,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
-  Property '2' does not exist on type 'false | [number, number]'.
+src/utils/internal.ts(1239,15): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1243,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1246,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1248,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
 src/utils/internal.ts(1250,17): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [string, number, number]'.
   Property '1' does not exist on type 'false | [string, number, number]'.
-src/utils/internal.ts(1252,11): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
-src/utils/internal.ts(1252,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
-  Property '2' does not exist on type 'false | [number, number]'.
+src/utils/internal.ts(1252,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
 src/utils/internal.ts(1254,17): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [string, number, number]'.
   Property '2' does not exist on type 'false | [string, number, number]'.
-src/utils/internal.ts(1258,9): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
-src/utils/internal.ts(1259,11): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
-src/utils/internal.ts(1260,16): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1258,9): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1259,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1260,16): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
 src/utils/internal.ts(1288,23): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/internal.ts(1296,17): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/internal.ts(1296,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
@@ -360,10 +207,6 @@ src/utils/internal.ts(1339,9): error TS18048: 'obj.content' is possibly 'undefin
 src/utils/internal.ts(1341,20): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/internal.ts(1342,7): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/internal.ts(1344,7): error TS18048: 'obj.content' is possibly 'undefined'.
-src/utils/internal.ts(1358,40): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
-src/utils/internal.ts(1359,5): error TS2322: Type 'number | true' is not assignable to type 'number'.
-  Type 'boolean' is not assignable to type 'number'.
-src/utils/internal.ts(1387,33): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/internal.ts(1414,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
   Type 'string' is not assignable to type 'number'.
 src/utils/internal.ts(1417,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
@@ -403,7 +246,6 @@ src/utils/keys.ts(141,15): error TS18048: 'obj.selectedCell' is possibly 'undefi
 src/utils/keys.ts(142,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(143,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(144,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
-src/utils/keys.ts(150,40): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/keys.ts(151,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/keys.ts(151,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
 src/utils/keys.ts(151,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
@@ -466,7 +308,6 @@ src/utils/keys.ts(384,15): error TS18048: 'obj.selectedCell' is possibly 'undefi
 src/utils/keys.ts(385,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(386,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(387,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
-src/utils/keys.ts(393,40): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/keys.ts(394,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/keys.ts(394,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
 src/utils/keys.ts(394,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
@@ -500,7 +341,6 @@ src/utils/keys.ts(513,5): error TS18048: 'obj.selectedCell' is possibly 'undefin
 src/utils/keys.ts(513,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(519,6): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(519,34): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
-src/utils/keys.ts(522,40): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/keys.ts(523,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/keys.ts(523,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
 src/utils/keys.ts(523,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
@@ -519,7 +359,6 @@ src/utils/keys.ts(558,5): error TS18048: 'obj.selectedCell' is possibly 'undefin
 src/utils/keys.ts(558,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(564,6): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(565,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
-src/utils/keys.ts(568,40): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/keys.ts(569,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/keys.ts(569,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
 src/utils/keys.ts(569,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
@@ -530,15 +369,21 @@ src/utils/keys.ts(577,5): error TS18048: 'obj.selectedCell' is possibly 'undefin
 src/utils/keys.ts(578,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(579,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(581,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
-src/utils/merges.ts(27,23): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [number, number]'.
-  Property '0' does not exist on type 'false | [number, number]'.
-src/utils/merges.ts(65,23): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [number, number]'.
-  Property '1' does not exist on type 'false | [number, number]'.
+src/utils/merges.ts(27,23): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(65,23): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(102,35): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(104,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(105,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
 src/utils/merges.ts(115,9): error TS18047: 'data' is possibly 'null'.
-src/utils/merges.ts(116,11): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [number, number]'.
-  Property '0' does not exist on type 'false | [number, number]'.
-src/utils/merges.ts(117,11): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [number, number]'.
-  Property '1' does not exist on type 'false | [number, number]'.
+src/utils/merges.ts(116,11): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(117,11): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
 src/utils/merges.ts(145,10): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(149,27): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(149,46): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
@@ -550,6 +395,8 @@ src/utils/merges.ts(152,53): error TS2339: Property 'getAttribute' does not exis
 src/utils/merges.ts(155,9): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(155,25): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(155,53): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
+src/utils/merges.ts(168,33): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
 src/utils/merges.ts(176,41): error TS18048: 'rowspan' is possibly 'undefined'.
 src/utils/merges.ts(177,43): error TS18048: 'colspan' is possibly 'undefined'.
 src/utils/merges.ts(190,9): error TS18048: 'colspan' is possibly 'undefined'.
@@ -558,32 +405,24 @@ src/utils/merges.ts(191,69): error TS2345: Argument of type 'number | undefined'
 src/utils/merges.ts(195,9): error TS18048: 'rowspan' is possibly 'undefined'.
 src/utils/merges.ts(196,69): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/merges.ts(205,41): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
-  Type 'undefined' is not assignable to type 'number'.
-src/utils/merges.ts(205,50): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
-  Type 'undefined' is not assignable to type 'number'.
-src/utils/merges.ts(205,59): error TS2322: Type 'never[]' is not assignable to type 'undefined'.
+src/utils/merges.ts(205,5): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
 src/utils/merges.ts(213,41): error TS18048: 'rowspan' is possibly 'undefined'.
 src/utils/merges.ts(214,43): error TS18048: 'colspan' is possibly 'undefined'.
 src/utils/merges.ts(216,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/merges.ts(216,21): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
-src/utils/merges.ts(218,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
-  Property '2' does not exist on type 'false | [number, number]'.
+src/utils/merges.ts(218,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
 src/utils/merges.ts(228,7): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'HTMLElement | null'.
-src/utils/merges.ts(274,59): error TS2532: Object is possibly 'undefined'.
-src/utils/merges.ts(274,64): error TS2493: Tuple type '[number, number]' of length '2' has no element at index '2'.
+src/utils/merges.ts(258,33): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(264,18): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(294,14): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
 src/utils/orderBy.ts(42,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/orderBy.ts(44,3): error TS2322: Type '(CellValue[] | Record<string, CellValue>)[]' is not assignable to type 'CellValue[][] | Record<string, CellValue>[] | undefined'.
-  Type '(CellValue[] | Record<string, CellValue>)[]' is not assignable to type 'CellValue[][]'.
-    Type 'CellValue[] | Record<string, CellValue>' is not assignable to type 'CellValue[]'.
-      Type 'Record<string, CellValue>' is missing the following properties from type 'CellValue[]': length, pop, push, concat, and 28 more.
 src/utils/orderBy.ts(59,13): error TS2339: Property 'y' does not exist on type 'Row'.
 src/utils/orderBy.ts(68,9): error TS18048: 'obj.searchInput' is possibly 'undefined'.
 src/utils/orderBy.ts(69,11): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
 src/utils/orderBy.ts(69,18): error TS18048: 'obj.searchInput' is possibly 'undefined'.
 src/utils/orderBy.ts(78,9): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/orderBy.ts(78,9): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/orderBy.ts(79,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/orderBy.ts(112,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/orderBy.ts(128,8): error TS2367: This comparison appears to be unintentional because the types '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"number"' have no overlap.
@@ -591,17 +430,14 @@ src/utils/orderBy.ts(130,9): error TS2367: This comparison appears to be uninten
 src/utils/orderBy.ts(131,9): error TS2367: This comparison appears to be unintentional because the types '"text" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"autonumber"' have no overlap.
 src/utils/orderBy.ts(134,27): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/orderBy.ts(135,30): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/orderBy.ts(135,30): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/orderBy.ts(144,27): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/orderBy.ts(145,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/orderBy.ts(145,23): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/orderBy.ts(148,27): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/orderBy.ts(185,22): error TS18046: 'obj.parent.config.sorting' is of type 'unknown'.
 src/utils/orderBy.ts(202,40): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean'.
-src/utils/rows.ts(31,5): error TS2322: Type 'CellValue[] | Record<string, CellValue>' is not assignable to type 'CellValue[] | undefined'.
-  Type 'Record<string, CellValue>' is missing the following properties from type 'CellValue[]': length, pop, push, concat, and 28 more.
+src/utils/orderBy.ts(203,27): error TS2345: Argument of type '(string | number | boolean | null)[]' is not assignable to parameter of type 'number[]'.
+  Type 'string | number | boolean | null' is not assignable to type 'number'.
+    Type 'null' is not assignable to type 'number'.
 src/utils/rows.ts(31,12): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/rows.ts(39,3): error TS2739: Type '{ element: HTMLTableRowElement; y: number; }' is missing the following properties from type 'Row': cells, index, height
 src/utils/rows.ts(51,27): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
@@ -625,18 +461,12 @@ src/utils/rows.ts(202,15): error TS2339: Property 'resetSearch' does not exist o
 src/utils/rows.ts(216,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/rows.ts(226,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/rows.ts(228,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(228,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/rows.ts(228,38): error TS7005: Variable 'data' implicitly has an 'any[]' type.
 src/utils/rows.ts(228,50): error TS7005: Variable 'data' implicitly has an 'any[]' type.
 src/utils/rows.ts(231,47): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(231,47): error TS2345: Argument of type 'CellValue[] | Record<string, CellValue>' is not assignable to parameter of type 'CellValue[] | undefined'.
-  Type 'Record<string, CellValue>' is missing the following properties from type 'CellValue[]': length, pop, push, concat, and 28 more.
 src/utils/rows.ts(254,24): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(254,24): error TS2461: Type 'CellValue[] | Record<string, CellValue>' is not an array type.
 src/utils/rows.ts(264,19): error TS2339: Property 'y' does not exist on type 'Row'.
 src/utils/rows.ts(274,9): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/rows.ts(274,9): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/rows.ts(275,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/rows.ts(275,16): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
@@ -645,17 +475,8 @@ src/utils/rows.ts(337,9): error TS2722: Cannot invoke an object which is possibl
 src/utils/rows.ts(351,13): error TS2339: Property 'resetSearch' does not exist on type 'SpreadsheetContext'.
 src/utils/rows.ts(380,3): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/rows.ts(380,33): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/rows.ts(380,33): error TS2769: No overload matches this call.
-  Overload 1 of 3, '(start: number, deleteCount: number, ...items: CellValue[][]): CellValue[][] | Record<string, CellValue>[]', gave the following error.
-    Argument of type 'CellValue[] | Record<string, CellValue>' is not assignable to parameter of type 'CellValue[]'.
-      Type 'Record<string, CellValue>' is missing the following properties from type 'CellValue[]': length, pop, push, concat, and 28 more.
-  Overload 2 of 3, '(start: number, deleteCount: number, ...items: Record<string, CellValue>[]): CellValue[][] | Record<string, CellValue>[]', gave the following error.
-    Argument of type 'CellValue[] | Record<string, CellValue>' is not assignable to parameter of type 'Record<string, CellValue>'.
-      Type 'CellValue[]' is not assignable to type 'Record<string, CellValue>'.
-        Index signature for type 'string' is missing in type 'CellValue[]'.
 src/utils/rows.ts(386,17): error TS2339: Property 'y' does not exist on type 'Row'.
 src/utils/rows.ts(397,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/rows.ts(397,5): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/rows.ts(400,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/rows.ts(400,14): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
@@ -673,7 +494,6 @@ src/utils/rows.ts(549,13): error TS2531: Object is possibly 'null'.
 src/utils/rows.ts(555,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/rows.ts(559,23): error TS2339: Property 'y' does not exist on type 'Row'.
 src/utils/rows.ts(570,11): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/rows.ts(570,11): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/rows.ts(573,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/rows.ts(573,20): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
@@ -685,10 +505,9 @@ src/utils/rows.ts(673,23): error TS2345: Argument of type 'number' is not assign
 src/utils/rows.ts(683,10): error TS18046: 'obj.options.rows' is of type 'unknown'.
 src/utils/rows.ts(684,7): error TS18046: 'obj.options.rows' is of type 'unknown'.
 src/utils/rows.ts(686,5): error TS18046: 'obj.options.rows' is of type 'unknown'.
-src/utils/rows.ts(755,5): error TS2322: Type 'CellValue[] | Record<string, CellValue>' is not assignable to type 'string[]'.
-  Type 'CellValue[]' is not assignable to type 'string[]'.
-    Type 'CellValue' is not assignable to type 'string'.
-      Type 'null' is not assignable to type 'string'.
+src/utils/rows.ts(755,5): error TS2322: Type 'CellValue[]' is not assignable to type 'string[]'.
+  Type 'CellValue' is not assignable to type 'string'.
+    Type 'null' is not assignable to type 'string'.
 src/utils/rows.ts(755,12): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/rows.ts(775,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/selection.ts(20,5): error TS18048: 'obj.corner' is possibly 'undefined'.
@@ -715,8 +534,6 @@ src/utils/selection.ts(130,3): error TS18048: 'obj.corner' is possibly 'undefine
 src/utils/selection.ts(162,39): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
   Type 'null' is not assignable to type 'number'.
 src/utils/selection.ts(197,10): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/selection.ts(197,10): error TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-src/utils/selection.ts(197,10): error TS2531: Object is possibly 'null'.
 src/utils/selection.ts(256,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
   Type 'null' is not assignable to type 'string'.
 src/utils/selection.ts(257,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
@@ -759,8 +576,6 @@ src/utils/selection.ts(563,16): error TS18048: 'h' is possibly 'undefined'.
 src/utils/selection.ts(564,26): error TS18048: 'h' is possibly 'undefined'.
 src/utils/selection.ts(579,14): error TS18048: 'obj.selection' is possibly 'undefined'.
 src/utils/selection.ts(580,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/selection.ts(580,15): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
-  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/selection.ts(608,23): error TS7034: Variable 'affectedTokens' implicitly has type 'any[]' in some locations where its type cannot be determined.
 src/utils/selection.ts(623,23): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
 src/utils/selection.ts(623,38): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
@@ -841,7 +656,6 @@ src/utils/worksheets.ts(86,5): error TS7053: Element implicitly has an 'any' typ
   No index signature with a parameter of type 'string' was found on type 'SpreadsheetContext'.
 src/utils/worksheets.ts(125,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/worksheets.ts(132,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/worksheets.ts(132,5): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
 src/utils/worksheets.ts(134,35): error TS2339: Property 'length' does not exist on type '{}'.
 src/utils/worksheets.ts(139,46): error TS2339: Property 'value' does not exist on type 'GlobalEventHandlers'.
 src/utils/worksheets.ts(140,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
@@ -850,7 +664,7 @@ src/utils/worksheets.ts(145,20): error TS7053: Element implicitly has an 'any' t
   No index signature with a parameter of type 'number' was found on type '{}'.
 src/utils/worksheets.ts(146,24): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
   No index signature with a parameter of type 'number' was found on type '{}'.
-src/utils/worksheets.ts(151,5): error TS2322: Type 'number | boolean | undefined' is not assignable to type 'string'.
+src/utils/worksheets.ts(151,5): error TS2322: Type 'number | undefined' is not assignable to type 'string'.
   Type 'undefined' is not assignable to type 'string'.
 src/utils/worksheets.ts(212,25): error TS18048: 'obj.options.columns' is possibly 'undefined'.
 src/utils/worksheets.ts(217,11): error TS18048: 'obj.options.columns' is possibly 'undefined'.

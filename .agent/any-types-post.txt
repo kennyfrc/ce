@@ -1,6 +1,12 @@
 Analyzing any types in TypeScript files...
 
-Found 179 any types across 27 files:
+Found 189 any types across 27 files:
+
+src/utils/data.ts: 18 any types
+  Line 10: export const setData = function (this: any, data: any) {
+  Line 10: export const setData = function (this: any, data: any) {
+  Line 141: export const getValue = function (this: any, cell: any, processedValue: any) {
+  ... and 15 more
 
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
@@ -61,12 +67,6 @@ src/utils/helpers.ts: 9 any types
   Line 31: export const invert = function (o: Record<string, any>) {
   Line 120: const arr: any[][] = [];
   ... and 6 more
-
-src/utils/data.ts: 8 any types
-  Line 320: this: any,
-  Line 323: value: any,
-  Line 364: this: any,
-  ... and 5 more
 
 src/utils/headers.ts: 7 any types
   Line 11: export const getHeader = function (this: any, column: any) {
@@ -131,8 +131,8 @@ src/test.ts: 2 any types
   Line 10: (window as any).instance = jspreadsheet(root, {
 
 src/utils/events.ts: 2 any types
-  Line 946: } else if ((window as any).clipboardData) {
-  Line 951: (window as any).clipboardData.getData("text")
+  Line 945: } else if ((window as any).clipboardData) {
+  Line 950: (window as any).clipboardData.getData("text")
 
 src/utils/footer.ts: 2 any types
   Line 3: export const setFooter = function (this: any, data?: any) {
@@ -149,6 +149,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 179
+Total any types found: 189
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

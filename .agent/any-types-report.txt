@@ -1,26 +1,6 @@
-Any Types Analysis Report - 2025-08-28T20:29:19.468Z
-Total any types: 189
+Any Types Analysis Report - 2025-08-28T20:58:30.259Z
+Total any types: 174
 Files with any types: 27
-
-src/utils/data.ts: 18 any types
-  Line 10: export const setData = function (this: any, data: any) {
-  Line 10: export const setData = function (this: any, data: any) {
-  Line 141: export const getValue = function (this: any, cell: any, processedValue: any) {
-  Line 141: export const getValue = function (this: any, cell: any, processedValue: any) {
-  Line 141: export const getValue = function (this: any, cell: any, processedValue: any) {
-  Line 178: this: any,
-  Line 181: processedValue: any
-  Line 208: this: any,
-  Line 209: cell: any,
-  Line 210: value: any,
-  Line 319: this: any,
-  Line 322: value: any,
-  Line 363: this: any,
-  Line 372: const dataset: any[][] = [];
-  Line 378: ...obj.options.data.map(function (row: any[]) {
-  Line 422: const resultRow: Record<number, any> = {};
-  Line 436: this: any,
-  Line 444: const dataset: any[][] = [];
 
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
@@ -212,6 +192,11 @@ src/utils/config.ts: 4 any types
   Line 10: export const getSpreadsheetConfig = function (this: any) {
   Line 17: this: any,
   Line 18: config: any,
+
+src/utils/data.ts: 3 any types
+  Line 432: const resultRow: Record<number, any> = {};
+  Line 446: this: any,
+  Line 454: const dataset: any[][] = [];
 
 src/utils/merges.ts: 3 any types
   Line 146: alert((jSuites as any).translate("No cells selected"));

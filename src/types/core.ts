@@ -6,6 +6,7 @@ export interface SpreadsheetOptions {
   minSpareRows?: number;
   minSpareCols?: number;
   minDimensions?: [number, number];
+  lazyLoading?: boolean;
   editable?: boolean;
   nestedHeaders?: NestedHeader[][];
   columns?: ColumnDefinition[];
@@ -27,6 +28,7 @@ export interface SpreadsheetOptions {
   defaultColAlign?: "left" | "center" | "right";
   worksheets?: SpreadsheetOptions[];
   plugins?: Record<string, Function>;
+  mergeCells?: Record<string, [number, number] | false>;
   tabs?: boolean | Record<string, unknown>;
   root?: HTMLElement;
   fullscreen?: boolean;
@@ -63,6 +65,7 @@ export interface ColumnDefinition {
         ) => void;
       };
   title?: string;
+  name?: string;
   width?: string | number;
   align?: "left" | "center" | "right";
   mask?: string;

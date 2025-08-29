@@ -1754,3 +1754,9 @@ Done — ran type-check and any-analyzer (942 TS errors; 189 explicit anys), add
 Patched src/utils/copyPaste.ts to narrow dispatch.call result (fixes TS2322), updated plan.json and porting-notes.md, re-ran tsc & any-analyzer, and committed the changes.=== Fri Aug 29 04:04:06 PST 2025 ===
 Baseline recorded — 940 TypeScript errors, 189 explicit anys; added task ts-work-20250829-9999 (in_progress) to plan.json, appended snapshot to porting-notes.md, and committed changes (a6b5cc8d).=== Fri Aug 29 04:09:36 PST 2025 ===
 Done: ran tsc & any-analyzer (outputs saved to .agent/ts-errors-run.txt and .agent/any-types-run.txt); patched src/utils/events.ts (aliased current in cutControls and copyControls); updated plan.json and porting-notes.md and committed the plan/notes (src change not committed due to pre-commit any-types hook).=== Fri Aug 29 04:17:26 PST 2025 ===
+Baseline run: 938 TS errors, 189 explicit anys; added+completed task ts-work-20250829-1001; patched src/utils/events.ts and src/types/core.ts (setHeader optional); updated plan.json; committed changes.=== Fri Aug 29 04:36:50 PST 2025 ===
+Done — baseline captured and recorded.
+
+- Ran tsc + any-analyzer: TS errors = 938, explicit any = 189; outputs saved to .agent/ts-errors-run.txt and .agent/any-types-run.txt.
+- Updated plan.json (metadata.updatedAt + added ts-live-20250829-0002 results) and prepended snapshot to porting-notes.md; committed (chore(metrics): record baseline metrics…).=== Fri Aug 29 04:43:17 PST 2025 ===
+Done: typed src/utils/data.ts (SpreadsheetContext/CellValue), reduced explicit any count 189→179, added+completed plan task ts-auto-20250829-0001 in plan.json, saved analyzer/ts outputs under .agent, and committed changes.=== Fri Aug 29 04:52:05 PST 2025 ===

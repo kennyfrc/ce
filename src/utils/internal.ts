@@ -663,10 +663,10 @@ export const createCell = function (
  * @return void
  */
 export const updateCell = function (
-  this: any,
+  this: WorksheetInstance,
   x: number,
   y: number,
-  value: any,
+  value: CellValue,
   force?: boolean
 ) {
   const obj = this;
@@ -999,10 +999,10 @@ const secureFormula = function (oldValue: string): string {
 let chainLoopProtection: Record<string, boolean> = {};
 
 export const updateFormulaChain = function (
-  this: any,
+  this: WorksheetInstance,
   x: number,
   y: number,
-  records: any
+  records: Array<{ x: number; y: number; col: number; row: number }>
 ) {
   const obj = this;
 
@@ -1574,7 +1574,7 @@ export const getWorksheetActive = function (
 };
 
 export const getWorksheetInstance = function (
-  this: any,
+  this: SpreadsheetContext,
   index?: number
 ): WorksheetInstance {
   const spreadsheet = this;

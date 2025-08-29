@@ -1,49 +1,47 @@
-src/utils/data.ts(30,29): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/data.ts(31,40): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/data.ts(31,40): error TS2538: Type 'unknown' cannot be used as an index type.
-src/utils/data.ts(45,17): error TS18048: 'obj.options.minDimensions' is possibly 'undefined'.
-src/utils/data.ts(46,17): error TS18048: 'obj.options.minDimensions' is possibly 'undefined'.
-src/utils/data.ts(84,7): error TS2322: Type 'boolean' is not assignable to type 'number'.
-src/utils/data.ts(127,19): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/data.ts(152,3): error TS2322: Type 'string | number[]' is not assignable to type 'string'.
+src/utils/data.ts(33,24): error TS2352: Conversion of type 'CellValue[]' to type 'Record<string, CellValue>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Index signature for type 'string' is missing in type 'CellValue[]'.
+src/utils/data.ts(90,7): error TS2322: Type 'boolean' is not assignable to type 'number'.
+src/utils/data.ts(161,3): error TS2322: Type 'string | number[]' is not assignable to type 'string'.
   Type 'number[]' is not assignable to type 'string'.
-src/utils/data.ts(159,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(159,39): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(160,27): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(162,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(162,28): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(162,34): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(162,51): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(163,17): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(163,34): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/data.ts(192,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(192,34): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(193,17): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/data.ts(233,22): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement[] | { element: HTMLElement; }[]'.
+src/utils/data.ts(168,21): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/data.ts(168,39): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/data.ts(169,27): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/data.ts(171,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(171,28): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/data.ts(171,34): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(171,51): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/data.ts(172,17): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(172,34): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/data.ts(201,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(201,34): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(202,17): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(242,22): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement[] | { element: HTMLElement; }[]'.
   Property 'getAttribute' does not exist on type 'HTMLElement[]'.
-src/utils/data.ts(234,25): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement[] | { element: HTMLElement; }[]'.
+src/utils/data.ts(243,25): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement[] | { element: HTMLElement; }[]'.
   Property 'getAttribute' does not exist on type 'HTMLElement[]'.
-src/utils/data.ts(235,25): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement[] | { element: HTMLElement; }[]'.
+src/utils/data.ts(244,25): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement[] | { element: HTMLElement; }[]'.
   Property 'getAttribute' does not exist on type 'HTMLElement[]'.
-src/utils/data.ts(259,50): error TS2345: Argument of type 'HTMLElement | { element: HTMLElement; }' is not assignable to parameter of type 'string'.
+src/utils/data.ts(268,50): error TS2345: Argument of type 'HTMLElement | { element: HTMLElement; }' is not assignable to parameter of type 'string'.
   Type 'HTMLElement' is not assignable to type 'string'.
-src/utils/data.ts(263,25): error TS2339: Property 'x' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(272,25): error TS2339: Property 'x' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'x' does not exist on type 'HTMLElement'.
-src/utils/data.ts(263,46): error TS2339: Property 'y' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(272,46): error TS2339: Property 'y' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'y' does not exist on type 'HTMLElement'.
-src/utils/data.ts(264,27): error TS2339: Property 'x' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(273,27): error TS2339: Property 'x' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'x' does not exist on type 'HTMLElement'.
-src/utils/data.ts(265,27): error TS2339: Property 'y' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(274,27): error TS2339: Property 'y' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'y' does not exist on type 'HTMLElement'.
-src/utils/data.ts(267,27): error TS2339: Property 'value' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(276,27): error TS2339: Property 'value' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'value' does not exist on type 'HTMLElement'.
-src/utils/data.ts(268,33): error TS2339: Property 'value' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(277,33): error TS2339: Property 'value' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'value' does not exist on type 'HTMLElement'.
-src/utils/data.ts(271,27): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(280,27): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'getAttribute' does not exist on type '{ element: HTMLElement; }'.
-src/utils/data.ts(272,27): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
+src/utils/data.ts(281,27): error TS2339: Property 'getAttribute' does not exist on type 'HTMLElement | { element: HTMLElement; }'.
   Property 'getAttribute' does not exist on type '{ element: HTMLElement; }'.
+src/utils/data.ts(388,8): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(392,13): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/data.ts(410,29): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/events.ts(406,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
   Type 'undefined' is not assignable to type 'number'.
 src/utils/events.ts(442,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.
@@ -217,18 +215,28 @@ src/utils/internal.ts(1232,15): error TS7053: Element implicitly has an 'any' ty
   Property '2' does not exist on type 'false | [string, number, number]'.
 src/utils/internal.ts(1236,28): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [string, number, number]'.
   Property '0' does not exist on type 'false | [string, number, number]'.
-src/utils/internal.ts(1239,15): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
-src/utils/internal.ts(1243,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
-src/utils/internal.ts(1246,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
-src/utils/internal.ts(1248,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1239,15): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1239,15): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
+  Property '2' does not exist on type 'false | [number, number]'.
+src/utils/internal.ts(1243,13): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1243,13): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
+  Property '2' does not exist on type 'false | [number, number]'.
+src/utils/internal.ts(1246,13): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1246,13): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
+  Property '2' does not exist on type 'false | [number, number]'.
+src/utils/internal.ts(1248,11): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1248,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
+  Property '2' does not exist on type 'false | [number, number]'.
 src/utils/internal.ts(1250,17): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [string, number, number]'.
   Property '1' does not exist on type 'false | [string, number, number]'.
-src/utils/internal.ts(1252,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1252,11): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1252,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
+  Property '2' does not exist on type 'false | [number, number]'.
 src/utils/internal.ts(1254,17): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [string, number, number]'.
   Property '2' does not exist on type 'false | [string, number, number]'.
-src/utils/internal.ts(1258,9): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
-src/utils/internal.ts(1259,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
-src/utils/internal.ts(1260,16): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1258,9): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1259,11): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
+src/utils/internal.ts(1260,16): error TS18048: 'obj.options.mergeCells' is possibly 'undefined'.
 src/utils/internal.ts(1288,23): error TS18048: 'obj.content' is possibly 'undefined'.
 src/utils/internal.ts(1296,17): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/internal.ts(1296,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
@@ -412,21 +420,15 @@ src/utils/keys.ts(577,5): error TS18048: 'obj.selectedCell' is possibly 'undefin
 src/utils/keys.ts(578,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(579,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
 src/utils/keys.ts(581,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
-src/utils/merges.ts(27,23): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/merges.ts(65,23): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/merges.ts(102,35): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/merges.ts(104,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/merges.ts(105,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(27,23): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [number, number]'.
+  Property '0' does not exist on type 'false | [number, number]'.
+src/utils/merges.ts(65,23): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [number, number]'.
+  Property '1' does not exist on type 'false | [number, number]'.
 src/utils/merges.ts(115,9): error TS18047: 'data' is possibly 'null'.
-src/utils/merges.ts(116,11): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/merges.ts(117,11): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(116,11): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [number, number]'.
+  Property '0' does not exist on type 'false | [number, number]'.
+src/utils/merges.ts(117,11): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [number, number]'.
+  Property '1' does not exist on type 'false | [number, number]'.
 src/utils/merges.ts(145,10): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(149,27): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(149,46): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
@@ -438,8 +440,6 @@ src/utils/merges.ts(152,53): error TS2339: Property 'getAttribute' does not exis
 src/utils/merges.ts(155,9): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(155,25): error TS18048: 'obj.highlighted' is possibly 'undefined'.
 src/utils/merges.ts(155,53): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
-src/utils/merges.ts(168,33): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
 src/utils/merges.ts(176,41): error TS18048: 'rowspan' is possibly 'undefined'.
 src/utils/merges.ts(177,43): error TS18048: 'colspan' is possibly 'undefined'.
 src/utils/merges.ts(190,9): error TS18048: 'colspan' is possibly 'undefined'.
@@ -448,18 +448,19 @@ src/utils/merges.ts(191,69): error TS2345: Argument of type 'number | undefined'
 src/utils/merges.ts(195,9): error TS18048: 'rowspan' is possibly 'undefined'.
 src/utils/merges.ts(196,69): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/merges.ts(205,5): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/merges.ts(205,41): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/merges.ts(205,50): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/merges.ts(205,59): error TS2322: Type 'never[]' is not assignable to type 'undefined'.
 src/utils/merges.ts(213,41): error TS18048: 'rowspan' is possibly 'undefined'.
 src/utils/merges.ts(214,43): error TS18048: 'colspan' is possibly 'undefined'.
 src/utils/merges.ts(216,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
-src/utils/merges.ts(218,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/merges.ts(218,11): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [number, number]'.
+  Property '2' does not exist on type 'false | [number, number]'.
 src/utils/merges.ts(228,7): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'HTMLElement | null'.
-src/utils/merges.ts(258,33): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/merges.ts(264,18): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/merges.ts(294,14): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
-  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(274,59): error TS2532: Object is possibly 'undefined'.
+src/utils/merges.ts(274,64): error TS2493: Tuple type '[number, number]' of length '2' has no element at index '2'.
 src/utils/orderBy.ts(42,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
 src/utils/orderBy.ts(59,13): error TS2339: Property 'y' does not exist on type 'Row'.
 src/utils/orderBy.ts(68,9): error TS18048: 'obj.searchInput' is possibly 'undefined'.

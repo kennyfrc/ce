@@ -2,9 +2,194 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T15:50:00Z"
+    "updatedAt": "2025-08-29T02:55:26Z"
   },
   "tasks": [
+    {
+      "id": "ts-priority-20250829-0001",
+      "name": "Priority: Unify core types (WorksheetInstance/SpreadsheetContext)",
+      "description": "Unify and canonicalize core types to remove cross-file assignment mismatches and enable downstream type narrowing.",
+      "phase": 2,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/types/core.ts",
+        "src/utils/events.ts",
+        "src/utils/internal.ts",
+        "src/utils/columns.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "priority",
+        "core",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "Single canonical type for worksheet/context used across codebase",
+        "No TS2345/TS2339 errors caused by WorksheetInstance/SpreadsheetContext mismatches in affected files",
+        "TypeScript error count reduced by >=50"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
+    {
+      "id": "ts-priority-20250829-0002",
+      "name": "Priority: Events sweep — alias-and-guard full pass",
+      "description": "Systematically apply local `current` alias, null/undefined guards, EventTarget narrowing, and plugin unknown+guards across src/utils/events.ts.",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "priority",
+        "events",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No repeated libraryBase.jspreadsheet.current direct property accesses in events.ts",
+        "No TS18047/TS18048/TS2721 in targeted hotspots",
+        "TypeScript error count reduced by >=150"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
+    {
+      "id": "ts-priority-20250829-0003",
+      "name": "Priority: Data/Columns — discriminate options.data shapes",
+      "description": "Implement discriminated runtime checks (Array.isArray vs object rows), helper functions to read row values, guard numeric indexing, and add types to avoid union-indexing errors.",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/data.ts",
+        "src/utils/columns.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "priority",
+        "data",
+        "columns"
+      ],
+      "acceptanceCriteria": [
+        "No TS7053 indexing errors in columns/data",
+        "No TS2362 arithmetic/indexing errors caused by mixed types",
+        "TypeScript error count reduced by >=20"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
+    {
+      "id": "ts-priority-20250829-0004",
+      "name": "Priority: Internal cleanup — this-context & null-safety",
+      "description": "Replace `this:any` with precise `SpreadsheetContext`/`WorksheetInstance`, guard `obj.options.*`, and add type-guards and helpers for common patterns in src/utils/internal.ts.",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "priority",
+        "internal",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No `this:any` declarations remain in internal.ts",
+        "No TS18048/TS7053 errors in targeted functions",
+        "TypeScript error count reduced by >=30"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
+    {
+      "id": "ts-priority-20250829-0005",
+      "name": "Priority: Remove explicit any in top offenders (triage batch)",
+      "description": "Triage and fix explicit `any` usages in the highest-impact files reported by the any-analyzer (copyPaste, editor, meta, history, pagination, style, toolbar, columns, worksheets, helpers).",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/copyPaste.ts",
+        "src/utils/editor.ts",
+        "src/utils/meta.ts",
+        "src/utils/history.ts",
+        "src/utils/pagination.ts",
+        "src/utils/style.ts",
+        "src/utils/toolbar.ts",
+        "src/utils/columns.ts",
+        "src/utils/worksheets.ts",
+        "src/utils/helpers.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "priority",
+        "any",
+        "hotspots"
+      ],
+      "acceptanceCriteria": [
+        "Explicit `any` count reduced by >=30 in a single coordinated batch",
+        "No any on hot public API surfaces introduced"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
+    {
+      "id": "ts-priority-20250829-0006",
+      "name": "Priority: Baseline & CI gating",
+      "description": "Ensure live metrics and CI gates (tsc --noEmit + any-analyzer) run after each major change; capture artifacts for trend analysis.",
+      "phase": 5,
+      "state": "pending",
+      "candidateFiles": [
+        "tsconfig.test.json",
+        ".agent/find-any-types.js",
+        ".github/workflows/"
+      ],
+      "owners": [
+        "@team/build",
+        "@team/types"
+      ],
+      "labels": [
+        "ci",
+        "metrics"
+      ],
+      "acceptanceCriteria": [
+        "CI includes `npx tsc -p tsconfig.test.json --noEmit` step",
+        "any-analyzer runs in CI and artifacts are stored",
+        "Baseline artifacts (.agent) are produced for each major PR"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
+    {
+      "id": "ts-priority-20250829-0007",
+      "name": "Priority: Break into per-file PRs & estimates",
+      "description": "Turn priority plan into a set of small, reviewable per-file tasks with owners and time estimates to enable steady progress and CI-friendly commits.",
+      "phase": 1,
+      "state": "pending",
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "process",
+        "planning"
+      ],
+      "acceptanceCriteria": [
+        "Priority work mapped to <= 40 per-file tasks with owners and estimated hours",
+        "Each task includes candidateFiles and acceptanceCriteria"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
     {
       "id": "ts-zero-20250829-0001",
       "name": "Baseline: Run type-check and any-type analysis",
@@ -2436,6 +2621,98 @@
       },
       "createdAt": "2025-08-29T15:50:00Z",
       "updatedAt": "2025-08-29T15:50:00Z"
+    },
+    {
+      "id": "ts-fix-data-20250829-0001",
+      "name": "data.ts: Fix types and guard optionals",
+      "description": "Narrow optionals, index signatures, and remove anys in src/utils/data.ts",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/data.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/data.ts",
+          "lineStart": 1,
+          "lineEnd": 400
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "data"
+      ],
+      "acceptanceCriteria": [
+        "No TS18048/TS7015/TS7015 in targeted functions",
+        "No implicit any in public functions in data.ts"
+      ],
+      "createdAt": "2025-08-28T20:54:28Z",
+      "updatedAt": "2025-08-28T20:54:28Z"
+    },
+    {
+      "id": "ts-fix-columns-20250829-0001",
+      "name": "columns.ts: Handle data row union and guards",
+      "description": "Guard numeric indexing over obj.options.data rows; support array/object rows and narrow types to remove TS7053 errors",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/columns.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/columns.ts",
+          "lineStart": 1,
+          "lineEnd": 240
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "columns"
+      ],
+      "acceptanceCriteria": [
+        "No TS7053 due to indexing obj.options.data rows in columns.ts"
+      ],
+      "createdAt": "2025-08-29T15:55:00Z",
+      "updatedAt": "2025-08-29T15:55:00Z"
+    },
+    {
+      "id": "ts-fix-columns-20250829-0002",
+      "name": "columns.ts: Fix numeric/indexing/union errors",
+      "description": "Narrow data shapes and guard numeric/index accesses in columns.ts",
+      "phase": 3,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/columns.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/columns.ts",
+          "lineStart": 140,
+          "lineEnd": 320
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "columns",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS7053/TS2721/TS2362 errors in targeted sections",
+        "TypeScript error count reduced by >=2"
+      ],
+      "createdAt": "2025-08-28T21:12:24Z",
+      "updatedAt": "2025-08-28T21:12:24Z"
     }
   ]
 }

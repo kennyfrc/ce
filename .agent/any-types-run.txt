@@ -1,12 +1,6 @@
 Analyzing any types in TypeScript files...
 
-Found 189 any types across 27 files:
-
-src/utils/data.ts: 18 any types
-  Line 10: export const setData = function (this: any, data: any) {
-  Line 10: export const setData = function (this: any, data: any) {
-  Line 141: export const getValue = function (this: any, cell: any, processedValue: any) {
-  ... and 15 more
+Found 170 any types across 27 files:
 
 src/utils/copyPaste.ts: 13 any types
   Line 28: this: any,
@@ -50,17 +44,17 @@ src/utils/toolbar.ts: 11 any types
   Line 516: onclick: function (a: any, b: any, c: any) {
   ... and 8 more
 
-src/utils/columns.ts: 10 any types
-  Line 121: mixed?: number | any[],
-  Line 124: properties?: any
-  Line 154: ...(obj.options.data?.map(function (row: any[]) {
-  ... and 7 more
-
 src/utils/worksheets.ts: 10 any types
   Line 475: } as any);
   Line 509: const typedPlugin = plugin as any;
   Line 590: const typedPlugin = plugin as any;
   ... and 7 more
+
+src/utils/columns.ts: 9 any types
+  Line 121: mixed?: number | any[],
+  Line 124: properties?: any
+  Line 224: "This action will destroy any existing merged cells. Are you sure?"
+  ... and 6 more
 
 src/utils/helpers.ts: 9 any types
   Line 6: export const getCaretIndex = function (this: any, e: HTMLElement) {
@@ -74,16 +68,16 @@ src/utils/headers.ts: 7 any types
   Line 23: export const getHeaders = function (this: any, asArray: any) {
   ... and 4 more
 
-src/utils/internal.ts: 6 any types
-  Line 545: const tmp = (jSuites.calendar as any).extractDateFromString(
-  Line 666: this: any,
-  Line 669: value: any,
-  ... and 3 more
-
 src/utils/comments.ts: 5 any types
   Line 10: this: any,
   Line 46: export const setComments = function (this: any, cellId: any, comments: any) {
   Line 46: export const setComments = function (this: any, cellId: any, comments: any) {
+  ... and 2 more
+
+src/utils/data.ts: 5 any types
+  Line 265: const items: any[] = Array.isArray(cell)
+  Line 266: ? (cell as any[])
+  Line 267: : Object.keys(cell).map((k) => (cell as any)[k]);
   ... and 2 more
 
 src/utils/filter.ts: 5 any types
@@ -145,10 +139,13 @@ src/utils/internalHelpers.ts: 2 any types
 src/utils/columnHelpers.ts: 1 any types
   Line 66: ): any | undefined {
 
+src/utils/internal.ts: 1 any types
+  Line 545: const tmp = (jSuites.calendar as any).extractDateFromString(
+
 src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 189
+Total any types found: 170
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt
