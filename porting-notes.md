@@ -199,6 +199,12 @@ Learnings:
 
 ### Baseline metrics (2025-08-28T11:27:29Z)
 
+### Snapshot: 2025-08-29T04:30:00Z — assistant: per-file any fixes
+
+- Reduced explicit `any` occurrences in key hotspots: src/utils/worksheets.ts, src/utils/merges.ts, src/utils/helpers.ts, src/utils/columns.ts; advanced per-file tasks in plan.json.
+- Committed the typing changes to preserve progress; pre-commit blocking remains for global any count thresholds — continue per-file reductions.
+- Next: prioritize src/utils/copyPaste.ts, src/utils/headers.ts and src/utils/data.ts for the next iteration to drive the any count down further.
+
 - TypeScript errors (tsconfig.test.json --noEmit): 558 (saved to .agent/ts-errors.txt)
 - Explicit any count (find-any-types): 262 (saved to .agent/any-types-report.txt)
 
