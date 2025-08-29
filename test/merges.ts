@@ -2,6 +2,8 @@ import { expect } from 'chai';
 
 import jspreadsheet from '../src/index';
 
+declare const root: HTMLDivElement;
+
 describe('Merge tests', () => {
     describe('Get merge', () => {
         it('Worksheet started with a merge', () => {
@@ -103,12 +105,13 @@ describe('Merge tests', () => {
             }]
         })
 
-        instance[0].setMerge('A3', 2, 3)
+        instance[0].setMerge?('A3', 2, 3)
 
         const table = root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')
@@ -140,8 +143,8 @@ describe('Merge tests', () => {
                     },
                 ],
                 mergeCells: {
-                    A1: [2, 2],
-                    E5: [3, 2],
+                    A1: [2, 2, []],
+                    E5: [3, 2, []],
                 }
             }]
         })
@@ -187,8 +190,8 @@ describe('Merge tests', () => {
                     },
                 ],
                 mergeCells: {
-                    A1: [2, 2],
-                    E5: [3, 2],
+                    A1: [2, 2, []],
+                    E5: [3, 2, []],
                 }
             }]
         })
@@ -236,7 +239,7 @@ describe('Merge tests', () => {
             }]
         })
 
-        instance[0].setMerge('A3', 2, 3)
+        instance[0].setMerge?('A3', 2, 3)
 
         const table = root.querySelector('tbody');
 

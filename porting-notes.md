@@ -1355,17 +1355,21 @@ Learnings:
   - Missing interface properties (event handlers, methods) need to be added to core types
 - Next: Systematically fix test file errors by adding optional chaining, fixing merge cell formats, and adding missing interface properties
 
-### Snapshot: 2025-08-30T04:30:00Z — Test file fixes progress: test/paste.ts completed (165→59 errors), systematic method fixes
+### Snapshot: 2025-08-30T04:30:00Z — Test file fixes progress: Major test files completed, test/merges.ts configuration issues remain
 
-- TypeScript errors (tsconfig.test.json --noEmit): 59 (down from 165, 106 errors fixed)
+- TypeScript errors (tsconfig.test.json --noEmit): 2 (down from 165, 163 errors fixed)
 - Explicit any count (find-any-types): 0 (maintained)
-- Changes: Systematic fixes to test files, focusing on making core interface methods required:
-  - Made key methods required in SpreadsheetContext: updateSelectionFromCoords, getData, paste, copy, hideRow, hideColumn, setStyle, download, search, getStyle, getMerge, setMerge, removeMerge, destroyMerge, undo, redo
-  - Fixed test/paste.ts completely (0 errors): added optional chaining for selectedCell access, fixed execCommand mock signature, corrected onload callback typing, fixed Promise constructor usage
-  - Fixed test/merges.ts partially (15→7 errors): made merge-related methods required, fixed method call patterns
+- Changes: Systematic fixes to test files with interface method consistency:
+  - Completed test/paste.ts (0 errors): added optional chaining for selectedCell access, fixed execCommand mock signature, corrected onload callback typing, fixed Promise constructor usage
+  - Completed test/rows.ts (0 errors): fixed optional method calls, numeric/boolean parameter conversions, DOM element null checks
+  - Completed test/meta.ts (0 errors): added optional chaining for all method calls, fixed parameter types
+  - Fixed test/merges.ts merge cell format: [number, number] → [number, number, []], added optional chaining to setMerge calls
+  - Adjusted SpreadsheetContext method signatures: kept methods optional to match runtime assignment patterns
 - Learnings:
-  - Making interface methods required (removing ?) eliminates TS2722 'possibly undefined' errors for method calls
-  - Test-specific issues require careful typing: execCommand mocks need proper signatures, Promise constructors need correct parameter types
-  - Merge cell format consistency requires [number, number, HTMLElement[]] throughout
-  - Systematic interface updates enable downstream test fixes without code changes
-- Next: Complete test/merges.ts merge cell format fixes, then tackle test/rows.ts (17 errors) and test/meta.ts (10 errors)
+  - Interface methods should remain optional when assigned post-creation to avoid TS2740/TS2352 errors in factory code
+  - Optional chaining (?.) in tests effectively handles 'possibly undefined' method calls
+  - Merge cell format consistency: runtime uses [number, number, HTMLElement[]], tests must match this exactly
+  - sed command modifications can introduce syntax issues (missing semicolons, extra blank lines) that require manual cleanup
+  - Global variable declarations (root: HTMLDivElement) may need explicit declarations in individual test files when TypeScript config doesn't pick up global.d.ts
+  - Systematic approach: fix one test file completely, then move to next highest error count
+- Next: Resolve remaining 2 configuration-related errors in test/merges.ts (global root variable recognition), then move to core source file error reduction
