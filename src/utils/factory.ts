@@ -138,15 +138,15 @@ const createWorksheets = async function (
 
     const tabs = jSuites.tabs(el, tabsOptions) as JSuitesTabs;
 
-    const spreadsheetStyles = options.style ?? ({} as Record<string, CSSStyleDeclaration | number>);
+    const spreadsheetStyles = options.style ?? ({} as Record<string | number, CSSStyleDeclaration | number>);
     delete options.style;
 
     for (let i = 0; i < o.length; i++) {
       if (o[i].style && typeof o[i].style === "object" && !Array.isArray(o[i].style)) {
         const styleObj = o[i].style as Record<string, CSSStyleDeclaration | number>;
         Object.entries(styleObj).forEach(function ([cellName, value]) {
-          if (typeof value === "number" && spreadsheetStyles[value]) {
-            styleObj[cellName] = spreadsheetStyles[value];
+          if (typeof value === "number" && (spreadsheetStyles as Record<number, CSSStyleDeclaration | number>)[value]) {
+            styleObj[cellName] = (spreadsheetStyles as Record<number, CSSStyleDeclaration | number>)[value];
           }
         });
       }
@@ -203,6 +203,7 @@ factory.spreadsheet = async function (
     options: options,
     headers: [],
     rows: [],
+    cols: [],
     tbody: document.createElement("tbody"),
     table: document.createElement("table"),
     parent: {} as SpreadsheetInstance,
@@ -240,10 +241,10 @@ factory.spreadsheet = async function (
     }
   };
 
-  spreadsheet.setPlugins(options.plugins);
+  spreadsheet.setPlugins(options.plugins as Record<string, (...args: unknown[]) => unknown> | undefined);
 
   // Create as worksheets
-  await createWorksheets(spreadsheet, options, el);
+  await createWorksheets.call(spreadsheet, spreadsheet, options, el);
 
   spreadsheet.element.appendChild(spreadsheet.contextMenu!);
 
@@ -262,7 +263,7 @@ factory.spreadsheet = async function (
   showToolbar.call(spreadsheet.worksheets[0] || spreadsheet);
 
   // Build handlers
-  if (options.root) {
+  if (options.root && options.root instanceof HTMLElement) {
     setEvents(options.root);
   } else {
     setEvents(document.body);
@@ -286,6 +287,7 @@ factory.worksheet = function (
     options: {},
     headers: [],
     rows: [],
+    cols: [],
     element: document.createElement("div"),
     config: spreadsheet.config,
     worksheets: [],

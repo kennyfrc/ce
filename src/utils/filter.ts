@@ -28,7 +28,7 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
       const dataRows = obj.options.data ?? [];
       for (let j = 0; j < dataRows.length; j++) {
         const row = Array.isArray(dataRows[j]) ? dataRows[j] : [];
-        const k = row[columnIdNum];
+        const k = row[columnIdNum as number];
         const v = obj.records[j]?.[columnIdNum]?.element.innerHTML;
         if (k && v) {
           options[k] = v;
@@ -58,7 +58,7 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
       filterElement.style.overflow = "initial";
     }
 
-    const filters = obj.filters ?? {};
+    const filters = obj.filters ?? ({} as Record<string, unknown>);
     const opt = {
       data: optionsFiltered,
       multiple: true,
@@ -139,7 +139,7 @@ export const resetFilters = function (this: SpreadsheetContext) {
 
   if (obj.options.filters) {
     const filterChildren = obj.filter?.children ?? [];
-    const filters = obj.filters ?? {};
+    const filters = obj.filters ?? ({} as Record<string, unknown>);
     for (let i = 0; i < filterChildren.length; i++) {
       const child = filterChildren[i] as HTMLElement;
       if (child) {

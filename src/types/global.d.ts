@@ -18,6 +18,7 @@ declare global {
   interface HTMLElement {
     jssWorksheet?: jspreadsheet.WorksheetInstance;
     jspreadsheet?: jspreadsheet.SpreadsheetInstance;
+    spreadsheet?: import("../types/core").SpreadsheetInstance;
     // jSuites augments DOM elements with controller instances
     tabs?: JSuitesTabsType;
     contextmenu?: JSuitesContextMenuType;
@@ -35,6 +36,7 @@ declare global {
 interface HTMLElement {
   jssWorksheet?: jspreadsheet.WorksheetInstance;
   jspreadsheet?: jspreadsheet.SpreadsheetInstance;
+  spreadsheet?: import("../types/core").SpreadsheetInstance;
   tabs?: JSuitesTabsType;
   contextmenu?: JSuitesContextMenuType;
 }

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-30T00:00:00Z"
+    "updatedAt": "2025-08-30T00:30:00Z"
   },
   "tasks": [
     {
@@ -3733,6 +3733,126 @@
       "createdAt": "2025-08-29T23:56:00Z",
       "updatedAt": "2025-08-29T23:56:00Z",
       "results": "Fixed test/calculations.ts, test/comments.ts, and test/data.ts by adding optional chaining to method calls, added missing methods to SpreadsheetContext interface (getComments, getData, getValueFromCoords, setValueFromCoords), and corrected parameter types"
+    },
+    {
+      "id": "ts-fix-20250830-0001",
+      "name": "Fix factory.ts: CSSStyleDeclaration indexing and DOM types",
+      "description": "Address CSSStyleDeclaration union indexing errors and ShadowRoot/HTMLElement type issues in factory.ts",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/factory.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 148,
+          "lineEnd": 152
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "dom-types"
+      ],
+      "acceptanceCriteria": [
+        "No TS7053 indexing errors for CSSStyleDeclaration in factory.ts",
+        "Proper ShadowRoot to HTMLElement casting"
+      ],
+      "createdAt": "2025-08-30T00:00:00Z",
+      "updatedAt": "2025-08-30T00:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0002",
+      "name": "Fix factory.ts: SpreadsheetInstance missing cols property",
+      "description": "Add missing cols property to SpreadsheetInstance interface to resolve TS2741 error",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts",
+        "src/utils/factory.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 198,
+          "lineEnd": 198
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "core-types",
+        "missing-properties"
+      ],
+      "acceptanceCriteria": [
+        "SpreadsheetInstance has cols property matching runtime usage"
+      ],
+      "createdAt": "2025-08-30T00:00:00Z",
+      "updatedAt": "2025-08-30T00:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0003",
+      "name": "Fix factory.ts: Plugin function type mismatches",
+      "description": "Resolve TS2345 function type mismatch for plugins parameter in factory.ts",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/factory.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/factory.ts",
+          "lineStart": 243,
+          "lineEnd": 243
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "function-types",
+        "plugins"
+      ],
+      "acceptanceCriteria": [
+        "Plugin function types compatible with runtime usage"
+      ],
+      "createdAt": "2025-08-30T00:00:00Z",
+      "updatedAt": "2025-08-30T00:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0004",
+      "name": "Fix filter.ts: Data union indexing errors",
+      "description": "Add Array.isArray guards and type assertions for data shape union in filter.ts",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/filter.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/filter.ts",
+          "lineStart": 31,
+          "lineEnd": 67
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "data-shapes",
+        "union-types"
+      ],
+      "acceptanceCriteria": [
+        "No TS7053 indexing errors in filter.ts data access"
+      ],
+      "createdAt": "2025-08-30T00:00:00Z",
+      "updatedAt": "2025-08-30T00:00:00Z"
     }
   ]
 }
