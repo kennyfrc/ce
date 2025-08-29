@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T13:21:58Z"
+    "updatedAt": "2025-08-29T05:29:46Z"
   },
   "tasks": [
     {
@@ -10,7 +10,7 @@
       "name": "Priority: Unify core types (WorksheetInstance/SpreadsheetContext)",
       "description": "Unify and canonicalize core types to remove cross-file assignment mismatches and enable downstream type narrowing.",
       "phase": 2,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/types/core.ts",
         "src/utils/events.ts",

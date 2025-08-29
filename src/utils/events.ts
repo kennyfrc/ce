@@ -403,7 +403,7 @@ const mouseDownControls = function (e: MouseEvent) {
             current.options.rowDrag != false &&
             info.width - e.offsetX < 6
           ) {
-            if (isRowMerged.call(current, rowId, false).length) {
+            if (typeof rowId === "number" && isRowMerged.call(current, rowId, false).length) {
               console.error("Jspreadsheet: This row is part of a merged cell");
             } else if (current.options.search == true && current.results) {
               console.error(
@@ -436,14 +436,16 @@ const mouseDownControls = function (e: MouseEvent) {
             }
 
             // Update selection
-            updateSelectionFromCoords.call(
-              current,
-              0,
-              o,
-              dataCols - 1,
-              d,
-              e
-            );
+            if (typeof o === "number" && typeof d === "number") {
+              updateSelectionFromCoords.call(
+                current,
+                0,
+                o,
+                dataCols - 1,
+                d,
+                e
+              );
+            }
           }
         } else {
           // Jclose
@@ -569,7 +571,10 @@ const mouseMoveControls = function (e: MouseEvent) {
 
           if ((current.resizing.width ?? 0) + width > 0) {
             const tempWidth = (current.resizing.width ?? 0) + width;
-            current.cols[current.resizing.column].colElement.setAttribute("width", tempWidth);
+            const columnIndex = current.resizing.column;
+            if (typeof columnIndex === "number" && current.cols[columnIndex]) {
+              current.cols[columnIndex].colElement.setAttribute("width", tempWidth.toString());
+            }
 
             updateCornerPosition.call(current);
           }
@@ -578,7 +583,10 @@ const mouseMoveControls = function (e: MouseEvent) {
 
           if ((current.resizing.height ?? 0) + height > 0) {
             const tempHeight = (current.resizing.height ?? 0) + height;
-            current.rows[current.resizing.row].element.setAttribute("height", tempHeight);
+            const rowIndex = current.resizing.row;
+            if (typeof rowIndex === "number" && current.rows[rowIndex]) {
+              current.rows[rowIndex].element.setAttribute("height", tempHeight.toString());
+            }
 
             updateCornerPosition.call(current);
           }
@@ -689,10 +697,13 @@ const updateCopySelection = function (this: WorksheetInstance, x3: number, y3: n
   removeCopySelection.call(obj);
 
   // Get elements first and last
-  const x1 = obj.selectedContainer[0];
-  const y1 = obj.selectedContainer[1];
-  const x2 = obj.selectedContainer[2];
-  const y2 = obj.selectedContainer[3];
+  const selectedContainer = obj.selectedContainer;
+  if (!selectedContainer || selectedContainer.length < 4) return;
+
+  const x1 = selectedContainer[0];
+  const y1 = selectedContainer[1];
+  const x2 = selectedContainer[2];
+  const y2 = selectedContainer[3];
 
   if (x3 != null && y3 != null) {
     let px, ux;
@@ -716,11 +727,11 @@ const updateCopySelection = function (this: WorksheetInstance, x3: number, y3: n
     }
 
     if (ux - px <= uy - py) {
-      px = parseInt(x1);
-      ux = parseInt(x2);
+      px = parseInt(x1.toString());
+      ux = parseInt(x2.toString());
     } else {
-      py = parseInt(y1);
-      uy = parseInt(y2);
+      py = parseInt(y1.toString());
+      uy = parseInt(y2.toString());
     }
 
     for (let j = py; j <= uy; j++) {
@@ -737,7 +748,9 @@ const updateCopySelection = function (this: WorksheetInstance, x3: number, y3: n
           obj.records[j][ux].element.classList.add("selection-right");
 
           // Persist selected elements
-          obj.selection.push(obj.records[j][i].element);
+          if (obj.selection) {
+            obj.selection.push(obj.records[j][i].element);
+          }
         }
       }
     }
@@ -817,7 +830,7 @@ const mouseOverControls = function (e: MouseEvent): boolean | void {
               const o = current.selectedRow;
               const d = rowId;
               // Update selection
-              if (typeof d === "number") {
+              if (typeof o === "number" && typeof d === "number") {
                 updateSelectionFromCoords.call(
                 current,
                 0,
@@ -872,9 +885,10 @@ const doubleClickControls = function (e: MouseEvent): void {
     // Corner action
     if (target.classList.contains("jss_corner")) {
       // Any selected cells
-      if (current.highlighted.length > 0) {
+      if (current.highlighted && current.highlighted.length > 0) {
         // Copy from this
-        const x1 = current.highlighted[0].element.getAttribute("data-x");
+        const x1Str = current.highlighted[0].element.getAttribute("data-x");
+        const x1 = x1Str ? parseInt(x1Str, 10) : 0;
         const y1 =
           parseInt(
             current.highlighted[current.highlighted.length - 1].element.getAttribute(
@@ -882,17 +896,21 @@ const doubleClickControls = function (e: MouseEvent): void {
             ) || "0"
           ) + 1;
         // Until this
-        const x2 =
-          current.highlighted[current.highlighted.length - 1].element.getAttribute("data-x");
+        const x2Str = current.highlighted[current.highlighted.length - 1].element.getAttribute("data-x");
+        const x2 = x2Str ? parseInt(x2Str, 10) : 0;
         const y2 = current.records.length - 1;
         // Execute copy
-        copyData.call(current, current.records[y1][x1].element, current.records[y2][x2].element);
+        if (current.records[y1] && current.records[y1][x1] && current.records[y2] && current.records[y2][x2]) {
+          copyData.call(current, current.records[y1][x1].element, current.records[y2][x2].element);
+        }
       }
     } else if (target.classList.contains("jss_column_filter")) {
       // Column
       const columnId = target.getAttribute("data-x");
       // Open filter
-      openFilter.call(current, columnId);
+      if (columnId !== null) {
+        openFilter.call(current, columnId);
+      }
     } else {
       // Get table
       const jssTable = getElement(target);
@@ -1021,7 +1039,7 @@ const defaultContextMenu = function (
       items.push({
         title: jSuites.translate("Insert a new column before"),
         onclick: function () {
-          worksheet.insertColumn(1, x, 1);
+          worksheet.insertColumn?.(1, x, true);
         },
       });
     }
@@ -1030,7 +1048,7 @@ const defaultContextMenu = function (
       items.push({
         title: jSuites.translate("Insert a new column after"),
         onclick: function () {
-          worksheet.insertColumn(1, x, 0);
+          worksheet.insertColumn?.(1, x, false);
         },
       });
     }
@@ -1040,9 +1058,11 @@ const defaultContextMenu = function (
       items.push({
         title: jSuites.translate("Delete selected columns"),
         onclick: function () {
-          worksheet.deleteColumn(
-            (worksheet.getSelectedColumns?.() ?? []).length ? undefined : x
-          );
+          const selectedColumns = worksheet.getSelectedColumns?.() ?? [];
+          const columnToDelete = selectedColumns.length > 0 ? selectedColumns[0] : x;
+          if (typeof columnToDelete === "number") {
+            worksheet.deleteColumn?.(columnToDelete);
+          }
         },
       });
     }
@@ -1088,14 +1108,14 @@ const defaultContextMenu = function (
       items.push({
         title: jSuites.translate("Insert a new row before"),
         onclick: function () {
-          worksheet.insertRow(1, y, 1);
+          worksheet.insertRow?.(1, y, true);
         },
       });
 
       items.push({
         title: jSuites.translate("Insert a new row after"),
         onclick: function () {
-          worksheet.insertRow(1, y);
+          worksheet.insertRow?.(1, y, false);
         },
       });
     }

@@ -124,9 +124,9 @@ export interface SpreadsheetContext {
   /* Worksheet-like members (merged into context for compatibility) */
   resizing?: Resizing | null;
   dragging?: Dragging | null;
-  insertRow?: (count: number) => void;
+  insertRow?: (mixed: number | CellValue[], rowNumber?: number, insertBefore?: boolean) => boolean;
   deleteRow?: (index: number) => void;
-  insertColumn?: (count: number) => void;
+  insertColumn?: (mixed?: number | CellValue[], columnNumber?: number, insertBefore?: boolean, properties?: ColumnDefinition[]) => boolean | void;
   deleteColumn?: (index: number) => void;
   getValue?: (cell: string) => string | number | boolean | null;
   undo?: () => void;

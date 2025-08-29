@@ -578,3 +578,21 @@ Learnings:
   - Fixed analyzer to exclude string literals, preventing false positives from translation keys.
   - Remaining any (3) are in internal.ts and test.ts — these can be addressed in follow-up work.
 - Next: Focus on remaining any, core type unification, and CI gating for zero-errors goal.
+
+### Snapshot: 2025-08-29T17:30:00Z — Core type unification progress (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1776 (down from 1828)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Focused on src/utils/events.ts type fixes and core type unification:
+  - Fixed selectedContainer undefined access with proper guards
+  - Added type guards for resizing.column and resizing.row before array indexing
+  - Fixed parameter type mismatches (number vs string conversions)
+  - Corrected insertColumn and insertRow method signatures in core.ts
+  - Fixed boolean parameter issues (1/0 → true/false)
+  - Added guards for optional method calls (deleteColumn, insertRow)
+- Learnings:
+  - Core type unification enables downstream fixes: correcting method signatures in core.ts eliminates parameter mismatch errors across multiple files.
+  - Guarding optional properties before use prevents 'possibly undefined' errors and makes code more robust.
+  - Converting numeric flags to proper booleans improves type safety and code clarity.
+  - Systematic reduction of events.ts errors (70→49) demonstrates the effectiveness of targeted type fixes.
+- Next: Continue events.ts fixes, then tackle remaining hotspots (internal.ts, columns.ts) to further reduce error count.
