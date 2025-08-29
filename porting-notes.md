@@ -32,6 +32,24 @@
   - Null coalescing and optional chaining prevent runtime errors while maintaining type safety
 - Next: Continue with orderBy.ts to complete remaining hotspots
 
+### Snapshot: 2025-08-30T01:30:00Z — orderBy.ts completed: Fixed data union indexing and null-safety in sorting
+
+- TypeScript errors (tsconfig.test.json --noEmit): 301 (down from 322, 21 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Fixed all TypeScript errors in orderBy.ts:
+  - Added Array.isArray guards for data shape union before indexing operations
+  - Fixed data access patterns for both CellValue[][] and Record<string, CellValue>[] cases
+  - Added null coalescing (??) for sorting comparison values to handle null/undefined
+  - Added type assertion for obj.parent.config.sorting to resolve unknown type issue
+  - Maintained type safety while preserving runtime behavior
+- Learnings:
+  - Data shape discrimination requires consistent Array.isArray checks before all indexing operations
+  - Null coalescing (??) effectively handles nullable comparison values in sorting logic
+  - Type assertions for config properties resolve 'unknown' type issues without introducing any
+  - Record key access for object-style data requires Object.keys() to get indexable keys
+  - Sorting functions need explicit null handling to prevent runtime comparison errors
+- Next: Continue with remaining hotspots (internal.ts) to drive toward zero errors
+
 ### Previous Snapshot: 2025-08-30T01:00:00Z — Major progress: Reduced TS errors from 414 to 354 (60 errors fixed)
 
 - TypeScript errors (tsconfig.test.json --noEmit): 354 (down from 414, 60 errors fixed)

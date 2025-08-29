@@ -140,7 +140,11 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
       if (obj.options.data) {
         for (let j = 0; j < obj.options.data.length; j++) {
           if (obj.options.data[j]) {
-            temp[j] = [j, Number(obj.options.data[j][column])];
+            if (Array.isArray(obj.options.data[j])) {
+              temp[j] = [j, Number((obj.options.data[j] as CellValue[])[column])];
+            } else {
+              temp[j] = [j, Number((obj.options.data[j] as Record<string, CellValue>)[Object.keys(obj.options.data[j] as Record<string, CellValue>)[column]])];
+            }
           }
         }
       }
@@ -154,7 +158,11 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
       if (obj.options.data) {
         for (let j = 0; j < obj.options.data.length; j++) {
           if (obj.options.data[j]) {
-            temp[j] = [j, obj.options.data[j][column]];
+            if (Array.isArray(obj.options.data[j])) {
+              temp[j] = [j, (obj.options.data[j] as CellValue[])[column]];
+            } else {
+              temp[j] = [j, (obj.options.data[j] as Record<string, CellValue>)[Object.keys(obj.options.data[j] as Record<string, CellValue>)[column]]];
+            }
           }
         }
       }
@@ -176,24 +184,28 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
           const valueA = a[1];
           const valueB = b[1];
 
+          // Handle null/undefined values
+          const aVal = valueA ?? "";
+          const bVal = valueB ?? "";
+
           if (!direction) {
-            return valueA === "" && valueB !== ""
+            return aVal === "" && bVal !== ""
               ? 1
-              : valueA !== "" && valueB === ""
+              : aVal !== "" && bVal === ""
               ? -1
-              : valueA > valueB
+              : aVal > bVal
               ? 1
-              : valueA < valueB
+              : aVal < bVal
               ? -1
               : 0;
           } else {
-            return valueA === "" && valueB !== ""
+            return aVal === "" && bVal !== ""
               ? 1
-              : valueA !== "" && valueB === ""
+              : aVal !== "" && bVal === ""
               ? -1
-              : valueA > valueB
+              : aVal > bVal
               ? -1
-              : valueA < valueB
+              : aVal < bVal
               ? 1
               : 0;
           }
@@ -201,7 +213,7 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
       };
     }
 
-    temp = temp.sort(obj.parent.config.sorting(direction));
+    temp = temp.sort((obj.parent.config.sorting as (direction: boolean) => (a: [number, CellValue], b: [number, CellValue]) => number)(direction));
 
     // Save history
     const newValue: number[] = [];
