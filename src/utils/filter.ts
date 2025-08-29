@@ -28,10 +28,10 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
       const dataRows = obj.options.data ?? [];
       for (let j = 0; j < dataRows.length; j++) {
         const row = Array.isArray(dataRows[j]) ? dataRows[j] : [];
-        const k = row[columnIdNum as number];
+        const k = Array.isArray(row) ? row[columnIdNum as number] : undefined;
         const v = obj.records[j]?.[columnIdNum]?.element.innerHTML;
-        if (k && v) {
-          options[k] = v;
+        if (k !== undefined && k !== null && v) {
+          options[String(k)] = v;
         } else {
           hasBlanks = true;
         }
@@ -58,25 +58,27 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
       filterElement.style.overflow = "initial";
     }
 
-    const filters = obj.filters ?? ({} as Record<string, unknown>);
+    const filters = obj.filters ?? ({} as Record<string | number, unknown>);
     const opt = {
       data: optionsFiltered,
       multiple: true,
       autocomplete: true,
       opened: true,
-      value: filters[columnId] !== undefined ? filters[columnId] : null,
+      value: filters[columnId as keyof typeof filters] !== undefined ? filters[columnId as keyof typeof filters] : null,
       width: 100,
       position:
         obj.options.tableOverflow == true ||
         obj.parent?.config?.fullscreen == true
           ? true
           : false,
-      onclose: function (o: { dropdown: { getValue: (arg: boolean) => unknown; getText: () => string } }) {
+      onclose: function (o: HTMLElement, instance: unknown) {
         resetFilters.call(obj);
-        filters[columnIdNum] = o.dropdown.getValue(true) as string[];
+        const dropdownInstance = instance as { getValue: (arg: boolean) => unknown; getText: () => string };
+        const dropdownValue = dropdownInstance.getValue(true) as string[];
+        filters[columnIdNum] = dropdownValue;
         const filterChild = obj.filter?.children[columnIdNum + 1] as HTMLElement;
         if (filterChild) {
-          filterChild.innerHTML = o.dropdown.getText();
+          filterChild.innerHTML = dropdownInstance.getText();
           filterChild.style.paddingLeft = "";
           filterChild.style.paddingRight = "";
           filterChild.style.overflow = "";
@@ -93,7 +95,7 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
 
 export const closeFilter = function (this: SpreadsheetContext, columnId?: number) {
   const obj = this;
-  const filters = obj.filters ?? {};
+  const filters = obj.filters ?? ({} as Record<string | number, unknown>);
 
   if (!columnId) {
     const filterChildren = obj.filter?.children ?? [];
@@ -118,7 +120,6 @@ export const closeFilter = function (this: SpreadsheetContext, columnId?: number
     return false;
   };
 
-  const filters = obj.filters ?? {};
   const query = filters[columnId!] as unknown[];
   obj.results = [];
   const dataRows = obj.options.data ?? [];
@@ -139,7 +140,7 @@ export const resetFilters = function (this: SpreadsheetContext) {
 
   if (obj.options.filters) {
     const filterChildren = obj.filter?.children ?? [];
-    const filters = obj.filters ?? ({} as Record<string, unknown>);
+    const filters = obj.filters ?? ({} as Record<string | number, unknown>);
     for (let i = 0; i < filterChildren.length; i++) {
       const child = filterChildren[i] as HTMLElement;
       if (child) {

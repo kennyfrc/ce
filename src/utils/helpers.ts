@@ -1,5 +1,5 @@
 import { getColumnNameFromId } from "./internalHelpers";
-import type { SpreadsheetOptions } from "../types/core";
+import type { SpreadsheetOptions, CellValue } from "../types/core";
 
 /**
  * Type guard to check if a string is a valid column type
@@ -229,8 +229,8 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
       options = {};
     }
 
-    options.columns = [];
-    options.data = [];
+    options.columns = options.columns || [];
+    options.data = options.data || [];
 
     // Colgroup
     const colgroup = el.querySelectorAll("colgroup > col");
@@ -261,33 +261,33 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
       const width = info.width > 50 ? info.width : 50;
 
       // Create column option
-      if (!options.columns) {
-        options.columns = [];
+      if (!options!.columns) {
+        options!.columns = [];
       }
-      if (!options.columns[i]) {
-        options.columns[i] = {};
+      if (!options!.columns[i]) {
+        options!.columns[i] = {};
       }
       const cellTypeAttr = header.getAttribute("data-celltype");
       if (cellTypeAttr && isColumnType(cellTypeAttr)) {
-        options.columns[i].type = cellTypeAttr;
+        options!.columns[i].type = cellTypeAttr;
       } else {
-        options.columns[i].type = "text";
+        options!.columns[i].type = "text";
       }
-      options.columns[i].width = width + "px";
-      options.columns[i].title = header.innerHTML;
+      options!.columns[i].width = width + "px";
+      options!.columns[i].title = header.innerHTML;
       if ((header as HTMLElement).style.textAlign) {
-        options.columns[i].align = (header as HTMLElement).style.textAlign as "left" | "center" | "right";
+        options!.columns[i].align = (header as HTMLElement).style.textAlign as "left" | "center" | "right";
       }
 
       let attrValue;
       if ((attrValue = header.getAttribute("name"))) {
-        options.columns[i].name = attrValue;
+        options!.columns[i].name = attrValue;
       }
       if ((attrValue = header.getAttribute("id"))) {
-        options.columns[i].id = attrValue;
+        options!.columns[i].id = attrValue;
       }
       if ((attrValue = header.getAttribute("data-mask"))) {
-        options.columns[i].mask = attrValue;
+        options!.columns[i].mask = attrValue;
       }
     };
 
@@ -343,8 +343,8 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
           } else {
             value = content[j].children[i].innerHTML;
           }
-          if (options.data[rowNumber]) {
-            options.data[rowNumber].push(value);
+          if (options.data && Array.isArray(options.data[rowNumber])) {
+            (options.data[rowNumber] as string[]).push(value);
           }
 
           // Key
@@ -406,15 +406,15 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
     }
     // Style
     if (Object.keys(style).length > 0) {
-      options.style = style;
+      options.style = style as Record<string, CSSStyleDeclaration | number>;
     }
     // Merged
     if (Object.keys(mergeCells).length > 0) {
-      options.mergeCells = mergeCells;
+      options.mergeCells = mergeCells as Record<string, [number, number]>;
     }
     // Row height
     if (Object.keys(rows).length > 0) {
-      options.rows = rows;
+      options.rows = rows as RowDefinition[];
     }
     // Classes
     if (Object.keys(classes).length > 0) {
@@ -443,9 +443,10 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
       for (let i = 0; i < options.columns.length; i++) {
         let test = true;
         let testCalendar = true;
-        pattern[i] = [];
-        for (let j = 0; j < options.data.length; j++) {
-          const value = options.data[j][i];
+        pattern[i] = {};
+        for (let j = 0; j < options!.data!.length; j++) {
+          const dataRow: CellValue[] = Array.isArray(options!.data![j]) ? options!.data![j] as CellValue[] : [];
+          const value = String(dataRow[i] || '');
           if (!pattern[i][value]) {
             pattern[i][value] = 0;
           }

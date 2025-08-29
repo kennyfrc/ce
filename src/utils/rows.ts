@@ -478,6 +478,11 @@ export const deleteRow = function (
 ): boolean | void {
   const obj = this;
 
+  // Ensure data exists
+  if (!obj.options.data) {
+    return false;
+  }
+
   // Global Configuration
   if (obj.options.allowDeleteRow != false) {
     if (
@@ -530,7 +535,7 @@ export const deleteRow = function (
         return false;
       }
 
-      if (parseInt(rowNumber) > -1) {
+      if (rowNumber > -1) {
         // Merged cells
         let mergeExists = false;
         if (
@@ -553,7 +558,7 @@ export const deleteRow = function (
           ) {
             return false;
           } else {
-            obj.destroyMerge();
+            obj.destroyMerge?.();
           }
         }
 
@@ -598,7 +603,7 @@ export const deleteRow = function (
             ) >= 0
           ) {
             obj.rows[row].element.className = "";
-            obj.rows[row].element.parentNode.removeChild(obj.rows[row].element);
+            obj.rows[row].element.parentNode?.removeChild(obj.rows[row].element);
           }
         }
 
@@ -619,6 +624,8 @@ export const deleteRow = function (
 
         // Respect pagination
         if (
+          obj.options.pagination &&
+          typeof obj.options.pagination === 'number' &&
           obj.options.pagination > 0 &&
           obj.tbody.children.length != obj.options.pagination
         ) {
