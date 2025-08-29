@@ -171,10 +171,10 @@ export interface SpreadsheetContext {
     x1: number | null,
     y1: number | null,
     x2: number | null,
-    y3: number | null
+    y2: number | null
   ) => void;
   whichPage?: (row: number) => number;
-  page?: (pageNumber: number) => void;
+  page?: (pageNumber: number | null | undefined) => void;
   filters?: Array<string[] | null>;
   history?: Array<Record<string, unknown>>;
   historyIndex?: number;
@@ -218,7 +218,6 @@ export interface SpreadsheetContext {
   loadPage?: (pageNumber: number) => void;
   // Pagination methods
   quantityOfPages?: () => number;
-  page?: (pageNumber: number | null | undefined) => void;
   // Additional properties used in copyPaste and other utilities
   style?: string[];
   textarea?: HTMLElement;

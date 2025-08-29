@@ -46,13 +46,13 @@ export const setFooter = function (this: SpreadsheetContext, data?: string[][]) 
             "center";
           td.style.textAlign = colAlign;
         }
-        td.textContent = parseValue.call(
+        td.textContent = String(parseValue.call(
           obj,
           +obj.records.length + i,
           j,
           obj.options.footers[j][i],
           td
-        );
+        ));
 
         // Hide/Show with hideColumn()/showColumn()
         td.style.display = obj.cols[i]?.colElement.style.display ?? "";

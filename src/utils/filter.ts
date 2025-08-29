@@ -1,4 +1,21 @@
 import jSuites from "jsuites";
+type DropdownOptions = {
+  data?: Array<
+    | string
+    | number
+    | { value: string | number; text: string }
+    | { id: string | number; name: string }
+  >;
+  url?: string;
+  multiple?: boolean;
+  autocomplete?: boolean;
+  opened?: boolean;
+  value?: string | number | Array<string | number>;
+  width?: number;
+  position?: boolean;
+  onclose?: (element: HTMLElement, instance: unknown) => void;
+  [key: string]: unknown;
+};
 import { updateResult } from "./internal";
 import { refreshSelection } from "./selection";
 import type { SpreadsheetContext } from "../types/core";
@@ -43,7 +60,7 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
       }
       // Has blank options
       if (hasBlanks) {
-        optionsFiltered.push({ value: "", id: "", name: "(Blanks)" });
+        optionsFiltered.push({ id: "", name: "(Blanks)" });
       }
     }
 
@@ -60,18 +77,18 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
 
     const filters = obj.filters ?? ({} as Record<string | number, unknown>);
     const opt = {
-      data: optionsFiltered,
+      data: optionsFiltered as Array<string | number | { value: string | number; text: string } | { id: string | number; name: string }>,
       multiple: true,
       autocomplete: true,
       opened: true,
-      value: filters[columnId as keyof typeof filters] !== undefined ? filters[columnId as keyof typeof filters] : null,
+      value: filters[columnId as keyof typeof filters] !== undefined ? filters[columnId as keyof typeof filters] as string | number | Array<string | number> : null,
       width: 100,
       position:
         obj.options.tableOverflow == true ||
         obj.parent?.config?.fullscreen == true
           ? true
           : false,
-      onclose: function (o: HTMLElement, instance: unknown) {
+      onclose: function (element: HTMLElement, instance: unknown) {
         resetFilters.call(obj);
         const dropdownInstance = instance as { getValue: (arg: boolean) => unknown; getText: () => string };
         const dropdownValue = dropdownInstance.getValue(true) as string[];
@@ -89,7 +106,7 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
     };
 
     // Dynamic dropdown
-    jSuites.dropdown(div, opt);
+    jSuites.dropdown(div, opt as DropdownOptions);
   }
 };
 

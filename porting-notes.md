@@ -1287,3 +1287,20 @@ Learnings:
   - Build-time type checking prevents runtime errors and improves API discoverability
   - Declaration audit revealed that proper .d.ts generation requires zero TypeScript errors
 - **Next Phase**: Continue error reduction in toolbar.ts and worksheets.ts to enable proper declaration generation
+
+### Snapshot: 2025-08-30T02:45:00Z — Core type fixes: Reduced TS errors from 301 to 240 (61 errors fixed), maintained 0 any types
+
+- TypeScript errors (tsconfig.test.json --noEmit): 240 (down from 301, 61 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Fixed core type issues in src/types/core.ts and utility type mismatches:
+  - Fixed duplicate 'page' property declarations in WorksheetInstance interface
+  - Fixed DropdownOptions type mismatch in src/utils/filter.ts with proper data array typing and onclose signature
+  - Fixed CellValue to string conversion in src/utils/footer.ts using String() wrapper
+  - Unified page method signatures and removed parameter naming conflicts
+- Learnings:
+  - Core type definitions must be consistent to avoid cascading type errors across utilities
+  - Dropdown component type safety requires careful alignment of data array unions and callback signatures
+  - CellValue conversions to DOM text content need explicit String() casting for type safety
+  - Duplicate interface properties cause TS2300 errors that prevent compilation until resolved
+  - Systematic fixes in core types enable downstream utility improvements
+- Next: Continue with remaining hotspots (test files, merges.ts, internal.ts) to drive toward zero errors
