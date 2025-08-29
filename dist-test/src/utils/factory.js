@@ -42,14 +42,14 @@ const createWorksheets = async function (spreadsheet, options, el) {
                 const newWorksheet = spreadsheet.worksheets[spreadsheet.worksheets.length - 1];
                 newWorksheet.element = newTabContent;
                 worksheets_1.buildWorksheet.call(newWorksheet).then(function () {
-                    (0, toolbar_1.updateToolbar)(newWorksheet);
+                    toolbar_1.updateToolbar.call(newWorksheet);
                     dispatch_1.default.call(newWorksheet, "oncreateworksheet", newWorksheet, options, spreadsheet.worksheets.length - 1);
                 });
             },
             onchange: function (element, instance, tabIndex) {
                 if (spreadsheet.worksheets.length != 0 &&
                     spreadsheet.worksheets[tabIndex]) {
-                    (0, toolbar_1.updateToolbar)(spreadsheet.worksheets[tabIndex]);
+                    toolbar_1.updateToolbar.call(spreadsheet.worksheets[tabIndex]);
                 }
             },
         };
@@ -66,7 +66,7 @@ const createWorksheets = async function (spreadsheet, options, el) {
                 o[i].worksheetName = "Sheet" + sheetNumber++;
             }
             tabsOptions.data.push({
-                title: o[i].worksheetName,
+                title: o[i].worksheetName || "Sheet" + sheetNumber++,
                 content: "",
             });
         }
@@ -78,7 +78,7 @@ const createWorksheets = async function (spreadsheet, options, el) {
         for (let i = 0; i < o.length; i++) {
             if (o[i].style) {
                 Object.entries(o[i].style).forEach(function ([cellName, value]) {
-                    if (typeof value === "number") {
+                    if (typeof value === "number" && spreadsheetStyles[value]) {
                         o[i].style[cellName] = spreadsheetStyles[value];
                     }
                 });
@@ -111,15 +111,24 @@ factory.spreadsheet = async function (el, options, worksheets) {
         const tableOptions = (0, helpers_1.createFromTable)(el, options.worksheets[0]);
         options.worksheets[0] = tableOptions;
         const div = document.createElement("div");
-        el.parentNode.insertBefore(div, el);
-        el.remove();
-        el = div;
+        if (el.parentNode) {
+            el.parentNode.insertBefore(div, el);
+            el.remove();
+            el = div;
+        }
     }
     let spreadsheet = {
         worksheets: worksheets,
         config: options,
         element: el,
         el,
+        options: options,
+        headers: [],
+        rows: [],
+        tbody: document.createElement("tbody"),
+        table: document.createElement("table"),
+        parent: {},
+        records: [],
     };
     // Contextmenu container
     spreadsheet.contextMenu = document.createElement("div");
@@ -136,7 +145,7 @@ factory.spreadsheet = async function (el, options, worksheets) {
         }
         if (typeof newPlugins == "object" && newPlugins) {
             Object.entries(newPlugins).forEach(function ([pluginName, plugin]) {
-                spreadsheet.plugins[pluginName] = plugin.call(libraryBase_1.default.jspreadsheet, spreadsheet, {}, spreadsheet.config);
+                spreadsheet.plugins[pluginName] = plugin.call(spreadsheet, libraryBase_1.default.jspreadsheet, {}, spreadsheet.config);
             });
         }
     };
@@ -154,7 +163,7 @@ factory.spreadsheet = async function (el, options, worksheets) {
     if (spreadsheet.config.fullscreen == true) {
         spreadsheet.element.classList.add("fullscreen");
     }
-    toolbar_1.showToolbar.call(spreadsheet);
+    toolbar_1.showToolbar.call(spreadsheet.worksheets[0] || spreadsheet);
     // Build handlers
     if (options.root) {
         (0, events_1.setEvents)(options.root);
@@ -172,6 +181,14 @@ factory.worksheet = function (spreadsheet, options, position) {
         parent: spreadsheet,
         // Options for this worksheet
         options: {},
+        headers: [],
+        rows: [],
+        element: document.createElement("div"),
+        config: spreadsheet.config,
+        worksheets: [],
+        tbody: document.createElement("tbody"),
+        table: document.createElement("table"),
+        records: [],
     };
     // Create the worksheets object
     if (typeof position === "undefined") {

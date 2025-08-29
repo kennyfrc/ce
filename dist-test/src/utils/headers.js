@@ -28,7 +28,7 @@ const getHeaders = function (asArray) {
     const obj = this;
     const title = [];
     for (let i = 0; i < obj.headers.length; i++) {
-        title.push(obj.getHeader(i));
+        title.push(exports.getHeader.call(obj, i));
     }
     return asArray ? title : title.join(obj.options.csvDelimiter);
 };
@@ -68,7 +68,7 @@ const setHeader = function (column, newValue) {
             newValue: newValue,
         });
         // On onchange header
-        dispatch_1.default.call(obj, "onchangeheader", obj, parseInt(column), newValue, onchangeheaderOldValue);
+        dispatch_1.default.call(obj, "onchangeheader", obj, column, newValue, onchangeheaderOldValue);
     }
 };
 exports.setHeader = setHeader;

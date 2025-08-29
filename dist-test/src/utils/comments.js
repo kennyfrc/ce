@@ -12,6 +12,7 @@ const internalHelpers_1 = require("./internalHelpers");
  * Get cell comments, null cell for all
  */
 const getComments = function (cellParam) {
+    var _a, _b, _c, _d;
     const obj = this;
     let cell = cellParam;
     if (cell) {
@@ -26,9 +27,11 @@ const getComments = function (cellParam) {
     }
     else {
         const data = {};
-        for (let j = 0; j < obj.options.data.length; j++) {
-            for (let i = 0; i < obj.options.columns.length; i++) {
-                const comments = obj.records[j][i].element.getAttribute("title");
+        const dataRows = (_a = obj.options.data) !== null && _a !== void 0 ? _a : [];
+        const columns = (_b = obj.options.columns) !== null && _b !== void 0 ? _b : [];
+        for (let j = 0; j < dataRows.length; j++) {
+            for (let i = 0; i < columns.length; i++) {
+                const comments = (_d = (_c = obj.records[j]) === null || _c === void 0 ? void 0 : _c[i]) === null || _d === void 0 ? void 0 : _d.element.getAttribute("title");
                 if (comments) {
                     const cell = (0, internalHelpers_1.getColumnNameFromId)([i, j]);
                     data[cell] = comments;
@@ -53,6 +56,7 @@ const setComments = function (cellId, comments) {
     }
     const oldValue = {};
     Object.entries(commentsObj).forEach(function ([cellName, comment]) {
+        var _a, _b, _c, _d;
         const cellCoords = (0, helpers_1.getCoordsFromCellName)(cellName);
         if (!cellCoords[0] || !cellCoords[1])
             return;
@@ -63,16 +67,17 @@ const setComments = function (cellId, comments) {
         obj.records[cellCoords[1]][cellCoords[0]].element.setAttribute("title", comment ? comment : "");
         // Remove class if there is no comment
         if (comment) {
-            obj.records[cellCoords[1]][cellCoords[0]].element.classList.add("jss_comments");
+            (_b = (_a = obj.records[cellCoords[1]]) === null || _a === void 0 ? void 0 : _a[cellCoords[0]]) === null || _b === void 0 ? void 0 : _b.element.classList.add("jss_comments");
             if (!obj.options.comments) {
                 obj.options.comments = {};
             }
             obj.options.comments[cellName] = comment;
         }
         else {
-            obj.records[cellCoords[1]][cellCoords[0]].element.classList.remove("jss_comments");
-            if (obj.options.comments && obj.options.comments[cellName]) {
-                delete obj.options.comments[cellName];
+            (_d = (_c = obj.records[cellCoords[1]]) === null || _c === void 0 ? void 0 : _c[cellCoords[0]]) === null || _d === void 0 ? void 0 : _d.element.classList.remove("jss_comments");
+            const commentsRecord = obj.options.comments;
+            if (commentsRecord && commentsRecord[cellName]) {
+                delete commentsRecord[cellName];
             }
         }
     });

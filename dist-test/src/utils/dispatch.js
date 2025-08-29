@@ -9,23 +9,26 @@ const jsuites_1 = __importDefault(require("jsuites"));
  */
 const prepareJson = function (data) {
     const obj = this;
+    if (!Array.isArray(data)) {
+        return [];
+    }
+    const arr = data;
     const rows = [];
-    for (let i = 0; i < data.length; i++) {
-        const x = data[i].x;
-        const y = data[i].y;
-        const k = obj.options.columns[x].name ? obj.options.columns[x].name : x;
-        // Create row
+    for (let i = 0; i < arr.length; i++) {
+        const x = arr[i].x;
+        const y = arr[i].y;
+        const col = obj.options.columns && obj.options.columns[x];
+        const k = col && typeof col.name === "string" ? col.name : String(x);
         if (!rows[y]) {
             rows[y] = {
                 row: y,
                 data: {},
             };
         }
-        if (rows[y] && rows[y].data) {
-            rows[y].data[k] = data[i].value;
+        if (rows[y]) {
+            rows[y].data[k] = arr[i].value;
         }
     }
-    // Filter rows
     return rows.filter(function (el) {
         return el != null;
     });
@@ -34,21 +37,27 @@ const prepareJson = function (data) {
  * Post json to a remote server
  */
 const save = function (url, data) {
+    var _a;
     const obj = this;
     // Parse anything in the data before sending to the server
     const ret = dispatch.call(obj.parent, "onbeforesave", obj.parent, obj, data);
     if (ret) {
-        data = ret;
-    }
-    else {
-        if (ret === false) {
+        if (Array.isArray(ret)) {
+            data = ret;
+        }
+        else if (ret === false) {
             return false;
         }
+        else {
+            return undefined;
+        }
+    }
+    else {
         return undefined;
     }
-    // Remove update
-    jsuites_1.default.ajax({
-        url: url,
+    const jsuitesLib = jsuites_1.default;
+    (_a = jsuitesLib.ajax) === null || _a === void 0 ? void 0 : _a.call(jsuitesLib, {
+        url,
         method: "POST",
         dataType: "json",
         data: { data: JSON.stringify(data) },
@@ -65,43 +74,48 @@ const save = function (url, data) {
 const dispatch = function (event, ...args) {
     const obj = this;
     let ret = null;
-    let spreadsheet = obj.parent ? obj.parent : obj;
+    // Get the spreadsheet instance
+    let spreadsheet;
+    if ('parent' in obj && obj.parent) {
+        spreadsheet = obj.parent;
+    }
+    else {
+        spreadsheet = obj;
+    }
     // Dispatch events
     if (!spreadsheet.ignoreEvents) {
-        // Call global event
-        if (typeof spreadsheet.config.onevent == "function") {
-            ret = spreadsheet.config.onevent.apply(this, [event, ...args]);
+        // Handle global onevent handler
+        if (spreadsheet.config && typeof spreadsheet.config.onevent === "function") {
+            ret = spreadsheet.config.onevent.call(this, event, ...args);
         }
-        // Call specific events
-        if (typeof spreadsheet.config[event] == "function") {
-            ret = spreadsheet.config[event].apply(this, args);
+        // Handle specific event handlers
+        if (spreadsheet.config && typeof spreadsheet.config[event] === "function") {
+            const specificHandler = spreadsheet.config[event];
+            ret = specificHandler.apply(this, args);
         }
-        if (typeof spreadsheet.plugins === "object") {
-            const pluginKeys = Object.keys(spreadsheet.plugins);
-            for (let pluginKeyIndex = 0; pluginKeyIndex < pluginKeys.length; pluginKeyIndex++) {
-                const key = pluginKeys[pluginKeyIndex];
-                const plugin = spreadsheet.plugins[key];
-                if (typeof plugin.onevent === "function") {
-                    ret = plugin.onevent.apply(this, arguments);
+        // Handle plugin event handlers
+        if (spreadsheet.plugins) {
+            Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
+                if (plugin && typeof plugin.onevent === "function") {
+                    ret = plugin.onevent.apply(obj, [event, ...args]);
                 }
-            }
+            });
         }
     }
-    if (event == "onafterchanges") {
-        const scope = arguments;
-        if (typeof spreadsheet.plugins === "object") {
+    if (event === "onafterchanges" && args.length >= 3) {
+        if (spreadsheet.plugins) {
             Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
-                if (typeof plugin.persistence === "function") {
-                    plugin.persistence(obj, "setValue", { data: scope[2] });
+                if (plugin && typeof plugin.persistence === "function") {
+                    plugin.persistence(obj, "setValue", { data: args[2] });
                 }
             });
         }
         if (obj.options.persistence) {
-            const url = obj.options.persistence == true
-                ? obj.options.url
-                : obj.options.persistence;
-            const data = prepareJson.call(obj, arguments[2]);
-            save.call(obj, url, data);
+            const rawUrl = obj.options.persistence === true ? obj.options.url : obj.options.persistence;
+            if (typeof rawUrl === "string") {
+                const data = prepareJson.call(obj, args[2]);
+                save.call(obj, rawUrl, data);
+            }
         }
     }
     return ret;

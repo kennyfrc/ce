@@ -1,20 +1,39 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFromTable = exports.parseCSV = exports.getCoordsFromRange = exports.getCoordsFromCellName = exports.getCellNameFromCoords = exports.getColumnName = exports.invert = exports.getCaretIndex = void 0;
+exports.isColumnType = isColumnType;
 const internalHelpers_1 = require("./internalHelpers");
+/**
+ * Type guard to check if a string is a valid column type
+ */
+function isColumnType(value) {
+    return [
+        "text",
+        "numeric",
+        "calendar",
+        "dropdown",
+        "checkbox",
+        "color",
+        "hidden",
+        "radio",
+        "image",
+        "html"
+    ].includes(value);
+}
 /**
  * Get carret position for one element
  */
 const getCaretIndex = function (e) {
     let d;
-    if (this.config.root) {
+    if (this.config && this.config.root) {
         d = this.config.root;
     }
     else {
         d = window;
     }
     let pos = 0;
-    const s = d.getSelection();
+    const owner = d;
+    const s = owner.getSelection ? owner.getSelection() : null;
     if (s) {
         if (s.rangeCount !== 0) {
             const r = s.getRangeAt(0);
@@ -31,10 +50,10 @@ exports.getCaretIndex = getCaretIndex;
  * Invert keys and values
  */
 const invert = function (o) {
-    const d = [];
+    const d = {};
     const k = Object.keys(o);
     for (let i = 0; i < k.length; i++) {
-        d[o[k[i]]] = k[i];
+        d[String(o[k[i]])] = k[i];
     }
     return d;
 };
@@ -170,6 +189,7 @@ exports.parseCSV = parseCSV;
 const createFromTable = function (el, options) {
     if (el.tagName != "TABLE") {
         console.log("Element is not a table");
+        return {};
     }
     else {
         // Configuration
@@ -205,11 +225,15 @@ const createFromTable = function (el, options) {
             let info = header.getBoundingClientRect();
             const width = info.width > 50 ? info.width : 50;
             // Create column option
+            if (!options.columns) {
+                options.columns = [];
+            }
             if (!options.columns[i]) {
                 options.columns[i] = {};
             }
-            if (header.getAttribute("data-celltype")) {
-                options.columns[i].type = header.getAttribute("data-celltype");
+            const cellTypeAttr = header.getAttribute("data-celltype");
+            if (cellTypeAttr && isColumnType(cellTypeAttr)) {
+                options.columns[i].type = cellTypeAttr;
             }
             else {
                 options.columns[i].type = "text";

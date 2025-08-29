@@ -14,6 +14,19 @@ const freeze_1 = require("./freeze");
 const pagination_1 = require("./pagination");
 const footer_1 = require("./footer");
 const internalHelpers_1 = require("./internalHelpers");
+/**
+ * Safely get cell value from data array, handling both array and object shapes
+ */
+function getCellValue(data, row, col) {
+    if (!data || !data[row])
+        return "";
+    if (Array.isArray(data[row])) {
+        return data[row][col] || "";
+    }
+    else {
+        return data[row][col] || "";
+    }
+}
 const updateTable = function () {
     const obj = this;
     // Check for spare
@@ -22,7 +35,7 @@ const updateTable = function () {
         for (let j = obj.rows.length - 1; j >= 0; j--) {
             let test = false;
             for (let i = 0; i < obj.headers.length; i++) {
-                if (obj.options.data && obj.options.data[j] && obj.options.data[j][i]) {
+                if (getCellValue(obj.options.data, j, i)) {
                     test = true;
                 }
             }
@@ -34,7 +47,8 @@ const updateTable = function () {
             }
         }
         if (obj.options.minSpareRows &&
-            obj.options.minSpareRows - numBlankRows > 0) {
+            obj.options.minSpareRows - numBlankRows > 0 &&
+            typeof obj.insertRow === "function") {
             obj.insertRow(obj.options.minSpareRows - numBlankRows);
         }
     }
@@ -43,7 +57,7 @@ const updateTable = function () {
         for (let i = obj.headers.length - 1; i >= 0; i--) {
             let test = false;
             for (let j = 0; j < obj.rows.length; j++) {
-                if (obj.options.data && obj.options.data[j] && obj.options.data[j][i]) {
+                if (getCellValue(obj.options.data, j, i)) {
                     test = true;
                 }
             }
@@ -54,7 +68,7 @@ const updateTable = function () {
                 numBlankCols++;
             }
         }
-        if (obj.options.minSpareCols - numBlankCols > 0) {
+        if (obj.options.minSpareCols - numBlankCols > 0 && typeof obj.insertColumn === "function") {
             obj.insertColumn(obj.options.minSpareCols - numBlankCols);
         }
     }
@@ -188,14 +202,7 @@ const executeFormula = function (expression, x, y) {
                         const position = (0, internalHelpers_1.getIdFromColumnName)(tokens[i], true);
                         // Get value
                         let value;
-                        if (obj.options.data &&
-                            typeof obj.options.data[position[1]] != "undefined" &&
-                            typeof obj.options.data[position[1]][position[0]] != "undefined") {
-                            value = obj.options.data[position[1]][position[0]];
-                        }
-                        else {
-                            value = "";
-                        }
+                        value = getCellValue(obj.options.data, position[1], position[0]);
                         // Get column data
                         if (("" + value).substr(0, 1) == "=") {
                             if (typeof formulaResults[tokens[i]] !== "undefined") {
@@ -224,7 +231,7 @@ const executeFormula = function (expression, x, y) {
                                     formulaExpressions[tokens[i]] = number;
                                 }
                                 else {
-                                    formulaExpressions[tokens[i]] = '"' + value + '"';
+                                    formulaExpressions[tokens[i]] = '"' + String(value || "") + '"';
                                 }
                             }
                         }
@@ -236,7 +243,7 @@ const executeFormula = function (expression, x, y) {
                 return expression;
             }
             else if (ret) {
-                expression = ret;
+                expression = String(ret);
             }
             // Convert formula to javascript
             let res;
@@ -274,7 +281,7 @@ const parseValue = function (i, j, value, cell) {
                 value = Number(value);
             }
             // Process the decimals to match the mask
-            let masked = jsuites_1.default.mask.render(value, opt, true);
+            let masked = jsuites_1.default.mask.render(typeof value === "string" || typeof value === "number" ? value : String(value), opt, true);
             // Negative indication
             if (cell &&
                 opt &&
@@ -355,9 +362,9 @@ const validDate = function (date) {
     else {
         const dateParts = dateStr.split("-");
         if (dateParts[0].length == 4 &&
-            dateParts[0] == Number(dateParts[0]) &&
+            Number(dateParts[0]).toString() == dateParts[0] &&
             dateParts[1].length == 2 &&
-            dateParts[1] == Number(dateParts[1])) {
+            Number(dateParts[1]).toString() == dateParts[1]) {
             return true;
         }
     }
@@ -367,11 +374,14 @@ const validDate = function (date) {
  * Strip tags
  */
 const stripScript = function (a) {
+    var _a;
     const b = new Option();
     b.innerHTML = a;
     let c = null;
-    for (a = b.getElementsByTagName("script"); (c = a[0]);)
-        c.parentNode.removeChild(c);
+    const scripts = b.getElementsByTagName("script");
+    for (let i = 0; i < scripts.length; i++) {
+        (_a = scripts[i].parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(scripts[i]);
+    }
     return b.innerHTML;
 };
 const createCell = function (i, j, value) {
@@ -385,7 +395,7 @@ const createCell = function (i, j, value) {
     }
     // Security
     if (("" + value).substr(0, 1) == "=" && obj.options.secureFormulas == true) {
-        const val = secureFormula(value);
+        const val = secureFormula("" + value);
         if (val != value) {
             // Update the data container
             value = val;
@@ -424,7 +434,9 @@ const createCell = function (i, j, value) {
             element.checked =
                 value == 1 || value == true || value == "true" ? true : false;
             element.onclick = function () {
-                obj.setValue((0, helpers_1.getColumnName)(i) + (j + 1), this.checked);
+                if (typeof obj.setValue === "function") {
+                    obj.setValue((0, helpers_1.getColumnName)(i) + (j + 1), this.checked);
+                }
             };
             if (obj.options.columns[i].readOnly == true ||
                 obj.options.editable == false) {
@@ -433,7 +445,7 @@ const createCell = function (i, j, value) {
             // Append to the table
             td.appendChild(element);
             // Make sure the values are correct
-            if (obj.options.data) {
+            if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[j]) {
                 obj.options.data[j][i] = element.checked;
             }
         }
@@ -443,7 +455,7 @@ const createCell = function (i, j, value) {
             // Try formatted date
             let formatted = null;
             if (!validDate(value)) {
-                const tmp = jsuites_1.default.calendar.extractDateFromString(value, (obj.options.columns[i].options &&
+                const tmp = jsuites_1.default.calendar.extractDateFromString(String(value), (obj.options.columns[i].options &&
                     obj.options.columns[i].options.format) ||
                     "YYYY-MM-DD");
                 if (tmp) {
@@ -451,7 +463,8 @@ const createCell = function (i, j, value) {
                 }
             }
             // Create calendar cell
-            td.textContent = jsuites_1.default.calendar.getDateString(formatted ? formatted : value, obj.options.columns[i].options && obj.options.columns[i].options.format);
+            const dateValue = formatted ? formatted : new Date(String(value));
+            td.textContent = jsuites_1.default.calendar.getDateString(dateValue, (obj.options.columns[i].options && obj.options.columns[i].options.format) || "YYYY-MM-DD");
         }
         else if (obj.options.columns &&
             obj.options.columns[i] &&
@@ -487,14 +500,14 @@ const createCell = function (i, j, value) {
             if (obj.options.columns &&
                 obj.options.columns[i] &&
                 obj.options.columns[i].type == "html") {
-                td.innerHTML = stripScript(exports.parseValue.call(this, i, j, value, td));
+                td.innerHTML = stripScript(String(exports.parseValue.call(this, i, j, value, td)));
             }
             else {
                 if (obj.parent.config.parseHTML === true) {
-                    td.innerHTML = stripScript(exports.parseValue.call(this, i, j, value, td));
+                    td.innerHTML = stripScript(String(exports.parseValue.call(this, i, j, value, td)));
                 }
                 else {
-                    td.textContent = exports.parseValue.call(this, i, j, value, td);
+                    td.textContent = String(exports.parseValue.call(this, i, j, value, td));
                 }
             }
         }
@@ -527,7 +540,9 @@ const createCell = function (i, j, value) {
     if (i > 0) {
         if (this.options.textOverflow == true) {
             if (value || td.innerHTML) {
-                obj.records[j][i - 1].element.style.overflow = "hidden";
+                if (obj.records[j] && obj.records[j][i - 1]) {
+                    obj.records[j][i - 1].element.style.overflow = "hidden";
+                }
             }
             else {
                 if (obj.options.columns && i == obj.options.columns.length - 1) {
@@ -550,7 +565,8 @@ const updateCell = function (x, y, value, force) {
     const obj = this;
     let record;
     // Changing value depending on the column type
-    if (obj.records[y][x].element.classList.contains("readonly") == true &&
+    if (obj.records[y] && obj.records[y][x] &&
+        obj.records[y][x].element.classList.contains("readonly") == true &&
         !force) {
         // Do nothing
         record = {
@@ -564,14 +580,14 @@ const updateCell = function (x, y, value, force) {
         // Security
         if (("" + value).substr(0, 1) == "=" &&
             obj.options.secureFormulas == true) {
-            const val = secureFormula(value);
+            const val = secureFormula("" + value);
             if (val != value) {
                 // Update the data container
                 value = val;
             }
         }
         // On change
-        const val = dispatch_1.default.call(obj, "onbeforechange", obj, obj.records[y][x].element, x, y, value);
+        const val = obj.records[y] && obj.records[y][x] ? dispatch_1.default.call(obj, "onbeforechange", obj, obj.records[y][x].element, x, y, value) : undefined;
         // If you return something this will overwrite the value
         if (val != undefined) {
             value = val;
@@ -579,7 +595,10 @@ const updateCell = function (x, y, value, force) {
         if (obj.options.columns &&
             obj.options.columns[x] &&
             typeof obj.options.columns[x].type === "object" &&
-            typeof obj.options.columns[x].type.updateCell === "function") {
+            obj.options.columns[x].type &&
+            typeof obj.options.columns[x].type.updateCell === "function" &&
+            obj.records[y] &&
+            obj.records[y][x]) {
             const result = obj.options.columns[x].type.updateCell(obj.records[y][x].element, value, "" + x, "" + y, obj, obj.options.columns[x]);
             if (result !== undefined) {
                 value = result;
@@ -592,7 +611,7 @@ const updateCell = function (x, y, value, force) {
             col: x,
             row: y,
             value: value,
-            oldValue: obj.options.data[y][x],
+            oldValue: obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y] ? obj.options.data[y][x] : undefined,
         };
         let editor = obj.options.columns &&
             obj.options.columns[x] &&
@@ -601,8 +620,10 @@ const updateCell = function (x, y, value, force) {
             : null;
         if (editor) {
             // Update data and cell
-            obj.options.data[y][x] = value;
-            if (typeof editor.setValue === "function") {
+            if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+                obj.options.data[y][x] = value;
+            }
+            if (typeof editor.setValue === "function" && obj.records[y] && obj.records[y][x]) {
                 editor.setValue(obj.records[y][x].element, value);
             }
         }
@@ -613,24 +634,36 @@ const updateCell = function (x, y, value, force) {
                 (obj.options.columns[x].type == "checkbox" ||
                     obj.options.columns[x].type == "radio")) {
                 // Unchecked all options
-                if (obj.options.columns[x].type == "radio") {
+                if (obj.options.columns[x].type == "radio" && obj.options.data && Array.isArray(obj.options.data)) {
                     for (let j = 0; j < obj.options.data.length; j++) {
-                        obj.options.data[j][x] = false;
+                        if (obj.options.data[j]) {
+                            obj.options.data[j][x] = false;
+                        }
                     }
                 }
                 // Update data and cell
-                obj.records[y][x].element.children[0].checked =
-                    value == 1 || value == true || value == "true" || value == "TRUE"
-                        ? true
-                        : false;
-                obj.options.data[y][x] = obj.records[y][x].element.children[0].checked;
+                if (obj.records[y] && obj.records[y][x]) {
+                    const checkboxElement = obj.records[y][x].element.children[0];
+                    checkboxElement.checked =
+                        value == 1 || value == true || value == "true" || value == "TRUE"
+                            ? true
+                            : false;
+                    if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+                        obj.options.data[y][x] = checkboxElement.checked;
+                    }
+                }
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "dropdown") {
                 // Update data and cell
-                obj.options.data[y][x] = value;
-                obj.records[y][x].element.textContent = getDropDownValue.call(obj, x, value);
+                if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+                    obj.options.data[y][x] = value;
+                }
+                if (obj.records[y] && obj.records[y][x]) {
+                    const dropdownValue = value !== null && typeof value !== 'boolean' ? getDropDownValue.call(obj, x, value) : null;
+                    obj.records[y][x].element.textContent = dropdownValue !== null ? String(dropdownValue) : null;
+                }
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
@@ -638,7 +671,7 @@ const updateCell = function (x, y, value, force) {
                 // Try formatted date
                 let formatted = null;
                 if (!validDate(value)) {
-                    const tmp = jsuites_1.default.calendar.extractDateFromString(value, (obj.options.columns[x].options &&
+                    const tmp = jsuites_1.default.calendar.extractDateFromString(String(value), (obj.options.columns[x].options &&
                         obj.options.columns[x].options.format) ||
                         "YYYY-MM-DD");
                     if (tmp) {
@@ -646,25 +679,33 @@ const updateCell = function (x, y, value, force) {
                     }
                 }
                 // Update data and cell
-                obj.options.data[y][x] = value;
-                obj.records[y][x].element.textContent = jsuites_1.default.calendar.getDateString(formatted ? formatted : value, obj.options.columns[x].options &&
-                    obj.options.columns[x].options.format);
+                if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+                    obj.options.data[y][x] = value;
+                }
+                if (obj.records[y] && obj.records[y][x]) {
+                    const dateValue = formatted || new Date(String(value));
+                    obj.records[y][x].element.textContent = jsuites_1.default.calendar.getDateString(dateValue, (obj.options.columns[x].options &&
+                        obj.options.columns[x].options.format) ||
+                        "YYYY-MM-DD");
+                }
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "color") {
                 // Update color
-                obj.options.data[y][x] = value;
+                if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+                    obj.options.data[y][x] = value;
+                }
                 // Render
-                if (obj.options.columns[x].render == "square") {
+                if (obj.options.columns[x].render == "square" && obj.records[y] && obj.records[y][x]) {
                     const color = document.createElement("div");
                     color.className = "color";
                     color.style.backgroundColor = String(value);
                     obj.records[y][x].element.textContent = "";
                     obj.records[y][x].element.appendChild(color);
                 }
-                else {
-                    obj.records[y][x].element.style.color = value;
+                else if (obj.records[y] && obj.records[y][x]) {
+                    obj.records[y][x].element.style.color = String(value);
                     obj.records[y][x].element.textContent = String(value);
                 }
             }
@@ -672,29 +713,40 @@ const updateCell = function (x, y, value, force) {
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "image") {
                 value = "" + value;
-                obj.options.data[y][x] = value;
-                obj.records[y][x].element.innerHTML = "";
-                if (value && String(value).substr(0, 10) == "data:image") {
-                    const img = document.createElement("img");
-                    img.src = String(value);
-                    obj.records[y][x].element.appendChild(img);
+                if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+                    obj.options.data[y][x] = value;
+                }
+                if (obj.records[y] && obj.records[y][x]) {
+                    obj.records[y][x].element.innerHTML = "";
+                    if (value && String(value).substr(0, 10) == "data:image") {
+                        const img = document.createElement("img");
+                        img.src = String(value);
+                        obj.records[y][x].element.appendChild(img);
+                    }
                 }
             }
             else {
                 // Update data and cell
-                obj.options.data[y][x] = value;
+                if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+                    obj.options.data[y][x] = value;
+                }
                 // Label
                 if (obj.options.columns &&
                     obj.options.columns[x] &&
-                    obj.options.columns[x].type == "html") {
-                    obj.records[y][x].element.innerHTML = stripScript(exports.parseValue.call(obj, x, y, value, obj.records[y][x].element));
+                    obj.options.columns[x].type == "html" &&
+                    obj.records[y] &&
+                    obj.records[y][x]) {
+                    const parsedValue = exports.parseValue.call(obj, x, y, value, obj.records[y][x].element);
+                    obj.records[y][x].element.innerHTML = stripScript(String(parsedValue));
                 }
                 else {
-                    if (obj.parent.config.parseHTML === true) {
-                        obj.records[y][x].element.innerHTML = stripScript(exports.parseValue.call(obj, x, y, value, obj.records[y][x].element));
+                    if (obj.parent.config.parseHTML === true && obj.records[y] && obj.records[y][x]) {
+                        const parsedValue = exports.parseValue.call(obj, x, y, value, obj.records[y][x].element);
+                        obj.records[y][x].element.innerHTML = stripScript(String(parsedValue));
                     }
-                    else {
-                        obj.records[y][x].element.textContent = exports.parseValue.call(obj, x, y, value, obj.records[y][x].element);
+                    else if (obj.records[y] && obj.records[y][x]) {
+                        const parsedValue = exports.parseValue.call(obj, x, y, value, obj.records[y][x].element);
+                        obj.records[y][x].element.textContent = String(parsedValue);
                     }
                 }
                 // Handle big text inside a cell
@@ -799,10 +851,14 @@ let chainLoopProtection = {};
 const updateFormulaChain = function (x, y, records) {
     const obj = this;
     const cellId = (0, internalHelpers_1.getColumnNameFromId)([x, y]);
-    if (obj.formula[cellId] && obj.formula[cellId].length > 0) {
+    if (obj.formula && obj.formula[cellId] && obj.formula[cellId].length > 0) {
         if (chainLoopProtection.hasOwnProperty(cellId)) {
-            obj.records[y][x].element.innerHTML = "#ERROR";
-            obj.formula[cellId] = "";
+            if (obj.records[y] && obj.records[y][x]) {
+                obj.records[y][x].element.innerHTML = "#ERROR";
+            }
+            if (obj.formula) {
+                obj.formula[cellId] = [];
+            }
         }
         else {
             // Protection
@@ -810,13 +866,18 @@ const updateFormulaChain = function (x, y, records) {
             for (let i = 0; i < obj.formula[cellId].length; i++) {
                 const cell = (0, internalHelpers_1.getIdFromColumnName)(obj.formula[cellId][i], true);
                 // Update cell
-                const value = "" + obj.options.data[cell[1]][cell[0]];
-                if (value.substr(0, 1) == "=") {
-                    records.push(exports.updateCell.call(obj, cell[0], cell[1], value, true));
+                let cellValue = "";
+                if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[cell[1]] && Array.isArray(obj.options.data[cell[1]]) && cell[0] < obj.options.data[cell[1]].length && obj.options.data[cell[1]][cell[0]] !== undefined) {
+                    cellValue = "" + obj.options.data[cell[1]][cell[0]];
+                }
+                if (cellValue.substr(0, 1) == "=") {
+                    records.push(exports.updateCell.call(obj, cell[0], cell[1], cellValue, true));
                 }
                 else {
                     // No longer a formula, remove from the chain
-                    delete obj.formula[Object.keys(obj.formula)[i]];
+                    if (obj.formula) {
+                        delete obj.formula[Object.keys(obj.formula)[i]];
+                    }
                 }
                 exports.updateFormulaChain.call(obj, cell[0], cell[1], records);
             }
@@ -871,22 +932,24 @@ exports.updateFormula = updateFormula;
 const updateFormulas = function (referencesToUpdate) {
     const obj = this;
     // Update formulas
-    for (let j = 0; j < obj.options.data.length; j++) {
-        for (let i = 0; i < obj.options.data[0].length; i++) {
-            const value = "" + obj.options.data[j][i];
-            // Is formula
-            if (value.substr(0, 1) == "=") {
-                // Replace tokens
-                const newFormula = (0, exports.updateFormula)(value, referencesToUpdate);
-                if (newFormula != value) {
-                    obj.options.data[j][i] = newFormula;
+    if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data.length > 0 && Array.isArray(obj.options.data[0])) {
+        for (let j = 0; j < obj.options.data.length; j++) {
+            for (let i = 0; i < obj.options.data[0].length; i++) {
+                const value = "" + obj.options.data[j][i];
+                // Is formula
+                if (value.substr(0, 1) == "=") {
+                    // Replace tokens
+                    const newFormula = (0, exports.updateFormula)(value, referencesToUpdate);
+                    if (newFormula != value) {
+                        obj.options.data[j][i] = newFormula;
+                    }
                 }
             }
         }
     }
     // Update formula chain
     const formula = {};
-    const keys = Object.keys(obj.formula);
+    const keys = obj.formula ? Object.keys(obj.formula) : [];
     for (let j = 0; j < keys.length; j++) {
         // Current key and values
         let key = keys[j];
@@ -920,9 +983,9 @@ const updateTableReferences = function () {
     // Update headers
     for (let i = 0; i < obj.headers.length; i++) {
         const x = obj.headers[i].getAttribute("data-x");
-        if (x != i) {
+        if (x !== null && parseInt(x) !== i) {
             // Update coords
-            obj.headers[i].setAttribute("data-x", i);
+            obj.headers[i].setAttribute("data-x", i.toString());
             // Title
             if (!obj.headers[i].getAttribute("title")) {
                 obj.headers[i].innerHTML = (0, helpers_1.getColumnName)(i);
@@ -933,12 +996,12 @@ const updateTableReferences = function () {
     for (let j = 0; j < obj.rows.length; j++) {
         if (obj.rows[j]) {
             const y = obj.rows[j].element.getAttribute("data-y");
-            if (y != j) {
+            if (y !== null && parseInt(y) !== j) {
                 // Update coords
-                obj.rows[j].element.setAttribute("data-y", j);
-                obj.rows[j].element.children[0].setAttribute("data-y", j);
+                obj.rows[j].element.setAttribute("data-y", j.toString());
+                obj.rows[j].element.children[0].setAttribute("data-y", j.toString());
                 // Row number
-                obj.rows[j].element.children[0].innerHTML = j + 1;
+                obj.rows[j].element.children[0].innerHTML = (j + 1).toString();
             }
         }
     }
@@ -948,10 +1011,10 @@ const updateTableReferences = function () {
     // Update cell
     const updatePosition = function (x, y, i, j) {
         if (x != i) {
-            obj.records[j][i].element.setAttribute("data-x", i);
+            obj.records[j][i].element.setAttribute("data-x", i.toString());
         }
         if (y != j) {
-            obj.records[j][i].element.setAttribute("data-y", j);
+            obj.records[j][i].element.setAttribute("data-y", j.toString());
         }
         // Other updates
         if (x != i || y != j) {
@@ -964,24 +1027,28 @@ const updateTableReferences = function () {
         for (let i = 0; i < obj.records[0].length; i++) {
             if (obj.records[j][i]) {
                 // Current values
-                const x = obj.records[j][i].element.getAttribute("data-x");
-                const y = obj.records[j][i].element.getAttribute("data-y");
+                const xAttr = obj.records[j][i].element.getAttribute("data-x");
+                const yAttr = obj.records[j][i].element.getAttribute("data-y");
+                const x = xAttr !== null ? parseInt(xAttr) : null;
+                const y = yAttr !== null ? parseInt(yAttr) : null;
                 // Update column
                 if (obj.records[j][i].element.getAttribute("data-merged")) {
-                    const columnIdFrom = (0, internalHelpers_1.getColumnNameFromId)([x, y]);
-                    const columnIdTo = (0, internalHelpers_1.getColumnNameFromId)([i, j]);
-                    if (mergeCellUpdates[columnIdFrom] == null) {
-                        if (columnIdFrom == columnIdTo) {
-                            mergeCellUpdates[columnIdFrom] = false;
-                        }
-                        else {
-                            const totalX = i - x;
-                            const totalY = j - y;
-                            mergeCellUpdates[columnIdFrom] = [columnIdTo, totalX, totalY];
+                    if (x !== null && y !== null) {
+                        const columnIdFrom = (0, internalHelpers_1.getColumnNameFromId)([x, y]);
+                        const columnIdTo = (0, internalHelpers_1.getColumnNameFromId)([i, j]);
+                        if (mergeCellUpdates[columnIdFrom] == null) {
+                            if (columnIdFrom == columnIdTo) {
+                                mergeCellUpdates[columnIdFrom] = false;
+                            }
+                            else {
+                                const totalX = i - x;
+                                const totalY = j - y;
+                                mergeCellUpdates[columnIdFrom] = [columnIdTo, totalX, totalY];
+                            }
                         }
                     }
                 }
-                else {
+                else if (x !== null && y !== null) {
                     updatePosition(x, y, i, j);
                 }
             }
@@ -991,22 +1058,29 @@ const updateTableReferences = function () {
     const keys = Object.keys(mergeCellUpdates);
     if (keys.length) {
         for (let i = 0; i < keys.length; i++) {
-            if (mergeCellUpdates[keys[i]]) {
+            const mergeUpdate = mergeCellUpdates[keys[i]];
+            if (mergeUpdate !== false && mergeUpdate !== null && mergeUpdate !== undefined) {
                 const info = (0, internalHelpers_1.getIdFromColumnName)(keys[i], true);
-                let x = info[0];
-                let y = info[1];
-                updatePosition(x, y, x + mergeCellUpdates[keys[i]][1], y + mergeCellUpdates[keys[i]][2]);
-                const columnIdFrom = keys[i];
-                const columnIdTo = mergeCellUpdates[keys[i]][0];
-                for (let j = 0; j < obj.options.mergeCells[columnIdFrom][2].length; j++) {
-                    x = parseInt(obj.options.mergeCells[columnIdFrom][2][j].getAttribute("data-x"));
-                    y = parseInt(obj.options.mergeCells[columnIdFrom][2][j].getAttribute("data-y"));
-                    obj.options.mergeCells[columnIdFrom][2][j].setAttribute("data-x", x + mergeCellUpdates[keys[i]][1]);
-                    obj.options.mergeCells[columnIdFrom][2][j].setAttribute("data-y", y + mergeCellUpdates[keys[i]][2]);
+                if (Array.isArray(info) && info.length >= 2) {
+                    let x = typeof info[0] === 'number' ? info[0] : parseInt(info[0]);
+                    let y = typeof info[1] === 'number' ? info[1] : parseInt(info[1]);
+                    updatePosition(x, y, x + mergeUpdate[1], y + mergeUpdate[2]);
                 }
-                obj.options.mergeCells[columnIdTo] =
-                    obj.options.mergeCells[columnIdFrom];
-                delete obj.options.mergeCells[columnIdFrom];
+                const columnIdFrom = keys[i];
+                const columnIdTo = mergeUpdate[0];
+                // Guard against missing mergeCells or false values
+                if (obj.options.mergeCells && obj.options.mergeCells[columnIdFrom] !== false && obj.options.mergeCells[columnIdFrom] !== null && obj.options.mergeCells[columnIdFrom] !== undefined) {
+                    const mergeCellEntry = obj.options.mergeCells[columnIdFrom];
+                    let x, y;
+                    for (let j = 0; j < mergeCellEntry[2].length; j++) {
+                        x = parseInt(mergeCellEntry[2][j].getAttribute("data-x") || "0");
+                        y = parseInt(mergeCellEntry[2][j].getAttribute("data-y") || "0");
+                        mergeCellEntry[2][j].setAttribute("data-x", (x + mergeUpdate[1]).toString());
+                        mergeCellEntry[2][j].setAttribute("data-y", (y + mergeUpdate[2]).toString());
+                    }
+                    obj.options.mergeCells[columnIdTo] = mergeCellEntry;
+                    delete obj.options.mergeCells[columnIdFrom];
+                }
             }
         }
     }
@@ -1025,6 +1099,10 @@ exports.updateTableReferences = updateTableReferences;
  */
 const updateScroll = function (direction) {
     const obj = this;
+    // Guard against missing content
+    if (!obj.content) {
+        return;
+    }
     // Jspreadsheet Container information
     const contentRect = obj.content.getBoundingClientRect();
     const x1 = contentRect.left;
@@ -1032,7 +1110,15 @@ const updateScroll = function (direction) {
     const w1 = contentRect.width;
     const h1 = contentRect.height;
     // Direction Left or Up
-    const reference = obj.records[obj.selectedCell[3]][obj.selectedCell[2]].element;
+    const reference = obj.selectedCell &&
+        obj.records[obj.selectedCell[3]] &&
+        obj.records[obj.selectedCell[3]][obj.selectedCell[2]]
+        ? obj.records[obj.selectedCell[3]][obj.selectedCell[2]].element
+        : null;
+    // Guard against missing reference
+    if (!reference) {
+        return;
+    }
     // Reference
     const referenceRect = reference.getBoundingClientRect();
     const x2 = referenceRect.left;
@@ -1093,7 +1179,7 @@ const updateResult = function () {
     if (obj.options.lazyLoading == true) {
         total = 100;
     }
-    else if (obj.options.pagination && obj.options.pagination > 0) {
+    else if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
         total = obj.options.pagination;
     }
     else {
@@ -1122,7 +1208,7 @@ const updateResult = function () {
         }
     }
     // Update pagination
-    if (obj.options.pagination && obj.options.pagination > 0) {
+    if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
         pagination_1.updatePagination.call(obj);
     }
     selection_1.updateCornerPosition.call(obj);

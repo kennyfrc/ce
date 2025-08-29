@@ -46,9 +46,9 @@ const version_1 = __importDefault(require("./utils/version"));
 // Assign the main function to libraryBase.jspreadsheet with proper typing
 libraryBase_1.default.jspreadsheet = (function (el, options) {
     try {
-        let worksheets = [];
+        const worksheets = [];
         // Create spreadsheet
-        factory_1.default.spreadsheet(el, options, worksheets).then((spreadsheet) => {
+        void factory_1.default.spreadsheet(el, options, worksheets).then((spreadsheet) => {
             libraryBase_1.default.jspreadsheet.spreadsheet.push(spreadsheet);
             // Global onload event
             dispatch_1.default.call(spreadsheet, "onload");

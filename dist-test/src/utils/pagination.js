@@ -12,12 +12,40 @@ const selection_1 = require("./selection");
  */
 const whichPage = function (row) {
     const obj = this;
-    // Search
-    if ((obj.options.search == true || obj.options.filters == true) &&
-        obj.results) {
-        row = obj.results.indexOf(row);
+    let rowNum;
+    if ((obj.options.search == true || obj.options.filters == true) && obj.results) {
+        if (typeof row === "number") {
+            rowNum = row;
+        }
+        else if (typeof row === "string") {
+            rowNum = parseInt(row, 10);
+        }
+        else if (row && typeof row.index === "number") {
+            rowNum = row.index;
+        }
+        else {
+            rowNum = Number(String(row));
+            if (Number.isNaN(rowNum))
+                rowNum = 0;
+        }
+        const found = obj.results.indexOf(rowNum);
+        if (found !== -1)
+            rowNum = found;
     }
-    return Math.ceil((parseInt(row) + 1) / parseInt(obj.options.pagination)) - 1;
+    else {
+        if (typeof row === "number")
+            rowNum = row;
+        else if (typeof row === "string")
+            rowNum = parseInt(row, 10);
+        else if (row && typeof row.index === "number")
+            rowNum = row.index;
+        else
+            rowNum = 0;
+    }
+    const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
+    if (!pagination)
+        return 0;
+    return Math.ceil((rowNum + 1) / pagination) - 1;
 };
 exports.whichPage = whichPage;
 /**
@@ -40,12 +68,13 @@ const updatePagination = function () {
             results = obj.rows.length;
         }
         if (!results) {
-            // No records found
             obj.pagination.children[0].innerHTML = jsuites_1.default.translate("No records found");
         }
         else {
             // Pagination container
-            const quantyOfPages = Math.ceil(results / obj.options.pagination);
+            const total = typeof results === "number" ? results : results.length;
+            const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
+            const quantyOfPages = pagination ? Math.ceil(total / pagination) : 0;
             let startNumber, finalNumber;
             if (obj.pageNumber < 6) {
                 startNumber = 1;
@@ -89,9 +118,10 @@ const updatePagination = function () {
                 obj.pagination.children[1].appendChild(paginationItem);
             }
             // Text
-            const format = function (format, ...args) {
-                return format.replace(/{(\d+)}/g, function (match, number) {
-                    return typeof args[number] != "undefined" ? args[number] : match;
+            const format = function (fmt, ...args) {
+                return fmt.replace(/{(\d+)}/g, function (_match, numberStr) {
+                    const idx = parseInt(numberStr, 10);
+                    return typeof args[idx] !== "undefined" ? String(args[idx]) : _match;
                 });
             };
             obj.pagination.children[0].innerHTML = format(jsuites_1.default.translate("Showing page {0} of {1} entries"), (obj.pageNumber + 1).toString(), quantyOfPages.toString());
@@ -115,7 +145,7 @@ const page = function (pageNumber) {
         results = obj.rows;
     }
     // Per page
-    const quantityPerPage = parseInt(obj.options.pagination);
+    const quantityPerPage = Number(obj.options.pagination) || 0;
     // pageNumber
     if (pageNumber == null || pageNumber == -1) {
         // Last page
@@ -137,15 +167,14 @@ const page = function (pageNumber) {
     }
     // Appeding items
     for (let j = startRow; j < finalRow; j++) {
-        if ((obj.options.search == true || obj.options.filters == true) &&
-            obj.results) {
+        if ((obj.options.search == true || obj.options.filters == true) && obj.results) {
             obj.tbody.appendChild(obj.rows[results[j]].element);
         }
         else {
             obj.tbody.appendChild(obj.rows[j].element);
         }
     }
-    if (obj.options.pagination > 0) {
+    if (Number(obj.options.pagination) > 0) {
         exports.updatePagination.call(obj);
     }
     // Update corner position
@@ -156,14 +185,10 @@ const page = function (pageNumber) {
 exports.page = page;
 const quantiyOfPages = function () {
     const obj = this;
-    let results;
-    if ((obj.options.search == true || obj.options.filters == true) &&
-        obj.results) {
-        results = obj.results.length;
-    }
-    else {
-        results = obj.rows.length;
-    }
-    return Math.ceil(results / obj.options.pagination);
+    const total = (obj.options.search == true || obj.options.filters == true) && obj.results ? obj.results.length : obj.rows.length;
+    const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
+    if (!pagination)
+        return 0;
+    return Math.ceil(total / pagination);
 };
 exports.quantiyOfPages = quantiyOfPages;

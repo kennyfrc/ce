@@ -13,21 +13,29 @@ const history_1 = require("./history");
  * @return integer
  */
 const getStyle = function (cell, key) {
+    var _a;
     const obj = this;
     // Cell
     if (!cell) {
         // Control vars
         const data = {};
         // Column and row length
-        const x = obj.options.data[0].length;
-        const y = obj.options.data.length;
+        const dataArray = obj.options.data;
+        if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {
+            return {};
+        }
+        const x = (Array.isArray(dataArray[0]) ? dataArray[0].length : 0) || 0;
+        const y = dataArray.length;
         // Go through the columns to get the data
         for (let j = 0; j < y; j++) {
             for (let i = 0; i < x; i++) {
                 // Value
+                const record = (_a = obj.records[j]) === null || _a === void 0 ? void 0 : _a[i];
+                if (!record)
+                    continue;
                 const v = key
-                    ? obj.records[j][i].element.style[key]
-                    : obj.records[j][i].element.getAttribute("style");
+                    ? record.element.style[key]
+                    : record.element.getAttribute("style");
                 // Any meta data for this column?
                 if (v) {
                     // Column name
@@ -40,10 +48,10 @@ const getStyle = function (cell, key) {
         return data;
     }
     else {
-        cell = (0, internalHelpers_1.getIdFromColumnName)(cell, true);
+        const coords = (0, internalHelpers_1.getIdFromColumnName)(cell, true);
         return key
-            ? obj.records[cell[1]][cell[0]].element.style[key]
-            : obj.records[cell[1]][cell[0]].element.getAttribute("style");
+            ? obj.records[coords[1]][coords[0]].element.style[key]
+            : obj.records[coords[1]][coords[0]].element.getAttribute("style");
     }
 };
 exports.getStyle = getStyle;
@@ -82,8 +90,8 @@ const setStyle = function (o, k, v, force, ignoreHistoryAndEvents) {
             if (!newValue[cellId]) {
                 newValue[cellId] = [];
             }
-            oldValue[cellId].push([key + ":" + currentValue]);
-            newValue[cellId].push([key + ":" + value]);
+            oldValue[cellId].push(key + ":" + currentValue);
+            newValue[cellId].push(key + ":" + value);
         }
     };
     if (k && v) {
@@ -101,11 +109,12 @@ const setStyle = function (o, k, v, force, ignoreHistoryAndEvents) {
             }
             for (let j = 0; j < style.length; j++) {
                 if (typeof style[j] == "string") {
-                    style[j] = style[j].split(":");
-                }
-                // Apply value
-                if (style[j][0].trim()) {
-                    applyStyle(keys[i], style[j][0].trim(), style[j][1]);
+                    // style[j] is like "key:value"
+                    const parts = style[j].split(":");
+                    // Apply value
+                    if (parts[0] && parts[0].trim()) {
+                        applyStyle(keys[i], parts[0].trim(), parts[1]);
+                    }
                 }
             }
         }
@@ -130,6 +139,7 @@ const setStyle = function (o, k, v, force, ignoreHistoryAndEvents) {
 };
 exports.setStyle = setStyle;
 const resetStyle = function (o, ignoreHistoryAndEvents) {
+    var _a;
     const obj = this;
     const keys = Object.keys(o);
     for (let i = 0; i < keys.length; i++) {
@@ -139,6 +149,6 @@ const resetStyle = function (o, ignoreHistoryAndEvents) {
             obj.records[cell[1]][cell[0]].element.setAttribute("style", "");
         }
     }
-    obj.setStyle(o, null, null, null, ignoreHistoryAndEvents);
+    (_a = obj.setStyle) === null || _a === void 0 ? void 0 : _a.call(obj, o, null, null, undefined, ignoreHistoryAndEvents);
 };
 exports.resetStyle = resetStyle;

@@ -16,7 +16,11 @@ const getSpreadsheetConfig = function () {
 exports.getSpreadsheetConfig = getSpreadsheetConfig;
 const setConfig = function (config, spreadsheetLevel) {
     const obj = this;
-    const keys = Object.keys(config);
+    if (typeof config !== 'object' || config === null) {
+        return;
+    }
+    const configRecord = config;
+    const keys = Object.keys(configRecord);
     let spreadsheet;
     if (!obj.parent) {
         spreadsheetLevel = true;
@@ -26,19 +30,21 @@ const setConfig = function (config, spreadsheetLevel) {
         spreadsheet = obj.parent;
     }
     keys.forEach(function (key) {
+        var _a, _b;
         if (spreadsheetLevel) {
-            spreadsheet.config[key] = config[key];
+            spreadsheet.config[key] = configRecord[key];
             if (key === "toolbar") {
-                if (config[key] === true) {
-                    spreadsheet.showToolbar();
+                const spreadsheetInstance = spreadsheet;
+                if (configRecord[key] === true) {
+                    (_a = spreadsheetInstance.showToolbar) === null || _a === void 0 ? void 0 : _a.call(spreadsheetInstance);
                 }
-                else if (config[key] === false) {
-                    spreadsheet.hideToolbar();
+                else if (configRecord[key] === false) {
+                    (_b = spreadsheetInstance.hideToolbar) === null || _b === void 0 ? void 0 : _b.call(spreadsheetInstance);
                 }
             }
         }
         else {
-            obj.options[key] = config[key];
+            obj.options[key] = configRecord[key];
         }
     });
 };

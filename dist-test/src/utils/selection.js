@@ -15,13 +15,17 @@ const updateCornerPosition = function () {
     const obj = this;
     // If any selected cells
     if (!obj.highlighted || !obj.highlighted.length) {
-        obj.corner.style.top = "-2000px";
-        obj.corner.style.left = "-2000px";
+        if (obj.corner) {
+            obj.corner.style.top = "-2000px";
+            obj.corner.style.left = "-2000px";
+        }
     }
     else {
         // Get last cell
         const last = obj.highlighted[obj.highlighted.length - 1].element;
         const lastX = parseInt(last.getAttribute("data-x") || "0");
+        if (!obj.content)
+            return;
         const contentRect = obj.content.getBoundingClientRect();
         const x1 = contentRect.left;
         const y1 = contentRect.top;
@@ -33,23 +37,25 @@ const updateCornerPosition = function () {
         const x = x2 - x1 + obj.content.scrollLeft + w2 - 4;
         const y = y2 - y1 + obj.content.scrollTop + h2 - 4;
         // Place the corner in the correct place
-        obj.corner.style.top = y + "px";
-        obj.corner.style.left = x + "px";
-        if (obj.options.freezeColumns) {
-            const width = freeze_1.getFreezeWidth.call(obj);
-            // Only check if the last column is not part of the merged cells
-            if (lastX > obj.options.freezeColumns - 1 && x2 - x1 + w2 < width) {
-                obj.corner.style.display = "none";
+        if (obj.corner) {
+            obj.corner.style.top = y + "px";
+            obj.corner.style.left = x + "px";
+            if (obj.options.freezeColumns != null) {
+                const width = freeze_1.getFreezeWidth.call(obj);
+                // Only check if the last column is not part of the merged cells
+                if (lastX > obj.options.freezeColumns - 1 && x2 - x1 + w2 < width) {
+                    obj.corner.style.display = "none";
+                }
+                else {
+                    if (obj.options.selectionCopy != false) {
+                        obj.corner.style.display = "";
+                    }
+                }
             }
             else {
                 if (obj.options.selectionCopy != false) {
                     obj.corner.style.display = "";
                 }
-            }
-        }
-        else {
-            if (obj.options.selectionCopy != false) {
-                obj.corner.style.display = "";
             }
         }
     }
@@ -72,13 +78,13 @@ const resetSelection = function (blur) {
             obj.highlighted[i].element.classList.remove("highlight-top");
             obj.highlighted[i].element.classList.remove("highlight-bottom");
             obj.highlighted[i].element.classList.remove("highlight-selected");
-            const px = parseInt(obj.highlighted[i].element.getAttribute("data-x"));
-            const py = parseInt(obj.highlighted[i].element.getAttribute("data-y"));
+            const px = parseInt(obj.highlighted[i].element.getAttribute("data-x") || "0");
+            const py = parseInt(obj.highlighted[i].element.getAttribute("data-y") || "0");
             // Check for merged cells
             let ux, uy;
             if (obj.highlighted[i].element.getAttribute("data-merged")) {
-                const colspan = parseInt(obj.highlighted[i].element.getAttribute("colspan"));
-                const rowspan = parseInt(obj.highlighted[i].element.getAttribute("rowspan"));
+                const colspan = parseInt(obj.highlighted[i].element.getAttribute("colspan") || "1");
+                const rowspan = parseInt(obj.highlighted[i].element.getAttribute("rowspan") || "1");
                 ux = colspan > 0 ? px + (colspan - 1) : px;
                 uy = rowspan > 0 ? py + (rowspan - 1) : py;
             }
@@ -103,10 +109,12 @@ const resetSelection = function (blur) {
     // Reset highlighted cells
     obj.highlighted = [];
     // Reset
-    obj.selectedCell = null;
+    obj.selectedCell = undefined;
     // Hide corner
-    obj.corner.style.top = "-2000px";
-    obj.corner.style.left = "-2000px";
+    if (obj.corner) {
+        obj.corner.style.top = "-2000px";
+        obj.corner.style.left = "-2000px";
+    }
     if (blur == true && previousStatus == 1) {
         dispatch_1.default.call(obj, "onblur", obj);
     }
@@ -118,12 +126,12 @@ exports.resetSelection = resetSelection;
  */
 const updateSelection = function (el1, el2, origin) {
     const obj = this;
-    const x1 = el1.getAttribute("data-x");
-    const y1 = el1.getAttribute("data-y");
+    const x1 = parseInt(el1.getAttribute("data-x") || "0");
+    const y1 = parseInt(el1.getAttribute("data-y") || "0");
     let x2, y2;
     if (el2) {
-        x2 = el2.getAttribute("data-x");
-        y2 = el2.getAttribute("data-y");
+        x2 = parseInt(el2.getAttribute("data-x") || "0");
+        y2 = parseInt(el2.getAttribute("data-y") || "0");
     }
     else {
         x2 = x1;
@@ -144,6 +152,7 @@ const removeCopyingSelection = function () {
 };
 exports.removeCopyingSelection = removeCopyingSelection;
 const updateSelectionFromCoords = function (x1, y1, x2, y2, origin) {
+    var _a;
     const obj = this;
     // select column
     if (y1 == null) {
@@ -156,7 +165,11 @@ const updateSelectionFromCoords = function (x1, y1, x2, y2, origin) {
     else if (x1 == null) {
         // select row
         x1 = 0;
-        x2 = obj.options.data[0].length - 1;
+        x2 = (Array.isArray(obj.options.data) && Array.isArray(obj.options.data[0]) ? obj.options.data[0].length : 1) - 1;
+    }
+    // Ensure all coordinates are numbers
+    if (x1 == null || y1 == null || x2 == null || y2 == null) {
+        return;
     }
     // Same element
     if (x2 == null) {
@@ -165,6 +178,11 @@ const updateSelectionFromCoords = function (x1, y1, x2, y2, origin) {
     if (y2 == null) {
         y2 = y1;
     }
+    // Type assertion after null checks
+    x1 = x1;
+    y1 = y1;
+    x2 = x2;
+    y2 = y2;
     // Selection must be within the existing data
     if (x1 >= obj.headers.length) {
         x1 = obj.headers.length - 1;
@@ -207,10 +225,10 @@ const updateSelectionFromCoords = function (x1, y1, x2, y2, origin) {
         for (let j = py; j <= uy; j++) {
             if (obj.records[j][i] &&
                 obj.records[j][i].element.getAttribute("data-merged")) {
-                const x = parseInt(obj.records[j][i].element.getAttribute("data-x"));
-                const y = parseInt(obj.records[j][i].element.getAttribute("data-y"));
-                const colspan = parseInt(obj.records[j][i].element.getAttribute("colspan"));
-                const rowspan = parseInt(obj.records[j][i].element.getAttribute("rowspan"));
+                const x = parseInt(obj.records[j][i].element.getAttribute("data-x") || "0");
+                const y = parseInt(obj.records[j][i].element.getAttribute("data-y") || "0");
+                const colspan = parseInt(obj.records[j][i].element.getAttribute("colspan") || "1");
+                const rowspan = parseInt(obj.records[j][i].element.getAttribute("rowspan") || "1");
                 if (colspan > 1) {
                     if (x < px) {
                         px = x;
@@ -253,20 +271,30 @@ const updateSelectionFromCoords = function (x1, y1, x2, y2, origin) {
         }
     }
     // Create borders
-    if (!borderLeft) {
+    if (borderLeft == null) {
         borderLeft = 0;
     }
-    if (!borderRight) {
+    if (borderRight == null) {
         borderRight = 0;
+    }
+    if (borderTop == null) {
+        borderTop = 0;
+    }
+    if (borderBottom == null) {
+        borderBottom = 0;
     }
     const ret = dispatch_1.default.call(obj, "onbeforeselection", obj, borderLeft, borderTop, borderRight, borderBottom, origin);
     if (ret === false) {
         return false;
     }
     // Reset Selection
-    const previousState = obj.resetSelection();
+    const previousState = ((_a = obj.resetSelection) === null || _a === void 0 ? void 0 : _a.call(obj)) || 0;
     // Keep selected cell
     obj.selectedCell = [x1, y1, x2, y2];
+    // Initialize highlighted if not exists
+    if (!obj.highlighted) {
+        obj.highlighted = [];
+    }
     // Add selected cell
     if (obj.records[y1][x1]) {
         obj.records[y1][x1].element.classList.add("highlight-selected");
@@ -351,9 +379,10 @@ exports.getSelectedColumns = getSelectedColumns;
  * Refresh current selection
  */
 const refreshSelection = function () {
+    var _a;
     const obj = this;
     if (obj.selectedCell) {
-        obj.updateSelectionFromCoords(obj.selectedCell[0], obj.selectedCell[1], obj.selectedCell[2], obj.selectedCell[3]);
+        (_a = obj.updateSelectionFromCoords) === null || _a === void 0 ? void 0 : _a.call(obj, obj.selectedCell[0], obj.selectedCell[1], obj.selectedCell[2], obj.selectedCell[3]);
     }
 };
 exports.refreshSelection = refreshSelection;
@@ -365,12 +394,14 @@ exports.refreshSelection = refreshSelection;
 const removeCopySelection = function () {
     const obj = this;
     // Remove current selection
-    for (let i = 0; i < obj.selection.length; i++) {
-        obj.selection[i].classList.remove("selection");
-        obj.selection[i].classList.remove("selection-left");
-        obj.selection[i].classList.remove("selection-right");
-        obj.selection[i].classList.remove("selection-top");
-        obj.selection[i].classList.remove("selection-bottom");
+    if (obj.selection) {
+        for (let i = 0; i < obj.selection.length; i++) {
+            obj.selection[i].classList.remove("selection");
+            obj.selection[i].classList.remove("selection-left");
+            obj.selection[i].classList.remove("selection-right");
+            obj.selection[i].classList.remove("selection-top");
+            obj.selection[i].classList.remove("selection-bottom");
+        }
     }
     obj.selection = [];
 };
@@ -386,21 +417,22 @@ const doubleDigitFormat = function (v) {
  * Helper function to copy data using the corner icon
  */
 const copyData = function (o, d) {
+    var _a, _b, _c;
     const obj = this;
     // Get data from all selected cells
-    const data = obj.getData(true, false);
+    const data = (_a = obj.getData) === null || _a === void 0 ? void 0 : _a.call(obj, true, false);
     // Selected cells
     const h = obj.selectedContainer;
     // Cells
-    const x1 = parseInt(o.getAttribute("data-x"));
-    const y1 = parseInt(o.getAttribute("data-y"));
-    const x2 = parseInt(d.getAttribute("data-x"));
-    const y2 = parseInt(d.getAttribute("data-y"));
+    const x1 = parseInt(o.getAttribute("data-x") || "0");
+    const y1 = parseInt(o.getAttribute("data-y") || "0");
+    const x2 = parseInt(d.getAttribute("data-x") || "0");
+    const y2 = parseInt(d.getAttribute("data-y") || "0");
     // Records
     const records = [];
     let breakControl = false;
     let rowNumber, colNumber;
-    if (h[0] == x1) {
+    if (h && h[0] == x1) {
         // Vertical copy
         if (y1 < h[1]) {
             rowNumber = y1 - h[1];
@@ -410,7 +442,7 @@ const copyData = function (o, d) {
         }
         colNumber = 0;
     }
-    else {
+    else if (h) {
         if (x1 < h[0]) {
             colNumber = x1 - h[0];
         }
@@ -418,6 +450,10 @@ const copyData = function (o, d) {
             colNumber = 1;
         }
         rowNumber = 0;
+    }
+    else {
+        rowNumber = 0;
+        colNumber = 0;
     }
     // Copy data procedure
     let posx = 0;
@@ -428,12 +464,12 @@ const copyData = function (o, d) {
             continue;
         }
         // Controls
-        if (data[posy] == undefined) {
+        if (!data || !Array.isArray(data) || data[posy] == undefined) {
             posy = 0;
         }
         posx = 0;
         // Data columns
-        if (h[0] != x1) {
+        if (h && h[0] != x1) {
             if (x1 < h[0]) {
                 colNumber = x1 - h[0];
             }
@@ -444,27 +480,31 @@ const copyData = function (o, d) {
         // Data columns
         for (let i = x1; i <= x2; i++) {
             // Update non-readonly
-            if (obj.records[j][i] &&
+            if (((_b = obj.records[j]) === null || _b === void 0 ? void 0 : _b[i]) &&
                 !obj.records[j][i].element.classList.contains("readonly") &&
                 obj.records[j][i].element.style.display != "none" &&
                 breakControl == false) {
                 // Stop if contains value
-                if (!obj.selection.length) {
-                    if (obj.options.data[j][i] != "") {
+                if (!((_c = obj.selection) === null || _c === void 0 ? void 0 : _c.length)) {
+                    const cellValue = (Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j]) && obj.options.data[j][i]) || "";
+                    if (cellValue != "") {
                         breakControl = true;
                         continue;
                     }
                 }
                 // Column
-                if (data[posy] == undefined) {
+                if (!Array.isArray(data) || data[posy] == undefined) {
                     posx = 0;
                 }
-                else if (data[posy][posx] == undefined) {
+                else if (Array.isArray(data[posy]) && data[posy][posx] == undefined) {
                     posx = 0;
                 }
                 // Value
-                let value = data[posy][posx];
-                if (value && !data[1] && obj.parent.config.autoIncrement != false) {
+                let value = "";
+                if (Array.isArray(data) && Array.isArray(data[posy])) {
+                    value = data[posy][posx];
+                }
+                if (value && Array.isArray(data) && !data[1] && obj.parent.config.autoIncrement != false) {
                     if (obj.options.columns &&
                         obj.options.columns[i] &&
                         (!obj.options.columns[i].type ||
@@ -473,7 +513,7 @@ const copyData = function (o, d) {
                         if (("" + value).substr(0, 1) == "=") {
                             const tokens = ("" + value).match(/([A-Z]+[0-9]+)/g);
                             if (tokens) {
-                                const affectedTokens = [];
+                                const affectedTokens = {};
                                 for (let index = 0; index < tokens.length; index++) {
                                     const position = (0, internalHelpers_1.getIdFromColumnName)(tokens[index], true);
                                     if (Array.isArray(position)) {
@@ -492,7 +532,7 @@ const copyData = function (o, d) {
                                     }
                                 }
                                 // Update formula
-                                if (affectedTokens) {
+                                if (affectedTokens && typeof value === 'string') {
                                     value = (0, internal_1.updateFormula)(value, affectedTokens);
                                 }
                             }
@@ -524,7 +564,10 @@ const copyData = function (o, d) {
                 internal_1.updateFormulaChain.call(obj, i, j, records);
             }
             posx++;
-            if (h[0] != x1) {
+            if (h && h[0] != x1) {
+                colNumber++;
+            }
+            else if (!h) {
                 colNumber++;
             }
         }
@@ -570,12 +613,13 @@ exports.hash = hash;
  * Move coords to A1 in case overlaps with an excluded cell
  */
 const conditionalSelectionUpdate = function (type, o, d) {
+    var _a, _b;
     const obj = this;
     if (type == 1) {
         if (obj.selectedCell &&
             ((o >= obj.selectedCell[1] && o <= obj.selectedCell[3]) ||
                 (d >= obj.selectedCell[1] && d <= obj.selectedCell[3]))) {
-            obj.resetSelection();
+            (_a = obj.resetSelection) === null || _a === void 0 ? void 0 : _a.call(obj);
             return;
         }
     }
@@ -583,7 +627,7 @@ const conditionalSelectionUpdate = function (type, o, d) {
         if (obj.selectedCell &&
             ((o >= obj.selectedCell[0] && o <= obj.selectedCell[2]) ||
                 (d >= obj.selectedCell[0] && d <= obj.selectedCell[2]))) {
-            obj.resetSelection();
+            (_b = obj.resetSelection) === null || _b === void 0 ? void 0 : _b.call(obj);
             return;
         }
     }
@@ -609,6 +653,7 @@ const getSelectedRows = function (visibleOnly) {
 };
 exports.getSelectedRows = getSelectedRows;
 const selectAll = function () {
+    var _a;
     const obj = this;
     if (!obj.selectedCell) {
         obj.selectedCell = [];
@@ -617,7 +662,7 @@ const selectAll = function () {
     obj.selectedCell[1] = 0;
     obj.selectedCell[2] = obj.headers.length - 1;
     obj.selectedCell[3] = obj.records.length - 1;
-    obj.updateSelectionFromCoords(obj.selectedCell[0], obj.selectedCell[1], obj.selectedCell[2], obj.selectedCell[3]);
+    (_a = obj.updateSelectionFromCoords) === null || _a === void 0 ? void 0 : _a.call(obj, obj.selectedCell[0], obj.selectedCell[1], obj.selectedCell[2], obj.selectedCell[3]);
 };
 exports.selectAll = selectAll;
 const getSelection = function () {
@@ -634,6 +679,7 @@ const getSelection = function () {
 };
 exports.getSelection = getSelection;
 const getSelected = function (columnNameOnly) {
+    var _a;
     const obj = this;
     const selectedRange = exports.getSelection.call(obj);
     if (!selectedRange) {
@@ -646,7 +692,10 @@ const getSelected = function (columnNameOnly) {
                 cells.push((0, helpers_1.getCellNameFromCoords)(x, y));
             }
             else {
-                cells.push(obj.records[y][x]);
+                const record = (_a = obj.records[y]) === null || _a === void 0 ? void 0 : _a[x];
+                if (record) {
+                    cells.push(record);
+                }
             }
         }
     }

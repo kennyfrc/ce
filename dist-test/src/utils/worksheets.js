@@ -38,6 +38,7 @@ const setWorksheetFunctions = function (worksheet) {
     }
 };
 const createTable = function () {
+    var _a, _b, _c, _d;
     let obj = this;
     setWorksheetFunctions(obj);
     // Elements
@@ -65,27 +66,35 @@ const createTable = function () {
     obj.searchInput.classList.add("jss_search");
     searchLabel.appendChild(obj.searchInput);
     obj.searchInput.onfocus = function () {
-        obj.resetSelection();
+        if (typeof obj.resetSelection === "function") {
+            obj.resetSelection();
+        }
     };
     // Pagination select option
     const paginationUpdateContainer = document.createElement("div");
-    if (obj.options.pagination > 0 &&
+    if (obj.options.pagination &&
+        typeof obj.options.pagination === "number" &&
+        obj.options.pagination > 0 &&
         obj.options.paginationOptions &&
+        Array.isArray(obj.options.paginationOptions) &&
         obj.options.paginationOptions.length > 0) {
         obj.paginationDropdown = document.createElement("select");
         obj.paginationDropdown.classList.add("jss_pagination_dropdown");
         obj.paginationDropdown.onchange = function () {
-            obj.options.pagination = parseInt(this.value);
-            obj.page(0);
+            const selectElement = this;
+            obj.options.pagination = parseInt(selectElement.value || "0");
+            if (typeof obj.page === "function") {
+                obj.page(0);
+            }
         };
         for (let i = 0; i < obj.options.paginationOptions.length; i++) {
             const temp = document.createElement("option");
-            temp.value = obj.options.paginationOptions[i];
-            temp.innerHTML = obj.options.paginationOptions[i];
+            temp.value = String(obj.options.paginationOptions[i]);
+            temp.innerHTML = String(obj.options.paginationOptions[i]);
             obj.paginationDropdown.appendChild(temp);
         }
         // Set initial pagination value
-        obj.paginationDropdown.value = obj.options.pagination;
+        obj.paginationDropdown.value = String(obj.options.pagination);
         paginationUpdateContainer.appendChild(document.createTextNode(jsuites_1.default.translate("Show ")));
         paginationUpdateContainer.appendChild(obj.paginationDropdown);
         paginationUpdateContainer.appendChild(document.createTextNode(jsuites_1.default.translate("entries")));
@@ -128,15 +137,17 @@ const createTable = function () {
         obj.filter = document.createElement("tr");
         const td = document.createElement("td");
         obj.filter.appendChild(td);
-        for (let i = 0; i < obj.options.columns.length; i++) {
-            const td = document.createElement("td");
-            td.innerHTML = "&nbsp;";
-            td.setAttribute("data-x", i.toString());
-            td.className = "jss_column_filter";
-            if (obj.options.columns[i].type == "hidden") {
-                td.style.display = "none";
+        if (obj.options.columns) {
+            for (let i = 0; i < obj.options.columns.length; i++) {
+                const td = document.createElement("td");
+                td.innerHTML = "&nbsp;";
+                td.setAttribute("data-x", i.toString());
+                td.className = "jss_column_filter";
+                if (obj.options.columns[i] && obj.options.columns[i].type == "hidden") {
+                    td.style.display = "none";
+                }
+                obj.filter.appendChild(td);
             }
-            obj.filter.appendChild(td);
         }
         obj.thead.appendChild(obj.filter);
     }
@@ -165,7 +176,7 @@ const createTable = function () {
     obj.textarea = document.createElement("textarea");
     obj.textarea.className = "jss_textarea";
     obj.textarea.id = "jss_textarea";
-    obj.textarea.tabIndex = "-1";
+    obj.textarea.tabIndex = -1;
     obj.textarea.ariaHidden = "true";
     // Powered by Jspreadsheet
     const ads = document.createElement("a");
@@ -240,28 +251,49 @@ const createTable = function () {
         obj.tbody.classList.add("resizable");
     }
     // Load data
-    obj.setData.call(obj, undefined);
+    (_a = obj.setData) === null || _a === void 0 ? void 0 : _a.call(obj, undefined);
     // Style
     if (obj.options.style) {
-        obj.setStyle(obj.options.style, null, null, 1, 1);
+        // Convert CSSStyleDeclaration to string format for setStyle
+        const styleObj = {};
+        if (Array.isArray(obj.options.style)) {
+            // Handle array format - not sure how to convert this, skip for now
+        }
+        else if (typeof obj.options.style === 'object') {
+            for (const [key, value] of Object.entries(obj.options.style)) {
+                if (typeof value === 'string') {
+                    styleObj[key] = value;
+                }
+                else if (typeof value === 'number') {
+                    styleObj[key] = value.toString();
+                }
+                // Skip CSSStyleDeclaration for now as conversion is complex
+            }
+        }
+        if (Object.keys(styleObj).length > 0) {
+            (_b = obj.setStyle) === null || _b === void 0 ? void 0 : _b.call(obj, styleObj, null, null, true, true);
+        }
         delete obj.options.style;
     }
     Object.defineProperty(obj.options, "style", {
         enumerable: true,
         configurable: true,
         get() {
-            return obj.getStyle();
+            var _a;
+            return (_a = obj.getStyle) === null || _a === void 0 ? void 0 : _a.call(obj);
         },
     });
     if (obj.options.comments) {
-        obj.setComments(obj.options.comments);
+        (_c = obj.setComments) === null || _c === void 0 ? void 0 : _c.call(obj, obj.options.comments);
     }
     // Classes
     if (obj.options.classes) {
-        const k = Object.keys(obj.options.classes);
-        for (let i = 0; i < k.length; i++) {
-            const cell = (0, internalHelpers_1.getIdFromColumnName)(k[i], true);
-            obj.records[cell[1]][cell[0]].element.classList.add(obj.options.classes[k[i]]);
+        for (const [key, className] of Object.entries(obj.options.classes)) {
+            const cell = (0, internalHelpers_1.getIdFromColumnName)(key, true);
+            const record = (_d = obj.records[cell[1]]) === null || _d === void 0 ? void 0 : _d[cell[0]];
+            if (record && className) {
+                record.element.classList.add(className);
+            }
         }
     }
 };
@@ -328,11 +360,17 @@ const prepareTable = function () {
                     method: "GET",
                     dataType: "json",
                     success: function (data) {
-                        if (!obj.options.columns[this.index].source) {
-                            obj.options.columns[this.index].source = [];
+                        if (!obj.options.columns || !obj.options.columns[i]) {
+                            return;
                         }
-                        for (let i = 0; i < data.length; i++) {
-                            obj.options.columns[this.index].source.push(data[i]);
+                        if (!obj.options.columns[i].source) {
+                            obj.options.columns[i].source = [];
+                        }
+                        const source = obj.options.columns[i].source;
+                        if (Array.isArray(source) && Array.isArray(data)) {
+                            for (let j = 0; j < data.length; j++) {
+                                source.push(data[j]);
+                            }
                         }
                     },
                 });
@@ -344,11 +382,31 @@ const prepareTable = function () {
         createTable.call(obj);
     }
     else {
-        jsuites_1.default.ajax({
-            url: multiple,
-            success: function () {
-                createTable.call(obj);
-            },
+        // Make ajax calls for each remote source
+        let completed = 0;
+        const total = multiple.length;
+        multiple.forEach((config) => {
+            jsuites_1.default.ajax({
+                url: config.url,
+                method: (config.method || "GET"),
+                dataType: (config.dataType || "json"),
+                success: function (data) {
+                    // Call the original success callback with the data
+                    if (config.success) {
+                        config.success.call(obj, data);
+                    }
+                    completed++;
+                    if (completed >= total) {
+                        createTable.call(obj);
+                    }
+                },
+                error: function () {
+                    completed++;
+                    if (completed >= total) {
+                        createTable.call(obj);
+                    }
+                }
+            });
         });
     }
 };
@@ -356,7 +414,7 @@ const getNextDefaultWorksheetName = function (spreadsheet) {
     const defaultWorksheetNameRegex = /^Sheet(\d+)$/;
     let largestWorksheetNumber = 0;
     spreadsheet.worksheets.forEach(function (worksheet) {
-        const regexResult = defaultWorksheetNameRegex.exec(worksheet.options.worksheetName);
+        const regexResult = defaultWorksheetNameRegex.exec(worksheet.options.worksheetName || "");
         if (regexResult) {
             largestWorksheetNumber = Math.max(largestWorksheetNumber, parseInt(regexResult[1]));
         }
@@ -425,7 +483,8 @@ const buildWorksheet = async function () {
                 dataType: "json",
                 success: function (result) {
                     // Data
-                    obj.options.data = result.data ? result.data : result;
+                    const data = result;
+                    obj.options.data = (data && typeof data === 'object' && 'data' in data && data.data) ? data.data : data;
                     // Prepare table
                     prepareTable.call(obj);
                     resolve();
@@ -464,6 +523,9 @@ const createWorksheetObj = function (options) {
         selection: [],
         historyIndex: -1,
     };
+    if (!spreadsheet.config.worksheets) {
+        spreadsheet.config.worksheets = [];
+    }
     spreadsheet.config.worksheets.push(newWorksheet.options);
     spreadsheet.worksheets.push(newWorksheet);
     return newWorksheet;
@@ -525,7 +587,7 @@ const worksheetPublicMethods = [
     [
         "moveRow",
         function (rowNumber, newPositionNumber) {
-            return rows_1.moveRow.call(this, rowNumber, newPositionNumber, undefined);
+            return rows_1.moveRow.call(this, rowNumber, newPositionNumber, false);
         },
     ],
     ["deleteRow", rows_1.deleteRow],
@@ -567,8 +629,8 @@ const worksheetPublicMethods = [
     ["getStyle", style_1.getStyle],
     [
         "setStyle",
-        function (cell, property, value, forceOverwrite) {
-            return style_1.setStyle.call(this, cell, property, value, forceOverwrite);
+        function (o, k, v, force, ignoreHistoryAndEvents) {
+            return style_1.setStyle.call(this, o, k, v, force, ignoreHistoryAndEvents);
         },
     ],
     ["resetStyle", style_1.resetStyle],

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class Jspreadsheet extends HTMLElement {
     constructor() {
         super();

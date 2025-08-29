@@ -15,6 +15,7 @@ const history_1 = require("./history");
  * @return void
  */
 const openEditor = function (cell, empty, e) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     const obj = this;
     // Get cell position
     const y = cell.getAttribute("data-y");
@@ -52,15 +53,19 @@ const openEditor = function (cell, empty, e) {
         obj.edition = [
             obj.records[yNum][xNum].element,
             obj.records[yNum][xNum].element.innerHTML,
-            x,
-            y,
+            xNum,
+            yNum,
         ];
         // If there is a custom editor for it
         if (obj.options.columns &&
             obj.options.columns[parseInt(x || "0")] &&
             typeof obj.options.columns[xNum].type === "object") {
             // Custom editors
-            obj.options.columns[xNum].type.openEditor(cell, obj.options.data[yNum][xNum], xNum, yNum, obj, obj.options.columns[xNum], e);
+            const cellValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+                ? (_a = obj.options.data[yNum][xNum]) !== null && _a !== void 0 ? _a : ""
+                : "";
+            const customType = obj.options.columns[xNum].type;
+            (_b = customType.openEditor) === null || _b === void 0 ? void 0 : _b.call(customType, cell, cellValue, xNum, yNum, obj, obj.options.columns[xNum], e);
             // On edition start
             dispatch_1.default.call(obj, "oncreateeditor", obj, cell, xNum, yNum, null, obj.options.columns[parseInt(x || "0")]);
         }
@@ -80,9 +85,9 @@ const openEditor = function (cell, empty, e) {
                     ? false
                     : true;
                 // Toogle value
-                obj.setValue(cell, value);
+                (_c = obj.setValue) === null || _c === void 0 ? void 0 : _c.call(obj, [{ element: cell }], value);
                 // Do not keep edition open
-                obj.edition = null;
+                obj.edition = undefined;
             }
             else if (obj.options.columns &&
                 x &&
@@ -90,9 +95,11 @@ const openEditor = function (cell, empty, e) {
                 obj.options.columns[xNum].type == "dropdown" &&
                 y) {
                 // Get current value
-                let value = obj.options.data[yNum][xNum];
+                let value = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+                    ? (_d = obj.options.data[yNum][xNum]) !== null && _d !== void 0 ? _d : ""
+                    : "";
                 if (obj.options.columns[xNum].multiple && !Array.isArray(value)) {
-                    value = value.split(";");
+                    value = String(value).split(";");
                 }
                 // Create dropdown
                 let source;
@@ -140,11 +147,13 @@ const openEditor = function (cell, empty, e) {
                 (obj.options.columns[xNum].type == "calendar" ||
                     obj.options.columns[xNum].type == "color")) {
                 // Value
-                const value = obj.options.data[yNum][xNum];
+                const value = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+                    ? (_e = obj.options.data[yNum][xNum]) !== null && _e !== void 0 ? _e : ""
+                    : "";
                 // Create editor
                 const editor = createEditor("input");
                 dispatch_1.default.call(obj, "oncreateeditor", obj, cell, parseInt(x || "0"), parseInt(y || "0"), null, x ? obj.options.columns[xNum] : null);
-                editor.value = value;
+                editor.value = String(value);
                 const options = x && obj.options.columns[xNum].options
                     ? { ...obj.options.columns[xNum].options }
                     : {};
@@ -152,7 +161,9 @@ const openEditor = function (cell, empty, e) {
                     obj.parent.config.fullscreen == true) {
                     options.position = true;
                 }
-                options.value = obj.options.data[yNum][xNum];
+                options.value = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+                    ? (_f = obj.options.data[yNum][xNum]) !== null && _f !== void 0 ? _f : ""
+                    : "";
                 options.opened = true;
                 options.onclose = function (el, value) {
                     exports.closeEditor.call(obj, cell, true);
@@ -184,7 +195,9 @@ const openEditor = function (cell, empty, e) {
             else if (obj.options.columns &&
                 obj.options.columns[xNum] &&
                 obj.options.columns[xNum].type == "html") {
-                const value = x && y ? obj.options.data[yNum][xNum] : "";
+                const value = x && y && obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+                    ? (_g = obj.options.data[yNum][xNum]) !== null && _g !== void 0 ? _g : ""
+                    : "";
                 // Create editor
                 const editor = createEditor("div");
                 dispatch_1.default.call(obj, "oncreateeditor", obj, cell, parseInt(x || "0"), parseInt(y || "0"), null, x ? obj.options.columns[xNum] : null);
@@ -194,7 +207,7 @@ const openEditor = function (cell, empty, e) {
                 editor.appendChild(div);
                 jsuites_1.default.editor(div, {
                     focus: true,
-                    value: value,
+                    value: String(value),
                 });
                 const rect = cell.getBoundingClientRect();
                 const rectContent = div.getBoundingClientRect();
@@ -239,7 +252,9 @@ const openEditor = function (cell, empty, e) {
             }
             else {
                 // Value
-                const value = empty == true ? "" : obj.options.data[yNum][xNum];
+                const value = empty == true ? "" : (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[yNum])
+                    ? (_h = obj.options.data[yNum][xNum]) !== null && _h !== void 0 ? _h : ""
+                    : "");
                 // Basic editor
                 let editor;
                 if ((!obj.options.columns ||
@@ -256,7 +271,7 @@ const openEditor = function (cell, empty, e) {
                 }
                 dispatch_1.default.call(obj, "oncreateeditor", obj, cell, parseInt(x || "0"), parseInt(y || "0"), null, x ? obj.options.columns[xNum] : null);
                 editor.focus();
-                editor.value = value;
+                editor.value = String(value);
                 // Column options
                 const options = obj.options.columns && obj.options.columns[xNum];
                 // Apply format when is not a formula
@@ -272,7 +287,7 @@ const openEditor = function (cell, empty, e) {
                                     editor.setAttribute("data-mask", m[0]);
                                 }
                                 else if (options.locale) {
-                                    editor.setAttribute("data-locale", options.locale);
+                                    editor.setAttribute("data-locale", String(options.locale));
                                 }
                             }
                             // Input
@@ -280,7 +295,7 @@ const openEditor = function (cell, empty, e) {
                             // Configuration
                             editor.mask = opt;
                             // Do not treat the decimals
-                            jsuites_1.default.mask.render(value, opt, false);
+                            jsuites_1.default.mask.render(String(value), opt, false);
                         }
                     }
                 }
@@ -301,7 +316,7 @@ exports.openEditor = openEditor;
  * @return void
  */
 const closeEditor = function (cell, save) {
-    var _a, _b, _c, _d, _e, _f, _g;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
     const obj = this;
     const xAttr = cell.getAttribute("data-x");
     const yAttr = cell.getAttribute("data-y");
@@ -315,7 +330,8 @@ const closeEditor = function (cell, save) {
             obj.options.columns[x] &&
             typeof obj.options.columns[x].type === "object") {
             // Custom editor
-            value = obj.options.columns[x].type.closeEditor(cell, save, x, y, obj, obj.options.columns[x]);
+            const customType = obj.options.columns[x].type;
+            value = (_a = customType.closeEditor) === null || _a === void 0 ? void 0 : _a.call(customType, cell, save, x, y, obj, obj.options.columns[x]);
         }
         else {
             // Native functions
@@ -329,22 +345,22 @@ const closeEditor = function (cell, save) {
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "dropdown") {
-                value = (_a = cell.children[0].dropdown) === null || _a === void 0 ? void 0 : _a.close(true);
+                value = (_c = (_b = cell.children[0].dropdown) === null || _b === void 0 ? void 0 : _b.close) === null || _c === void 0 ? void 0 : _c.call(_b, true);
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "calendar") {
-                value = (_b = cell.children[0].calendar) === null || _b === void 0 ? void 0 : _b.close(true);
+                value = (_e = (_d = cell.children[0].calendar) === null || _d === void 0 ? void 0 : _d.close) === null || _e === void 0 ? void 0 : _e.call(_d, true);
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "color") {
-                value = (_c = cell.children[0].color) === null || _c === void 0 ? void 0 : _c.close(true);
+                value = (_f = cell.children[0].color) === null || _f === void 0 ? void 0 : _f.close(true);
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "html") {
-                value = (_d = cell.children[0].children[0].editor) === null || _d === void 0 ? void 0 : _d.getData();
+                value = (_g = cell.children[0].children[0].editor) === null || _g === void 0 ? void 0 : _g.getData();
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
@@ -387,11 +403,14 @@ const closeEditor = function (cell, save) {
             }
         }
         // Ignore changes if the value is the same
-        if (obj.options.data[y][x] == value) {
+        const currentValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[y])
+            ? (_h = obj.options.data[y][x]) !== null && _h !== void 0 ? _h : ""
+            : "";
+        if (currentValue == value) {
             cell.innerHTML = obj.edition[1];
         }
         else {
-            obj.setValue(cell, value);
+            (_j = obj.setValue) === null || _j === void 0 ? void 0 : _j.call(obj, [{ element: cell }], value);
         }
     }
     else {
@@ -405,17 +424,17 @@ const closeEditor = function (cell, save) {
             if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "dropdown") {
-                (_e = cell.children[0].dropdown) === null || _e === void 0 ? void 0 : _e.close(true);
+                (_k = cell.children[0].dropdown) === null || _k === void 0 ? void 0 : _k.close(true);
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "calendar") {
-                (_f = cell.children[0].calendar) === null || _f === void 0 ? void 0 : _f.close(true);
+                (_l = cell.children[0].calendar) === null || _l === void 0 ? void 0 : _l.close(true);
             }
             else if (obj.options.columns &&
                 obj.options.columns[x] &&
                 obj.options.columns[x].type == "color") {
-                (_g = cell.children[0].color) === null || _g === void 0 ? void 0 : _g.close(true);
+                (_m = cell.children[0].color) === null || _m === void 0 ? void 0 : _m.close(true);
             }
             else {
                 cell.children[0].onblur = null;
@@ -436,6 +455,7 @@ exports.closeEditor = closeEditor;
  * Toogle
  */
 const setCheckRadioValue = function () {
+    var _a;
     const obj = this;
     const records = [];
     const keys = Object.keys(obj.highlighted);
@@ -445,7 +465,10 @@ const setCheckRadioValue = function () {
         if (obj.options.columns[parseInt(x || "0")].type == "checkbox" ||
             obj.options.columns[parseInt(x || "0")].type == "radio") {
             // Update cell
-            records.push(internal_1.updateCell.call(obj, x, y, !obj.options.data[y][x]));
+            const currentValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[y])
+                ? (_a = obj.options.data[y][x]) !== null && _a !== void 0 ? _a : ""
+                : "";
+            records.push(internal_1.updateCell.call(obj, x, y, !currentValue));
         }
     }
     if (records.length) {

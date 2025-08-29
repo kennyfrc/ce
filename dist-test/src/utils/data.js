@@ -13,7 +13,10 @@ const pagination_1 = require("./pagination");
 const merges_1 = require("./merges");
 const helpers_1 = require("./helpers");
 const setData = function (data) {
+    var _a, _b, _c, _d, _e, _f, _g;
     const obj = this;
+    // Local aliases and defaults to satisfy strict checks
+    const columns = (_a = obj.options.columns) !== null && _a !== void 0 ? _a : [];
     // Update data
     if (data) {
         obj.options.data = data;
@@ -22,14 +25,16 @@ const setData = function (data) {
     if (!obj.options.data) {
         obj.options.data = [];
     }
-    // Prepare data
+    // Prepare data: support both array-of-arrays and array-of-objects
     if (obj.options.data && obj.options.data[0]) {
         if (!Array.isArray(obj.options.data[0])) {
             data = [];
             for (let j = 0; j < obj.options.data.length; j++) {
                 const row = [];
-                for (let i = 0; i < obj.options.columns.length; i++) {
-                    row[i] = obj.options.data[j][obj.options.columns[i].name];
+                const rowObj = obj.options.data[j];
+                for (let i = 0; i < columns.length; i++) {
+                    const key = (_c = (_b = columns[i]) === null || _b === void 0 ? void 0 : _b.name) !== null && _c !== void 0 ? _c : String(i);
+                    row[i] = rowObj[key];
                 }
                 data.push(row);
             }
@@ -39,19 +44,33 @@ const setData = function (data) {
     // Adjust minimal dimensions
     let j = 0;
     let i = 0;
-    const size_i = (obj.options.columns && obj.options.columns.length) || 0;
+    const size_i = columns.length;
     const size_j = obj.options.data.length;
-    const min_i = obj.options.minDimensions[0];
-    const min_j = obj.options.minDimensions[1];
+    const minDims = (_d = obj.options.minDimensions) !== null && _d !== void 0 ? _d : [0, 0];
+    const min_i = minDims[0];
+    const min_j = minDims[1];
     const max_i = min_i > size_i ? min_i : size_i;
     const max_j = min_j > size_j ? min_j : size_j;
     for (j = 0; j < max_j; j++) {
-        for (i = 0; i < max_i; i++) {
-            if (obj.options.data[j] == undefined) {
-                obj.options.data[j] = [];
+        if (!obj.options.data[j]) {
+            obj.options.data[j] = [];
+        }
+        const row = obj.options.data[j];
+        if (Array.isArray(row)) {
+            const arr = row;
+            for (i = 0; i < max_i; i++) {
+                if (arr[i] == undefined) {
+                    arr[i] = "";
+                }
             }
-            if (obj.options.data[j][i] == undefined) {
-                obj.options.data[j][i] = "";
+        }
+        else {
+            const rowObj = row;
+            for (i = 0; i < max_i; i++) {
+                const key = (_f = (_e = columns[i]) === null || _e === void 0 ? void 0 : _e.name) !== null && _f !== void 0 ? _f : String(i);
+                if (rowObj[key] == undefined) {
+                    rowObj[key] = "";
+                }
             }
         }
     }
@@ -95,9 +114,11 @@ const setData = function (data) {
     }
     // Append nodes to the HTML
     for (j = 0; j < obj.options.data.length; j++) {
-        // Create row
-        const row = rows_1.createRow.call(obj, j, obj.options.data[j]);
-        // Append line to the table
+        const rawRow = obj.options.data[j];
+        const rowData = Array.isArray(rawRow)
+            ? rawRow
+            : ((_g = obj.options.columns) !== null && _g !== void 0 ? _g : []).map((col, idx) => { var _a; return rawRow[(_a = col === null || col === void 0 ? void 0 : col.name) !== null && _a !== void 0 ? _a : String(idx)]; });
+        const row = rows_1.createRow.call(obj, j, rowData);
         if (j >= startNumber && j < finalNumber) {
             obj.tbody.appendChild(row.element);
         }
@@ -110,10 +131,13 @@ const setData = function (data) {
     }
     // Merge cells
     if (obj.options.mergeCells) {
-        const keys = Object.keys(obj.options.mergeCells);
+        const mergeCells = obj.options.mergeCells;
+        const keys = Object.keys(mergeCells);
         for (let i = 0; i < keys.length; i++) {
-            const num = obj.options.mergeCells[keys[i]];
-            merges_1.setMerge.call(obj, keys[i], num[0], num[1], 1);
+            const num = mergeCells[keys[i]];
+            if (Array.isArray(num)) {
+                merges_1.setMerge.call(obj, keys[i], num[0], num[1], true);
+            }
         }
     }
     // Updata table with custom configurations if applicable
@@ -127,23 +151,37 @@ exports.setData = setData;
  * @return string value
  */
 const getValue = function (cell, processedValue) {
+    var _a, _b, _c;
     const obj = this;
     let x;
     let y;
     if (typeof cell !== "string") {
         return null;
     }
-    cell = (0, internalHelpers_1.getIdFromColumnName)(cell, true);
-    x = cell[0];
-    y = cell[1];
+    const columnId = (0, internalHelpers_1.getIdFromColumnName)(cell, true);
+    x = columnId[0];
+    y = columnId[1];
     let value = null;
     if (x != null && y != null) {
         if (obj.records[y] && obj.records[y][x] && processedValue) {
             value = obj.records[y][x].element.innerHTML;
         }
         else {
-            if (obj.options.data[y] && obj.options.data[y][x] != "undefined") {
-                value = obj.options.data[y][x];
+            const data = obj.options.data;
+            if (data && data[y] !== undefined) {
+                const row = data[y];
+                if (Array.isArray(row)) {
+                    if (row[x] !== undefined) {
+                        value = row[x];
+                    }
+                }
+                else {
+                    const rowObj = row;
+                    const key = (_c = (_b = ((_a = obj.options.columns) !== null && _a !== void 0 ? _a : [])[x]) === null || _b === void 0 ? void 0 : _b.name) !== null && _c !== void 0 ? _c : String(x);
+                    if (key in rowObj) {
+                        value = rowObj[key];
+                    }
+                }
             }
         }
     }
@@ -158,6 +196,7 @@ exports.getValue = getValue;
  * @return string value
  */
 const getValueFromCoords = function (x, y, processedValue) {
+    var _a, _b, _c;
     const obj = this;
     let value = null;
     if (x != null && y != null) {
@@ -165,8 +204,21 @@ const getValueFromCoords = function (x, y, processedValue) {
             value = obj.records[y][x].element.innerHTML;
         }
         else {
-            if (obj.options.data[y] && obj.options.data[y][x] != "undefined") {
-                value = obj.options.data[y][x];
+            const data = obj.options.data;
+            if (data && data[y] !== undefined) {
+                const row = data[y];
+                if (Array.isArray(row)) {
+                    if (row[x] !== undefined) {
+                        value = row[x];
+                    }
+                }
+                else {
+                    const rowObj = row;
+                    const key = (_c = (_b = ((_a = obj.options.columns) !== null && _a !== void 0 ? _a : [])[x]) === null || _b === void 0 ? void 0 : _b.name) !== null && _c !== void 0 ? _c : String(x);
+                    if (key in rowObj) {
+                        value = rowObj[key];
+                    }
+                }
             }
         }
     }
@@ -195,54 +247,47 @@ const setValue = function (cell, value, force) {
         }
     }
     else {
-        let x = null;
-        let y = null;
-        if (cell && cell.getAttribute) {
-            x = parseInt(cell.getAttribute("data-x") || "", 10);
-            y = parseInt(cell.getAttribute("data-y") || "", 10);
-        }
-        // Update cell
-        if (x !== null && y !== null && !isNaN(x) && !isNaN(y)) {
-            records.push(internal_1.updateCell.call(obj, x, y, value, force));
-            // Update all formulas in the chain
-            internal_1.updateFormulaChain.call(obj, x, y, records);
-        }
-        // Update cell
-        if (x != null && y != null) {
-            records.push(internal_1.updateCell.call(obj, x, y, value, force));
-            // Update all formulas in the chain
-            internal_1.updateFormulaChain.call(obj, x, y, records);
+        // Single HTMLElement passed (non-array)
+        if (!Array.isArray(cell) && (cell === null || cell === void 0 ? void 0 : cell.getAttribute)) {
+            const el = cell;
+            const xVal = parseInt(el.getAttribute("data-x") || "", 10);
+            const yVal = parseInt(el.getAttribute("data-y") || "", 10);
+            if (!isNaN(xVal) && !isNaN(yVal)) {
+                records.push(internal_1.updateCell.call(obj, xVal, yVal, value, force));
+                internal_1.updateFormulaChain.call(obj, xVal, yVal, records);
+            }
         }
         else {
-            const keys = Object.keys(cell);
-            if (keys.length > 0) {
-                for (let i = 0; i < keys.length; i++) {
-                    let x, y;
-                    if (typeof cell[i] == "string") {
-                        const columnId = (0, internalHelpers_1.getIdFromColumnName)(cell[i], true);
-                        x = columnId[0];
-                        y = columnId[1];
+            const items = Array.isArray(cell)
+                ? cell
+                : Object.keys(cell).map((k) => cell[k]);
+            for (let idx = 0; idx < items.length; idx++) {
+                const item = items[idx];
+                let xi = null;
+                let yi = null;
+                if (typeof item === "string") {
+                    const columnId = (0, internalHelpers_1.getIdFromColumnName)(item, true);
+                    xi = columnId[0];
+                    yi = columnId[1];
+                }
+                else if (item && typeof item === "object") {
+                    if ("x" in item && "y" in item) {
+                        xi = Number(item.x);
+                        yi = Number(item.y);
+                        if ("value" in item)
+                            value = item.value;
                     }
                     else {
-                        if (cell[i].x != null && cell[i].y != null) {
-                            x = cell[i].x;
-                            y = cell[i].y;
-                            // Flexible setup
-                            if (cell[i].value != null) {
-                                value = cell[i].value;
-                            }
-                        }
-                        else {
-                            x = cell[i].getAttribute("data-x");
-                            y = cell[i].getAttribute("data-y");
-                        }
+                        const el = "element" in item && item.element && item.element.getAttribute
+                            ? item.element
+                            : item;
+                        xi = parseInt(el.getAttribute("data-x") || "", 10);
+                        yi = parseInt(el.getAttribute("data-y") || "", 10);
                     }
-                    // Update cell
-                    if (x != null && y != null) {
-                        records.push(internal_1.updateCell.call(obj, x, y, value, force));
-                        // Update all formulas in the chain
-                        internal_1.updateFormulaChain.call(obj, x, y, records);
-                    }
+                }
+                if (xi != null && yi != null && !isNaN(xi) && !isNaN(yi)) {
+                    records.push(internal_1.updateCell.call(obj, xi, yi, value, force));
+                    internal_1.updateFormulaChain.call(obj, xi, yi, records);
                 }
             }
         }
@@ -257,11 +302,12 @@ const setValue = function (cell, value, force) {
     internal_1.updateTable.call(obj);
     // On after changes
     const onafterchangesRecords = records.map(function (record) {
+        var _a, _b;
         return {
             x: record.x,
             y: record.y,
-            value: record.value,
-            oldValue: record.oldValue,
+            value: (_a = record.value) !== null && _a !== void 0 ? _a : "",
+            oldValue: (_b = record.oldValue) !== null && _b !== void 0 ? _b : "",
         };
     });
     dispatch_1.default.call(obj, "onafterchanges", obj, onafterchangesRecords);
@@ -291,11 +337,12 @@ const setValueFromCoords = function (x, y, value, force) {
     internal_1.updateTable.call(obj);
     // On after changes
     const onafterchangesRecords = records.map(function (record) {
+        var _a, _b;
         return {
             x: record.x,
             y: record.y,
-            value: record.value,
-            oldValue: record.oldValue,
+            value: (_a = record.value) !== null && _a !== void 0 ? _a : "",
+            oldValue: (_b = record.oldValue) !== null && _b !== void 0 ? _b : "",
         };
     });
     dispatch_1.default.call(obj, "onafterchanges", obj, onafterchangesRecords);
@@ -308,16 +355,19 @@ exports.setValueFromCoords = setValueFromCoords;
  * @return array data
  */
 const getData = function (highlighted, processed, delimiter, asJson) {
+    var _a, _b, _c, _d, _e, _f, _g;
     const obj = this;
     // Control vars
     const dataset = [];
     let px = 0;
     let py = 0;
     // Column and row length
-    const x = Math.max(...obj.options.data.map(function (row) {
-        return row.length;
+    const columnsLen = obj.options.columns ? obj.options.columns.length : 0;
+    const data = (_a = obj.options.data) !== null && _a !== void 0 ? _a : [];
+    const x = Math.max(0, ...data.map(function (row) {
+        return Array.isArray(row) ? row.length : columnsLen;
     }));
-    const y = obj.options.data.length;
+    const y = data.length;
     // Go through the columns to get the data
     for (let j = 0; j < y; j++) {
         px = 0;
@@ -333,7 +383,21 @@ const getData = function (highlighted, processed, delimiter, asJson) {
                     dataset[py][px] = obj.records[j][i].element.innerHTML;
                 }
                 else {
-                    dataset[py][px] = obj.options.data[j][i];
+                    const data = (_b = obj.options.data) !== null && _b !== void 0 ? _b : [];
+                    const rawRow = data[j];
+                    if (rawRow !== undefined) {
+                        if (Array.isArray(rawRow)) {
+                            dataset[py][px] = (_c = rawRow[i]) !== null && _c !== void 0 ? _c : "";
+                        }
+                        else {
+                            const columns = (_d = obj.options.columns) !== null && _d !== void 0 ? _d : [];
+                            const key = (_f = (_e = columns[i]) === null || _e === void 0 ? void 0 : _e.name) !== null && _f !== void 0 ? _f : String(i);
+                            dataset[py][px] = (_g = rawRow[key]) !== null && _g !== void 0 ? _g : "";
+                        }
+                    }
+                    else {
+                        dataset[py][px] = "";
+                    }
                 }
                 px++;
             }
@@ -345,7 +409,7 @@ const getData = function (highlighted, processed, delimiter, asJson) {
     if (delimiter) {
         return (dataset
             .map(function (row) {
-            return row.join(delimiter);
+            return row.map(cell => String(cell !== null && cell !== void 0 ? cell : "")).join(delimiter);
         })
             .join("\r\n") + "\r\n");
     }
@@ -362,6 +426,7 @@ const getData = function (highlighted, processed, delimiter, asJson) {
 };
 exports.getData = getData;
 const getDataFromRange = function (range, processed) {
+    var _a, _b, _c, _d, _e, _f;
     const obj = this;
     const coords = (0, helpers_1.getCoordsFromRange)(range);
     const dataset = [];
@@ -372,7 +437,21 @@ const getDataFromRange = function (range, processed) {
                 dataset[dataset.length - 1].push(obj.records[y][x].element.innerHTML);
             }
             else {
-                dataset[dataset.length - 1].push(obj.options.data[y][x]);
+                const data = (_a = obj.options.data) !== null && _a !== void 0 ? _a : [];
+                const rawRow = data[y];
+                if (rawRow !== undefined) {
+                    if (Array.isArray(rawRow)) {
+                        dataset[dataset.length - 1].push((_b = rawRow[x]) !== null && _b !== void 0 ? _b : "");
+                    }
+                    else {
+                        const columns = (_c = obj.options.columns) !== null && _c !== void 0 ? _c : [];
+                        const key = (_e = (_d = columns[x]) === null || _d === void 0 ? void 0 : _d.name) !== null && _e !== void 0 ? _e : String(x);
+                        dataset[dataset.length - 1].push((_f = rawRow[key]) !== null && _f !== void 0 ? _f : "");
+                    }
+                }
+                else {
+                    dataset[dataset.length - 1].push("");
+                }
             }
         }
     }

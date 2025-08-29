@@ -288,7 +288,7 @@ export const insertRow = function (
         }
       }
       // Record History
-      rowRecords.push([...obj.records[row]]);
+      rowRecords.push((obj.records[row] as Cell[]).map(cell => cell.value || ""));
       const currentRowData = Array.isArray(obj.options.data?.[row])
         ? [...(obj.options.data[row] as CellValue[])]
         : [];
@@ -359,9 +359,9 @@ export const moveRow = function (
     let insertBefore;
 
     if (o > d) {
-      insertBefore = 1;
+      insertBefore = true;
     } else {
-      insertBefore = 0;
+      insertBefore = false;
     }
 
     if (
@@ -377,7 +377,7 @@ export const moveRow = function (
       ) {
         return false;
       } else {
-        obj.destroyMerge();
+        obj.destroyMerge?.();
       }
     }
   }
@@ -422,8 +422,8 @@ export const moveRow = function (
   // Place references in the correct position
   obj.rows.splice(d, 0, obj.rows.splice(o, 1)[0]);
   obj.records.splice(d, 0, obj.records.splice(o, 1)[0]);
-  if (obj.options.data) {
-    obj.options.data.splice(d, 0, obj.options.data.splice(o, 1)[0]);
+  if (obj.options.data && Array.isArray(obj.options.data)) {
+    (obj.options.data as CellValue[][]).splice(d, 0, (obj.options.data as CellValue[][]).splice(o, 1)[0]);
   }
 
   const firstAffectedIndex = Math.min(o, d);
@@ -441,8 +441,11 @@ export const moveRow = function (
 
   // Respect pagination
   if (
+    typeof obj.options.pagination === 'number' &&
     obj.options.pagination > 0 &&
-    obj.tbody.children.length != obj.options.pagination
+    obj.tbody.children.length != obj.options.pagination &&
+    obj.page &&
+    obj.pageNumber !== undefined
   ) {
     obj.page(obj.pageNumber);
   }
@@ -458,7 +461,7 @@ export const moveRow = function (
   updateTableReferences.call(obj);
 
   // Events
-  dispatch.call(obj, "onmoverow", obj, parseInt(o), parseInt(d), 1);
+  dispatch.call(obj, "onmoverow", obj, o, d, 1);
 };
 
 /**

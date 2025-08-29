@@ -31,8 +31,15 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
     let colLabel = [];
     const row = [];
     const rowLabel = [];
-    const x = obj.options.data[0].length;
-    const y = obj.options.data.length;
+    // Guard data access
+    const data = obj.options.data;
+    if (!data || data.length === 0) {
+        return "";
+    }
+    const firstRow = Array.isArray(data[0]) ? data[0] : Object.values(data[0] || {});
+    const x = firstRow.length;
+    const y = data.length;
+    // tmp was previously reused for different purposes; keep it string-only here
     let tmp = "";
     let copyHeader = false;
     let headers = "";
@@ -45,7 +52,9 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
     let isPartialCopy = true;
     // Go through the columns to get the data
     for (let j = 0; j < y; j++) {
-        for (let i = 0; i < x; i++) {
+        const rowData = Array.isArray(data[j]) ? data[j] : Object.values(data[j] || {});
+        const rowLength = Array.isArray(rowData) ? rowData.length : 0;
+        for (let i = 0; i < x && i < rowLength; i++) {
             // If cell is highlighted
             if (!highlighted ||
                 obj.records[j][i].element.classList.contains("highlight")) {
@@ -65,12 +74,13 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
         (obj.parent.config.includeHeadersOnDownload == true || includeHeaders)) {
         // Nested headers
         if (obj.options.nestedHeaders && obj.options.nestedHeaders.length > 0) {
-            tmp = obj.options.nestedHeaders;
-            for (let j = 0; j < tmp.length; j++) {
+            const nestedData = obj.options.nestedHeaders;
+            for (let j = 0; j < nestedData.length; j++) {
                 const nested = [];
-                for (let i = 0; i < tmp[j].length; i++) {
-                    const colspan = parseInt(tmp[j][i].colspan);
-                    nested.push(tmp[j][i].title);
+                for (let i = 0; i < nestedData[j].length; i++) {
+                    const cell = nestedData[j][i];
+                    const colspan = cell && cell.colspan ? Number(cell.colspan) : 1;
+                    nested.push(cell && cell.title ? String(cell.title) : "");
                     for (let c = 0; c < colspan - 1; c++) {
                         nested.push("");
                     }
@@ -86,7 +96,9 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
     for (let j = 0; j < y; j++) {
         col = [];
         colLabel = [];
-        for (let i = 0; i < x; i++) {
+        const rowData = Array.isArray(data[j]) ? data[j] : Object.values(data[j] || {});
+        const rowLength = Array.isArray(rowData) ? rowData.length : 0;
+        for (let i = 0; i < x && i < rowLength; i++) {
             // If cell is highlighted
             if (!highlighted ||
                 obj.records[j][i].element.classList.contains("highlight")) {
@@ -94,8 +106,8 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
                     header.push(obj.headers[i].textContent);
                 }
                 // Values
-                let value = obj.options.data[j][i];
-                if (value.match &&
+                let value = Array.isArray(rowData) ? rowData[i] : String(rowData[i] || "");
+                if (typeof value === 'string' &&
                     (value.match(div) ||
                         value.match(/,/g) ||
                         value.match(/\n/) ||
@@ -126,9 +138,8 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
                 }
                 colLabel.push(label);
                 // Get style
-                tmp = obj.records[j][i].element.getAttribute("style");
-                tmp = tmp.replace("display: none;", "");
-                obj.style.push(tmp ? tmp : "");
+                const styleAttr = obj.records[j][i].element.getAttribute("style") || "";
+                obj.style.push(styleAttr.replace("display: none;", ""));
             }
         }
         if (col.length) {
@@ -156,22 +167,27 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
     // Create a hidden textarea to copy the values
     if (!returnData) {
         // Paste event
+        if (!obj.selectedCell || obj.selectedCell.length < 4) {
+            return "";
+        }
         const selectedRange = [
             Math.min(obj.selectedCell[0], obj.selectedCell[2]),
             Math.min(obj.selectedCell[1], obj.selectedCell[3]),
             Math.max(obj.selectedCell[0], obj.selectedCell[2]),
             Math.max(obj.selectedCell[1], obj.selectedCell[3]),
         ];
-        const result = dispatch_1.default.call(obj, "oncopy", obj, selectedRange, strLabel, isCut);
-        if (result) {
+        const result = dispatch_1.default.call(obj, "oncopy", obj, selectedRange, strLabel, Boolean(isCut));
+        if (typeof result === "string") {
             strLabel = result;
         }
         else if (result === false) {
             return false;
         }
-        obj.textarea.value = strLabel;
-        obj.textarea.select();
-        document.execCommand("copy");
+        if (obj.textarea) {
+            obj.textarea.value = strLabel;
+            obj.textarea.select();
+            document.execCommand("copy");
+        }
     }
     // Keep data
     if (processed == true) {
@@ -181,7 +197,7 @@ const copy = function (highlighted, delimiter, returnData, includeHeaders, downl
         obj.data = str;
     }
     // Keep non visible information
-    obj.hashString = selection_1.hash.call(obj, obj.data);
+    obj.hashString = String(selection_1.hash.call(obj, obj.data));
     // Any exiting border should go
     if (!returnData) {
         selection_1.removeCopyingSelection.call(obj);
@@ -216,22 +232,30 @@ exports.copy = copy;
  * @return string value
  */
 const paste = function (x, y, data) {
+    var _a, _b, _c, _d, _e, _f;
     const obj = this;
     // Controls
-    const dataHash = (0, selection_1.hash)(data);
-    let style = dataHash == obj.hashString ? obj.style : null;
+    let dataStr = typeof data === "string" ? data : String(data);
+    const dataHash = String((0, selection_1.hash)(dataStr));
+    let style = (dataHash === (obj.hashString || "") && obj.hashString && obj.style) ? obj.style : null;
     // Depending on the behavior
-    if (dataHash == obj.hashString) {
-        data = obj.data;
+    if (dataHash === (obj.hashString || "") && obj.data) {
+        dataStr = obj.data;
     }
     // Split new line
-    data = (0, helpers_1.parseCSV)(data, "\t");
+    let parsedData = (0, helpers_1.parseCSV)(dataStr, "\t");
+    if (!obj.selectedCell || obj.selectedCell.length < 4) {
+        return false;
+    }
     const ex = obj.selectedCell[2];
     const ey = obj.selectedCell[3];
     const w = ex - x + 1;
     const h = ey - y + 1;
     // Modify data to allow wor extending paste range in multiples of input range
-    const srcW = data[0].length;
+    if (!Array.isArray(parsedData) || parsedData.length === 0 || !Array.isArray(parsedData[0])) {
+        return false;
+    }
+    const srcW = parsedData[0].length;
     if (w > 1 && Number.isInteger(w / srcW)) {
         const repeats = w / srcW;
         if (style) {
@@ -244,15 +268,15 @@ const paste = function (x, y, data) {
             }
             style = newStyle;
         }
-        const arrayB = data.map(function (row, i) {
+        const arrayB = parsedData.map(function (row, i) {
             const arrayC = Array.from({ length: repeats * row.length }, (e, i) => {
                 return row[i % row.length];
             });
             return arrayC;
         });
-        data = arrayB;
+        parsedData = arrayB;
     }
-    const srcH = data.length;
+    const srcH = parsedData.length;
     if (h > 1 && Number.isInteger(h / srcH)) {
         const repeats = h / srcH;
         if (style) {
@@ -263,12 +287,12 @@ const paste = function (x, y, data) {
             style = newStyle;
         }
         const arrayB = Array.from({ length: repeats * srcH }, (e, i) => {
-            return data[i % srcH];
+            return parsedData[i % srcH];
         });
-        data = arrayB;
+        parsedData = arrayB;
     }
     // Paste filter
-    const ret = dispatch_1.default.call(obj, "onbeforepaste", obj, data.map(function (row) {
+    const ret = dispatch_1.default.call(obj, "onbeforepaste", obj, parsedData.map(function (row) {
         return row.map(function (item) {
             return { value: item };
         });
@@ -276,10 +300,10 @@ const paste = function (x, y, data) {
     if (ret === false) {
         return false;
     }
-    else if (ret) {
-        data = ret;
+    else if (ret && Array.isArray(ret)) {
+        parsedData = ret;
     }
-    if (x != null && y != null && data) {
+    if (x != null && y != null && parsedData) {
         // Records
         let i = 0;
         let j = 0;
@@ -291,40 +315,42 @@ const paste = function (x, y, data) {
         let colIndex = x;
         let rowIndex = y;
         let row = null;
+        const firstRow = Array.isArray(parsedData[0]) ? parsedData[0] : [];
         const hiddenColCount = obj.headers
             .slice(colIndex)
             .filter((x) => x.style.display === "none").length;
-        const expandedColCount = colIndex + hiddenColCount + data[0].length;
+        const expandedColCount = colIndex + hiddenColCount + firstRow.length;
         const currentColCount = obj.headers.length;
         if (expandedColCount > currentColCount) {
             obj.skipUpdateTableReferences = true;
-            obj.insertColumn(expandedColCount - currentColCount);
+            (_a = obj.insertColumn) === null || _a === void 0 ? void 0 : _a.call(obj, expandedColCount - currentColCount);
         }
         const hiddenRowCount = obj.rows
             .slice(rowIndex)
             .filter((x) => x.element.style.display === "none").length;
-        const expandedRowCount = rowIndex + hiddenRowCount + data.length;
+        const expandedRowCount = rowIndex + hiddenRowCount + parsedData.length;
         const currentRowCount = obj.rows.length;
         if (expandedRowCount > currentRowCount) {
             obj.skipUpdateTableReferences = true;
-            obj.insertRow(expandedRowCount - currentRowCount);
+            (_b = obj.insertRow) === null || _b === void 0 ? void 0 : _b.call(obj, expandedRowCount - currentRowCount);
         }
         if (obj.skipUpdateTableReferences) {
             obj.skipUpdateTableReferences = false;
             internal_1.updateTableReferences.call(obj);
         }
         // Go through the columns to get the data
-        while ((row = data[j])) {
+        while (j < parsedData.length && (row = parsedData[j])) {
             i = 0;
             colIndex = x;
-            while (row[i] != null) {
+            while (i < row.length && row[i] != null) {
                 let value = row[i];
                 if (obj.options.columns &&
                     obj.options.columns[i] &&
                     obj.options.columns[i].type == "calendar") {
-                    value = jsuites_1.default.calendar.extractDateFromString(value, (obj.options.columns[i].options &&
-                        obj.options.columns[i].options.format) ||
-                        "YYYY-MM-DD");
+                    const column = obj.options.columns[i];
+                    const format = ((_c = column.options) === null || _c === void 0 ? void 0 : _c.format) || "YYYY-MM-DD";
+                    const extractedDate = jsuites_1.default.calendar.extractDateFromString(value, format);
+                    value = extractedDate ? String(extractedDate) : value;
                 }
                 // Update and keep history
                 const record = internal_1.updateCell.call(obj, colIndex, rowIndex, value);
@@ -336,16 +362,16 @@ const paste = function (x, y, data) {
                 if (style && style[styleIndex]) {
                     const columnName = (0, internalHelpers_1.getColumnNameFromId)([colIndex, rowIndex]);
                     newStyle[columnName] = style[styleIndex];
-                    oldStyle[columnName] = obj.getStyle(columnName);
-                    obj.records[rowIndex][colIndex].element.setAttribute("style", style[styleIndex]);
+                    oldStyle[columnName] = ((_d = obj.getStyle) === null || _d === void 0 ? void 0 : _d.call(obj, columnName)) || "";
+                    obj.records[rowIndex][colIndex].element.setAttribute("style", String(style[styleIndex]));
                     styleIndex++;
                 }
                 i++;
-                if (row[i] != null) {
+                if (i < row.length && row[i] != null) {
                     if (colIndex >= obj.headers.length - 1) {
                         // If the pasted column is out of range, create it if possible
                         if (obj.options.allowInsertColumn != false) {
-                            obj.insertColumn();
+                            (_e = obj.insertColumn) === null || _e === void 0 ? void 0 : _e.call(obj);
                             // Otherwise skip the pasted data that overflows
                         }
                         else {
@@ -356,11 +382,11 @@ const paste = function (x, y, data) {
                 }
             }
             j++;
-            if (data[j]) {
+            if (j < parsedData.length && parsedData[j]) {
                 if (rowIndex >= obj.rows.length - 1) {
                     // If the pasted row is out of range, create it if possible
                     if (obj.options.allowInsertRow != false) {
-                        obj.insertRow();
+                        (_f = obj.insertRow) === null || _f === void 0 ? void 0 : _f.call(obj, 1);
                         // Otherwise skip the pasted data that overflows
                     }
                     else {
@@ -376,7 +402,7 @@ const paste = function (x, y, data) {
         history_1.setHistory.call(obj, {
             action: "setValue",
             records: records,
-            selection: obj.selectedCell,
+            selection: obj.selectedCell || [],
             newStyle: newStyle,
             oldStyle: oldStyle,
         });
@@ -384,13 +410,16 @@ const paste = function (x, y, data) {
         internal_1.updateTable.call(obj);
         // Paste event
         const eventRecords = [];
-        for (let j = 0; j < data.length; j++) {
-            for (let i = 0; i < data[j].length; i++) {
-                eventRecords.push({
-                    x: i + x,
-                    y: j + y,
-                    value: data[j][i],
-                });
+        for (let j = 0; j < parsedData.length; j++) {
+            const row = parsedData[j];
+            if (Array.isArray(row)) {
+                for (let i = 0; i < row.length; i++) {
+                    eventRecords.push({
+                        x: i + x,
+                        y: j + y,
+                        value: row[i],
+                    });
+                }
             }
         }
         dispatch_1.default.call(obj, "onpaste", obj, eventRecords);

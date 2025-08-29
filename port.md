@@ -18,6 +18,7 @@ Reach and maintain zero TypeScript type errors with strict settings, remove expl
 
 - Strengthen config (simple and pragmatic)
   - Use only "strict": true; keep skipLibCheck:true during migration. Avoid additional strict flags unless a specific issue requires them.
+  - Do not use explicit any anywhere; prefer precise types or unknown + narrowing.
 
 - Model data at the edges
   - Define precise unions for public options and records; prefer discriminated unions with kind where applicable.

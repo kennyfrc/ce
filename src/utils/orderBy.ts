@@ -37,14 +37,14 @@ export const updateOrder = function (this: WorksheetInstance, rows: number[]): v
   const obj = this;
 
   // History
-  const data: (CellValue[] | Record<string, CellValue>)[] = [];
+  const data: CellValue[][] | Record<string, CellValue>[] = [];
   for (let j = 0; j < rows.length; j++) {
     if (obj.options.data) {
       data[j] = obj.options.data[rows[j]];
     }
   }
   if (obj.options.data) {
-    obj.options.data = data;
+    obj.options.data = data as typeof obj.options.data;
   }
 
   const recordsData: typeof obj.records = [];
@@ -69,8 +69,8 @@ export const updateOrder = function (this: WorksheetInstance, rows: number[]): v
 
   // Redo search
   if (obj.results && obj.results.length) {
-    if (obj.searchInput.value) {
-      obj.search(obj.searchInput.value);
+    if (obj.searchInput?.value) {
+      obj.search?.(obj.searchInput.value);
     } else {
       closeFilter.call(obj);
     }
@@ -79,8 +79,8 @@ export const updateOrder = function (this: WorksheetInstance, rows: number[]): v
     obj.results = null;
     obj.pageNumber = 0;
 
-    if (obj.options.pagination > 0) {
-      obj.page(0);
+    if (typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
+      obj.page?.(0);
     } else if (obj.options.lazyLoading == true) {
       loadPage.call(obj, 0);
     } else {
@@ -113,7 +113,7 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
         return false;
       } else {
         // Remove merged cells
-        obj.destroyMerge();
+        obj.destroyMerge?.();
       }
     }
 
@@ -134,11 +134,8 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
     if (
       obj.options.columns &&
       obj.options.columns[column] &&
-      (obj.options.columns[column].type == "number" ||
-        obj.options.columns[column].type == "numeric" ||
-        obj.options.columns[column].type == "percentage" ||
-        obj.options.columns[column].type == "autonumber" ||
-        obj.options.columns[column].type == "color")
+      (obj.options.columns[column].type === "numeric" ||
+        obj.options.columns[column].type === "color")
     ) {
       if (obj.options.data) {
         for (let j = 0; j < obj.options.data.length; j++) {

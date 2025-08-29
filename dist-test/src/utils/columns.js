@@ -16,9 +16,10 @@ const internalHelpers_1 = require("./internalHelpers");
 const getNumberOfColumns = function () {
     const obj = this;
     let numberOfColumns = (obj.options.columns && obj.options.columns.length) || 0;
-    if (obj.options.data && typeof obj.options.data[0] !== "undefined") {
+    if (obj.options.data && obj.options.data.length > 0 && obj.options.data[0] !== undefined) {
         // Data keys
-        const keys = Object.keys(obj.options.data[0]);
+        const firstRow = obj.options.data[0];
+        const keys = Array.isArray(firstRow) ? [] : Object.keys(firstRow);
         if (keys.length > numberOfColumns) {
             numberOfColumns = keys.length;
         }
@@ -44,6 +45,9 @@ const createCellHeader = function (colNumber) {
         obj.options.defaultColAlign ||
         "center";
     // Create header cell
+    if (!obj.headers) {
+        obj.headers = [];
+    }
     obj.headers[colNumber] = document.createElement("td");
     obj.headers[colNumber].textContent =
         (obj.options.columns &&
@@ -65,6 +69,9 @@ const createCellHeader = function (colNumber) {
     // Width control
     const colElement = document.createElement("col");
     colElement.setAttribute("width", colWidth.toString());
+    if (!obj.cols) {
+        obj.cols = [];
+    }
     obj.cols[colNumber] = {
         colElement,
         x: colNumber,
@@ -88,7 +95,7 @@ exports.createCellHeader = createCellHeader;
  * @return void
  */
 const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
     const obj = this;
     // Configuration
     if (obj.options.allowInsertColumn != false) {
@@ -110,9 +117,15 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
         // Direction
         insertBefore = insertBefore ? true : false;
         // Current column number
-        const currentNumOfColumns = Math.max(((_a = obj.options.columns) === null || _a === void 0 ? void 0 : _a.length) || 0, ...(((_b = obj.options.data) === null || _b === void 0 ? void 0 : _b.map(function (row) {
-            return row.length;
-        })) || []));
+        let maxFromData = 0;
+        if (obj.options.data) {
+            for (const row of obj.options.data) {
+                const len = Array.isArray(row) ? row.length : Object.keys(row).length;
+                if (len > maxFromData)
+                    maxFromData = len;
+            }
+        }
+        const currentNumOfColumns = Math.max(((_a = obj.options.columns) === null || _a === void 0 ? void 0 : _a.length) || 0, maxFromData);
         const lastColumn = currentNumOfColumns - 1;
         // Confirm position
         if (columnNumber == undefined ||
@@ -120,9 +133,9 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
             columnNumber < 0) {
             columnNumber = lastColumn;
         }
-        // Create default properties
-        if (!properties) {
-            properties = [];
+        // Normalize properties to an array of ColumnDefinition
+        if (!Array.isArray(properties)) {
+            properties = properties ? [properties] : [];
         }
         for (let i = 0; i < numOfColumns; i++) {
             if (!properties[i]) {
@@ -141,7 +154,7 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
         }
         else {
             const data = [];
-            for (let i = 0; i < (((_c = obj.options.data) === null || _c === void 0 ? void 0 : _c.length) || 0); i++) {
+            for (let i = 0; i < (((_b = obj.options.data) === null || _b === void 0 ? void 0 : _b.length) || 0); i++) {
                 data.push(i < mixed.length ? mixed[i] : "");
             }
             const column = {
@@ -158,7 +171,7 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
         // Merged cells
         if (obj.options.mergeCells &&
             Object.keys(obj.options.mergeCells).length > 0) {
-            if (merges_1.isColMerged.call(obj, columnNumber, insertBefore).length) {
+            if (((_c = obj.worksheets) === null || _c === void 0 ? void 0 : _c[0]) && merges_1.isColMerged.call(obj.worksheets[0], columnNumber, insertBefore).length) {
                 if (!confirm(jsuites_1.default.translate("This action will destroy any existing merged cells. Are you sure?"))) {
                     return false;
                 }
@@ -200,7 +213,9 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
         // Adding visual columns
         for (let row = 0; row < (((_g = obj.options.data) === null || _g === void 0 ? void 0 : _g.length) || 0); row++) {
             // Keep the current data
-            const currentData = ((_j = (_h = obj.options.data) === null || _h === void 0 ? void 0 : _h[row]) === null || _j === void 0 ? void 0 : _j.splice(columnIndex)) || [];
+            const currentData = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
+                ? obj.options.data[row].splice(columnIndex)
+                : [];
             const currentRecord = obj.records[row].splice(columnIndex);
             // History
             historyData[row] = [];
@@ -208,11 +223,14 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
             for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
                 // New value
                 const value = data[row] ? data[row] : "";
-                if (obj.options.data && obj.options.data[row]) {
+                if (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row])) {
                     obj.options.data[row][col] = value;
                 }
                 // New cell
-                const td = internal_1.createCell.call(obj.worksheets[0], col, row, (_m = (_l = (_k = obj.options.data) === null || _k === void 0 ? void 0 : _k[row]) === null || _l === void 0 ? void 0 : _l[col]) !== null && _m !== void 0 ? _m : "");
+                const cellValue = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
+                    ? (_h = obj.options.data[row][col]) !== null && _h !== void 0 ? _h : ""
+                    : "";
+                const td = internal_1.createCell.call(obj.worksheets[0], col, row, cellValue);
                 obj.records[row][col] = {
                     element: td,
                     x: col,
@@ -226,7 +244,7 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
                     obj.options.columns[col] &&
                     typeof obj.options.columns[col].render ===
                         "function") {
-                    (_p = (_o = obj.options.columns[col]).render) === null || _p === void 0 ? void 0 : _p.call(_o, td, value, col.toString(), row.toString(), obj, obj.options.columns[col]);
+                    (_k = (_j = obj.options.columns[col]).render) === null || _k === void 0 ? void 0 : _k.call(_j, td, value, col.toString(), row.toString(), obj, obj.options.columns[col]);
                 }
                 // Record History
                 historyData[row].push(value);
@@ -256,13 +274,13 @@ const insertColumn = function (mixed, columnNumber, insertBefore, properties) {
             for (let j = 0; j < obj.options.nestedHeaders.length; j++) {
                 const colspan = parseInt((obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan || "1").toString()) + numOfColumns;
                 obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan = colspan;
-                (_s = (_r = (_q = obj.thead) === null || _q === void 0 ? void 0 : _q.children[j]) === null || _r === void 0 ? void 0 : _r.children[obj.thead.children[j].children.length - 1]) === null || _s === void 0 ? void 0 : _s.setAttribute("colspan", colspan.toString());
-                const dataColumn = (_v = (_u = (_t = obj.thead) === null || _t === void 0 ? void 0 : _t.children[j]) === null || _u === void 0 ? void 0 : _u.children[obj.thead.children[j].children.length - 1]) === null || _v === void 0 ? void 0 : _v.getAttribute("data-column");
+                (_o = (_m = (_l = obj.thead) === null || _l === void 0 ? void 0 : _l.children[j]) === null || _m === void 0 ? void 0 : _m.children[obj.thead.children[j].children.length - 1]) === null || _o === void 0 ? void 0 : _o.setAttribute("colspan", colspan.toString());
+                const dataColumn = (_r = (_q = (_p = obj.thead) === null || _p === void 0 ? void 0 : _p.children[j]) === null || _q === void 0 ? void 0 : _q.children[obj.thead.children[j].children.length - 1]) === null || _r === void 0 ? void 0 : _r.getAttribute("data-column");
                 let oArray = (dataColumn === null || dataColumn === void 0 ? void 0 : dataColumn.split(",")) || [];
                 for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
                     oArray.push(col.toString());
                 }
-                (_y = (_x = (_w = obj.thead) === null || _w === void 0 ? void 0 : _w.children[j]) === null || _x === void 0 ? void 0 : _x.children[obj.thead.children[j].children.length - 1]) === null || _y === void 0 ? void 0 : _y.setAttribute("data-column", oArray.join(","));
+                (_u = (_t = (_s = obj.thead) === null || _s === void 0 ? void 0 : _s.children[j]) === null || _t === void 0 ? void 0 : _t.children[obj.thead.children[j].children.length - 1]) === null || _u === void 0 ? void 0 : _u.setAttribute("data-column", oArray.join(","));
             }
         }
         // Keep history
@@ -297,42 +315,45 @@ const moveColumn = function (o, d) {
     const obj = this;
     let insertBefore;
     if (o > d) {
-        insertBefore = 1;
+        insertBefore = true;
     }
     else {
-        insertBefore = 0;
+        insertBefore = false;
     }
-    if (merges_1.isColMerged.call(obj, o).length ||
-        merges_1.isColMerged.call(obj, d, !!insertBefore).length) {
+    if ((((_a = obj.worksheets) === null || _a === void 0 ? void 0 : _a[0]) && merges_1.isColMerged.call(obj.worksheets[0], o).length) ||
+        (((_b = obj.worksheets) === null || _b === void 0 ? void 0 : _b[0]) && merges_1.isColMerged.call(obj.worksheets[0], d, !!insertBefore).length)) {
         if (!confirm(jsuites_1.default.translate("This action will destroy any existing merged cells. Are you sure?"))) {
             return false;
         }
         else {
-            (_a = obj.destroyMerge) === null || _a === void 0 ? void 0 : _a.call(obj);
+            (_c = obj.destroyMerge) === null || _c === void 0 ? void 0 : _c.call(obj);
         }
     }
     // o and d are already numbers, no need for parseInt
     if (o > d) {
-        (_b = obj.headerContainer) === null || _b === void 0 ? void 0 : _b.insertBefore(obj.headers[o], obj.headers[d]);
-        (_c = obj.colgroupContainer) === null || _c === void 0 ? void 0 : _c.insertBefore(obj.cols[o].colElement, obj.cols[d].colElement);
+        (_d = obj.headerContainer) === null || _d === void 0 ? void 0 : _d.insertBefore(obj.headers[o], obj.headers[d]);
+        (_e = obj.colgroupContainer) === null || _e === void 0 ? void 0 : _e.insertBefore(obj.cols[o].colElement, obj.cols[d].colElement);
         for (let j = 0; j < obj.rows.length; j++) {
             obj.rows[j].element.insertBefore(obj.records[j][o].element, obj.records[j][d].element);
         }
     }
     else {
-        (_d = obj.headerContainer) === null || _d === void 0 ? void 0 : _d.insertBefore(obj.headers[o], obj.headers[d].nextSibling);
-        (_e = obj.colgroupContainer) === null || _e === void 0 ? void 0 : _e.insertBefore(obj.cols[o].colElement, obj.cols[d].colElement.nextSibling);
+        (_f = obj.headerContainer) === null || _f === void 0 ? void 0 : _f.insertBefore(obj.headers[o], obj.headers[d].nextSibling);
+        (_g = obj.colgroupContainer) === null || _g === void 0 ? void 0 : _g.insertBefore(obj.cols[o].colElement, obj.cols[d].colElement.nextSibling);
         for (let j = 0; j < obj.rows.length; j++) {
             obj.rows[j].element.insertBefore(obj.records[j][o].element, obj.records[j][d].element.nextSibling);
         }
     }
-    (_f = obj.options.columns) === null || _f === void 0 ? void 0 : _f.splice(d, 0, obj.options.columns.splice(o, 1)[0]);
+    (_h = obj.options.columns) === null || _h === void 0 ? void 0 : _h.splice(d, 0, obj.options.columns.splice(o, 1)[0]);
     obj.headers.splice(d, 0, obj.headers.splice(o, 1)[0]);
     obj.cols.splice(d, 0, obj.cols.splice(o, 1)[0]);
     const firstAffectedIndex = Math.min(o, d);
     const lastAffectedIndex = Math.max(o, d);
     for (let j = 0; j < obj.rows.length; j++) {
-        (_h = (_g = obj.options.data) === null || _g === void 0 ? void 0 : _g[j]) === null || _h === void 0 ? void 0 : _h.splice(d, 0, obj.options.data[j].splice(o, 1)[0]);
+        if (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j])) {
+            const movedValue = obj.options.data[j].splice(o, 1)[0];
+            obj.options.data[j].splice(d, 0, movedValue);
+        }
         obj.records[j].splice(d, 0, obj.records[j].splice(o, 1)[0]);
     }
     for (let i = firstAffectedIndex; i <= lastAffectedIndex; i++) {
@@ -371,7 +392,7 @@ exports.moveColumn = moveColumn;
  * @return void
  */
 const deleteColumn = function (columnNumber, numOfColumns) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
     const obj = this;
     // Global Configuration
     if (obj.options.allowDeleteColumn != false) {
@@ -386,12 +407,12 @@ const deleteColumn = function (columnNumber, numOfColumns) {
                 }
                 else {
                     // Remove selected
-                    columnNumber = number[0];
+                    columnNumber = (_b = number[0]) !== null && _b !== void 0 ? _b : 0;
                     numOfColumns = number.length;
                 }
             }
-            // Lasat column
-            const lastColumn = ((_c = (_b = obj.options.data) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.length)
+            // Last column
+            const lastColumn = (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[0] && Array.isArray(obj.options.data[0]))
                 ? obj.options.data[0].length - 1
                 : 0;
             if (columnNumber == undefined ||
@@ -400,11 +421,11 @@ const deleteColumn = function (columnNumber, numOfColumns) {
                 columnNumber = lastColumn;
             }
             // Minimum of columns to be delete is 1
-            if (!numOfColumns) {
+            if (!numOfColumns || numOfColumns < 1) {
                 numOfColumns = 1;
             }
             // Can't delete more than the limit of the table
-            if (((_d = obj.options.data) === null || _d === void 0 ? void 0 : _d[0]) &&
+            if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[0] && Array.isArray(obj.options.data[0]) &&
                 numOfColumns > obj.options.data[0].length - columnNumber) {
                 numOfColumns = obj.options.data[0].length - columnNumber;
             }
@@ -424,7 +445,7 @@ const deleteColumn = function (columnNumber, numOfColumns) {
                 if (obj.options.mergeCells &&
                     Object.keys(obj.options.mergeCells).length > 0) {
                     for (let col = columnNumber; col < columnNumber + numOfColumns; col++) {
-                        if (merges_1.isColMerged.call(obj, col, undefined).length) {
+                        if (((_c = obj.worksheets) === null || _c === void 0 ? void 0 : _c[0]) && merges_1.isColMerged.call(obj.worksheets[0], col, undefined).length) {
                             mergeExists = true;
                         }
                     }
@@ -434,7 +455,7 @@ const deleteColumn = function (columnNumber, numOfColumns) {
                         return false;
                     }
                     else {
-                        (_e = obj.destroyMerge) === null || _e === void 0 ? void 0 : _e.call(obj);
+                        (_d = obj.destroyMerge) === null || _d === void 0 ? void 0 : _d.call(obj);
                     }
                 }
                 // Delete the column properties
@@ -444,25 +465,26 @@ const deleteColumn = function (columnNumber, numOfColumns) {
                 for (let col = columnNumber; col < columnNumber + numOfColumns; col++) {
                     obj.cols[col].colElement.className = "";
                     obj.headers[col].className = "";
-                    (_f = obj.cols[col].colElement.parentNode) === null || _f === void 0 ? void 0 : _f.removeChild(obj.cols[col].colElement);
-                    (_g = obj.headers[col].parentNode) === null || _g === void 0 ? void 0 : _g.removeChild(obj.headers[col]);
+                    (_e = obj.cols[col].colElement.parentNode) === null || _e === void 0 ? void 0 : _e.removeChild(obj.cols[col].colElement);
+                    (_f = obj.headers[col].parentNode) === null || _f === void 0 ? void 0 : _f.removeChild(obj.headers[col]);
                 }
                 const historyHeaders = obj.headers.splice(columnNumber, numOfColumns);
                 const historyColgroup = obj.cols.splice(columnNumber, numOfColumns);
                 const historyRecords = [];
                 const historyData = [];
                 const historyFooters = [];
-                for (let row = 0; row < (((_h = obj.options.data) === null || _h === void 0 ? void 0 : _h.length) || 0); row++) {
+                for (let row = 0; row < (((_g = obj.options.data) === null || _g === void 0 ? void 0 : _g.length) || 0); row++) {
                     for (let col = columnNumber; col < columnNumber + numOfColumns; col++) {
                         obj.records[row][col].element.className = "";
-                        (_j = obj.records[row][col].element.parentNode) === null || _j === void 0 ? void 0 : _j.removeChild(obj.records[row][col].element);
+                        (_h = obj.records[row][col].element.parentNode) === null || _h === void 0 ? void 0 : _h.removeChild(obj.records[row][col].element);
                     }
                 }
                 // Delete headers
-                for (let row = 0; row < (((_k = obj.options.data) === null || _k === void 0 ? void 0 : _k.length) || 0); row++) {
+                for (let row = 0; row < (((_j = obj.options.data) === null || _j === void 0 ? void 0 : _j.length) || 0); row++) {
                     // History
-                    historyData[row] =
-                        ((_m = (_l = obj.options.data) === null || _l === void 0 ? void 0 : _l[row]) === null || _m === void 0 ? void 0 : _m.splice(columnNumber, numOfColumns)) || [];
+                    historyData[row] = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
+                        ? obj.options.data[row].splice(columnNumber, numOfColumns)
+                        : [];
                     historyRecords[row] = obj.records[row].splice(columnNumber, numOfColumns);
                 }
                 for (let i = columnNumber; i < obj.cols.length; i++) {
@@ -487,9 +509,9 @@ const deleteColumn = function (columnNumber, numOfColumns) {
                     obj.options.nestedHeaders[0] &&
                     obj.options.nestedHeaders[0][0]) {
                     for (let j = 0; j < obj.options.nestedHeaders.length; j++) {
-                        const colspan = parseInt(String(((_p = (_o = obj.options.nestedHeaders[j]) === null || _o === void 0 ? void 0 : _o[obj.options.nestedHeaders[j].length - 1]) === null || _p === void 0 ? void 0 : _p.colspan) || "1")) - numOfColumns;
+                        const colspan = parseInt(String(((_l = (_k = obj.options.nestedHeaders[j]) === null || _k === void 0 ? void 0 : _k[obj.options.nestedHeaders[j].length - 1]) === null || _l === void 0 ? void 0 : _l.colspan) || "1")) - numOfColumns;
                         obj.options.nestedHeaders[j][obj.options.nestedHeaders[j].length - 1].colspan = colspan;
-                        (_s = (_r = (_q = obj.thead) === null || _q === void 0 ? void 0 : _q.children[j]) === null || _r === void 0 ? void 0 : _r.children[obj.thead.children[j].children.length - 1]) === null || _s === void 0 ? void 0 : _s.setAttribute("colspan", String(colspan));
+                        (_p = (_o = (_m = obj.thead) === null || _m === void 0 ? void 0 : _m.children[j]) === null || _o === void 0 ? void 0 : _o.children[obj.thead.children[j].children.length - 1]) === null || _p === void 0 ? void 0 : _p.setAttribute("colspan", String(colspan));
                     }
                 }
                 // Keeping history of changes
@@ -497,7 +519,7 @@ const deleteColumn = function (columnNumber, numOfColumns) {
                     action: "deleteColumn",
                     columnNumber: columnNumber,
                     numOfColumns: numOfColumns,
-                    insertBefore: 1,
+                    insertBefore: false,
                     columns: columns,
                     headers: historyHeaders,
                     cols: historyColgroup,
@@ -609,16 +631,29 @@ const setWidth = function (column, width, oldWidth) {
             obj.options.columns[columnIndex].width = width;
         }
         // Keeping history of changes
+        const historyColumn = Array.isArray(column)
+            ? (typeof column[0] === 'number' ? column[0] : 0)
+            : (typeof column === 'number' ? column : 0);
+        const historyOldValue = Array.isArray(finalOldWidth) ? finalOldWidth[0] : finalOldWidth;
         history_1.setHistory.call(obj, {
             action: "setWidth",
-            column: column,
-            oldValue: finalOldWidth,
+            column: historyColumn,
+            oldValue: historyOldValue,
             newValue: width,
         });
         // On resize column
         dispatch_1.default.call(obj, "onresizecolumn", obj, column, width, finalOldWidth);
-        // Update corner position
-        selection_1.updateCornerPosition.call(obj.worksheets[0]);
+        // Update corner position: support being called with either a
+        // SpreadsheetContext (has worksheets) or a WorksheetInstance (has parent)
+        if ("worksheets" in obj && obj.worksheets && obj.worksheets[0]) {
+            selection_1.updateCornerPosition.call(obj.worksheets[0]);
+        }
+        else {
+            const maybeParent = obj.parent;
+            if (maybeParent && maybeParent.worksheets && maybeParent.worksheets[0]) {
+                selection_1.updateCornerPosition.call(maybeParent.worksheets[0]);
+            }
+        }
     }
 };
 exports.setWidth = setWidth;
@@ -681,7 +716,7 @@ exports.hideColumn = hideColumn;
  * Get a column data by columnNumber
  */
 const getColumnData = function (columnNumber, processed) {
-    var _a, _b, _c;
+    var _a;
     const obj = this;
     const dataset = [];
     // Go through the rows to get the data
@@ -690,7 +725,10 @@ const getColumnData = function (columnNumber, processed) {
             dataset.push(obj.records[j][columnNumber].element.innerHTML);
         }
         else {
-            dataset.push((_c = (_b = obj.options.data) === null || _b === void 0 ? void 0 : _b[j]) === null || _c === void 0 ? void 0 : _c[columnNumber]);
+            const cellValue = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j]))
+                ? obj.options.data[j][columnNumber]
+                : undefined;
+            dataset.push(cellValue);
         }
     }
     return dataset.filter((item) => item !== undefined);

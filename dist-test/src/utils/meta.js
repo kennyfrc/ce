@@ -8,7 +8,7 @@ const dispatch_1 = __importDefault(require("./dispatch"));
 /**
  * Get meta information from cell(s)
  *
- * @return integer
+ * @return unknown
  */
 const getMeta = function (cell, key) {
     const obj = this;
@@ -34,7 +34,7 @@ exports.getMeta = getMeta;
 /**
  * Update meta information
  *
- * @return integer
+ * @return void
  */
 const updateMeta = function (affectedCells) {
     const obj = this;
@@ -42,11 +42,12 @@ const updateMeta = function (affectedCells) {
         const newMeta = {};
         const keys = Object.keys(obj.options.meta);
         for (let i = 0; i < keys.length; i++) {
-            if (affectedCells[keys[i]]) {
-                newMeta[affectedCells[keys[i]]] = obj.options.meta[keys[i]];
+            const k = keys[i];
+            if (affectedCells[k]) {
+                newMeta[affectedCells[k]] = obj.options.meta[k];
             }
             else {
-                newMeta[keys[i]] = obj.options.meta[keys[i]];
+                newMeta[k] = obj.options.meta[k];
             }
         }
         // Update meta information
@@ -57,31 +58,35 @@ exports.updateMeta = updateMeta;
 /**
  * Set meta information to cell(s)
  *
- * @return integer
+ * @return void
  */
 const setMeta = function (o, k, v) {
     const obj = this;
     if (!obj.options.meta) {
         obj.options.meta = {};
     }
-    if (k && v) {
+    if (k !== undefined && v !== undefined) {
         // Set data value
-        if (!obj.options.meta[o]) {
-            obj.options.meta[o] = {};
+        const cellId = o;
+        if (!obj.options.meta[cellId]) {
+            obj.options.meta[cellId] = {};
         }
-        obj.options.meta[o][k] = v;
-        dispatch_1.default.call(obj, "onchangemeta", obj, { [o]: { [k]: v } });
+        obj.options.meta[cellId][k] = v;
+        dispatch_1.default.call(obj, "onchangemeta", obj, { [cellId]: { [k]: v } });
     }
     else {
         // Apply that for all cells
-        const keys = Object.keys(o);
+        const source = o;
+        const keys = Object.keys(source);
         for (let i = 0; i < keys.length; i++) {
-            if (!obj.options.meta[keys[i]]) {
-                obj.options.meta[keys[i]] = {};
+            const cellId = keys[i];
+            if (!obj.options.meta[cellId]) {
+                obj.options.meta[cellId] = {};
             }
-            const prop = Object.keys(o[keys[i]]);
+            const prop = Object.keys(source[cellId]);
             for (let j = 0; j < prop.length; j++) {
-                obj.options.meta[keys[i]][prop[j]] = o[keys[i]][prop[j]];
+                const p = prop[j];
+                obj.options.meta[cellId][p] = source[cellId][p];
             }
         }
         dispatch_1.default.call(obj, "onchangemeta", obj, o);
