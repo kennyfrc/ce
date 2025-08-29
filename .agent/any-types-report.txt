@@ -1,7 +1,3 @@
-Any Types Analysis Report - 2025-08-29T07:09:47.191Z
-Total any types: 2
-Files with any types: 1
-
-src/utils/worksheets.ts: 2 any types
-  Line 93: (worksheet as any)[methodName] = method.bind(worksheet);
-  Line 494: multiple.forEach((config: any) => {
+Any Types Analysis Report - 2025-08-29T07:15:01.964Z
+Total any types: 0
+Files with any types: 0

@@ -260,6 +260,12 @@ const mouseDownControls = function (e: MouseEvent) {
     const dataRows = data.length;
     const dataCols = (data[0] ? data[0].length : 0) as number;
     const columns = current.options.columns ?? [];
+    const columnResize = current.options.columnResize != false;
+    const columnDrag = current.options.columnDrag != false;
+    const rowResize = current.options.rowResize != false;
+    const rowDrag = current.options.rowDrag != false;
+    const search = current.options.search == true;
+    const allowRenameColumn = current.options.allowRenameColumn != false;
     if (target.classList.contains("jss_selectall")) {
             if (current) {
               selectAll.call(current);
@@ -277,7 +283,7 @@ const mouseDownControls = function (e: MouseEvent) {
           // Update cursor
           const info = target.getBoundingClientRect();
           if (
-            current.options.columnResize != false &&
+            columnResize &&
             info.width - e.offsetX < 6
           ) {
             // Resize helper
@@ -295,7 +301,7 @@ const mouseDownControls = function (e: MouseEvent) {
               }
             }
           } else if (
-            current.options.columnDrag != false &&
+            columnDrag &&
             info.height - e.offsetY < 6
           ) {
             if (isColMerged.call(current, columnId).length) {
@@ -327,7 +333,7 @@ const mouseDownControls = function (e: MouseEvent) {
               // Press to rename
               if (
                 current.selectedHeader == columnId &&
-                current.options.allowRenameColumn != false
+                allowRenameColumn
               ) {
                 libraryBase.jspreadsheet.timeControl = setTimeout(function () {
                   current.setHeader?.(columnId);
@@ -387,7 +393,7 @@ const mouseDownControls = function (e: MouseEvent) {
         if (target.classList.contains("jss_row")) {
           const info = target.getBoundingClientRect();
           if (
-            current.options.rowResize != false &&
+            rowResize &&
             info.height - e.offsetY < 6
           ) {
             // Resize helper
@@ -400,12 +406,12 @@ const mouseDownControls = function (e: MouseEvent) {
             // Border indication
             target.parentElement?.classList.add("resizing");
           } else if (
-            current.options.rowDrag != false &&
+            rowDrag &&
             info.width - e.offsetX < 6
           ) {
             if (typeof rowId === "number" && isRowMerged.call(current, rowId, false).length) {
               console.error("Jspreadsheet: This row is part of a merged cell");
-            } else if (current.options.search == true && current.results) {
+            } else if (search && current.results) {
               console.error(
                 "Jspreadsheet: Please clear your search before perform this action"
               );
@@ -881,7 +887,13 @@ const doubleClickControls = function (e: MouseEvent): void {
 
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current) {
+    // Local aliases for optional properties
+    const data = current.options.data ?? [];
+    const dataRows = data.length;
+    const dataCols = (data[0] ? data[0].length : 0) as number;
     const columns = current.options.columns ?? [];
+    const editable = current.options.editable != false;
+    const columnSorting = current.options.columnSorting != false;
     // Corner action
     if (target.classList.contains("jss_corner")) {
       // Any selected cells
@@ -916,7 +928,7 @@ const doubleClickControls = function (e: MouseEvent): void {
       const jssTable = getElement(target);
 
       // Double click over header
-      if (jssTable[1] == 1 && current.options.columnSorting != false) {
+      if (jssTable[1] == 1 && columnSorting) {
         // Check valid column header coords
         const columnId = target.getAttribute("data-x");
           if (columnId) {
@@ -925,7 +937,7 @@ const doubleClickControls = function (e: MouseEvent): void {
       }
 
       // Double click over body
-      if (jssTable[1] == 2 && current.options.editable != false) {
+      if (jssTable[1] == 2 && editable) {
         if (!current.edition) {
           const getCellCoords = function (element: HTMLElement): HTMLElement | undefined {
             if (element.parentNode) {
@@ -953,7 +965,8 @@ const pasteControls = function (e: ClipboardEvent): void {
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current && current.selectedCell) {
     if (!current.edition) {
-      if (current.options.editable != false) {
+      const editable = current.options.editable != false;
+      if (editable) {
         if (e && "clipboardData" in e && e.clipboardData) {
           paste.call(
             current,
@@ -1522,7 +1535,8 @@ export const cutControls = function (this: WorksheetInstance, e: Event): void {
   if (!current) return;
   if (!current.edition) {
     copy?.call(current, true, undefined, undefined, undefined, undefined, true);
-    if (current.options.editable != false && current.highlighted) {
+    const editable = current.options.editable != false;
+    if (editable && current.highlighted) {
       current.setValue?.(
         current.highlighted.map(function (record: { element: HTMLElement }) {
           return record.element;
@@ -1561,6 +1575,14 @@ const keyDownControls = function (e: KeyboardEvent): void {
     const dataRows = data.length;
     const dataCols = (data[0] ? data[0].length : 0) as number;
     const columns = current.options.columns ?? [];
+    const editable = current.options.editable != false;
+    const allowDeleteRow = current.options.allowDeleteRow != false;
+    const wordWrap = current.options.wordWrap == true;
+    const allowDeleteColumn = current.options.allowDeleteColumn != false;
+    const allowInsertRow = current.options.allowInsertRow != false;
+    const allowManualInsertRow = current.options.allowManualInsertRow != false;
+    const allowInsertColumn = current.options.allowInsertColumn != false;
+    const allowManualInsertColumn = current.options.allowManualInsertColumn != false;
     if (current.edition) {
       if (e.which == 27) {
         // Escape
@@ -1584,7 +1606,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
         } else {
           // Alt enter -> do not close editor
           if (
-            (current.options.wordWrap == true ||
+            (wordWrap ||
               (columns[current.edition[2]] &&
                 columns[current.edition[2]].wordWrap == true) ||
               (Array.isArray(data) &&
@@ -1654,9 +1676,9 @@ const keyDownControls = function (e: KeyboardEvent): void {
         e.preventDefault();
       } else if (e.which == 46 || e.which == 8) {
         // Delete
-        if (current.options.editable != false) {
+        if (editable) {
           if (current.selectedRow != null) {
-            if (current.options.allowDeleteRow != false) {
+            if (allowDeleteRow) {
                 if (
                  confirm(
                    jSuites.translate("Are you sure to delete the selected rows?")
@@ -1668,7 +1690,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
                }
             }
           } else if (current.selectedHeader) {
-            if (current.options.allowDeleteColumn != false) {
+            if (allowDeleteColumn) {
               if (
                 confirm(
                   jSuites.translate(
@@ -1698,8 +1720,8 @@ const keyDownControls = function (e: KeyboardEvent): void {
         if (e.shiftKey) {
           up.call(current, e.shiftKey, e.ctrlKey);
         } else {
-          if (current.options.allowInsertRow != false) {
-            if (current.options.allowManualInsertRow != false) {
+          if (allowInsertRow) {
+            if (allowManualInsertRow) {
                  if (current.selectedCell[1] == dataRows - 1) {
                  // New record in case selectedCell in the last row
                                    current.insertRow?.(1);
@@ -1715,8 +1737,8 @@ const keyDownControls = function (e: KeyboardEvent): void {
         if (e.shiftKey) {
           left.call(current, e.shiftKey, e.ctrlKey);
         } else {
-          if (current.options.allowInsertColumn != false) {
-            if (current.options.allowManualInsertColumn != false) {
+          if (allowInsertColumn) {
+            if (allowManualInsertColumn) {
                  if (current.selectedCell[0] == dataCols - 1) {
                  // New record in case selectedCell in the last column
                  current.insertColumn?.();
@@ -1751,7 +1773,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
             e.preventDefault();
           } else if (e.which == 88) {
             // Ctrl + X
-            if (current.options.editable != false) {
+            if (editable) {
               cutControls.call(current, e as unknown as Event);
             } else {
               copyControls.call(current, e as unknown as Event);
@@ -1763,7 +1785,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
           }
         } else {
           if (current.selectedCell) {
-            if (current.options.editable != false) {
+            if (editable) {
               const rowId = current.selectedCell[1];
               const columnId = current.selectedCell[0];
 

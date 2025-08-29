@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T21:00:00Z"
+    "updatedAt": "2025-08-29T07:15:42Z"
   },
   "tasks": [
     {
@@ -1652,7 +1652,7 @@
       "name": "Milestone: Any count ≤180 (post-Phase 3)",
       "description": "Reduce explicit any usages across hotspots",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "owners": [
         "@team/types"
       ],
@@ -1669,7 +1669,7 @@
       "name": "Milestone: Any count ≤100 (post-Phase 4)",
       "description": "Keep driving down any usages; no any on hot paths",
       "phase": 4,
-      "state": "in_progress",
+      "state": "completed",
       "updatedAt": "2025-08-28T10:45:00Z",
       "owners": [
         "@team/types"
@@ -1791,7 +1791,7 @@
       "name": "events.ts: Narrow EventTarget and this typing",
       "description": "Add null guards, narrow EventTarget/e.target types, and unify WorksheetInstance/SpreadsheetContext types used in events.ts to reduce hotspots.",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "createdAt": "2025-08-28T13:53:21Z",
       "updatedAt": "2025-08-28T14:27:27Z",
       "candidateFiles": [
@@ -1885,7 +1885,7 @@
       "name": "events.ts: Alias current and narrow nulls",
       "description": "Replace repeated libraryBase.jspreadsheet.current accesses with local current alias in hotspots to satisfy strict null checks",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -1915,7 +1915,7 @@
       "name": "events.ts: Replace remaining libraryBase.jspreadsheet.current with local current alias",
       "description": "Replace repeated libraryBase.jspreadsheet.current accesses with local const current inside hot functions to enable narrowing and reduce TS18047 diagnostics",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -1937,7 +1937,7 @@
       "name": "events: alias libraryBase.jspreadsheet.current to local current",
       "description": "Alias libraryBase.jspreadsheet.current to local current in hot functions to enable narrowing and reduce TS18047 diagnostics",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -1966,7 +1966,7 @@
       "name": "Unify WorksheetInstance/SpreadsheetContext",
       "description": "Unify WorksheetInstance and SpreadsheetContext in src/types/core.ts and update src/utils/events.ts to use precise types and null-guards.",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/types/core.ts",
         "src/utils/events.ts"
@@ -2040,7 +2040,7 @@
       "name": "events.ts: alias current and guard optionals in hotspots",
       "description": "Alias libraryBase.jspreadsheet.current to local current, add null/undefined guards for options and columns, and narrow EventTarget in hotspots",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -2189,7 +2189,7 @@
       "name": "Unify core types: WorksheetInstance/SpreadsheetContext",
       "description": "Make WorksheetInstance and SpreadsheetContext compatible to reduce cross-type assignment errors",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/types/core.ts",
         "src/utils/events.ts",
@@ -2273,7 +2273,7 @@
       "name": "Type events.ts: guard optional context",
       "description": "Narrow types and add guards in src/utils/events.ts to fix possible undefined/any issues",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -2303,7 +2303,7 @@
       "name": "Fix events.ts: narrow types and remove anys",
       "description": "Address top tsc errors in src/utils/events.ts (undefined checks, param types)",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -2347,7 +2347,7 @@
       "name": "events.ts: alias current and guard optionals in hotspots",
       "description": "Alias libraryBase.jspreadsheet.current to local current and add null/undefined guards in events.ts hotspots",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -2377,7 +2377,7 @@
       "name": "events.ts: Alias libraryBase.jspreadsheet.current and guard optionals",
       "description": "Alias libraryBase.jspreadsheet.current to local current in mouse handlers and add null guards to reduce possibly undefined diagnostics",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -2497,7 +2497,7 @@
       "name": "events.ts: apply alias-and-guard to remaining hotspots",
       "description": "Apply local current alias and add runtime guards in remaining events.ts hotspots to reduce null/undefined diagnostics and remove explicit anys",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
