@@ -45,7 +45,7 @@ class Jspreadsheet extends HTMLElement {
     this.el = jspreadsheet(container, {
       tabs: true,
       toolbar: toolbar,
-      root: shadowRoot,
+             root: shadowRoot as unknown as HTMLElement,
       worksheets: [
         {
           filters: true,

@@ -23,9 +23,8 @@ const prepareJson = function (this: WorksheetInstance, data: unknown) {
   for (let i = 0; i < arr.length; i++) {
     const x = arr[i].x;
     const y = arr[i].y;
-    const col = (obj.options.columns && obj.options.columns[x]) as ColumnDefinition | undefined;
-    const nameProp = col && (col as Record<string, unknown>).name;
-    const k = col && typeof nameProp === "string" ? (nameProp as string) : String(x);
+    const col = obj.options.columns && obj.options.columns[x] as ColumnDefinition | undefined;
+    const k = col && typeof col.name === "string" ? col.name : String(x);
 
     if (!rows[y]) {
       rows[y] = {
@@ -33,7 +32,7 @@ const prepareJson = function (this: WorksheetInstance, data: unknown) {
         data: {},
       };
     }
-    if (rows[y] && rows[y].data) {
+    if (rows[y]) {
       rows[y].data[k] = arr[i].value;
     }
   }
@@ -53,7 +52,7 @@ const save = function (this: WorksheetInstance, url: string, data: unknown[]) {
   const ret = dispatch.call(obj.parent, "onbeforesave", obj.parent, obj, data);
   if (ret) {
     if (Array.isArray(ret)) {
-      data = ret as unknown[];
+      data = ret;
     } else if (ret === false) {
       return false;
     } else {
@@ -91,66 +90,49 @@ const save = function (this: WorksheetInstance, url: string, data: unknown[]) {
  * Trigger events
  */
 const dispatch = function (
-  this: WorksheetInstance | SpreadsheetInstance | SpreadsheetContext,
+  this: WorksheetInstance | SpreadsheetInstance,
   event: string,
   ...args: unknown[]
 ) {
-  const obj = this as WorksheetInstance;
+  const obj = this;
   let ret: unknown = null;
-
-  const spreadsheet: SpreadsheetInstance = (obj as SpreadsheetContext).parent
-    ? (obj as SpreadsheetContext).parent
-    : (obj as unknown as SpreadsheetInstance);
+  
+  // Get the spreadsheet instance
+  let spreadsheet: SpreadsheetInstance;
+  if ('parent' in obj && obj.parent) {
+    spreadsheet = obj.parent;
+  } else {
+    spreadsheet = obj as SpreadsheetInstance;
+  }
 
   // Dispatch events
   if (!spreadsheet.ignoreEvents) {
-    const cfg = spreadsheet.config as Record<string, unknown>;
-
-    type OneventFn = (...a: unknown[]) => unknown;
-    const maybeOnevent = cfg.onevent;
-    if (typeof maybeOnevent === "function") {
-      ret = (maybeOnevent as OneventFn).call(this, event, ...(args as unknown[]));
+    // Handle global onevent handler
+    if (spreadsheet.config && typeof spreadsheet.config.onevent === "function") {
+      ret = spreadsheet.config.onevent.call(this, event, ...args);
     }
 
-    const maybeSpecific = cfg[event];
-    if (typeof maybeSpecific === "function") {
-      const specificFn = maybeSpecific as (...a: unknown[]) => unknown;
-      ret = specificFn.apply(this, args as unknown[]);
+    // Handle specific event handlers
+    if (spreadsheet.config && typeof (spreadsheet.config as Record<string, unknown>)[event] === "function") {
+      const specificHandler = (spreadsheet.config as Record<string, Function>)[event];
+      ret = specificHandler.apply(this, args);
     }
 
-    if (typeof spreadsheet.plugins === "object" && spreadsheet.plugins != null) {
-      const pluginKeys = Object.keys(spreadsheet.plugins || {});
-
-      for (
-        let pluginKeyIndex = 0;
-        pluginKeyIndex < pluginKeys.length;
-        pluginKeyIndex++
-      ) {
-        const key = pluginKeys[pluginKeyIndex];
-        const plugin = (spreadsheet.plugins as Record<string, unknown>)[key];
-
-        if (plugin && typeof (plugin as Record<string, unknown>).onevent === "function") {
-          const fn = (plugin as Record<string, unknown>).onevent as OneventFn;
-          const evtArgs = [event, ...(args as unknown[])] as unknown[];
-          ret = fn.apply(this, evtArgs);
+    // Handle plugin event handlers
+    if (spreadsheet.plugins) {
+      Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
+        if (plugin && typeof plugin.onevent === "function") {
+          ret = plugin.onevent.apply(this, [event, ...args]);
         }
-      }
+      });
     }
   }
 
-  if (event === "onafterchanges") {
-    const scope = args;
-
-    if (typeof spreadsheet.plugins === "object" && spreadsheet.plugins != null) {
-      Object.entries(spreadsheet.plugins as Record<string, unknown>).forEach(function ([, plugin]) {
-        const p = plugin as Record<string, unknown>;
-        const maybePersistence = p.persistence;
-        if (typeof maybePersistence === "function") {
-          (maybePersistence as (w: WorksheetInstance, action: string, payload: unknown) => void)(
-            obj,
-            "setValue",
-            { data: scope[2] }
-          );
+  if (event === "onafterchanges" && args.length >= 3) {
+    if (spreadsheet.plugins) {
+      Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
+        if (plugin && typeof plugin.persistence === "function") {
+          plugin.persistence(obj, "setValue", { data: args[2] });
         }
       });
     }
@@ -158,8 +140,8 @@ const dispatch = function (
     if (obj.options.persistence) {
       const rawUrl = obj.options.persistence === true ? obj.options.url : obj.options.persistence;
       if (typeof rawUrl === "string") {
-        const data = prepareJson.call(obj, scope[2]);
-        save.call(obj, rawUrl, data as unknown[]);
+        const data = prepareJson.call(obj, args[2]);
+        save.call(obj, rawUrl, data);
       }
     }
   }

@@ -27,7 +27,7 @@ export const getHeaders = function (this: SpreadsheetContext, asArray: boolean) 
   const title = [];
 
   for (let i = 0; i < obj.headers.length; i++) {
-    title.push(obj.getHeader(i));
+    title.push(getHeader.call(obj, i));
   }
 
   return asArray ? title : title.join(obj.options.csvDelimiter);
@@ -78,7 +78,7 @@ export const setHeader = function (this: SpreadsheetContext, column: number, new
       obj,
       "onchangeheader",
       obj,
-      parseInt(column),
+      column,
       newValue,
       onchangeheaderOldValue
     );

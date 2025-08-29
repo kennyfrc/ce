@@ -472,7 +472,7 @@ export const createCell = function (
   }
   // Security
   if (("" + value).substr(0, 1) == "=" && obj.options.secureFormulas == true) {
-    const val = secureFormula(value);
+    const val = secureFormula("" + value);
     if (val != value) {
       // Update the data container
       value = val;
@@ -540,8 +540,8 @@ export const createCell = function (
       // Append to the table
       td.appendChild(element);
       // Make sure the values are correct
-      if (obj.options.data) {
-        obj.options.data[j][i] = element.checked;
+      if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[j]) {
+        (obj.options.data as CellValue[][])[j][i] = element.checked;
       }
     } else if (
       obj.options.columns &&
@@ -562,9 +562,10 @@ export const createCell = function (
         }
       }
       // Create calendar cell
+      const dateValue = formatted ? (formatted as Date) : new Date(String(value));
       td.textContent = jSuites.calendar.getDateString(
-        formatted ? formatted : String(value),
-        obj.options.columns[i].options && obj.options.columns[i].options.format
+        dateValue,
+        (obj.options.columns[i].options && obj.options.columns[i].options.format) || "YYYY-MM-DD"
       );
     } else if (
       obj.options.columns &&
@@ -604,12 +605,12 @@ export const createCell = function (
         obj.options.columns[i] &&
         obj.options.columns[i].type == "html"
       ) {
-        td.innerHTML = stripScript(parseValue.call(this, i, j, value, td));
+        td.innerHTML = stripScript(String(parseValue.call(this, i, j, value, td)));
       } else {
         if (obj.parent.config.parseHTML === true) {
-          td.innerHTML = stripScript(parseValue.call(this, i, j, value, td));
+          td.innerHTML = stripScript(String(parseValue.call(this, i, j, value, td)));
         } else {
-          td.textContent = parseValue.call(this, i, j, value, td);
+          td.textContent = String(parseValue.call(this, i, j, value, td));
         }
       }
     }
@@ -700,7 +701,7 @@ export const updateCell = function (
       ("" + value).substr(0, 1) == "=" &&
       obj.options.secureFormulas == true
     ) {
-      const val = secureFormula(value);
+      const val = secureFormula("" + value);
       if (val != value) {
         // Update the data container
         value = val;
@@ -720,16 +721,19 @@ export const updateCell = function (
 
     // If you return something this will overwrite the value
     if (val != undefined) {
-      value = val;
+      value = val as CellValue;
     }
 
     if (
       obj.options.columns &&
       obj.options.columns[x] &&
       typeof obj.options.columns[x].type === "object" &&
-      typeof obj.options.columns[x].type.updateCell === "function"
+      obj.options.columns[x].type &&
+      typeof (obj.options.columns[x].type as { updateCell?: Function }).updateCell === "function" &&
+      obj.records[y] &&
+      obj.records[y][x]
     ) {
-      const result = obj.options.columns[x].type.updateCell(
+      const result = (obj.options.columns[x].type as { updateCell: Function }).updateCell(
         obj.records[y][x].element,
         value,
         "" + x,
@@ -750,7 +754,7 @@ export const updateCell = function (
       col: x,
       row: y,
       value: value,
-      oldValue: obj.options.data[y][x],
+      oldValue: obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y] ? (obj.options.data as CellValue[][])[y][x] : undefined,
     };
 
     let editor =
@@ -761,9 +765,11 @@ export const updateCell = function (
         : null;
     if (editor) {
       // Update data and cell
-      obj.options.data[y][x] = value;
-      if (typeof editor.setValue === "function") {
-        editor.setValue(obj.records[y][x].element, value);
+      if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+        (obj.options.data as CellValue[][])[y][x] = value;
+      }
+      if (typeof (editor as { setValue?: Function }).setValue === "function" && obj.records[y] && obj.records[y][x]) {
+        (editor as { setValue: Function }).setValue(obj.records[y][x].element, value);
       }
     } else {
       // Native functions
@@ -774,30 +780,38 @@ export const updateCell = function (
           obj.options.columns[x].type == "radio")
       ) {
         // Unchecked all options
-        if (obj.options.columns[x].type == "radio") {
+        if (obj.options.columns[x].type == "radio" && obj.options.data && Array.isArray(obj.options.data)) {
           for (let j = 0; j < obj.options.data.length; j++) {
-            obj.options.data[j][x] = false;
+            if (obj.options.data[j]) {
+              (obj.options.data as CellValue[][])[j][x] = false;
+            }
           }
         }
 
         // Update data and cell
-        obj.records[y][x].element.children[0].checked =
-          value == 1 || value == true || value == "true" || value == "TRUE"
-            ? true
-            : false;
-        obj.options.data[y][x] = obj.records[y][x].element.children[0].checked;
+        if (obj.records[y] && obj.records[y][x]) {
+          const checkboxElement = obj.records[y][x].element.children[0] as HTMLInputElement;
+          checkboxElement.checked =
+            value == 1 || value == true || value == "true" || value == "TRUE"
+              ? true
+              : false;
+          if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+            (obj.options.data as CellValue[][])[y][x] = checkboxElement.checked;
+          }
+        }
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
         obj.options.columns[x].type == "dropdown"
       ) {
         // Update data and cell
-        obj.options.data[y][x] = value;
-        obj.records[y][x].element.textContent = getDropDownValue.call(
-          obj,
-          x,
-          value
-        );
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+          (obj.options.data as CellValue[][])[y][x] = value;
+        }
+        if (obj.records[y] && obj.records[y][x]) {
+          const dropdownValue = value !== null && typeof value !== 'boolean' ? getDropDownValue.call(obj, x, value) : null;
+          obj.records[y][x].element.textContent = dropdownValue !== null ? String(dropdownValue) : null;
+        }
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
@@ -807,7 +821,7 @@ export const updateCell = function (
         let formatted = null;
         if (!validDate(value)) {
           const tmp = jSuites.calendar.extractDateFromString(
-            value,
+            String(value),
             (obj.options.columns[x].options &&
               obj.options.columns[x].options.format) ||
               "YYYY-MM-DD"
@@ -817,28 +831,36 @@ export const updateCell = function (
           }
         }
         // Update data and cell
-        obj.options.data[y][x] = value;
-        obj.records[y][x].element.textContent = jSuites.calendar.getDateString(
-          formatted ? formatted : value,
-          obj.options.columns[x].options &&
-            obj.options.columns[x].options.format
-        );
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+          (obj.options.data as CellValue[][])[y][x] = value;
+        }
+        if (obj.records[y] && obj.records[y][x]) {
+          const dateValue = formatted || new Date(String(value));
+          obj.records[y][x].element.textContent = jSuites.calendar.getDateString(
+            dateValue,
+            (obj.options.columns[x].options &&
+              obj.options.columns[x].options.format) ||
+              "YYYY-MM-DD"
+          );
+        }
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
         obj.options.columns[x].type == "color"
       ) {
         // Update color
-        obj.options.data[y][x] = value;
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+          (obj.options.data as CellValue[][])[y][x] = value;
+        }
         // Render
-        if (obj.options.columns[x].render == "square") {
+        if (obj.options.columns[x].render == "square" && obj.records[y] && obj.records[y][x]) {
           const color = document.createElement("div");
           color.className = "color";
           color.style.backgroundColor = String(value);
           obj.records[y][x].element.textContent = "";
           obj.records[y][x].element.appendChild(color);
-        } else {
-          obj.records[y][x].element.style.color = value;
+        } else if (obj.records[y] && obj.records[y][x]) {
+          obj.records[y][x].element.style.color = String(value);
           obj.records[y][x].element.textContent = String(value);
         }
       } else if (
@@ -847,38 +869,39 @@ export const updateCell = function (
         obj.options.columns[x].type == "image"
       ) {
         value = "" + value;
-        obj.options.data[y][x] = value;
-        obj.records[y][x].element.innerHTML = "";
-        if (value && String(value).substr(0, 10) == "data:image") {
-          const img = document.createElement("img");
-          img.src = String(value);
-          obj.records[y][x].element.appendChild(img);
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+          (obj.options.data as CellValue[][])[y][x] = value;
+        }
+        if (obj.records[y] && obj.records[y][x]) {
+          obj.records[y][x].element.innerHTML = "";
+          if (value && String(value).substr(0, 10) == "data:image") {
+            const img = document.createElement("img");
+            img.src = String(value);
+            obj.records[y][x].element.appendChild(img);
+          }
         }
       } else {
         // Update data and cell
-        obj.options.data[y][x] = value;
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[y]) {
+          (obj.options.data as CellValue[][])[y][x] = value;
+        }
         // Label
         if (
           obj.options.columns &&
           obj.options.columns[x] &&
-          obj.options.columns[x].type == "html"
+          obj.options.columns[x].type == "html" &&
+          obj.records[y] &&
+          obj.records[y][x]
         ) {
-          obj.records[y][x].element.innerHTML = stripScript(
-            parseValue.call(obj, x, y, value, obj.records[y][x].element)
-          );
+          const parsedValue = parseValue.call(obj, x, y, value, obj.records[y][x].element);
+          obj.records[y][x].element.innerHTML = stripScript(String(parsedValue));
         } else {
-          if (obj.parent.config.parseHTML === true) {
-            obj.records[y][x].element.innerHTML = stripScript(
-              parseValue.call(obj, x, y, value, obj.records[y][x].element)
-            );
-          } else {
-            obj.records[y][x].element.textContent = parseValue.call(
-              obj,
-              x,
-              y,
-              value,
-              obj.records[y][x].element
-            );
+          if (obj.parent.config.parseHTML === true && obj.records[y] && obj.records[y][x]) {
+            const parsedValue = parseValue.call(obj, x, y, value, obj.records[y][x].element);
+            obj.records[y][x].element.innerHTML = stripScript(String(parsedValue));
+          } else if (obj.records[y] && obj.records[y][x]) {
+            const parsedValue = parseValue.call(obj, x, y, value, obj.records[y][x].element);
+            obj.records[y][x].element.textContent = String(parsedValue);
           }
         }
         // Handle big text inside a cell
@@ -1016,10 +1039,14 @@ export const updateFormulaChain = function (
   const obj = this;
 
   const cellId = getColumnNameFromId([x, y]);
-  if (obj.formula[cellId] && obj.formula[cellId].length > 0) {
+  if (obj.formula && obj.formula[cellId] && obj.formula[cellId].length > 0) {
     if (chainLoopProtection.hasOwnProperty(cellId)) {
-      obj.records[y][x].element.innerHTML = "#ERROR";
-      obj.formula[cellId] = "";
+      if (obj.records[y] && obj.records[y][x]) {
+        obj.records[y][x].element.innerHTML = "#ERROR";
+      }
+      if (obj.formula) {
+        obj.formula[cellId] = [];
+      }
     } else {
       // Protection
       chainLoopProtection[cellId] = true;
@@ -1030,12 +1057,17 @@ export const updateFormulaChain = function (
           true
         ) as number[];
         // Update cell
-        const value = "" + obj.options.data[cell[1]][cell[0]];
-        if (value.substr(0, 1) == "=") {
-          records.push(updateCell.call(obj, cell[0], cell[1], value, true));
+        let cellValue = "";
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[cell[1]] && obj.options.data[cell[1]][cell[0]] !== undefined) {
+          cellValue = "" + (obj.options.data as CellValue[][])[cell[1]][cell[0]];
+        }
+        if (cellValue.substr(0, 1) == "=") {
+          records.push(updateCell.call(obj, cell[0], cell[1], cellValue, true));
         } else {
           // No longer a formula, remove from the chain
-          delete obj.formula[Object.keys(obj.formula)[i]];
+          if (obj.formula) {
+            delete obj.formula[Object.keys(obj.formula)[i]];
+          }
         }
         updateFormulaChain.call(obj, cell[0], cell[1], records);
       }
@@ -1100,15 +1132,17 @@ const updateFormulas = function (
   const obj = this;
 
   // Update formulas
-  for (let j = 0; j < obj.options.data.length; j++) {
-    for (let i = 0; i < obj.options.data[0].length; i++) {
-      const value = "" + obj.options.data[j][i];
+  if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data.length > 0 && Array.isArray(obj.options.data[0])) {
+    for (let j = 0; j < obj.options.data.length; j++) {
+      for (let i = 0; i < obj.options.data[0].length; i++) {
+        const value = "" + (obj.options.data as CellValue[][])[j][i];
       // Is formula
       if (value.substr(0, 1) == "=") {
         // Replace tokens
         const newFormula = updateFormula(value, referencesToUpdate);
         if (newFormula != value) {
-          obj.options.data[j][i] = newFormula;
+          (obj.options.data as CellValue[][])[j][i] = newFormula;
+        }
         }
       }
     }

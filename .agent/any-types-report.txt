@@ -1,13 +1,7 @@
-Any Types Analysis Report - 2025-08-29T06:14:14.639Z
-Total any types: 6
-Files with any types: 2
+Any Types Analysis Report - 2025-08-29T07:09:47.191Z
+Total any types: 2
+Files with any types: 1
 
-src/utils/rows.ts: 3 any types
-  Line 60: cells: [] as any[], // Will be populated below
-  Line 77: if (obj.options.rows && (obj.options.rows as any)[j]) {
-  Line 78: const rowDef = (obj.options.rows as any)[j];
-
-src/utils/worksheets.ts: 3 any types
-  Line 93: (worksheet as any)[methodName as string] = (method as Function).bind(worksheet);
-  Line 278: (obj as any).ads = document.createElement("div");
-  Line 279: (obj as any).ads.className = "jss_about";
+src/utils/worksheets.ts: 2 any types
+  Line 93: (worksheet as any)[methodName] = method.bind(worksheet);
+  Line 494: multiple.forEach((config: any) => {

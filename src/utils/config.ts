@@ -22,7 +22,12 @@ export const setConfig = function (
 ) {
   const obj = this;
 
-  const keys = Object.keys(config);
+  if (typeof config !== 'object' || config === null) {
+    return;
+  }
+
+  const configRecord = config as Record<string, unknown>;
+  const keys = Object.keys(configRecord);
 
   let spreadsheet;
 
@@ -36,17 +41,17 @@ export const setConfig = function (
 
   keys.forEach(function (key) {
     if (spreadsheetLevel) {
-      spreadsheet.config[key] = config[key];
+      spreadsheet.config[key] = configRecord[key];
 
       if (key === "toolbar") {
-        if (config[key] === true) {
-          spreadsheet.showToolbar();
-        } else if (config[key] === false) {
-          spreadsheet.hideToolbar();
+        if (configRecord[key] === true) {
+          spreadsheet.showToolbar?.();
+        } else if (configRecord[key] === false) {
+          spreadsheet.hideToolbar?.();
         }
       }
     } else {
-      obj.options[key] = config[key];
+      obj.options[key] = configRecord[key];
     }
   });
 };

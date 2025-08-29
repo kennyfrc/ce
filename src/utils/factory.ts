@@ -86,7 +86,7 @@ const createWorksheets = async function (
         newWorksheet.element = newTabContent;
 
         buildWorksheet.call(newWorksheet).then(function () {
-          updateToolbar(newWorksheet);
+          updateToolbar.call(newWorksheet);
 
           dispatch.call(
             newWorksheet,
@@ -107,7 +107,7 @@ const createWorksheets = async function (
           spreadsheet.worksheets.length != 0 &&
           spreadsheet.worksheets[tabIndex]
         ) {
-          updateToolbar(spreadsheet.worksheets[tabIndex]);
+          updateToolbar.call(spreadsheet.worksheets[tabIndex]);
         }
       },
     };
@@ -128,7 +128,7 @@ const createWorksheets = async function (
       }
 
       tabsOptions.data.push({
-        title: o[i].worksheetName,
+        title: o[i].worksheetName || "Sheet" + sheetNumber++,
         content: "",
       });
     }
@@ -144,7 +144,7 @@ const createWorksheets = async function (
     for (let i = 0; i < o.length; i++) {
       if (o[i].style) {
         Object.entries(o[i].style).forEach(function ([cellName, value]) {
-          if (typeof value === "number") {
+          if (typeof value === "number" && spreadsheetStyles[value]) {
             o[i].style[cellName] = spreadsheetStyles[value];
           }
         });
@@ -187,9 +187,11 @@ factory.spreadsheet = async function (
     options.worksheets[0] = tableOptions;
 
     const div = document.createElement("div");
-    el.parentNode.insertBefore(div, el);
-    el.remove();
-    el = div;
+    if (el.parentNode) {
+      el.parentNode.insertBefore(div, el);
+      el.remove();
+      el = div;
+    }
   }
 
   let spreadsheet: SpreadsheetInstance = {
@@ -197,6 +199,13 @@ factory.spreadsheet = async function (
     config: options,
     element: el,
     el,
+    options: options,
+    headers: [],
+    rows: [],
+    tbody: document.createElement("tbody"),
+    table: document.createElement("table"),
+    parent: {} as SpreadsheetInstance,
+    records: [],
   };
 
   // Contextmenu container
@@ -221,8 +230,8 @@ factory.spreadsheet = async function (
         Function
       ]) {
         spreadsheet.plugins![pluginName] = plugin.call(
-          libraryBase.jspreadsheet,
           spreadsheet,
+          libraryBase.jspreadsheet,
           {},
           spreadsheet.config
         );
@@ -249,7 +258,7 @@ factory.spreadsheet = async function (
     spreadsheet.element.classList.add("fullscreen");
   }
 
-  showToolbar.call(spreadsheet);
+  showToolbar.call(spreadsheet.worksheets[0] || spreadsheet);
 
   // Build handlers
   if (options.root) {
@@ -274,7 +283,15 @@ factory.worksheet = function (
     parent: spreadsheet,
     // Options for this worksheet
     options: {},
-  };
+    headers: [],
+    rows: [],
+    element: document.createElement("div"),
+    config: spreadsheet.config,
+    worksheets: [],
+    tbody: document.createElement("tbody"),
+    table: document.createElement("table"),
+    records: [],
+  } as unknown as SpreadsheetContext;
 
   // Create the worksheets object
   if (typeof position === "undefined") {

@@ -114,7 +114,10 @@ export interface SpreadsheetContext {
   headerContainer?: HTMLElement;
   colgroupContainer?: HTMLElement;
   thead?: HTMLElement;
+  tfoot?: HTMLElement;
   filter?: HTMLElement;
+  ads?: HTMLElement;
+  pagination?: HTMLElement;
   destroyMerge?: () => void;
   resetSelection?: (blur?: boolean) => number;
   getSelectedColumns?: (includeAll?: boolean) => number[];
@@ -183,6 +186,8 @@ export interface SpreadsheetContext {
   edition?: [HTMLElement, string, number, number];
   moveColumn?: (from: number, to: number) => void;
   orderBy?: (column: number, direction?: "asc" | "desc") => void;
+  hideColumn?: (colNumber: number | number[]) => void;
+  showColumn?: (colNumber: number | number[]) => void;
   pageNumber?: number;
   selectedCorner?: boolean;
   selectedHeader?: number | boolean | null;
@@ -210,6 +215,7 @@ export interface Row {
   cells: Cell[];
   index: number;
   height: number;
+  y: number;
 }
 
 export interface Cell {

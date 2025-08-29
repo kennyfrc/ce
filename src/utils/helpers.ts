@@ -194,6 +194,7 @@ export const parseCSV = function (str: string, delimiter?: string) {
 export const createFromTable = function (el: HTMLElement, options?: Partial<SpreadsheetOptions>) {
   if (el.tagName != "TABLE") {
     console.log("Element is not a table");
+    return {};
   } else {
     // Configuration
     if (!options) {
@@ -232,18 +233,21 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
       const width = info.width > 50 ? info.width : 50;
 
       // Create column option
+      if (!options.columns) {
+        options.columns = [];
+      }
       if (!options.columns[i]) {
         options.columns[i] = {};
       }
       if (header.getAttribute("data-celltype")) {
-        options.columns[i].type = header.getAttribute("data-celltype");
+        options.columns[i].type = header.getAttribute("data-celltype") as any;
       } else {
         options.columns[i].type = "text";
       }
       options.columns[i].width = width + "px";
       options.columns[i].title = header.innerHTML;
       if ((header as HTMLElement).style.textAlign) {
-        options.columns[i].align = (header as HTMLElement).style.textAlign;
+        options.columns[i].align = (header as HTMLElement).style.textAlign as "left" | "center" | "right";
       }
 
       let attrValue;

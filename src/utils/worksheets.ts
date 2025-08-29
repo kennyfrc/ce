@@ -90,7 +90,7 @@ const setWorksheetFunctions = function (worksheet: WorksheetInstance) {
   for (let i = 0; i < worksheetPublicMethodsLength; i++) {
     const [methodName, method] = worksheetPublicMethods[i];
 
-    (worksheet as WorksheetInstance)[methodName as keyof WorksheetInstance] = method.bind(worksheet) as never;
+    (worksheet as unknown as Record<string, unknown>)[methodName] = method.bind(worksheet);
   }
 };
 
@@ -467,12 +467,15 @@ const prepareTable = function (this: WorksheetInstance) {
           method: "GET",
           dataType: "json",
           success: function (this: WorksheetInstance, data: unknown[]) {
+            if (!obj.options.columns || !obj.options.columns[this.index]) {
+              return;
+            }
             if (!obj.options.columns[this.index].source) {
               obj.options.columns[this.index].source = [];
             }
 
-            for (let i = 0; i < data.length; i++) {
-              obj.options.columns[this.index].source.push(data[i]);
+            for (let j = 0; j < data.length; j++) {
+              obj.options.columns[this.index].source!.push(data[j]);
             }
           },
         });
@@ -484,12 +487,33 @@ const prepareTable = function (this: WorksheetInstance) {
   if (!multiple.length) {
     createTable.call(obj);
   } else {
-    jSuites.ajax({
-      url: multiple,
-      success: function (this: WorksheetInstance) {
-        createTable.call(obj);
-      },
-    } as unknown as { url: unknown; success: (this: WorksheetInstance) => void });
+    // Make ajax calls for each remote source
+    let completed = 0;
+    const total = multiple.length;
+
+    multiple.forEach((config: { url: string; index: number; method?: string; dataType?: string; success?: Function }) => {
+      jSuites.ajax({
+        url: config.url,
+        method: config.method || "GET",
+        dataType: config.dataType || "json",
+        success: function (this: WorksheetInstance, data: unknown[]) {
+          // Call the original success callback with the data
+          if (config.success) {
+            config.success.call(this, data);
+          }
+          completed++;
+          if (completed >= total) {
+            createTable.call(obj);
+          }
+        },
+        error: function (this: WorksheetInstance) {
+          completed++;
+          if (completed >= total) {
+            createTable.call(obj);
+          }
+        }
+      });
+    });
   }
 };
 
@@ -634,8 +658,11 @@ export const createWorksheetObj = function (
     historyIndex: -1,
   };
 
+  if (!spreadsheet.config.worksheets) {
+    spreadsheet.config.worksheets = [];
+  }
   spreadsheet.config.worksheets.push(newWorksheet.options);
-  spreadsheet.worksheets.push(newWorksheet);
+  spreadsheet.worksheets.push(newWorksheet as WorksheetInstance);
 
   return newWorksheet;
 };

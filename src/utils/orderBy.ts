@@ -37,28 +37,32 @@ export const updateOrder = function (this: WorksheetInstance, rows: number[]): v
   const obj = this;
 
   // History
-  let data = [];
+  const data: (CellValue[] | Record<string, CellValue>)[] = [];
   for (let j = 0; j < rows.length; j++) {
-    data[j] = obj.options.data[rows[j]];
-  }
-  obj.options.data = data;
-
-  data = [];
-  for (let j = 0; j < rows.length; j++) {
-    data[j] = obj.records[rows[j]];
-
-    for (let i = 0; i < data[j].length; i++) {
-      data[j][i].y = j;
+    if (obj.options.data) {
+      data[j] = obj.options.data[rows[j]];
     }
   }
-  obj.records = data;
-
-  data = [];
-  for (let j = 0; j < rows.length; j++) {
-    data[j] = obj.rows[rows[j]];
-    data[j].y = j;
+  if (obj.options.data) {
+    obj.options.data = data;
   }
-  obj.rows = data;
+
+  const recordsData: typeof obj.records = [];
+  for (let j = 0; j < rows.length; j++) {
+    recordsData[j] = obj.records[rows[j]];
+
+    for (let i = 0; i < recordsData[j].length; i++) {
+      recordsData[j][i].y = j;
+    }
+  }
+  obj.records = recordsData;
+
+  const rowsData: typeof obj.rows = [];
+  for (let j = 0; j < rows.length; j++) {
+    rowsData[j] = obj.rows[rows[j]];
+    rowsData[j].y = j;
+  }
+  obj.rows = rowsData;
 
   // Update references
   updateTableReferences.call(obj);
@@ -114,14 +118,19 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
     }
 
     // Direction
+    let direction: boolean;
     if (order == null) {
-      order = obj.headers[column].classList.contains("arrow-down") ? 1 : 0;
+      if (obj.headers[column]) {
+        direction = obj.headers[column].classList.contains("arrow-down");
+      } else {
+        direction = false;
+      }
     } else {
-      order = order ? 1 : 0;
+      direction = order ? true : false;
     }
 
     // Test order
-    let temp = [];
+    let temp: [number, CellValue][] = [];
     if (
       obj.options.columns &&
       obj.options.columns[column] &&
@@ -131,8 +140,12 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
         obj.options.columns[column].type == "autonumber" ||
         obj.options.columns[column].type == "color")
     ) {
-      for (let j = 0; j < obj.options.data.length; j++) {
-        temp[j] = [j, Number(obj.options.data[j][column])];
+      if (obj.options.data) {
+        for (let j = 0; j < obj.options.data.length; j++) {
+          if (obj.options.data[j]) {
+            temp[j] = [j, Number(obj.options.data[j][column])];
+          }
+        }
       }
     } else if (
       obj.options.columns &&
@@ -141,12 +154,21 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
         obj.options.columns[column].type == "checkbox" ||
         obj.options.columns[column].type == "radio")
     ) {
-      for (let j = 0; j < obj.options.data.length; j++) {
-        temp[j] = [j, obj.options.data[j][column]];
+      if (obj.options.data) {
+        for (let j = 0; j < obj.options.data.length; j++) {
+          if (obj.options.data[j]) {
+            temp[j] = [j, obj.options.data[j][column]];
+          }
+        }
       }
     } else {
-      for (let j = 0; j < obj.options.data.length; j++) {
-        temp[j] = [j, obj.records[j][column].element.textContent.toLowerCase()];
+      if (obj.options.data) {
+        for (let j = 0; j < obj.options.data.length; j++) {
+          if (obj.records[j] && obj.records[j][column] && obj.records[j][column].element) {
+            const textContent = obj.records[j][column].element.textContent;
+            temp[j] = [j, textContent ? textContent.toLowerCase() : ""];
+          }
+        }
       }
     }
 
@@ -182,10 +204,10 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
       };
     }
 
-    temp = temp.sort(obj.parent.config.sorting(order));
+    temp = temp.sort(obj.parent.config.sorting(direction));
 
     // Save history
-    const newValue = [];
+    const newValue: number[] = [];
     for (let j = 0; j < temp.length; j++) {
       newValue[j] = temp[j][0];
     }
@@ -195,11 +217,11 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
       action: "orderBy",
       rows: newValue,
       column: column,
-      order: order,
+      order: direction,
     });
 
     // Update order
-    updateOrderArrow.call(obj, column, order);
+    updateOrderArrow.call(obj, column, direction);
     updateOrder.call(obj, newValue);
 
     // On sort event
@@ -208,7 +230,7 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
       "onsort",
       obj,
       column,
-      order,
+      direction,
       newValue.map((row) => row)
     );
 

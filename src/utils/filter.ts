@@ -15,18 +15,21 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
     // Make sure is integer
     const columnIdNum = parseInt(columnId as string);
     // Reset selection
-    obj.resetSelection();
+    obj.resetSelection?.();
     // Load options
     let optionsFiltered = [];
-    if (obj.options.columns[columnIdNum].type == "checkbox") {
+    const columns = obj.options.columns ?? [];
+    if (columns[columnIdNum]?.type == "checkbox") {
       optionsFiltered.push({ id: "true", name: "True" });
       optionsFiltered.push({ id: "false", name: "False" });
     } else {
       const options: Record<string, string> = {};
       let hasBlanks = false;
-      for (let j = 0; j < obj.options.data.length; j++) {
-        const k = obj.options.data[j][columnIdNum];
-        const v = obj.records[j][columnIdNum].element.innerHTML;
+      const dataRows = obj.options.data ?? [];
+      for (let j = 0; j < dataRows.length; j++) {
+        const row = Array.isArray(dataRows[j]) ? dataRows[j] : [];
+        const k = row[columnIdNum];
+        const v = obj.records[j]?.[columnIdNum]?.element.innerHTML;
         if (k && v) {
           options[k] = v;
         } else {
@@ -46,31 +49,38 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
 
     // Create dropdown
     const div = document.createElement("div");
-    obj.filter.children[columnIdNum + 1].innerHTML = "";
-    obj.filter.children[columnIdNum + 1].appendChild(div);
-    obj.filter.children[columnIdNum + 1].style.paddingLeft = "0px";
-    obj.filter.children[columnIdNum + 1].style.paddingRight = "0px";
-    obj.filter.children[columnIdNum + 1].style.overflow = "initial";
+    const filterElement = obj.filter?.children[columnIdNum + 1] as HTMLElement;
+    if (filterElement) {
+      filterElement.innerHTML = "";
+      filterElement.appendChild(div);
+      filterElement.style.paddingLeft = "0px";
+      filterElement.style.paddingRight = "0px";
+      filterElement.style.overflow = "initial";
+    }
 
+    const filters = obj.filters ?? {};
     const opt = {
       data: optionsFiltered,
       multiple: true,
       autocomplete: true,
       opened: true,
-      value: obj.filters[columnId] !== undefined ? obj.filters[columnId] : null,
+      value: filters[columnId] !== undefined ? filters[columnId] : null,
       width: 100,
       position:
         obj.options.tableOverflow == true ||
-        obj.parent.config.fullscreen == true
+        obj.parent?.config?.fullscreen == true
           ? true
           : false,
       onclose: function (o: { dropdown: { getValue: (arg: boolean) => unknown; getText: () => string } }) {
         resetFilters.call(obj);
-        obj.filters[columnIdNum] = o.dropdown.getValue(true);
-        obj.filter.children[columnIdNum + 1].innerHTML = o.dropdown.getText();
-        obj.filter.children[columnIdNum + 1].style.paddingLeft = "";
-        obj.filter.children[columnIdNum + 1].style.paddingRight = "";
-        obj.filter.children[columnIdNum + 1].style.overflow = "";
+        filters[columnIdNum] = o.dropdown.getValue(true) as string[];
+        const filterChild = obj.filter?.children[columnIdNum + 1] as HTMLElement;
+        if (filterChild) {
+          filterChild.innerHTML = o.dropdown.getText();
+          filterChild.style.paddingLeft = "";
+          filterChild.style.paddingRight = "";
+          filterChild.style.overflow = "";
+        }
         closeFilter.call(obj, columnIdNum);
         refreshSelection.call(obj);
       },
@@ -83,10 +93,12 @@ export const openFilter = function (this: SpreadsheetContext, columnId: string |
 
 export const closeFilter = function (this: SpreadsheetContext, columnId?: number) {
   const obj = this;
+  const filters = obj.filters ?? {};
 
   if (!columnId) {
-    for (let i = 0; i < obj.filter.children.length; i++) {
-      if (obj.filters[i]) {
+    const filterChildren = obj.filter?.children ?? [];
+    for (let i = 0; i < filterChildren.length; i++) {
+      if (filters[i]) {
         columnId = i;
       }
     }
@@ -94,9 +106,11 @@ export const closeFilter = function (this: SpreadsheetContext, columnId?: number
 
   // Search filter
   const search = function (query: unknown[], x: number, y: number) {
+    const dataRows = obj.options.data ?? [];
+    const row = Array.isArray(dataRows[y]) ? dataRows[y] : [];
+    const value = "" + row[x];
+    const label = "" + obj.records[y]?.[x]?.element.innerHTML;
     for (let i = 0; i < query.length; i++) {
-      const value = "" + obj.options.data[y][x];
-      const label = "" + obj.records[y][x].element.innerHTML;
       if (query[i] == value || query[i] == label) {
         return true;
       }
@@ -104,9 +118,11 @@ export const closeFilter = function (this: SpreadsheetContext, columnId?: number
     return false;
   };
 
-  const query = obj.filters[columnId!];
+  const filters = obj.filters ?? {};
+  const query = filters[columnId!] as unknown[];
   obj.results = [];
-  for (let j = 0; j < obj.options.data.length; j++) {
+  const dataRows = obj.options.data ?? [];
+  for (let j = 0; j < dataRows.length; j++) {
     if (search(query, columnId!, j)) {
       obj.results.push(j);
     }
@@ -122,9 +138,14 @@ export const resetFilters = function (this: SpreadsheetContext) {
   const obj = this;
 
   if (obj.options.filters) {
-    for (let i = 0; i < obj.filter.children.length; i++) {
-      obj.filter.children[i].innerHTML = "&nbsp;";
-      obj.filters[i] = null;
+    const filterChildren = obj.filter?.children ?? [];
+    const filters = obj.filters ?? {};
+    for (let i = 0; i < filterChildren.length; i++) {
+      const child = filterChildren[i] as HTMLElement;
+      if (child) {
+        child.innerHTML = "&nbsp;";
+      }
+      filters[i] = null;
     }
   }
 

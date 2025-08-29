@@ -10,7 +10,8 @@ import {
 } from "./selection";
 import { setHistory } from "./history";
 import { getColumnNameFromId } from "./internalHelpers";
-import { WorksheetInstance, CellValue, RowDefinition } from "../types/core";
+import { WorksheetInstance, CellValue, Row, Cell } from "../types/core";
+import { RowDefinition } from "../types/rows";
 
 /**
  * Safely get cell value from data array, handling both array and object shapes
@@ -54,12 +55,12 @@ export const createRow = function (
     }
   }
   // New line of data to be append in the table
-  const row = {
+  const row: Row = {
     element: document.createElement("tr"),
     y: j,
     cells: [] as Cell[], // Will be populated below
     index: j,
-    height: parseInt(obj.options.defaultRowHeight || "20", 10) || 20,
+    height: parseInt(String(obj.options.defaultRowHeight || "20"), 10) || 20,
   };
 
   obj.rows[j] = row;
@@ -262,10 +263,10 @@ export const insertRow = function (
         (obj.options.data[row] as CellValue[])[col] = data[col] ? data[col] : "";
       }
       // Create row
-      const rowData = Array.isArray(obj.options.data?.[row])
+      const currentRow = Array.isArray(obj.options.data?.[row])
         ? obj.options.data[row] as CellValue[]
         : undefined;
-      const newRow = createRow.call(obj, row, rowData);
+      const newRow = createRow.call(obj, row, currentRow);
       // Append node
       if (currentRows[0]) {
         if (
@@ -313,7 +314,7 @@ export const insertRow = function (
     }
 
     // Respect pagination
-    if (obj.options.pagination > 0) {
+    if (typeof obj.options.pagination === 'number' && obj.options.pagination > 0 && obj.page && obj.pageNumber !== undefined) {
       obj.page(obj.pageNumber);
     }
 

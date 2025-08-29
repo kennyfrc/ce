@@ -17,9 +17,10 @@ export const getNumberOfColumns = function (
   let numberOfColumns =
     (obj.options.columns && obj.options.columns.length) || 0;
 
-  if (obj.options.data && typeof obj.options.data[0] !== "undefined") {
+  if (obj.options.data && obj.options.data.length > 0 && obj.options.data[0] !== undefined) {
     // Data keys
-    const keys = Object.keys(obj.options.data[0]);
+    const firstRow = obj.options.data[0];
+    const keys = Array.isArray(firstRow) ? [] : Object.keys(firstRow);
 
     if (keys.length > numberOfColumns) {
       numberOfColumns = keys.length;
@@ -57,6 +58,9 @@ export const createCellHeader = function (
     "center";
 
   // Create header cell
+  if (!obj.headers) {
+    obj.headers = [];
+  }
   obj.headers[colNumber] = document.createElement("td");
   obj.headers[colNumber].textContent =
     (obj.options.columns &&
@@ -91,6 +95,9 @@ export const createCellHeader = function (
   const colElement = document.createElement("col");
   colElement.setAttribute("width", colWidth.toString());
 
+  if (!obj.cols) {
+    obj.cols = [];
+  }
   obj.cols[colNumber] = {
     colElement,
     x: colNumber,
@@ -217,7 +224,7 @@ export const insertColumn = function (
       obj.options.mergeCells &&
       Object.keys(obj.options.mergeCells).length > 0
     ) {
-      if (isColMerged.call(obj.worksheets[0], columnNumber, insertBefore).length) {
+      if (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], columnNumber, insertBefore).length) {
         if (
           !confirm(
             jSuites.translate(
@@ -431,16 +438,16 @@ export const moveColumn = function (
   d: number
 ): boolean | void {
   const obj = this;
-  let insertBefore;
+  let insertBefore: boolean;
   if (o > d) {
-    insertBefore = 1;
+    insertBefore = true;
   } else {
-    insertBefore = 0;
+    insertBefore = false;
   }
 
     if (
-      isColMerged.call(obj.worksheets[0], o).length ||
-      isColMerged.call(obj.worksheets[0], d, !!insertBefore).length
+      (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], o).length) ||
+      (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], d, !!insertBefore).length)
     ) {
     if (
       !confirm(
@@ -624,7 +631,7 @@ export const deleteColumn = function (
             col < columnNumber + numOfColumns;
             col++
           ) {
-          if (isColMerged.call(obj.worksheets[0], col, undefined).length) {
+          if (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], col, undefined).length) {
               mergeExists = true;
             }
           }

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T06:07:07Z"
+    "updatedAt": "2025-08-29T21:00:00Z"
   },
   "tasks": [
     {
@@ -1435,7 +1435,7 @@
       "name": "Utils: Standardize this typing in merges/orderBy/dispatch",
       "description": "Replace this:any with proper context types and fix call sites",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "updatedAt": "2025-08-29T12:30:00Z",
       "candidateFiles": [
         "src/utils/merges.ts",
@@ -1496,7 +1496,7 @@
       "name": "Null-safety: Fix strictNullChecks hotspots",
       "description": "Guard/null-check coordinate math and optionals in events.ts/internal.ts/rows.ts",
       "phase": 4,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts",
         "src/utils/internal.ts",
@@ -1599,7 +1599,7 @@
       "name": "Milestone: Reduce TS errors to ≤35",
       "description": "After Phase 2, ensure error count roughly halves",
       "phase": 2,
-      "state": "in_progress",
+      "state": "completed",
       "updatedAt": "2025-08-28T09:00:00Z",
       "owners": [
         "@team/types"
@@ -2658,7 +2658,7 @@
       "name": "columns.ts: Handle data row union and guards",
       "description": "Guard numeric indexing over obj.options.data rows; support array/object rows and narrow types to remove TS7053 errors",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/columns.ts"
       ],
@@ -2857,7 +2857,7 @@
       "name": "Fix anys: src/utils/toolbar.ts",
       "description": "Replace explicit any usages in toolbar.ts",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/toolbar.ts"
       ],
@@ -3122,6 +3122,134 @@
       ],
       "createdAt": "2025-08-29T18:00:00Z",
       "updatedAt": "2025-08-29T18:00:00Z"
+    },
+    {
+      "id": "ts-final-20250829-2001",
+      "name": "Tests: augment Window and remove casts in src/test.ts",
+      "description": "Augment Window in test/global.d.ts (jss, instance) and update src/test.ts to assign without casts.",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "test/global.d.ts",
+        "src/test.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "tests",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2352 cast diagnostics in src/test.ts",
+        "window.jss and window.instance compile with precise types"
+      ],
+      "createdAt": "2025-08-29T18:30:00Z",
+      "updatedAt": "2025-08-29T18:30:00Z"
+    },
+    {
+      "id": "ts-final-20250829-2002",
+      "name": "events.ts: close-out pass to zero diagnostics",
+      "description": "Finish alias-and-guard work, type optional calls, and normalize parameter types so events.ts compiles clean under strict mode.",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "events",
+        "hotspot",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit reports 0 diagnostics from events.ts",
+        "No direct libraryBase.jspreadsheet.current property accesses inside handlers"
+      ],
+      "createdAt": "2025-08-29T18:30:00Z",
+      "updatedAt": "2025-08-29T18:30:00Z"
+    },
+    {
+      "id": "ts-final-20250829-2003",
+      "name": "Sweep: comments/config/filter/footer/headers/helpers/factory/data",
+      "description": "Type remaining minor utils with unknown+guards or precise interfaces; remove residual nullability and union indexing errors.",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/comments.ts",
+        "src/utils/config.ts",
+        "src/utils/filter.ts",
+        "src/utils/footer.ts",
+        "src/utils/headers.ts",
+        "src/utils/helpers.ts",
+        "src/utils/factory.ts",
+        "src/utils/data.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "cleanup"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in listed files under strict mode",
+        "No explicit any introduced; use unknown+guards where shape is dynamic"
+      ],
+      "createdAt": "2025-08-29T18:30:00Z",
+      "updatedAt": "2025-08-29T18:30:00Z"
+    },
+    {
+      "id": "ts-final-20250829-2004",
+      "name": "Gate: zero explicit any in internal code",
+      "description": "Enforce zero explicit any across src (excluding .d.ts and backups); add CI gate using .agent/find-any-types.js.",
+      "phase": 5,
+      "state": "completed",
+      "candidateFiles": [
+        ".agent/find-any-types.js",
+        ".github/workflows/"
+      ],
+      "owners": [
+        "@team/types",
+        "@team/build"
+      ],
+      "labels": [
+        "ci",
+        "any"
+      ],
+      "acceptanceCriteria": [
+        "Analyzer reports 0 explicit any occurrences in src/**/*",
+        "CI fails if analyzer > 0"
+      ],
+      "createdAt": "2025-08-29T18:30:00Z",
+      "updatedAt": "2025-08-29T18:30:00Z"
+    },
+    {
+      "id": "ts-final-20250829-2005",
+      "name": "Declaration audit: public API types match runtime",
+      "description": "Validate dist .d.ts shapes for JSpreadsheet and core models match runtime via a small consumer compilation harness.",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "dist/index.d.ts",
+        "dist/types/**/*.d.ts",
+        "analysis/"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "api",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "Consumer harness compiles using exported types without casts",
+        "No missing/incorrect properties on SpreadsheetInstance/WorksheetInstance"
+      ],
+      "createdAt": "2025-08-29T18:30:00Z",
+      "updatedAt": "2025-08-29T18:30:00Z"
     }
   ]
 }
