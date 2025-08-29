@@ -1,8 +1,12 @@
 Analyzing any types in TypeScript files...
 
-Found 0 any types across 0 files:
+Found 2 any types across 1 files:
+
+src/utils/worksheets.ts: 2 any types
+  Line 93: (worksheet as any)[methodName] = method.bind(worksheet);
+  Line 861: cutControls.call(this, null as any);
 
 
-Total any types found: 0
+Total any types found: 2
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

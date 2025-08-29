@@ -17,6 +17,8 @@ export interface SpreadsheetOptions {
   meta?: Record<string, Record<string, unknown>>;
   pagination?: number | boolean;
   style?: Record<string, CSSStyleDeclaration | number> | Array<CSSStyleDeclaration>;
+  comments?: Record<string, string>;
+  classes?: Record<string, string>;
   footers?: string[][];
   onload?: () => void;
   onchange?: (
@@ -152,7 +154,7 @@ export interface SpreadsheetContext {
     includeHeaders?: boolean
   ) => (string | number | boolean | null)[][];
   setStyle?: (o: string | Record<string, string | string[]>, k?: string | null | undefined, v?: string | null, force?: boolean, ignoreHistoryAndEvents?: boolean) => void;
-  getStyle?: (cell: string) => string;
+  getStyle?: (cell?: string | number[], key?: string) => string | Record<string, string | null | undefined>;
   removeMerge?: (cell: string) => void;
   setMerge?: (cell: string, colspan: number, rowspan: number) => void;
   selectedCell?: number[];
@@ -197,6 +199,7 @@ export interface SpreadsheetContext {
   setComments?: (cellId: string | Record<string, string>, comments?: string) => void;
   getHeader?: (column: number) => string;
   search?: (query: string) => void;
+  resetSearch?: () => void;
   // Additional properties used in copyPaste and other utilities
   style?: string[];
   textarea?: HTMLElement;

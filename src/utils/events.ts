@@ -1530,7 +1530,7 @@ const touchEndControls = function (e: TouchEvent): void {
   }
 };
 
-export const cutControls = function (this: WorksheetInstance, e: Event): void {
+export const cutControls = function (this: WorksheetInstance, e?: Event): void {
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (!current) return;
   if (!current.edition) {

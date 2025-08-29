@@ -4,7 +4,7 @@ import { updateTableReferences } from "./internal";
 import { setMerge } from "./merges";
 import { updateOrder, updateOrderArrow } from "./orderBy";
 import { conditionalSelectionUpdate } from "./selection";
-import type { WorksheetInstance, CellValue, ColumnDefinition } from "../types/core";
+import type { WorksheetInstance, CellValue, ColumnDefinition, HeaderCell } from "../types/core";
 
 type HistoryRecord = {
   action?: string;
@@ -103,14 +103,14 @@ const historyProcessRow = function (this: WorksheetInstance, type: number, histo
       obj.options.data = injectArray(obj.options.data, rowIndex, data) as typeof obj.options.data;
     }
 
-    obj.rows = injectArray(obj.rows, rowIndex, historyRecord.rowNode) as typeof obj.rows;
+    obj.rows = injectArray(obj.rows, rowIndex, historyRecord.rowNode ?? []) as typeof obj.rows;
     // Insert nodes
     let index = 0;
-    for (let j = rowIndex; j < historyRecord.numOfRows + rowIndex; j++) {
-      obj.tbody.insertBefore(
-        historyRecord.rowNode?.[index]?.element,
-        obj.tbody.children[j]
-      );
+    for (let j = rowIndex; j < (historyRecord.numOfRows ?? 0) + rowIndex; j++) {
+      const element = historyRecord.rowNode?.[index]?.element;
+      if (element) {
+        obj.tbody.insertBefore(element, obj.tbody.children[j]);
+      }
       index++;
     }
   }
@@ -131,7 +131,9 @@ const historyProcessRow = function (this: WorksheetInstance, type: number, histo
 
   // Respect pagination
   if (typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
-    obj.page?.(obj.pageNumber);
+    if (obj.pageNumber !== undefined) {
+      obj.page?.(obj.pageNumber);
+    }
   }
 
   updateTableReferences.call(obj);
@@ -148,30 +150,40 @@ const historyProcessColumn = function (
   const obj = this;
 
   const columnIndex = !historyRecord.insertBefore
-    ? historyRecord.columnNumber + 1
-    : historyRecord.columnNumber;
+    ? (historyRecord.columnNumber ?? 0) + 1
+    : (historyRecord.columnNumber ?? 0);
 
   // Remove column
   if (type === 1) {
-    const numOfColumns = historyRecord.numOfColumns;
+    const numOfColumns = historyRecord.numOfColumns ?? 0;
 
-    obj.options.columns.splice(columnIndex, numOfColumns);
+    if (obj.options.columns) {
+      obj.options.columns.splice(columnIndex, numOfColumns);
+    }
     for (let i = columnIndex; i < numOfColumns + columnIndex; i++) {
-      obj.headers[i]?.parentNode?.removeChild(obj.headers[i]);
-      obj.cols[i]?.colElement?.parentNode?.removeChild(obj.cols[i].colElement);
+      if (obj.headers[i]) {
+        obj.headers[i].parentNode?.removeChild(obj.headers[i]);
+      }
+      if (obj.cols[i]?.colElement) {
+        obj.cols[i].colElement.parentNode?.removeChild(obj.cols[i].colElement);
+      }
     }
     obj.headers.splice(columnIndex, numOfColumns);
     obj.cols.splice(columnIndex, numOfColumns);
-    for (let j = 0; j < historyRecord.data.length; j++) {
+    if (historyRecord.data) {
+      for (let j = 0; j < historyRecord.data.length; j++) {
       for (let i = columnIndex; i < numOfColumns + columnIndex; i++) {
         obj.records[j]?.[i]?.element?.parentNode?.removeChild(
           obj.records[j][i].element
         );
       }
-      obj.records[j]?.splice(columnIndex, numOfColumns);
-      if (Array.isArray(obj.options.data) && obj.options.data[j]) {
+      if (obj.records[j]) {
+        obj.records[j].splice(columnIndex, numOfColumns);
+      }
+      if (Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j])) {
         obj.options.data[j].splice(columnIndex, numOfColumns);
       }
+    }
     }
     // Process footers
     if (obj.options.footers) {
@@ -184,27 +196,27 @@ const historyProcessColumn = function (
   } else {
     // Insert data
     obj.options.columns = injectArray(
-      obj.options.columns,
+      obj.options.columns ?? [],
       columnIndex,
-      historyRecord.columns
-    );
-    obj.headers = injectArray(obj.headers, columnIndex, historyRecord.headers ?? []);
-    obj.cols = injectArray(obj.cols, columnIndex, historyRecord.cols ?? []);
+      historyRecord.columns ?? []
+    ) as ColumnDefinition[];
+    obj.headers = injectArray(obj.headers, columnIndex, historyRecord.headers ?? []) as HeaderCell[];
+    obj.cols = injectArray(obj.cols, columnIndex, historyRecord.cols ?? []) as Array<{ colElement: HTMLElement; x: number; }>;
 
     let index = 0;
     for (
       let i = columnIndex;
-      i < historyRecord.numOfColumns + columnIndex;
+      i < (historyRecord.numOfColumns ?? 0) + columnIndex;
       i++
     ) {
-      obj.headerContainer?.insertBefore(
-        historyRecord.headers?.[index],
-        obj.headerContainer.children[i + 1]
-      );
-      obj.colgroupContainer?.insertBefore(
-        historyRecord.cols?.[index]?.colElement,
-        obj.colgroupContainer.children[i + 1]
-      );
+      const headerElement = historyRecord.headers?.[index];
+      if (headerElement) {
+        obj.headerContainer?.insertBefore(headerElement, obj.headerContainer.children[i + 1]);
+      }
+      const colElement = historyRecord.cols?.[index]?.colElement;
+      if (colElement) {
+        obj.colgroupContainer?.insertBefore(colElement, obj.colgroupContainer.children[i + 1]);
+      }
       index++;
     }
 

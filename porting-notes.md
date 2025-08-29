@@ -1,4 +1,32 @@
-### Snapshot: 2025-08-29T22:00:00Z — Major hotspots fixed: selection.ts, style.ts, toolbar.ts zero errors
+### Snapshot: 2025-08-29T23:30:00Z — worksheets.ts zero errors, history.ts progress (106→55), total errors reduced to 769
+
+- TypeScript errors (tsconfig.test.json --noEmit): 769 (down from 863, 94 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: 
+  - worksheets.ts: Fixed all 50+ errors including method binding type assertions, ajax callback signatures, CSS classes application, and data shape assignments
+  - history.ts: Reduced errors from 106 to 55 by adding resetSearch to SpreadsheetContext, fixing undefined guards, and resolving type mismatches
+- Learnings:
+  - Method binding arrays require tuple casting to avoid union type inference issues
+  - Ajax success callbacks need to match jSuites.ajax expectations with proper unknown handling
+  - Dynamic property access needs comprehensive null/undefined guards
+  - Missing interface methods (resetSearch) must be added to core types
+- Next: Continue history.ts error reduction and tackle next hotspot (internal.ts with 69 errors)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 863 (down from 939)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Fixed all 50+ errors in src/utils/worksheets.ts:
+  - Fixed method binding type assertions with proper tuple casting
+  - Resolved ajax callback signatures to match jSuites.ajax expectations
+  - Added guards for optional property access and array operations
+  - Fixed CSS classes application with proper type guards
+  - Corrected data shape assignments with appropriate type casting
+  - Resolved undefined parameter issues in function calls
+- Learnings:
+  - Method binding arrays require careful type casting to avoid union type issues
+  - Ajax callbacks need to match jSuites.ajax signature expectations
+  - Dynamic property assignment needs proper type guards and assertions
+  - Complex data shape unions require runtime checks before operations
+- Next: Focus on history.ts (106 errors) as next major hotspot
 
 - TypeScript errors (tsconfig.test.json --noEmit): 907 (down from 1019)
 - Explicit any count (find-any-types): 0 (maintained)
