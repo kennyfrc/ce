@@ -1,4 +1,18 @@
-### Snapshot: 2025-08-30T00:30:00Z — Factory and filter fixes: Reduced TS errors from 430 to 414 (16 errors fixed)
+### Snapshot: 2025-08-30T01:00:00Z — Major progress: Reduced TS errors from 414 to 354 (60 errors fixed)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 354 (down from 414, 60 errors fixed)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Systematic fixes across top hotspots:
+  - filter.ts: Fixed union type indexing errors, variable redeclaration, dropdown options type mismatch (13 errors → 0)
+  - helpers.ts: Added undefined access guards, fixed type assignments, proper dataRow typing (19 errors → 2)
+  - rows.ts: Added data existence guards, fixed type conversions, null checks (20 errors → 11)
+- Learnings:
+  - Union type indexing requires Array.isArray guards before array operations
+  - Variable redeclaration in nested scopes causes TS2451 errors
+  - Dropdown callback signatures need proper parameter typing
+  - Null coalescing and optional chaining prevent 'possibly undefined' errors
+  - Type assertions with proper guards maintain type safety
+- Next: Continue with remaining hotspots (lazyLoading.ts, pagination.ts) to drive toward ≤10 error milestone
 
 - TypeScript errors (tsconfig.test.json --noEmit): 414 (down from 430)
 - Explicit any count (find-any-types): 0 (maintained)
