@@ -156,10 +156,10 @@ export interface SpreadsheetContext {
   setMerge?: (cell: string, colspan: number, rowspan: number) => void;
   selectedCell?: number[];
   updateSelectionFromCoords?: (
-    x1: number,
-    y1: number,
-    x2: number,
-    y3: number
+    x1: number | null,
+    y1: number | null,
+    x2: number | null,
+    y3: number | null
   ) => void;
   whichPage?: (row: number) => number;
   page?: (pageNumber: number) => void;

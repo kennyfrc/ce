@@ -21,16 +21,22 @@ export const getStyle = function (
     const data: Record<string, string | null | undefined> = {};
 
     // Column and row length
-    const x = obj.options.data[0].length;
-    const y = obj.options.data.length;
+    const dataArray = obj.options.data;
+    if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {
+      return {};
+    }
+    const x = dataArray[0]?.length || 0;
+    const y = dataArray.length;
 
     // Go through the columns to get the data
     for (let j = 0; j < y; j++) {
       for (let i = 0; i < x; i++) {
         // Value
+        const record = obj.records[j]?.[i];
+        if (!record) continue;
         const v = key
-          ? obj.records[j][i].element.style[key]
-          : obj.records[j][i].element.getAttribute("style");
+          ? record.element.style[key]
+          : record.element.getAttribute("style");
 
         // Any meta data for this column?
         if (v) {

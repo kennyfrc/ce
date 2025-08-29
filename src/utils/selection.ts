@@ -46,7 +46,7 @@ export const updateCornerPosition = function (this: WorksheetInstance): void {
       obj.corner.style.top = y + "px";
       obj.corner.style.left = x + "px";
 
-      if (obj.options.freezeColumns) {
+      if (obj.options.freezeColumns != null) {
         const width = getFreezeWidth.call(obj);
         // Only check if the last column is not part of the merged cells
         if (lastX > obj.options.freezeColumns - 1 && x2 - x1 + w2 < width) {
@@ -155,13 +155,13 @@ export const updateSelection = function (
 ): void {
   const obj = this;
 
-  const x1 = el1.getAttribute("data-x");
-  const y1 = el1.getAttribute("data-y");
+  const x1 = parseInt(el1.getAttribute("data-x") || "0");
+  const y1 = parseInt(el1.getAttribute("data-y") || "0");
 
   let x2, y2;
   if (el2) {
-    x2 = el2.getAttribute("data-x");
-    y2 = el2.getAttribute("data-y");
+    x2 = parseInt(el2.getAttribute("data-x") || "0");
+    y2 = parseInt(el2.getAttribute("data-y") || "0");
   } else {
     x2 = x1;
     y2 = y1;
@@ -183,10 +183,10 @@ export const removeCopyingSelection = function (): void {
 
 export const updateSelectionFromCoords = function (
   this: WorksheetInstance,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
+  x1: number | null,
+  y1: number | null,
+  x2: number | null,
+  y2: number | null,
   origin?: unknown
 ): boolean | void {
   const obj = this;
@@ -205,6 +205,11 @@ export const updateSelectionFromCoords = function (
     x2 = (obj.options.data?.[0]?.length ?? 1) - 1;
   }
 
+  // Ensure all coordinates are numbers
+  if (x1 == null || y1 == null || x2 == null || y2 == null) {
+    return;
+  }
+
   // Same element
   if (x2 == null) {
     x2 = x1;
@@ -212,6 +217,12 @@ export const updateSelectionFromCoords = function (
   if (y2 == null) {
     y2 = y1;
   }
+
+  // Type assertion after null checks
+  x1 = x1!;
+  y1 = y1!;
+  x2 = x2!;
+  y2 = y2!;
 
   // Selection must be within the existing data
   if (x1 >= obj.headers.length) {
@@ -261,13 +272,13 @@ export const updateSelectionFromCoords = function (
         obj.records[j][i] &&
         obj.records[j][i].element.getAttribute("data-merged")
       ) {
-        const x = parseInt(obj.records[j][i].element.getAttribute("data-x"));
-        const y = parseInt(obj.records[j][i].element.getAttribute("data-y"));
+        const x = parseInt(obj.records[j][i].element.getAttribute("data-x") || "0");
+        const y = parseInt(obj.records[j][i].element.getAttribute("data-y") || "0");
         const colspan = parseInt(
-          obj.records[j][i].element.getAttribute("colspan")
+          obj.records[j][i].element.getAttribute("colspan") || "1"
         );
         const rowspan = parseInt(
-          obj.records[j][i].element.getAttribute("rowspan")
+          obj.records[j][i].element.getAttribute("rowspan") || "1"
         );
 
         if (colspan > 1) {
@@ -318,21 +329,27 @@ export const updateSelectionFromCoords = function (
   }
 
   // Create borders
-  if (!borderLeft) {
+  if (borderLeft == null) {
     borderLeft = 0;
   }
-  if (!borderRight) {
+  if (borderRight == null) {
     borderRight = 0;
+  }
+  if (borderTop == null) {
+    borderTop = 0;
+  }
+  if (borderBottom == null) {
+    borderBottom = 0;
   }
 
   const ret = dispatch.call(
     obj,
     "onbeforeselection",
     obj,
-    borderLeft,
-    borderTop,
-    borderRight,
-    borderBottom,
+    borderLeft!,
+    borderTop!,
+    borderRight!,
+    borderBottom!,
     origin
   );
   if (ret === false) {
@@ -340,10 +357,15 @@ export const updateSelectionFromCoords = function (
   }
 
   // Reset Selection
-  const previousState = obj.resetSelection();
+  const previousState = obj.resetSelection?.() || 0;
 
   // Keep selected cell
   obj.selectedCell = [x1, y1, x2, y2];
+
+  // Initialize highlighted if not exists
+  if (!obj.highlighted) {
+    obj.highlighted = [];
+  }
 
   // Add selected cell
   if (obj.records[y1][x1]) {
@@ -407,7 +429,7 @@ export const updateSelectionFromCoords = function (
     }
   }
 
-  obj.selectedContainer = [borderLeft, borderTop, borderRight, borderBottom];
+  obj.selectedContainer = [borderLeft!, borderTop!, borderRight!, borderBottom!];
 
   // Handle events
   if (previousState == 0) {
@@ -420,10 +442,10 @@ export const updateSelectionFromCoords = function (
     obj,
     "onselection",
     obj,
-    borderLeft,
-    borderTop,
-    borderRight,
-    borderBottom,
+    borderLeft!,
+    borderTop!,
+    borderRight!,
+    borderBottom!,
     origin
   );
 
@@ -468,7 +490,7 @@ export const refreshSelection = function (this: WorksheetInstance): void {
   const obj = this;
 
   if (obj.selectedCell) {
-    obj.updateSelectionFromCoords(
+    obj.updateSelectionFromCoords?.(
       obj.selectedCell[0],
       obj.selectedCell[1],
       obj.selectedCell[2],
@@ -486,12 +508,14 @@ export const removeCopySelection = function (this: WorksheetInstance): void {
   const obj = this;
 
   // Remove current selection
-  for (let i = 0; i < obj.selection.length; i++) {
-    obj.selection[i].classList.remove("selection");
-    obj.selection[i].classList.remove("selection-left");
-    obj.selection[i].classList.remove("selection-right");
-    obj.selection[i].classList.remove("selection-top");
-    obj.selection[i].classList.remove("selection-bottom");
+  if (obj.selection) {
+    for (let i = 0; i < obj.selection.length; i++) {
+      obj.selection[i].classList.remove("selection");
+      obj.selection[i].classList.remove("selection-left");
+      obj.selection[i].classList.remove("selection-right");
+      obj.selection[i].classList.remove("selection-top");
+      obj.selection[i].classList.remove("selection-bottom");
+    }
   }
 
   obj.selection = [];
@@ -516,16 +540,16 @@ export const copyData = function (
   const obj = this;
 
   // Get data from all selected cells
-  const data = obj.getData(true, false);
+  const data = obj.getData?.(true, false);
 
   // Selected cells
   const h = obj.selectedContainer;
 
   // Cells
-  const x1 = parseInt(o.getAttribute("data-x"));
-  const y1 = parseInt(o.getAttribute("data-y"));
-  const x2 = parseInt(d.getAttribute("data-x"));
-  const y2 = parseInt(d.getAttribute("data-y"));
+  const x1 = parseInt(o.getAttribute("data-x") || "0");
+  const y1 = parseInt(o.getAttribute("data-y") || "0");
+  const x2 = parseInt(d.getAttribute("data-x") || "0");
+  const y2 = parseInt(d.getAttribute("data-y") || "0");
 
   // Records
   const records = [];
@@ -533,7 +557,7 @@ export const copyData = function (
 
   let rowNumber, colNumber;
 
-  if (h[0] == x1) {
+  if (h && h[0] == x1) {
     // Vertical copy
     if (y1 < h[1]) {
       rowNumber = y1 - h[1];
@@ -541,13 +565,16 @@ export const copyData = function (
       rowNumber = 1;
     }
     colNumber = 0;
-  } else {
+  } else if (h) {
     if (x1 < h[0]) {
       colNumber = x1 - h[0];
     } else {
       colNumber = 1;
     }
     rowNumber = 0;
+  } else {
+    rowNumber = 0;
+    colNumber = 0;
   }
 
   // Copy data procedure
@@ -561,13 +588,13 @@ export const copyData = function (
     }
 
     // Controls
-    if (data[posy] == undefined) {
+    if (!data || data[posy] == undefined) {
       posy = 0;
     }
     posx = 0;
 
     // Data columns
-    if (h[0] != x1) {
+    if (h && h[0] != x1) {
       if (x1 < h[0]) {
         colNumber = x1 - h[0];
       } else {
@@ -578,13 +605,13 @@ export const copyData = function (
     for (let i = x1; i <= x2; i++) {
       // Update non-readonly
       if (
-        obj.records[j][i] &&
+        obj.records[j]?.[i] &&
         !obj.records[j][i].element.classList.contains("readonly") &&
         obj.records[j][i].element.style.display != "none" &&
         breakControl == false
       ) {
         // Stop if contains value
-        if (!obj.selection.length) {
+        if (!obj.selection?.length) {
           const cellValue = obj.options.data?.[j]?.[i] || "";
           if (cellValue != "") {
             breakControl = true;
@@ -614,7 +641,7 @@ export const copyData = function (
               const tokens = ("" + value).match(/([A-Z]+[0-9]+)/g);
 
               if (tokens) {
-                const affectedTokens = [];
+                const affectedTokens: Record<string, string> = {};
                 for (let index = 0; index < tokens.length; index++) {
                   const position = getIdFromColumnName(tokens[index], true);
                   if (Array.isArray(position)) {
@@ -668,7 +695,9 @@ export const copyData = function (
         updateFormulaChain.call(obj, i, j, records);
       }
       posx++;
-      if (h[0] != x1) {
+      if (h && h[0] != x1) {
+        colNumber++;
+      } else if (!h) {
         colNumber++;
       }
     }
@@ -733,7 +762,7 @@ export const conditionalSelectionUpdate = function (
       ((o >= obj.selectedCell[1] && o <= obj.selectedCell[3]) ||
         (d >= obj.selectedCell[1] && d <= obj.selectedCell[3]))
     ) {
-      obj.resetSelection();
+      obj.resetSelection?.();
       return;
     }
   } else {
@@ -742,7 +771,7 @@ export const conditionalSelectionUpdate = function (
       ((o >= obj.selectedCell[0] && o <= obj.selectedCell[2]) ||
         (d >= obj.selectedCell[0] && d <= obj.selectedCell[2]))
     ) {
-      obj.resetSelection();
+      obj.resetSelection?.();
       return;
     }
   }
@@ -835,14 +864,29 @@ export const getSelected = function (
     return [];
   }
 
-  const cells = [];
+  const cells: string[] | Array<{
+    element: HTMLElement;
+    x: number;
+    y: number;
+    colspan?: number;
+    rowspan?: number;
+  }> = [];
 
   for (let y = selectedRange[1]; y <= selectedRange[3]; y++) {
     for (let x = selectedRange[0]; x <= selectedRange[2]; x++) {
       if (columnNameOnly) {
-        cells.push(getCellNameFromCoords(x, y));
+        (cells as string[]).push(getCellNameFromCoords(x, y));
       } else {
-        cells.push(obj.records[y][x]);
+        const record = obj.records[y]?.[x];
+        if (record) {
+          (cells as Array<{
+            element: HTMLElement;
+            x: number;
+            y: number;
+            colspan?: number;
+            rowspan?: number;
+          }>).push(record);
+        }
       }
     }
   }

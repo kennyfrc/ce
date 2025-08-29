@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T07:15:42Z"
+    "updatedAt": "2025-08-29T21:15:00Z"
   },
   "tasks": [
     {
@@ -3250,6 +3250,35 @@
       ],
       "createdAt": "2025-08-29T18:30:00Z",
       "updatedAt": "2025-08-29T18:30:00Z"
+    },
+    {
+      "id": "ts-hotspot-20250829-2100",
+      "name": "Fix remaining TypeScript errors in hotspots",
+      "description": "Systematically fix remaining 874 TypeScript errors in major hotspots: selection.ts, style.ts, toolbar.ts, worksheets.ts, and test files using guard-and-cast patterns.",
+      "phase": 6,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/selection.ts",
+        "src/utils/style.ts",
+        "src/utils/toolbar.ts",
+        "src/utils/worksheets.ts",
+        "test/calculations.ts"
+      ],
+      "owners": [
+        "@assistant"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "strict-mode"
+      ],
+      "acceptanceCriteria": [
+        "TypeScript error count reduced to ≤100",
+        "No explicit any introduced",
+        "All hotspots compile clean under strict mode"
+      ],
+      "createdAt": "2025-08-29T21:15:00Z",
+      "updatedAt": "2025-08-29T21:15:00Z"
     }
   ]
 }
