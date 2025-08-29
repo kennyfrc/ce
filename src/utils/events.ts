@@ -868,6 +868,7 @@ const doubleClickControls = function (e: MouseEvent): void {
 
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current) {
+    const columns = current.options.columns ?? [];
     // Corner action
     if (target.classList.contains("jss_corner")) {
       // Any selected cells
@@ -943,12 +944,12 @@ const pasteControls = function (e: ClipboardEvent): void {
             e.clipboardData.getData("text")
           );
           e.preventDefault();
-        } else if ((window as any).clipboardData) {
+        } else if ("clipboardData" in window && (window as Window & { clipboardData: DataTransfer }).clipboardData) {
           paste.call(
             current,
             current.selectedCell[0],
             current.selectedCell[1],
-            (window as any).clipboardData.getData("text")
+            (window as Window & { clipboardData: DataTransfer }).clipboardData.getData("text")
           );
         }
       }
@@ -1419,21 +1420,25 @@ const contextMenuControls = function (e: MouseEvent): void {
 const touchStartControls = function (e: TouchEvent): void {
   const jssTable = getElement(getHTMLElement(e.target));
 
+  // Local alias of current to enable narrowing and reduce repeated property access
+  let current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
+
   if (jssTable[0]) {
-    if (libraryBase.jspreadsheet.current != jssTable[0].jssWorksheet) {
-      if (libraryBase.jspreadsheet.current) {
-        libraryBase.jspreadsheet.current.resetSelection?.();
+    if (current != jssTable[0].jssWorksheet) {
+      if (current) {
+        current.resetSelection?.();
       }
       libraryBase.jspreadsheet.current = jssTable[0].jssWorksheet;
+      current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
     }
   } else {
-    if (libraryBase.jspreadsheet.current) {
-      libraryBase.jspreadsheet.current.resetSelection?.();
+    if (current) {
+      current.resetSelection?.();
       libraryBase.jspreadsheet.current = null;
+      current = null;
     }
   }
 
-  const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current) {
     if (!current.edition) {
       const target = getHTMLElement(e.target);
@@ -1454,9 +1459,8 @@ const touchStartControls = function (e: TouchEvent): void {
 
         libraryBase.jspreadsheet.timeControl = setTimeout(function () {
           if (
-            current.options.columns &&
-            current.options.columns[columnId] &&
-            current.options.columns[columnId].type == "color"
+            columns[columnId] &&
+            columns[columnId].type == "color"
           ) {
             libraryBase.jspreadsheet.tmpElement = null;
           } else {
@@ -1528,6 +1532,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
     const data = current.options.data ?? [];
     const dataRows = data.length;
     const dataCols = (data[0] ? data[0].length : 0) as number;
+    const columns = current.options.columns ?? [];
     if (current.edition) {
       if (e.which == 27) {
         // Escape
@@ -1539,28 +1544,24 @@ const keyDownControls = function (e: KeyboardEvent): void {
       } else if (e.which == 13) {
         // Enter
         if (
-          current.options.columns &&
-          current.options.columns[current.edition[2]] &&
-          current.options.columns[current.edition[2]].type == "calendar"
+          columns[current.edition[2]] &&
+          columns[current.edition[2]].type == "calendar"
         ) {
           closeEditor.call(current, current.edition[0], true);
         } else if (
-          current.options.columns &&
-          current.options.columns[current.edition[2]] &&
-          current.options.columns[current.edition[2]].type == "dropdown"
+          columns[current.edition[2]] &&
+          columns[current.edition[2]].type == "dropdown"
         ) {
           // Do nothing
         } else {
           // Alt enter -> do not close editor
           if (
             (current.options.wordWrap == true ||
-              (current.options.columns &&
-                current.options.columns[current.edition[2]] &&
-                current.options.columns[current.edition[2]].wordWrap == true) ||
-              (current.options.data &&
-                current.options.data[current.edition[3]] &&
-                current.options.data[current.edition[3]][current.edition[2]] &&
-                ((Array.isArray(current.options.data[current.edition[3]][current.edition[2]]) || typeof current.options.data[current.edition[3]][current.edition[2]] === 'string') && (current.options.data[current.edition[3]][current.edition[2]] as ArrayLike<unknown>).length > 200))) &&
+              (columns[current.edition[2]] &&
+                columns[current.edition[2]].wordWrap == true) ||
+              (data[current.edition[3]] &&
+                data[current.edition[3]][current.edition[2]] &&
+                ((Array.isArray(data[current.edition[3]][current.edition[2]]) || typeof data[current.edition[3]][current.edition[2]] === 'string') && (data[current.edition[3]][current.edition[2]] as ArrayLike<unknown>).length > 200))) &&
             e.altKey
           ) {
             // Add new line to the editor
@@ -1586,10 +1587,9 @@ const keyDownControls = function (e: KeyboardEvent): void {
       } else if (e.which == 9) {
         // Tab
         if (
-          current.options.columns &&
-          current.options.columns[current.edition[2]] &&
+          columns[current.edition[2]] &&
           ["calendar", "html"].includes(
-            current.options.columns[current.edition[2]].type
+            columns[current.edition[2]].type
           )
         ) {
           closeEditor.call(current, current.edition[0], true);
@@ -1736,10 +1736,9 @@ const keyDownControls = function (e: KeyboardEvent): void {
                 // Space
                 e.preventDefault();
                 if (
-                  current.options.columns &&
-                  current.options.columns[columnId] &&
-                  (current.options.columns[columnId].type == "checkbox" ||
-                    current.options.columns[columnId].type == "radio")
+                  columns[columnId] &&
+                  (columns[columnId].type == "checkbox" ||
+                    columns[columnId].type == "radio")
                 ) {
                   setCheckRadioValue.call(current);
                 } else {
@@ -1772,9 +1771,8 @@ const keyDownControls = function (e: KeyboardEvent): void {
                 );
                 // Prevent entries in the calendar
                 if (
-                  current.options.columns &&
-                  current.options.columns[columnId] &&
-                  current.options.columns[columnId].type == "calendar"
+                  columns[columnId] &&
+                  columns[columnId].type == "calendar"
                 ) {
                   e.preventDefault();
                 }
@@ -1792,8 +1790,8 @@ const keyDownControls = function (e: KeyboardEvent): void {
       }
       const searchEl = kdTarget as HTMLInputElement;
       libraryBase.jspreadsheet.timeControl = setTimeout(function () {
-        if (libraryBase.jspreadsheet.current) {
-          libraryBase.jspreadsheet.current.search(searchEl.value);
+        if (current) {
+          current.search(searchEl.value);
         }
       }, 200);
     }

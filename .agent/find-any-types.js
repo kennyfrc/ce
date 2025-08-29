@@ -52,7 +52,16 @@ for (const file of files) {
         (blockCommentStart !== -1 &&
           (blockCommentEnd === -1 || blockCommentStart > blockCommentEnd));
 
-      if (!isInComment) {
+      const quoteStart = Math.max(
+        lineBeforeMatch.lastIndexOf('"'),
+        lineBeforeMatch.lastIndexOf("'")
+      );
+      const isInString =
+        quoteStart !== -1 &&
+        quoteStart > (blockCommentEnd !== -1 ? blockCommentEnd : -1) &&
+        quoteStart > commentStart;
+
+      if (!isInComment && !isInString) {
         anyMatches.push({
           line: index + 1,
           text: line.trim(),

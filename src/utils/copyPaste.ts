@@ -308,7 +308,7 @@ export const paste = function (this: SpreadsheetContext, x: number, y: number, d
       style = newStyle;
     }
 
-    const arrayB = data.map(function (row: any[], i: number) {
+    const arrayB = data.map(function (row: string[], i: number) {
       const arrayC = Array.from({ length: repeats * row.length }, (e, i) => {
         return row[i % row.length];
       });
@@ -337,8 +337,8 @@ export const paste = function (this: SpreadsheetContext, x: number, y: number, d
     obj,
     "onbeforepaste",
     obj,
-    data.map(function (row: any[]) {
-      return row.map(function (item: any) {
+    data.map(function (row: string[]) {
+      return row.map(function (item: string) {
         return { value: item };
       });
     }),
@@ -357,8 +357,8 @@ export const paste = function (this: SpreadsheetContext, x: number, y: number, d
     let i = 0;
     let j = 0;
     const records = [];
-    const newStyle: Record<string, any> = {};
-    const oldStyle: Record<string, any> = {};
+    const newStyle: Record<string, unknown> = {};
+    const oldStyle: Record<string, unknown> = {};
     let styleIndex = 0;
 
     // Index
@@ -368,7 +368,7 @@ export const paste = function (this: SpreadsheetContext, x: number, y: number, d
 
     const hiddenColCount = obj.headers
       .slice(colIndex)
-      .filter((x: any) => x.style.display === "none").length;
+      .filter((x: HTMLElement) => x.style.display === "none").length;
     const expandedColCount = colIndex + hiddenColCount + data[0].length;
     const currentColCount = obj.headers.length;
     if (expandedColCount > currentColCount) {
@@ -377,7 +377,7 @@ export const paste = function (this: SpreadsheetContext, x: number, y: number, d
     }
     const hiddenRowCount = obj.rows
       .slice(rowIndex)
-      .filter((x: any) => x.element.style.display === "none").length;
+      .filter((x: { element: HTMLElement }) => x.element.style.display === "none").length;
     const expandedRowCount = rowIndex + hiddenRowCount + data.length;
     const currentRowCount = obj.rows.length;
     if (expandedRowCount > currentRowCount) {

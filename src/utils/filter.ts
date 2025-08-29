@@ -1,11 +1,12 @@
 import jSuites from "jsuites";
 import { updateResult } from "./internal";
 import { refreshSelection } from "./selection";
+import type { SpreadsheetContext } from "../types/core";
 
 /**
  * Open the column filter
  */
-export const openFilter = function (this: any, columnId: string | number) {
+export const openFilter = function (this: SpreadsheetContext, columnId: string | number) {
   const obj = this;
 
   if (!obj.options.filters) {
@@ -63,7 +64,7 @@ export const openFilter = function (this: any, columnId: string | number) {
         obj.parent.config.fullscreen == true
           ? true
           : false,
-      onclose: function (o: any) {
+      onclose: function (o: { dropdown: { getValue: (arg: boolean) => unknown; getText: () => string } }) {
         resetFilters.call(obj);
         obj.filters[columnIdNum] = o.dropdown.getValue(true);
         obj.filter.children[columnIdNum + 1].innerHTML = o.dropdown.getText();
@@ -80,7 +81,7 @@ export const openFilter = function (this: any, columnId: string | number) {
   }
 };
 
-export const closeFilter = function (this: any, columnId?: number) {
+export const closeFilter = function (this: SpreadsheetContext, columnId?: number) {
   const obj = this;
 
   if (!columnId) {
@@ -92,7 +93,7 @@ export const closeFilter = function (this: any, columnId?: number) {
   }
 
   // Search filter
-  const search = function (query: any[], x: number, y: number) {
+  const search = function (query: unknown[], x: number, y: number) {
     for (let i = 0; i < query.length; i++) {
       const value = "" + obj.options.data[y][x];
       const label = "" + obj.records[y][x].element.innerHTML;
@@ -117,7 +118,7 @@ export const closeFilter = function (this: any, columnId?: number) {
   updateResult.call(obj);
 };
 
-export const resetFilters = function (this: any) {
+export const resetFilters = function (this: SpreadsheetContext) {
   const obj = this;
 
   if (obj.options.filters) {

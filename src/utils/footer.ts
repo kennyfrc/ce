@@ -1,6 +1,7 @@
 import { parseValue } from "./internal";
+import type { SpreadsheetContext } from "../types/core";
 
-export const setFooter = function (this: any, data?: any) {
+export const setFooter = function (this: SpreadsheetContext, data?: string[][]) {
   const obj = this;
 
   if (data) {

@@ -1,21 +1,23 @@
+import type { SpreadsheetContext } from "../types/core";
+
 /**
  * Get table config information
  */
-export const getWorksheetConfig = function (this: any) {
+export const getWorksheetConfig = function (this: SpreadsheetContext) {
   const obj = this;
 
   return obj.options;
 };
 
-export const getSpreadsheetConfig = function (this: any) {
+export const getSpreadsheetConfig = function (this: SpreadsheetContext) {
   const spreadsheet = this;
 
   return spreadsheet.config;
 };
 
 export const setConfig = function (
-  this: any,
-  config: any,
+  this: SpreadsheetContext,
+  config: unknown,
   spreadsheetLevel?: boolean
 ) {
   const obj = this;

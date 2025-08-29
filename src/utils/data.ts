@@ -262,12 +262,12 @@ export const setValue = function (
         updateFormulaChain.call(obj, xVal, yVal, records);
       }
     } else {
-      const items: any[] = Array.isArray(cell)
-        ? (cell as any[])
-        : Object.keys(cell).map((k) => (cell as any)[k]);
+      const items: (HTMLElement | { element: HTMLElement } | unknown)[] = Array.isArray(cell)
+        ? cell
+        : Object.keys(cell as Record<string, unknown>).map((k) => (cell as Record<string, unknown>)[k]);
 
       for (let idx = 0; idx < items.length; idx++) {
-        const item = items[idx] as any;
+        const item = items[idx];
         let xi: number | null = null;
         let yi: number | null = null;
 
@@ -276,13 +276,13 @@ export const setValue = function (
           xi = columnId[0];
           yi = columnId[1];
         } else if (item && typeof item === "object") {
-          if (item.x != null && item.y != null) {
-            xi = Number(item.x);
-            yi = Number(item.y);
-            if (item.value != null) value = item.value;
+          if ("x" in item && "y" in item) {
+            xi = Number((item as { x: unknown }).x);
+            yi = Number((item as { y: unknown }).y);
+            if ("value" in item) value = (item as { value: unknown }).value as CellValue;
           } else {
             const el =
-              item.element && (item.element as HTMLElement).getAttribute
+              "element" in item && item.element && (item.element as HTMLElement).getAttribute
                 ? (item.element as HTMLElement)
                 : (item as HTMLElement);
             xi = parseInt(el.getAttribute("data-x") || "", 10);
@@ -441,7 +441,7 @@ export const getData = function (
 
   if (asJson) {
     return dataset.map(function (row) {
-      const resultRow: Record<number, any> = {};
+      const resultRow: Record<number, CellValue> = {};
 
       row.forEach(function (item, index) {
         resultRow[index] = item;

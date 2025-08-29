@@ -2,11 +2,12 @@ import { resetFilters } from "./filter";
 import { getIdFromColumnName } from "./internalHelpers";
 import { updateResult } from "./internal";
 import { isRowMerged } from "./merges";
+import type { SpreadsheetContext, CellValue } from "../types/core";
 
 /**
  * Search
  */
-export const search = function (this: any, query: string): void {
+export const search = function (this: SpreadsheetContext, query: string): void {
   const obj = this;
 
   // Reset any filter
@@ -27,7 +28,7 @@ export const search = function (this: any, query: string): void {
     }
 
     // Search filter
-    const search = function (item: any[], query: RegExp, index: number) {
+    const search = function (item: CellValue[], query: RegExp, index: number) {
       for (let i = 0; i < item.length; i++) {
         if (
           ("" + item[i]).toLowerCase().search(query) >= 0 ||
@@ -52,7 +53,7 @@ export const search = function (this: any, query: string): void {
     const parsedQuery = new RegExp(parsedQueryStr, "i");
 
     // Filter
-    obj.options.data.forEach(function (v: any, k: any) {
+    obj.options.data.forEach(function (v: CellValue[], k: number) {
       if (search(v, parsedQuery, k)) {
         // Merged rows found
         const rows = isRowMerged.call(obj, k, undefined);
@@ -79,7 +80,7 @@ export const search = function (this: any, query: string): void {
 /**
  * Reset search
  */
-export const resetSearch = function (this: any): void {
+export const resetSearch = function (this: SpreadsheetContext): void {
   const obj = this;
 
   obj.searchInput.value = "";

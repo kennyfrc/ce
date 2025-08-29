@@ -1,5 +1,5 @@
 // Helper functions for column operations
-import { SpreadsheetContext } from "../types/core";
+import { SpreadsheetContext, ColumnDefinition } from "../types/core";
 
 /**
  * Convert a column identifier (number or string) to a numeric column index
@@ -63,7 +63,7 @@ export function toColumnName(columnNumber: number): string {
 export function getColumnDefinition(
   context: SpreadsheetContext,
   columnIdentifier: number | string
-): any | undefined {
+): ColumnDefinition | undefined {
   const columnNumber = toColumnNumber(columnIdentifier);
   return context.options.columns?.[columnNumber];
 }

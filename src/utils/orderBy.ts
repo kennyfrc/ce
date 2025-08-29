@@ -4,7 +4,7 @@ import dispatch from "./dispatch";
 import { updateTableReferences } from "./internal";
 import { loadPage } from "./lazyLoading";
 import { closeFilter } from "./filter";
-import type { WorksheetInstance } from "../types/core";
+import type { WorksheetInstance, CellValue } from "../types/core";
 
 /**
  * Update order arrow
@@ -101,7 +101,7 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
     ) {
       if (
         !confirm(
-          (jSuites as any).translate(
+          (jSuites as unknown as { translate: (key: string) => string }).translate(
             "This action will destroy any existing merged cells. Are you sure?"
           )
         )
@@ -152,8 +152,8 @@ export const orderBy = function (this: WorksheetInstance, column: number, order?
 
     // Default sorting method
     if (typeof obj.parent.config.sorting !== "function") {
-      obj.parent.config.sorting = function (direction: any) {
-        return function (a: any, b: any) {
+      obj.parent.config.sorting = function (direction: boolean) {
+        return function (a: [number, CellValue], b: [number, CellValue]) {
           const valueA = a[1];
           const valueB = b[1];
 

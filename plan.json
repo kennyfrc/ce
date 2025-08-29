@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T04:36:26Z"
+    "updatedAt": "2025-08-29T13:21:58Z"
   },
   "tasks": [
     {
@@ -38,7 +38,7 @@
       "name": "Priority: Events sweep — alias-and-guard full pass",
       "description": "Systematically apply local `current` alias, null/undefined guards, EventTarget narrowing, and plugin unknown+guards across src/utils/events.ts.",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/events.ts"
       ],
@@ -63,7 +63,7 @@
       "name": "Priority: Data/Columns — discriminate options.data shapes",
       "description": "Implement discriminated runtime checks (Array.isArray vs object rows), helper functions to read row values, guard numeric indexing, and add types to avoid union-indexing errors.",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/data.ts",
         "src/utils/columns.ts"
@@ -114,7 +114,7 @@
       "name": "Priority: Remove explicit any in top offenders (triage batch)",
       "description": "Triage and fix explicit `any` usages in the highest-impact files reported by the any-analyzer (copyPaste, editor, meta, history, pagination, style, toolbar, columns, worksheets, helpers).",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/copyPaste.ts",
         "src/utils/editor.ts",

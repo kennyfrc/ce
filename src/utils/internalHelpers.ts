@@ -3,7 +3,7 @@ import { getColumnName } from "./helpers";
 /**
  * Helper injectArray
  */
-export const injectArray = function (o: any[], idx: number, arr: any[]) {
+export const injectArray = function (o: unknown[], idx: number, arr: unknown[]) {
   if (idx <= o.length) {
     return o.slice(0, idx).concat(arr).concat(o.slice(idx));
   }

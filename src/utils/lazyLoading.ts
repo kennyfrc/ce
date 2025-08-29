@@ -1,7 +1,9 @@
+import type { SpreadsheetContext } from "../types/core";
+
 /**
  * Go to a page in a lazyLoading
  */
-export const loadPage = function (this: any, pageNumber: any) {
+export const loadPage = function (this: SpreadsheetContext, pageNumber: number) {
   const obj = this;
 
   // Search
@@ -52,7 +54,7 @@ export const loadPage = function (this: any, pageNumber: any) {
   }
 };
 
-export const loadValidation = function (this: any) {
+export const loadValidation = function (this: SpreadsheetContext) {
   const obj = this;
 
   if (obj.selectedCell) {
@@ -77,7 +79,7 @@ export const loadValidation = function (this: any) {
   return false;
 };
 
-export const loadUp = function (this: any) {
+export const loadUp = function (this: SpreadsheetContext) {
   const obj = this;
 
   // Search
@@ -131,7 +133,7 @@ export const loadUp = function (this: any) {
   return test;
 };
 
-export const loadDown = function (this: any) {
+export const loadDown = function (this: SpreadsheetContext) {
   const obj = this;
 
   // Search

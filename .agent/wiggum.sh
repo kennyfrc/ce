@@ -7,7 +7,7 @@ ITERATIONS="${1:-32}"
 for i in $(seq "$ITERATIONS"); do
   echo "=== $(date) ===" | tee -a ./.agent/diary.md
   
-  cat port.md | opencode run --agent build-gpt | tee -a ./.agent/diary.md &
+  cat port.md | opencode run --agent build --model opencode/grok-code | tee -a ./.agent/diary.md &
   OPENCODE_PID=$!
   
   wait $OPENCODE_PID

@@ -2,12 +2,13 @@ import dispatch from "./dispatch";
 import { getCoordsFromCellName } from "./helpers";
 import { setHistory } from "./history";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
+import type { SpreadsheetContext } from "../types/core";
 
 /**
  * Get cell comments, null cell for all
  */
 export const getComments = function (
-  this: any,
+  this: SpreadsheetContext,
   cellParam?: string
 ): string | Record<string, string> {
   const obj = this;
@@ -43,7 +44,7 @@ export const getComments = function (
 /**
  * Set cell comments
  */
-export const setComments = function (this: any, cellId: any, comments: any) {
+export const setComments = function (this: SpreadsheetContext, cellId: string | Record<string, string>, comments?: string) {
   const obj = this;
 
   let commentsObj;
@@ -54,7 +55,7 @@ export const setComments = function (this: any, cellId: any, comments: any) {
     commentsObj = cellId;
   }
 
-  const oldValue: Record<string, any> = {};
+  const oldValue: Record<string, string | null> = {};
 
   Object.entries(commentsObj).forEach(function ([cellName, comment]) {
     const cellCoords = getCoordsFromCellName(cellName);

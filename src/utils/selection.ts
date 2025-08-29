@@ -179,7 +179,7 @@ export const updateSelectionFromCoords = function (
   y1: number,
   x2: number,
   y2: number,
-  origin?: any
+  origin?: unknown
 ): boolean | void {
   const obj = this;
 
