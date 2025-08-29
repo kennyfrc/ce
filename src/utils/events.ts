@@ -961,18 +961,18 @@ const doubleClickControls = function (e: MouseEvent): void {
   }
 };
 
-const pasteControls = function (e: ClipboardEvent): void {
+const pasteControls = function (e: Event): void {
   const current = libraryBase.jspreadsheet.current as WorksheetInstance | null;
   if (current && current.selectedCell) {
     if (!current.edition) {
       const editable = current.options.editable != false;
       if (editable) {
-        if (e && "clipboardData" in e && e.clipboardData) {
+        if (e && "clipboardData" in e && (e as ClipboardEvent).clipboardData) {
           paste.call(
             current,
             current.selectedCell[0],
             current.selectedCell[1],
-            e.clipboardData.getData("text")
+            (e as ClipboardEvent).clipboardData!.getData("text")
           );
           e.preventDefault();
         } else if ("clipboardData" in window && (window as Window & { clipboardData: DataTransfer }).clipboardData) {
@@ -1781,7 +1781,7 @@ const keyDownControls = function (e: KeyboardEvent): void {
             e.preventDefault();
           } else if (e.which == 86) {
             // Ctrl + V
-            pasteControls.call(current, e as ClipboardEvent);
+            pasteControls.call(current, e);
           }
         } else {
           if (current.selectedCell) {

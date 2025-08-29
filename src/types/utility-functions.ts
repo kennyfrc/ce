@@ -162,7 +162,7 @@ export interface EventFunctions {
     e: MouseEvent
   ) => boolean | void;
   doubleClickControls: (this: SpreadsheetContext, e: MouseEvent) => void;
-  pasteControls: (this: SpreadsheetContext, e: ClipboardEvent) => void;
+  pasteControls: (this: SpreadsheetContext, e: Event) => void;
   contextMenuControls: (this: SpreadsheetContext, e: MouseEvent) => void;
   touchStartControls: (this: SpreadsheetContext, e: TouchEvent) => void;
   touchEndControls: (this: SpreadsheetContext, e: TouchEvent) => void;

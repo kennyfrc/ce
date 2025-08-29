@@ -20,7 +20,7 @@ type HistoryRecord = {
   headers?: HTMLElement[];
   cols?: Array<{ colElement: HTMLElement }>;
   data?: CellValue[][];
-  records?: Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>;
+  records?: Array<{ x: number; y: number; col: number; row: number; value?: CellValue; oldValue?: CellValue }> | Array<Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>>;
   rows?: number[];
   column?: number | string;
   oldValue?: CellValue | number | string | null | Record<string, string | string[]>;
@@ -246,7 +246,7 @@ const historyProcessColumn = function (
             i < historyRecord.numOfColumns + columnIndex;
             i++
           ) {
-            const recordElement = historyRecord.records?.[index]?.element;
+            const recordElement = historyRecord.records?.[j]?.[index]?.element;
             const targetElement = obj.rows[j]?.element?.children[i + 1];
             if (recordElement && targetElement && obj.rows[j]?.element) {
               obj.rows[j].element.insertBefore(recordElement, targetElement);

@@ -68,6 +68,14 @@ export interface ColumnDefinition {
           worksheet: WorksheetInstance,
           column: ColumnDefinition
         ) => void;
+        closeEditor?: (
+          cell: HTMLElement,
+          save: boolean,
+          x: number,
+          y: number,
+          worksheet: WorksheetInstance,
+          column: ColumnDefinition
+        ) => void;
       };
   title?: string;
   name?: string;

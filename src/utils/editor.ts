@@ -179,7 +179,7 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[xNum] : null
+          x && obj.options.columns ? obj.options.columns[xNum] : null
         );
 
         const options: Record<string, unknown> = {
@@ -228,7 +228,7 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[xNum] : null
+          x && obj.options.columns ? obj.options.columns[xNum] : null
         );
 
         (editor as HTMLInputElement).value = String(value);
@@ -297,7 +297,7 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[xNum] : null
+          x && obj.options.columns ? obj.options.columns[xNum] : null
         );
 
         editor.style.position = "relative";
@@ -339,7 +339,7 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[xNum] : null
+          x && obj.options.columns ? obj.options.columns[xNum] : null
         );
 
         editor.style.position = "relative";
@@ -390,7 +390,7 @@ export const openEditor = function (
           parseInt(x || "0"),
           parseInt(y || "0"),
           null,
-          x ? obj.options.columns[xNum] : null
+          x && obj.options.columns ? obj.options.columns[xNum] : null
         );
 
         editor.focus();
@@ -500,7 +500,7 @@ export const closeEditor = function (
         obj.options.columns[x] &&
         obj.options.columns[x].type == "color"
       ) {
-        value = (cell.children[0] as JSuitesElement).color?.close(true);
+        value = (cell.children[0] as JSuitesElement).color?.close?.(true);
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
@@ -508,7 +508,7 @@ export const closeEditor = function (
       ) {
         value = (
           cell.children[0].children[0] as JSuitesElement
-        ).editor?.getData();
+        ).editor?.getData?.();
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
@@ -561,7 +561,7 @@ export const closeEditor = function (
       ? (obj.options.data[y] as CellValue[])[x] ?? ""
       : "";
     if (currentValue == value) {
-      cell.innerHTML = obj.edition[1];
+      cell.innerHTML = obj.edition?.[1] || "";
     } else {
       obj.setValue?.([{ element: cell }], value);
     }
@@ -572,7 +572,7 @@ export const closeEditor = function (
       typeof obj.options.columns[x].type === "object"
     ) {
       // Custom editor
-      obj.options.columns[x].type.closeEditor(
+      (obj.options.columns[x].type as { closeEditor?: Function }).closeEditor?.(
         cell,
         save,
         x,
@@ -586,19 +586,19 @@ export const closeEditor = function (
         obj.options.columns[x] &&
         obj.options.columns[x].type == "dropdown"
       ) {
-        (cell.children[0] as JSuitesElement).dropdown?.close(true);
+        (cell.children[0] as JSuitesElement).dropdown?.close?.(true);
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
         obj.options.columns[x].type == "calendar"
       ) {
-        (cell.children[0] as JSuitesElement).calendar?.close(true);
+        (cell.children[0] as JSuitesElement).calendar?.close?.(true);
       } else if (
         obj.options.columns &&
         obj.options.columns[x] &&
         obj.options.columns[x].type == "color"
       ) {
-        (cell.children[0] as JSuitesElement).color?.close(true);
+        (cell.children[0] as JSuitesElement).color?.close?.(true);
       } else {
         (cell.children[0] as HTMLElement).onblur = null;
       }
@@ -615,7 +615,7 @@ export const closeEditor = function (
   cell.classList.remove("editor");
 
   // Finish edition
-  obj.edition = null;
+  obj.edition = undefined;
 };
 
 /**
@@ -625,20 +625,24 @@ export const setCheckRadioValue = function (this: SpreadsheetContext) {
   const obj = this;
 
   const records = [];
-  const keys = Object.keys(obj.highlighted);
-  for (let i = 0; i < keys.length; i++) {
-    const x = obj.highlighted[i].element.getAttribute("data-x");
-    const y = obj.highlighted[i].element.getAttribute("data-y");
+  if (obj.highlighted) {
+    for (let i = 0; i < obj.highlighted.length; i++) {
+      const x = obj.highlighted[i].element.getAttribute("data-x");
+      const y = obj.highlighted[i].element.getAttribute("data-y");
 
     if (
-      obj.options.columns[parseInt(x || "0")].type == "checkbox" ||
-      obj.options.columns[parseInt(x || "0")].type == "radio"
+      x !== null && y !== null &&
+      obj.options.columns &&
+      obj.options.columns[parseInt(x || "0")] &&
+      (obj.options.columns[parseInt(x || "0")].type == "checkbox" ||
+        obj.options.columns[parseInt(x || "0")].type == "radio")
     ) {
       // Update cell
-      const currentValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[y])
-        ? (obj.options.data[y] as CellValue[])[x] ?? ""
+      const currentValue = obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[parseInt(y)])
+        ? (obj.options.data[parseInt(y)] as CellValue[])[parseInt(x)] ?? ""
         : "";
-      records.push(updateCell.call(obj, x, y, !currentValue));
+      records.push(updateCell.call(obj, parseInt(x), parseInt(y), !currentValue));
+    }
     }
   }
 

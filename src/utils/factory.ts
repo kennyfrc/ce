@@ -86,7 +86,7 @@ const createWorksheets = async function (
         newWorksheet.element = newTabContent;
 
         buildWorksheet.call(newWorksheet).then(function () {
-          updateToolbar.call(newWorksheet);
+          updateToolbar.call(spreadsheet, newWorksheet);
 
           dispatch.call(
             newWorksheet,
@@ -107,7 +107,7 @@ const createWorksheets = async function (
           spreadsheet.worksheets.length != 0 &&
           spreadsheet.worksheets[tabIndex]
         ) {
-          updateToolbar.call(spreadsheet.worksheets[tabIndex]);
+          updateToolbar.call(spreadsheet, spreadsheet.worksheets[tabIndex]);
         }
       },
     };
@@ -142,10 +142,11 @@ const createWorksheets = async function (
     delete options.style;
 
     for (let i = 0; i < o.length; i++) {
-      if (o[i].style) {
-        Object.entries(o[i].style).forEach(function ([cellName, value]) {
+      if (o[i].style && typeof o[i].style === "object" && !Array.isArray(o[i].style)) {
+        const styleObj = o[i].style as Record<string, CSSStyleDeclaration | number>;
+        Object.entries(styleObj).forEach(function ([cellName, value]) {
           if (typeof value === "number" && spreadsheetStyles[value]) {
-            o[i].style[cellName] = spreadsheetStyles[value];
+            styleObj[cellName] = spreadsheetStyles[value];
           }
         });
       }
@@ -159,7 +160,7 @@ const createWorksheets = async function (
         history: [],
         selection: [],
         historyIndex: -1,
-      } as WorksheetInstance);
+             } as unknown as WorksheetInstance);
 
       await buildWorksheet.call(spreadsheet.worksheets[i]);
     }
