@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T12:46:57Z"
+    "updatedAt": "2025-08-29T12:47:21Z"
   },
   "tasks": [
     {
@@ -305,7 +305,7 @@
       "name": "Consolidate or remove stray top-level test files",
       "description": "Move root-level test files into test/ or playwright/ or drop if obsolete: test.ts, test_parseValue.ts, test_events_snippet.ts, test-header.ts; ensure configs include their new locations if kept.",
       "phase": 7,
-      "state": "todo",
+      "state": "completed",
       "candidateFiles": [
         "test.ts",
         "test_parseValue.ts",
