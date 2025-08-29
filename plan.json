@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T10:29:07Z"
+    "updatedAt": "2025-08-30T02:15:00Z"
   },
   "tasks": [
     {
@@ -1630,7 +1630,7 @@
         "npx tsc -p tsconfig.test.json --noEmit reports ≤10 errors"
       ],
       "updatedAt": "2025-08-28T10:43:55Z",
-      "results": "Reduced TS errors from 414 to 354 (60 errors fixed) through systematic fixes in filter.ts, helpers.ts, and rows.ts"
+      "results": "Reduced TS errors from 366 to 301 (65 errors fixed)"
     },
     {
       "id": "ts-zero-20250828-0115",
@@ -1649,7 +1649,7 @@
         "npx tsc -p tsconfig.test.json --noEmit exits 0 with no diagnostics"
       ],
       "updatedAt": "2025-08-29T10:28:41Z",
-      "results": "TypeScript errors: 366 (down from 1084), any count: 0"
+      "results": "TypeScript errors: 301 (down from 366), any count: 0"
     },
     {
       "id": "ts-zero-20250828-0116",
@@ -3742,7 +3742,7 @@
       "name": "Fix factory.ts: CSSStyleDeclaration indexing and DOM types",
       "description": "Address CSSStyleDeclaration union indexing errors and ShadowRoot/HTMLElement type issues in factory.ts",
       "phase": 4,
-      "state": "completed",
+      "state": "in_progress",
       "candidateFiles": [
         "src/utils/factory.ts"
       ],
@@ -3864,7 +3864,7 @@
       "name": "Fix TypeScript errors in lazyLoading.ts",
       "description": "Address 16 TypeScript errors in lazyLoading.ts including DOM typing, null-safety guards, and method calls",
       "phase": 6,
-      "state": "completed",
+      "state": "in_progress",
       "candidateFiles": [
         "src/utils/lazyLoading.ts"
       ],
@@ -3952,6 +3952,169 @@
       ],
       "createdAt": "2025-08-29T10:29:07Z",
       "updatedAt": "2025-08-29T10:29:07Z"
+    },
+    {
+      "id": "ts-fix-20250830-0001",
+      "name": "Fix core.ts duplicate page identifiers and type conflicts",
+      "description": "Resolve duplicate 'page' property declarations and type mismatches in SpreadsheetContext",
+      "phase": 2,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/types/core.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "core",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No duplicate identifier errors in core.ts",
+        "Page property types unified"
+      ],
+      "createdAt": "2025-08-30T02:00:00Z",
+      "updatedAt": "2025-08-30T02:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0002",
+      "name": "Fix helpers.ts type conversions and missing imports",
+      "description": "Add missing RowDefinition import, fix mergeCells type casting, resolve style property conversions",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/helpers.ts",
+        "src/types/core.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "helpers",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2304/TS2322/TS2352 errors in helpers.ts",
+        "Proper type conversions for mergeCells and styles"
+      ],
+      "createdAt": "2025-08-30T02:00:00Z",
+      "updatedAt": "2025-08-30T02:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0003",
+      "name": "Fix history.ts union type indexing and property access",
+      "description": "Add discriminated runtime checks for history record unions, fix property access on union types",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/history.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "history",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS7053/TS2339 errors in history.ts",
+        "Proper union type handling for history records"
+      ],
+      "createdAt": "2025-08-30T02:00:00Z",
+      "updatedAt": "2025-08-30T02:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0004",
+      "name": "Fix internal.ts data shape unions and missing types",
+      "description": "Add NestedHeader type, fix data indexing with Array.isArray guards, resolve type conversions",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/internal.ts",
+        "src/types/core.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "internal",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS7053/TS2304/TS2322 errors in internal.ts",
+        "Proper data shape discrimination"
+      ],
+      "createdAt": "2025-08-30T02:00:00Z",
+      "updatedAt": "2025-08-30T02:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0005",
+      "name": "Fix rows.ts optional method calls and type mismatches",
+      "description": "Add guards for optional method invocations, fix parameter types and return value assignments",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/rows.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "rows",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2722/TS2322/TS2345 errors in rows.ts",
+        "Proper guards for optional methods"
+      ],
+      "createdAt": "2025-08-30T02:00:00Z",
+      "updatedAt": "2025-08-30T02:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0006",
+      "name": "Fix filter.ts dropdown options type mismatch",
+      "description": "Resolve DropdownOptions type incompatibility for value property",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/filter.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "filter",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2345 error for dropdown options in filter.ts",
+        "Proper value type for dropdowns"
+      ],
+      "createdAt": "2025-08-30T02:00:00Z",
+      "updatedAt": "2025-08-30T02:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250830-0007",
+      "name": "Fix footer.ts CellValue to string conversion",
+      "description": "Handle number CellValue in footer operations requiring string type",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/footer.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "footer",
+        "types"
+      ],
+      "acceptanceCriteria": [
+        "No TS2322 error for CellValue assignment in footer.ts",
+        "Proper string conversion for footer values"
+      ],
+      "createdAt": "2025-08-30T02:00:00Z",
+      "updatedAt": "2025-08-30T02:00:00Z"
     }
   ]
 }

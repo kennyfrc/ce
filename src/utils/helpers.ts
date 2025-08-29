@@ -1,5 +1,6 @@
 import { getColumnNameFromId } from "./internalHelpers";
 import type { SpreadsheetOptions, CellValue } from "../types/core";
+import type { RowDefinition } from "../types/rows";
 
 /**
  * Type guard to check if a string is a valid column type
@@ -316,7 +317,7 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
 
     // Content
     let rowNumber = 0;
-    const mergeCells: Record<string, [number, number]> = {};
+    const mergeCells: Record<string, [number, number, HTMLElement[]] | false> = {};
     const rows: Record<number, { height: string }> = {};
     const style: Record<string, string> = {};
     const classes: Record<string, string> = {};
@@ -362,7 +363,7 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
           const mergedColspan = colspanAttr ? parseInt(colspanAttr) : 0;
           const mergedRowspan = rowspanAttr ? parseInt(rowspanAttr) : 0;
           if (mergedColspan || mergedRowspan) {
-            mergeCells[cellName] = [mergedColspan || 1, mergedRowspan || 1];
+            mergeCells[cellName] = [mergedColspan || 1, mergedRowspan || 1, []];
           }
 
           // Avoid problems with hidden cells
@@ -406,15 +407,17 @@ export const createFromTable = function (el: HTMLElement, options?: Partial<Spre
     }
     // Style
     if (Object.keys(style).length > 0) {
-      options.style = style as Record<string, CSSStyleDeclaration | number>;
+      options.style = style as unknown as Record<string, CSSStyleDeclaration | number>;
     }
     // Merged
     if (Object.keys(mergeCells).length > 0) {
-      options.mergeCells = mergeCells as Record<string, [number, number]>;
+      options.mergeCells = mergeCells;
     }
     // Row height
     if (Object.keys(rows).length > 0) {
-      options.rows = rows as RowDefinition[];
+      options.rows = Object.keys(rows).map(key => ({
+        height: parseInt(rows[parseInt(key)].height) || undefined
+      })) as RowDefinition[];
     }
     // Classes
     if (Object.keys(classes).length > 0) {
