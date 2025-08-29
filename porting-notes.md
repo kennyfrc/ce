@@ -1,3 +1,15 @@
+### Snapshot: 2025-08-29T03:48:41Z — pagination.ts any-fix
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1328 (saved to .agent/ts-errors-run.txt)
+- Explicit any count (find-any-types): 115 (saved to .agent/any-types-run.txt)
+- Files changed: src/utils/pagination.ts
+
+Learnings:
+
+- Removed 11 explicit any occurrences from src/utils/pagination.ts by typing this as SpreadsheetContext and using unknown-based guards.
+- any-analyzer shows total any count decreased to 115; continue per-file any fixes next (style/toolbar/worksheets).
+
+
 ### Snapshot: 2025-08-29T03:38:26Z — assistant: history.ts any-fix
 
 - TypeScript errors (tsc): see last run

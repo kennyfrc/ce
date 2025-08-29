@@ -1,18 +1,6 @@
 Analyzing any types in TypeScript files...
 
-Found 138 any types across 25 files:
-
-src/utils/history.ts: 12 any types
-  Line 13: export const setHistory = function (this: any, changes: any) {
-  Line 13: export const setHistory = function (this: any, changes: any) {
-  Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
-  ... and 9 more
-
-src/utils/pagination.ts: 11 any types
-  Line 9: export const whichPage = function (this: any, row: any): number {
-  Line 9: export const whichPage = function (this: any, row: any): number {
-  Line 26: export const updatePagination = function (this: any): void {
-  ... and 8 more
+Found 115 any types across 23 files:
 
 src/utils/style.ts: 11 any types
   Line 10: export const getStyle = function (this: any, cell: any, key: string) {
@@ -134,6 +122,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 138
+Total any types found: 115
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

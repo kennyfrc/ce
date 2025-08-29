@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T03:38:41Z"
+    "updatedAt": "2025-08-29T03:48:41Z"
   },
   "tasks": [
     {
@@ -2811,7 +2811,7 @@
       "name": "Fix anys: src/utils/pagination.ts",
       "description": "Replace explicit any usages in pagination.ts",
       "phase": 3,
-      "state": "pending",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/pagination.ts"
       ],
@@ -2827,7 +2827,7 @@
         "No explicit any in file"
       ],
       "createdAt": "2025-08-29T03:06:46Z",
-      "updatedAt": "2025-08-29T03:06:46Z"
+      "updatedAt": "2025-08-29T03:48:41Z"
     },
     {
       "id": "ts-anyfix-20250829-0006",

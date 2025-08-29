@@ -1818,3 +1818,4 @@ Done — small triage pass completed and recorded.
 </commit_analysis>=== Fri Aug 29 11:18:44 PST 2025 ===
 Done — typed src/utils/editor.ts (removed explicit anys, `this` → SpreadsheetContext), re-ran checks (tsc errors: 1157, explicit anys: 151), updated porting-notes.md and plan.json (ts-anyfix-20250829-0002 → completed), committed as d58111a8.=== Fri Aug 29 11:26:41 PST 2025 ===
 Patched src/utils/meta.ts to remove `any` (use SpreadsheetContext + precise meta types), ran tsc (1157 errors) and any-analyzer (138 anys), marked ts-anyfix-20250829-0003 completed in plan.json, appended notes to porting-notes.md, and committed the changes.=== Fri Aug 29 11:33:28 PST 2025 ===
+Done — typed src/utils/history.ts (removed explicit anys), updated plan.json and porting-notes.md, any-analyzer now 126 anys, committed as 5c510f6b.=== Fri Aug 29 11:41:02 PST 2025 ===

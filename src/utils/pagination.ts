@@ -2,28 +2,47 @@ import jSuites from "jsuites";
 
 import dispatch from "./dispatch";
 import { updateCornerPosition } from "./selection";
+import type { SpreadsheetContext, Row } from "../types/core";
 
 /**
  * Which page the row is
  */
-export const whichPage = function (this: any, row: any): number {
+export const whichPage = function (this: SpreadsheetContext, row: unknown): number {
   const obj = this;
 
-  // Search
-  if (
-    (obj.options.search == true || obj.options.filters == true) &&
-    obj.results
-  ) {
-    row = obj.results.indexOf(row);
+  let rowNum: number;
+
+  if ((obj.options.search == true || obj.options.filters == true) && obj.results) {
+    if (typeof row === "number") {
+      rowNum = row;
+    } else if (typeof row === "string") {
+      rowNum = parseInt(row, 10);
+    } else if (row && typeof (row as unknown as { index?: number }).index === "number") {
+      rowNum = (row as unknown as { index?: number }).index as number;
+    } else {
+      rowNum = Number(String(row));
+      if (Number.isNaN(rowNum)) rowNum = 0;
+    }
+
+    const found = obj.results.indexOf(rowNum);
+    if (found !== -1) rowNum = found;
+  } else {
+    if (typeof row === "number") rowNum = row;
+    else if (typeof row === "string") rowNum = parseInt(row, 10);
+    else if (row && typeof (row as unknown as { index?: number }).index === "number") rowNum = (row as unknown as { index?: number }).index as number;
+    else rowNum = 0;
   }
 
-  return Math.ceil((parseInt(row) + 1) / parseInt(obj.options.pagination)) - 1;
+  const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
+  if (!pagination) return 0;
+
+  return Math.ceil((rowNum + 1) / pagination) - 1;
 };
 
 /**
  * Update the pagination
  */
-export const updatePagination = function (this: any): void {
+export const updatePagination = function (this: SpreadsheetContext): void {
   const obj = this;
 
   // Reset container
@@ -33,7 +52,7 @@ export const updatePagination = function (this: any): void {
   // Start pagination
   if (obj.options.pagination) {
     // Searchable
-    let results;
+    let results: number | Row[];
 
     if (
       (obj.options.search == true || obj.options.filters == true) &&
@@ -45,13 +64,12 @@ export const updatePagination = function (this: any): void {
     }
 
     if (!results) {
-      // No records found
-      obj.pagination.children[0].innerHTML = (jSuites as any).translate(
-        "No records found"
-      );
+      obj.pagination.children[0].innerHTML = (jSuites as unknown as { translate: (s: string) => string }).translate("No records found");
     } else {
       // Pagination container
-      const quantyOfPages = Math.ceil(results / obj.options.pagination);
+      const total = typeof results === "number" ? results : results.length;
+      const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
+      const quantyOfPages = pagination ? Math.ceil(total / pagination) : 0;
 
       let startNumber, finalNumber;
 
@@ -100,14 +118,15 @@ export const updatePagination = function (this: any): void {
       }
 
       // Text
-      const format = function (format: string, ...args: any[]) {
-        return format.replace(/{(\d+)}/g, function (match: any, number: any) {
-          return typeof args[number] != "undefined" ? args[number] : match;
+      const format = function (fmt: string, ...args: unknown[]): string {
+        return fmt.replace(/{(\d+)}/g, function (_match: string, numberStr: string) {
+          const idx = parseInt(numberStr, 10);
+          return typeof args[idx] !== "undefined" ? String(args[idx]) : _match;
         });
       };
 
       obj.pagination.children[0].innerHTML = format(
-        (jSuites as any).translate("Showing page {0} of {1} entries"),
+        (jSuites as unknown as { translate: (s: string) => string }).translate("Showing page {0} of {1} entries"),
         (obj.pageNumber + 1).toString(),
         quantyOfPages.toString()
       );
@@ -118,13 +137,13 @@ export const updatePagination = function (this: any): void {
 /**
  * Go to page
  */
-export const page = function (this: any, pageNumber: any): void {
+export const page = function (this: SpreadsheetContext, pageNumber: number | null | undefined): void {
   const obj = this;
 
   const oldPage = obj.pageNumber;
 
   // Search
-  let results;
+  let results: number[] | Row[];
 
   if (
     (obj.options.search == true || obj.options.filters == true) &&
@@ -136,7 +155,7 @@ export const page = function (this: any, pageNumber: any): void {
   }
 
   // Per page
-  const quantityPerPage = parseInt(obj.options.pagination);
+  const quantityPerPage = Number(obj.options.pagination) || 0;
 
   // pageNumber
   if (pageNumber == null || pageNumber == -1) {
@@ -145,7 +164,7 @@ export const page = function (this: any, pageNumber: any): void {
   }
 
   // Page number
-  obj.pageNumber = pageNumber;
+  obj.pageNumber = pageNumber as number;
 
   let startRow = pageNumber * quantityPerPage;
   let finalRow = pageNumber * quantityPerPage + quantityPerPage;
@@ -163,17 +182,14 @@ export const page = function (this: any, pageNumber: any): void {
 
   // Appeding items
   for (let j = startRow; j < finalRow; j++) {
-    if (
-      (obj.options.search == true || obj.options.filters == true) &&
-      obj.results
-    ) {
-      obj.tbody.appendChild(obj.rows[results[j]].element);
+    if ((obj.options.search == true || obj.options.filters == true) && obj.results) {
+      obj.tbody.appendChild(obj.rows[(results as number[])[j]].element);
     } else {
       obj.tbody.appendChild(obj.rows[j].element);
     }
   }
 
-  if (obj.options.pagination > 0) {
+  if (Number(obj.options.pagination) > 0) {
     updatePagination.call(obj);
   }
 
@@ -181,28 +197,15 @@ export const page = function (this: any, pageNumber: any): void {
   updateCornerPosition.call(obj);
 
   // Events
-  dispatch.call(
-    obj,
-    "onchangepage",
-    obj,
-    pageNumber,
-    oldPage,
-    obj.options.pagination
-  );
+  dispatch.call(obj, "onchangepage", obj, pageNumber as number, oldPage, obj.options.pagination);
 };
 
-export const quantiyOfPages = function (this: any): number {
+export const quantiyOfPages = function (this: SpreadsheetContext): number {
   const obj = this;
 
-  let results;
-  if (
-    (obj.options.search == true || obj.options.filters == true) &&
-    obj.results
-  ) {
-    results = obj.results.length;
-  } else {
-    results = obj.rows.length;
-  }
+  const total = (obj.options.search == true || obj.options.filters == true) && obj.results ? obj.results.length : obj.rows.length;
+  const pagination = typeof obj.options.pagination === "number" ? obj.options.pagination : parseInt(String(obj.options.pagination || "0"), 10) || 0;
+  if (!pagination) return 0;
 
-  return Math.ceil(results / obj.options.pagination);
+  return Math.ceil(total / pagination);
 };

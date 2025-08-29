@@ -1,19 +1,6 @@
-Any Types Analysis Report - 2025-08-29T03:40:03.572Z
-Total any types: 126
-Files with any types: 24
-
-src/utils/pagination.ts: 11 any types
-  Line 9: export const whichPage = function (this: any, row: any): number {
-  Line 9: export const whichPage = function (this: any, row: any): number {
-  Line 26: export const updatePagination = function (this: any): void {
-  Line 49: obj.pagination.children[0].innerHTML = (jSuites as any).translate(
-  Line 103: const format = function (format: string, ...args: any[]) {
-  Line 104: return format.replace(/{(\d+)}/g, function (match: any, number: any) {
-  Line 104: return format.replace(/{(\d+)}/g, function (match: any, number: any) {
-  Line 110: (jSuites as any).translate("Showing page {0} of {1} entries"),
-  Line 121: export const page = function (this: any, pageNumber: any): void {
-  Line 121: export const page = function (this: any, pageNumber: any): void {
-  Line 194: export const quantiyOfPages = function (this: any): number {
+Any Types Analysis Report - 2025-08-29T03:49:52.510Z
+Total any types: 115
+Files with any types: 23
 
 src/utils/style.ts: 11 any types
   Line 10: export const getStyle = function (this: any, cell: any, key: string) {
