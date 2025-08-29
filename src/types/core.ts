@@ -33,7 +33,7 @@ export interface SpreadsheetOptions {
   defaultColAlign?: "left" | "center" | "right";
   worksheets?: SpreadsheetOptions[];
   plugins?: Record<string, Function>;
-     mergeCells?: Record<string, [number, number, HTMLElement[]] | false>;
+           mergeCells?: Record<string, [number, number, HTMLElement[]] | false>;
   tabs?: boolean | Record<string, unknown>;
      root?: HTMLElement | ShadowRoot;
   fullscreen?: boolean;
@@ -142,7 +142,7 @@ export interface SpreadsheetContext {
   insertRow?: (mixed: number | CellValue[], rowNumber?: number, insertBefore?: boolean) => boolean;
   deleteRow?: (index: number) => void;
   insertColumn?: (mixed?: number | CellValue[], columnNumber?: number, insertBefore?: boolean, properties?: ColumnDefinition[]) => boolean | void;
-  deleteColumn?: (index: number) => void;
+  deleteColumn?: (columnNumber?: number, numOfColumns?: number) => boolean | void;
   getValue?: (cell: string, processedValue?: boolean) => string | number | boolean | null;
   getValueFromCoords?: (x: number, y: number, processedValue?: boolean) => string | number | boolean | null;
   setValueFromCoords?: (x: number, y: number, value: CellValue, force?: boolean) => void;
@@ -198,6 +198,12 @@ export interface SpreadsheetContext {
   edition?: [HTMLElement, string, number, number];
   moveColumn?: (from: number, to: number) => void;
   orderBy?: (column: number, direction?: "asc" | "desc") => void;
+  getMerge?: (cell?: string) => Record<string, [number, number, HTMLElement[]] | false> | [number, number, HTMLElement[]] | null;
+  setMeta?: (cellOrMeta: string | Record<string, Record<string, unknown>>, key?: string, value?: unknown) => void;
+  getMeta?: (cell?: string) => Record<string, Record<string, unknown>> | Record<string, unknown> | null;
+  paste?: (x: number, y: number, data: unknown) => void;
+  copy?: () => void;
+  hideRow?: (rowIndex: number) => void;
   hideColumn?: (colNumber: number | number[]) => void;
   showColumn?: (colNumber: number | number[]) => void;
   pageNumber?: number;

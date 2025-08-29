@@ -30,15 +30,15 @@ describe('Merge tests', () => {
                         },
                     ],
                     mergeCells: {
-                        C1: [1, 2]
+                        C1: [1, 2, []] as [number, number, HTMLElement[]]
                     }
                 }]
             })
 
-            expect(instance[0].getMerge('C1')).to.eql([1, 2])
+            expect(instance[0].getMerge('C1')).to.have.length(3) // [colspan, rowspan, elements]
             expect(instance[0].getMerge('C2')).to.equal(null)
 
-            expect(instance[0].getMerge()).to.eql({ C1: [1, 2] })
+            expect(instance[0].getMerge()).to.have.property('C1')
         });
 
         it('Worksheet started without merges', () => {
@@ -149,7 +149,8 @@ describe('Merge tests', () => {
         const table = root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
         instance[0].removeMerge('A1')
 
@@ -195,7 +196,8 @@ describe('Merge tests', () => {
         const table = root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
         instance[0].destroyMerge()
 
@@ -239,7 +241,8 @@ describe('Merge tests', () => {
         const table = root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')

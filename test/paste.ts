@@ -26,7 +26,7 @@ describe("Paste", () => {
     const pasteText =
       "0-0\t0-1\t0-2\t0-3\n1-0\t1-1\t1-2\t1-3\n2-0\t2-1\t2-2\t2-3\n3-0\t3-1\t3-2\t3-3";
     sheet.updateSelectionFromCoords(0, 0, 0, 0);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["0-0", "0-1", "0-2", "0-3"],
@@ -48,7 +48,7 @@ describe("Paste", () => {
     const pasteText =
       "0-0\t0-1\t0-2\t0-3\n1-0\t1-1\t1-2\t1-3\n2-0\t2-1\t2-2\t2-3\n3-0\t3-1\t3-2\t3-3";
     sheet.updateSelectionFromCoords(3, 3, 3, 3);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["Mazda", 2001, 2000, 1, "", "", ""],
@@ -72,7 +72,7 @@ describe("Paste", () => {
 
     const pasteText = "0-0\t0-1";
     sheet.updateSelectionFromCoords(0, 0, 4, 0);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["0-0", "0-1", "0-0", "0-1"],
@@ -114,7 +114,7 @@ describe("Paste", () => {
 
     const pasteText = "0-0\t0-1\n1-0\t1-1";
     sheet.updateSelectionFromCoords(1, 0, 1, 3);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["Mazda", "0-0", "0-1", 1],
@@ -141,7 +141,7 @@ describe("Paste", () => {
 
     const pasteText = "0-0\t0-1\n1-0\t1-1";
     sheet.updateSelectionFromCoords(1, 0, 1, 0);
-    sheet.paste(sheet.selectedCell[0], sheet.selectedCell[1], pasteText);
+    sheet.paste?.(sheet.selectedCell?.[0] ?? 0, sheet.selectedCell?.[1] ?? 0, pasteText);
 
     expect(sheet.getData()).to.eql([
       ["Mazda", "0-0", 2000, "0-1"],

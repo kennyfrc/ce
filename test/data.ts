@@ -22,24 +22,25 @@ describe('Use the data method', () => {
         
         const data = instance[0].getData?.()
 
-        expect(data.length).to.eq(7)
-        expect(data[0].length).to.eq(7)
+        expect(data).to.not.be.undefined
+        expect(data!.length).to.eq(7)
+        expect(data![0].length).to.eq(7)
 
-        expect(data[0][0]).to.eq(1)
-        expect(data[0][1]).to.eq(2)
-        expect(data[0][2]).to.eq(3)
-        expect(data[1][0]).to.eq(3)
-        expect(data[1][1]).to.eq(2)
-        expect(data[1][2]).to.eq(1)
-        expect(data[2][0]).to.eq(4)
-        expect(data[2][1]).to.eq(5)
-        expect(data[2][2]).to.eq(6)
-        expect(data[3][0]).to.eq(6)
-        expect(data[3][1]).to.eq(5)
-        expect(data[3][2]).to.eq(4)
-        expect(data[4][0]).to.eq(9)
-        expect(data[4][1]).to.eq(12)
-        expect(data[4][2]).to.eq(15)
+        expect(data![0][0]).to.eq(1)
+        expect(data![0][1]).to.eq(2)
+        expect(data![0][2]).to.eq(3)
+        expect(data![1][0]).to.eq(3)
+        expect(data![1][1]).to.eq(2)
+        expect(data![1][2]).to.eq(1)
+        expect(data![2][0]).to.eq(4)
+        expect(data![2][1]).to.eq(5)
+        expect(data![2][2]).to.eq(6)
+        expect(data![3][0]).to.eq(6)
+        expect(data![3][1]).to.eq(5)
+        expect(data![3][2]).to.eq(4)
+        expect(data![4][0]).to.eq(9)
+        expect(data![4][1]).to.eq(12)
+        expect(data![4][2]).to.eq(15)
     });
 
     it('setData and it sets data properly', () => {
