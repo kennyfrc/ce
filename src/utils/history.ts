@@ -172,18 +172,19 @@ const historyProcessColumn = function (
     obj.cols.splice(columnIndex, numOfColumns);
     if (historyRecord.data) {
       for (let j = 0; j < historyRecord.data.length; j++) {
-      for (let i = columnIndex; i < numOfColumns + columnIndex; i++) {
-        obj.records[j]?.[i]?.element?.parentNode?.removeChild(
-          obj.records[j][i].element
-        );
+        for (let i = columnIndex; i < numOfColumns + columnIndex; i++) {
+          const record = obj.records[j]?.[i];
+          if (record?.element?.parentNode) {
+            record.element.parentNode.removeChild(record.element);
+          }
+        }
+        if (obj.records[j]) {
+          obj.records[j].splice(columnIndex, numOfColumns);
+        }
+        if (Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j])) {
+          obj.options.data[j].splice(columnIndex, numOfColumns);
+        }
       }
-      if (obj.records[j]) {
-        obj.records[j].splice(columnIndex, numOfColumns);
-      }
-      if (Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j])) {
-        obj.options.data[j].splice(columnIndex, numOfColumns);
-      }
-    }
     }
     // Process footers
     if (obj.options.footers) {
@@ -220,32 +221,36 @@ const historyProcessColumn = function (
       index++;
     }
 
-    for (let j = 0; j < historyRecord.data.length; j++) {
-      if (Array.isArray(obj.options.data) && obj.options.data[j]) {
-        obj.options.data[j] = injectArray(
-          obj.options.data[j],
-          columnIndex,
-          historyRecord.data[j]
-        );
-      }
-      if (obj.records[j]) {
-        obj.records[j] = injectArray(
-          obj.records[j],
-          columnIndex,
-          historyRecord.records?.[j]
-        );
-      }
-      let index = 0;
-      for (
-        let i = columnIndex;
-        i < historyRecord.numOfColumns + columnIndex;
-        i++
-      ) {
-        obj.rows[j]?.element?.insertBefore(
-          historyRecord.records?.[j]?.[index]?.element,
-          obj.rows[j].element.children[i + 1]
-        );
-        index++;
+    if (historyRecord.data && Array.isArray(historyRecord.data)) {
+      for (let j = 0; j < historyRecord.data.length; j++) {
+        if (Array.isArray(obj.options.data) && obj.options.data[j]) {
+          obj.options.data[j] = injectArray(
+            obj.options.data[j],
+            columnIndex,
+            historyRecord.data[j] as CellValue[]
+          );
+        }
+        if (obj.records[j]) {
+          obj.records[j] = injectArray(
+            obj.records[j],
+            columnIndex,
+            historyRecord.records?.[j] as Array<{ element: HTMLElement; x: number; y: number; oldValue?: CellValue; newValue?: CellValue }>
+          );
+        }
+      if (historyRecord.numOfColumns !== undefined) {
+        let index = 0;
+        for (
+          let i = columnIndex;
+          i < historyRecord.numOfColumns + columnIndex;
+          i++
+        ) {
+          const recordElement = historyRecord.records?.[j]?.[index]?.element;
+          const targetElement = obj.rows[j]?.element?.children[i + 1];
+          if (recordElement && targetElement && obj.rows[j]?.element) {
+            obj.rows[j].element.insertBefore(recordElement, targetElement);
+          }
+          index++;
+        }
       }
     }
     // Process footers
@@ -255,7 +260,7 @@ const historyProcessColumn = function (
           obj.options.footers[j] = injectArray(
             obj.options.footers[j],
             columnIndex,
-            historyRecord.footers?.[j]
+            historyRecord.footers?.[j] as string[]
           );
         }
       }
@@ -288,14 +293,16 @@ const historyProcessColumn = function (
             obj.options.nestedHeaders[j][
               obj.options.nestedHeaders[j].length - 1
             ].colspan
-          ) - historyRecord.numOfColumns;
-      } else {
+                     ) - historyRecord.numOfColumns;
+      }
+      else {
         colspan =
           parseInt(
             obj.options.nestedHeaders[j][
               obj.options.nestedHeaders[j].length - 1
             ].colspan
-          ) + historyRecord.numOfColumns;
+                                           ) + historyRecord.numOfColumns;
+      }
       }
       obj.options.nestedHeaders[j][
         obj.options.nestedHeaders[j].length - 1
@@ -468,7 +475,7 @@ export const redo = function (this: WorksheetInstance) {
       // Redo for changes in cells
       for (let i = 0; i < historyRecord.records.length; i++) {
         if (historyRecord.oldStyle) {
-          obj.resetStyle?.(historyRecord.newStyle);
+          obj.resetStyle?.(historyRecord.records[i] as number[], historyRecord.oldStyle as string);
         }
       }
       // Update selection

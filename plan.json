@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T08:13:11Z"
+    "updatedAt": "2025-08-29T23:55:00Z"
   },
   "tasks": [
     {
@@ -2614,13 +2614,13 @@
         "node .agent/find-any-types.js output saved to .agent/any-types-run.txt"
       ],
       "results": {
-        "tsErrors": 938,
-        "anyCount": 189,
+        "tsErrors": 573,
+        "anyCount": 0,
         "tsErrorsFile": ".agent/ts-errors-run.txt",
         "anyReportFile": ".agent/any-types-run.txt"
       },
       "createdAt": "2025-08-29T15:50:00Z",
-      "updatedAt": "2025-08-29T15:50:00Z"
+      "updatedAt": "2025-08-29T23:55:00Z"
     },
     {
       "id": "ts-fix-data-20250829-0001",
@@ -3404,6 +3404,37 @@
       ],
       "createdAt": "2025-08-29T08:20:00Z",
       "updatedAt": "2025-08-29T08:20:00Z"
+    },
+    {
+      "id": "ts-fix-history-20250829-0001",
+      "name": "Fix remaining TypeScript errors in history.ts",
+      "description": "Address the 54 TypeScript errors in history.ts including data shape issues, null-safety guards, and type mismatches",
+      "phase": 4,
+      "state": "in_progress",
+      "candidateFiles": [
+        "src/utils/history.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/history.ts",
+          "lineStart": 1,
+          "lineEnd": 100
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "errors"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in history.ts"
+      ],
+      "createdAt": "2025-08-29T23:55:00Z",
+      "updatedAt": "2025-08-29T23:55:00Z",
+      "results": "Fixed syntax errors and reduced from 54 to 56 errors (syntax fix revealed additional type errors)"
     }
   ]
 }

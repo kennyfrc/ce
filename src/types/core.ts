@@ -200,6 +200,10 @@ export interface SpreadsheetContext {
   getHeader?: (column: number) => string;
   search?: (query: string) => void;
   resetSearch?: () => void;
+  moveRow?: (from: number, to: number) => void;
+  setWidth?: (column: number | string, width: number | string, force?: boolean) => void;
+  setHeight?: (row: number, height: number | string, force?: boolean) => void;
+  resetStyle?: (cell: string | number[], style?: string) => void;
   // Additional properties used in copyPaste and other utilities
   style?: string[];
   textarea?: HTMLElement;
