@@ -1,6 +1,7 @@
 import { setHistory } from "./history";
 import dispatch from "./dispatch";
 import { getColumnName } from "./helpers";
+import type { SpreadsheetContext } from "../types/core";
 
 /**
  * Get the column title
@@ -8,7 +9,7 @@ import { getColumnName } from "./helpers";
  * @param column - column number (first column is: 0)
  * @param title - new column title
  */
-export const getHeader = function (this: any, column: any) {
+export const getHeader = function (this: SpreadsheetContext, column: number) {
   const obj = this;
 
   return obj.headers[column].textContent;
@@ -20,13 +21,13 @@ export const getHeader = function (this: any, column: any) {
  * @param asArray
  * @return mixed
  */
-export const getHeaders = function (this: any, asArray: any) {
+export const getHeaders = function (this: SpreadsheetContext, asArray: boolean) {
   const obj = this;
 
   const title = [];
 
   for (let i = 0; i < obj.headers.length; i++) {
-    title.push(obj.getHeader(i));
+    title.push(getHeader.call(obj, i));
   }
 
   return asArray ? title : title.join(obj.options.csvDelimiter);
@@ -38,7 +39,7 @@ export const getHeaders = function (this: any, asArray: any) {
  * @param column - column number (first column is: 0)
  * @param title - new column title
  */
-export const setHeader = function (this: any, column: any, newValue: any) {
+export const setHeader = function (this: SpreadsheetContext, column: number, newValue: string) {
   const obj = this;
 
   if (obj.headers[column]) {
@@ -77,7 +78,7 @@ export const setHeader = function (this: any, column: any, newValue: any) {
       obj,
       "onchangeheader",
       obj,
-      parseInt(column),
+      column,
       newValue,
       onchangeheaderOldValue
     );

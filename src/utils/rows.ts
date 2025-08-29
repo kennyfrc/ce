@@ -10,11 +10,29 @@ import {
 } from "./selection";
 import { setHistory } from "./history";
 import { getColumnNameFromId } from "./internalHelpers";
+import { WorksheetInstance, CellValue, Row, Cell } from "../types/core";
+import { RowDefinition } from "../types/rows";
+
+/**
+ * Safely get cell value from data array, handling both array and object shapes
+ */
+function getCellValue(data: CellValue[][] | Record<string, CellValue>[] | undefined, row: number, col: number): CellValue {
+  if (!data || !data[row]) return "";
+  if (Array.isArray(data[row])) {
+    return (data[row] as CellValue[])[col] || "";
+  } else {
+    return (data[row] as Record<string, CellValue>)[col] || "";
+  }
+}
 
 /**
  * Create row
  */
-export const createRow = function (this: any, j: number, data?: any[]) {
+export const createRow = function (
+  this: WorksheetInstance,
+  j: number,
+  data?: CellValue[]
+) {
   const obj = this;
 
   // Create container
@@ -23,12 +41,26 @@ export const createRow = function (this: any, j: number, data?: any[]) {
   }
   // Default data
   if (!data) {
-    data = obj.options.data[j];
+    if (Array.isArray(obj.options.data?.[j])) {
+      data = obj.options.data[j] as CellValue[];
+    } else if (obj.options.data?.[j]) {
+      // Convert object data to array if needed
+      const objData = obj.options.data[j] as Record<string, CellValue>;
+      data = [];
+      for (let i = 0; i < obj.headers.length; i++) {
+        data[i] = objData[i] || "";
+      }
+    } else {
+      data = [];
+    }
   }
   // New line of data to be append in the table
-  const row = {
+  const row: Row = {
     element: document.createElement("tr"),
     y: j,
+    cells: [] as Cell[], // Will be populated below
+    index: j,
+    height: parseInt(String(obj.options.defaultRowHeight || "20"), 10) || 20,
   };
 
   obj.rows[j] = row;
@@ -44,11 +76,12 @@ export const createRow = function (this: any, j: number, data?: any[]) {
 
   // Definitions
   if (obj.options.rows && obj.options.rows[j]) {
-    if (obj.options.rows[j].height) {
-      row.element.style.height = obj.options.rows[j].height;
+    const rowDef = obj.options.rows[j] as RowDefinition;
+    if (rowDef.height) {
+      row.element.style.height = String(rowDef.height);
     }
-    if (obj.options.rows[j].title) {
-      index = obj.options.rows[j].title;
+    if (rowDef.title) {
+      index = rowDef.title;
     }
   }
   if (!index) {
@@ -67,7 +100,7 @@ export const createRow = function (this: any, j: number, data?: any[]) {
   for (let i = 0; i < numberOfColumns; i++) {
     // New column of data to be append in the line
     obj.records[j][i] = {
-      element: createCell.call(this, i, j, data ? data[i] : undefined),
+      element: createCell.call(this, i, j, data && data[i] !== undefined ? data[i] : ""),
       x: i,
       y: j,
     };
@@ -79,9 +112,9 @@ export const createRow = function (this: any, j: number, data?: any[]) {
       obj.options.columns[i] &&
       typeof obj.options.columns[i].render === "function"
     ) {
-      obj.options.columns[i].render(
+      (obj.options.columns[i].render as Function)(
         obj.records[j][i].element,
-        data ? data[i] : undefined,
+        data && data[i] !== undefined ? data[i] : "",
         "" + i,
         "" + j,
         obj,
@@ -103,8 +136,8 @@ export const createRow = function (this: any, j: number, data?: any[]) {
  * @return void
  */
 export const insertRow = function (
-  this: any,
-  mixed: number | any[],
+  this: WorksheetInstance,
+  mixed: number | CellValue[],
   rowNumber?: number,
   insertBefore?: boolean
 ): boolean {
@@ -116,7 +149,7 @@ export const insertRow = function (
     var records = [];
 
     // Data to be insert
-    let data = [];
+    let data: CellValue[] = [];
 
     // The insert could be lead by number of rows or the array of data
     let numOfRows;
@@ -135,7 +168,7 @@ export const insertRow = function (
     insertBefore = insertBefore ? true : false;
 
     // Current column number
-    const lastRow = obj.options.data.length - 1;
+    const lastRow = (obj.options.data?.length ?? 1) - 1;
 
     if (rowNumber == undefined || rowNumber >= lastRow || rowNumber < 0) {
       rowNumber = lastRow;
@@ -146,7 +179,7 @@ export const insertRow = function (
     for (let row = 0; row < numOfRows; row++) {
       const newRow = [];
 
-      for (let col = 0; col < obj.options.columns.length; col++) {
+      for (let col = 0; col < (obj.options.columns?.length ?? 0); col++) {
         newRow[col] = data[col] ? data[col] : "";
       }
 
@@ -172,14 +205,16 @@ export const insertRow = function (
       if (isRowMerged.call(obj, rowNumber, insertBefore).length) {
         if (
           !confirm(
-            (jSuites as any).translate(
+            jSuites.translate(
               "This action will destroy any existing merged cells. Are you sure?"
             )
           )
         ) {
           return false;
         } else {
-          obj.destroyMerge();
+          if (typeof obj.destroyMerge === "function") {
+            obj.destroyMerge();
+          }
         }
       }
     }
@@ -189,12 +224,14 @@ export const insertRow = function (
       if (obj.results && obj.results.length != obj.rows.length) {
         if (
           confirm(
-            (jSuites as any).translate(
+            jSuites.translate(
               "This action will clear your search results. Are you sure?"
             )
           )
         ) {
-          obj.resetSearch();
+          if (obj.parent && typeof obj.parent.resetSearch === "function") {
+            obj.parent.resetSearch();
+          }
         } else {
           return false;
         }
@@ -208,22 +245,28 @@ export const insertRow = function (
 
     // Keep the current data
     const currentRecords = obj.records.splice(rowIndex);
-    const currentData = obj.options.data.splice(rowIndex);
+    const currentData = obj.options.data?.splice(rowIndex) || [];
     const currentRows = obj.rows.splice(rowIndex);
 
     // Adding lines
     const rowRecords = [];
-    const rowData = [];
+    const rowData: CellValue[][] = [];
     const rowNode = [];
 
     for (let row = rowIndex; row < numOfRows + rowIndex; row++) {
       // Push data to the data container
+      if (!obj.options.data) {
+        obj.options.data = [];
+      }
       obj.options.data[row] = [];
-      for (let col = 0; col < obj.options.columns.length; col++) {
-        obj.options.data[row][col] = data[col] ? data[col] : "";
+      for (let col = 0; col < (obj.options.columns?.length ?? 0); col++) {
+        (obj.options.data[row] as CellValue[])[col] = data[col] ? data[col] : "";
       }
       // Create row
-      const newRow = createRow.call(obj, row, obj.options.data[row]);
+      const currentRow = Array.isArray(obj.options.data?.[row])
+        ? obj.options.data[row] as CellValue[]
+        : undefined;
+      const newRow = createRow.call(obj, row, currentRow);
       // Append node
       if (currentRows[0]) {
         if (
@@ -245,14 +288,19 @@ export const insertRow = function (
         }
       }
       // Record History
-      rowRecords.push([...obj.records[row]]);
-      rowData.push([...obj.options.data[row]]);
+      rowRecords.push((obj.records[row] as Cell[]).map(cell => cell.value || ""));
+      const currentRowData = Array.isArray(obj.options.data?.[row])
+        ? [...(obj.options.data[row] as CellValue[])]
+        : [];
+      rowData.push(currentRowData || []);
       rowNode.push(newRow);
     }
 
     // Copy the data back to the main data
     Array.prototype.push.apply(obj.records, currentRecords);
-    Array.prototype.push.apply(obj.options.data, currentData);
+    if (obj.options.data) {
+      Array.prototype.push.apply(obj.options.data, currentData);
+    }
     Array.prototype.push.apply(obj.rows, currentRows);
 
     for (let j = rowIndex; j < obj.rows.length; j++) {
@@ -266,7 +314,7 @@ export const insertRow = function (
     }
 
     // Respect pagination
-    if (obj.options.pagination > 0) {
+    if (typeof obj.options.pagination === 'number' && obj.options.pagination > 0 && obj.page && obj.pageNumber !== undefined) {
       obj.page(obj.pageNumber);
     }
 
@@ -297,10 +345,10 @@ export const insertRow = function (
  * @return void
  */
 export const moveRow = function (
-  this: any,
-  o: any,
-  d: any,
-  ignoreDom: any
+  this: WorksheetInstance,
+  o: number,
+  d: number,
+  ignoreDom: boolean
 ): boolean | void {
   const obj = this;
 
@@ -311,9 +359,9 @@ export const moveRow = function (
     let insertBefore;
 
     if (o > d) {
-      insertBefore = 1;
+      insertBefore = true;
     } else {
-      insertBefore = 0;
+      insertBefore = false;
     }
 
     if (
@@ -322,14 +370,14 @@ export const moveRow = function (
     ) {
       if (
         !confirm(
-          (jSuites as any).translate(
+          jSuites.translate(
             "This action will destroy any existing merged cells. Are you sure?"
           )
         )
       ) {
         return false;
       } else {
-        obj.destroyMerge();
+        obj.destroyMerge?.();
       }
     }
   }
@@ -338,12 +386,14 @@ export const moveRow = function (
     if (obj.results && obj.results.length != obj.rows.length) {
       if (
         confirm(
-          (jSuites as any).translate(
+          jSuites.translate(
             "This action will clear your search results. Are you sure?"
           )
         )
       ) {
-        obj.resetSearch();
+        if (obj.parent && typeof obj.parent.resetSearch === "function") {
+          obj.parent.resetSearch();
+        }
       } else {
         return false;
       }
@@ -372,7 +422,9 @@ export const moveRow = function (
   // Place references in the correct position
   obj.rows.splice(d, 0, obj.rows.splice(o, 1)[0]);
   obj.records.splice(d, 0, obj.records.splice(o, 1)[0]);
-  obj.options.data.splice(d, 0, obj.options.data.splice(o, 1)[0]);
+  if (obj.options.data && Array.isArray(obj.options.data)) {
+    (obj.options.data as CellValue[][]).splice(d, 0, (obj.options.data as CellValue[][]).splice(o, 1)[0]);
+  }
 
   const firstAffectedIndex = Math.min(o, d);
   const lastAffectedIndex = Math.max(o, d);
@@ -389,8 +441,11 @@ export const moveRow = function (
 
   // Respect pagination
   if (
+    typeof obj.options.pagination === 'number' &&
     obj.options.pagination > 0 &&
-    obj.tbody.children.length != obj.options.pagination
+    obj.tbody.children.length != obj.options.pagination &&
+    obj.page &&
+    obj.pageNumber !== undefined
   ) {
     obj.page(obj.pageNumber);
   }
@@ -406,7 +461,7 @@ export const moveRow = function (
   updateTableReferences.call(obj);
 
   // Events
-  dispatch.call(obj, "onmoverow", obj, parseInt(o), parseInt(d), 1);
+  dispatch.call(obj, "onmoverow", obj, o, d, 1);
 };
 
 /**
@@ -417,11 +472,16 @@ export const moveRow = function (
  * @return void
  */
 export const deleteRow = function (
-  this: any,
-  rowNumber: any,
-  numOfRows: any
+  this: WorksheetInstance,
+  rowNumber: number,
+  numOfRows: number
 ): boolean | void {
   const obj = this;
+
+  // Ensure data exists
+  if (!obj.options.data) {
+    return false;
+  }
 
   // Global Configuration
   if (obj.options.allowDeleteRow != false) {
@@ -475,7 +535,7 @@ export const deleteRow = function (
         return false;
       }
 
-      if (parseInt(rowNumber) > -1) {
+      if (rowNumber > -1) {
         // Merged cells
         let mergeExists = false;
         if (
@@ -491,14 +551,14 @@ export const deleteRow = function (
         if (mergeExists) {
           if (
             !confirm(
-              (jSuites as any).translate(
+              jSuites.translate(
                 "This action will destroy any existing merged cells. Are you sure?"
               )
             )
           ) {
             return false;
           } else {
-            obj.destroyMerge();
+            obj.destroyMerge?.();
           }
         }
 
@@ -507,12 +567,14 @@ export const deleteRow = function (
           if (obj.results && obj.results.length != obj.rows.length) {
             if (
               confirm(
-                (jSuites as any).translate(
+                jSuites.translate(
                   "This action will clear your search results. Are you sure?"
                 )
               )
             ) {
-              obj.resetSearch();
+              if (obj.parent && typeof obj.parent.resetSearch === "function") {
+                obj.parent.resetSearch();
+              }
             } else {
               return false;
             }
@@ -541,7 +603,7 @@ export const deleteRow = function (
             ) >= 0
           ) {
             obj.rows[row].element.className = "";
-            obj.rows[row].element.parentNode.removeChild(obj.rows[row].element);
+            obj.rows[row].element.parentNode?.removeChild(obj.rows[row].element);
           }
         }
 
@@ -562,10 +624,12 @@ export const deleteRow = function (
 
         // Respect pagination
         if (
+          obj.options.pagination &&
+          typeof obj.options.pagination === 'number' &&
           obj.options.pagination > 0 &&
           obj.tbody.children.length != obj.options.pagination
         ) {
-          obj.page(obj.pageNumber);
+          obj.page?.(obj.pageNumber ?? 0);
         }
 
         // Remove selection
@@ -581,9 +645,9 @@ export const deleteRow = function (
           action: "deleteRow",
           rowNumber: rowNumber,
           numOfRows: numOfRows,
-          insertBefore: 1,
-          rowRecords: rowRecords,
-          rowData: rowData,
+          insertBefore: true,
+          rowRecords: rowRecords as unknown as CellValue[][],
+          rowData: rowData as CellValue[][],
           rowNode: rowNode,
         });
 
@@ -605,7 +669,10 @@ export const deleteRow = function (
  * @param row - row number (first row is: 0)
  * @return height - current row height
  */
-export const getHeight = function (this: any, row: any) {
+export const getHeight = function (
+  this: WorksheetInstance,
+  row: number
+): number | number[] {
   const obj = this;
 
   let data;
@@ -616,16 +683,20 @@ export const getHeight = function (this: any, row: any) {
     for (let j = 0; j < obj.rows.length; j++) {
       const h = obj.rows[j].element.style.height;
       if (h) {
-        data[j] = h;
+        data[j] = parseInt(h) || 0;
       }
     }
   } else {
     // In case the row is an object
     if (typeof row == "object") {
-      row = (window as any).$(row).getAttribute("data-y");
+      const rowElement = $(row as HTMLElement);
+      const dataY = rowElement.getAttribute("data-y");
+      if (dataY) {
+        row = parseInt(dataY);
+      }
     }
 
-    data = obj.rows[row].element.style.height;
+    data = parseInt(obj.rows[row].element.style.height) || 0;
   }
 
   return data;
@@ -639,17 +710,20 @@ export const getHeight = function (this: any, row: any) {
  * @param oldHeight - old row height
  */
 export const setHeight = function (
-  this: any,
-  row: any,
-  height: any,
-  oldHeight: any
-) {
+  this: WorksheetInstance,
+  row: number,
+  height: number,
+  oldHeight?: number
+): void {
   const obj = this;
 
   if (height > 0) {
-    // Oldwidth
+    // Old height
     if (!oldHeight) {
-      oldHeight = obj.rows[row].element.getAttribute("height");
+      const heightAttr = obj.rows[row].element.getAttribute("height");
+      if (heightAttr) {
+        oldHeight = parseInt(heightAttr) || undefined;
+      }
 
       if (!oldHeight) {
         const rect = obj.rows[row].element.getBoundingClientRect();
@@ -657,8 +731,8 @@ export const setHeight = function (
       }
     }
 
-    // Integer
-    height = parseInt(height);
+    // Ensure integer
+    height = Math.round(height);
 
     // Set width
     obj.rows[row].element.style.height = height + "px";
@@ -692,14 +766,17 @@ export const setHeight = function (
 /**
  * Show row
  */
-export const showRow = function (this: any, rowNumber: any) {
+export const showRow = function (
+  this: WorksheetInstance,
+  rowNumber: number | number[]
+) {
   const obj = this;
 
   if (!Array.isArray(rowNumber)) {
     rowNumber = [rowNumber];
   }
 
-  rowNumber.forEach(function (rowIndex: any) {
+  rowNumber.forEach(function (rowIndex: number) {
     obj.rows[rowIndex].element.style.display = "";
   });
 };
@@ -707,14 +784,17 @@ export const showRow = function (this: any, rowNumber: any) {
 /**
  * Hide row
  */
-export const hideRow = function (this: any, rowNumber: any) {
+export const hideRow = function (
+  this: WorksheetInstance,
+  rowNumber: number | number[]
+) {
   const obj = this;
 
   if (!Array.isArray(rowNumber)) {
     rowNumber = [rowNumber];
   }
 
-  rowNumber.forEach(function (rowIndex: any) {
+  rowNumber.forEach(function (rowIndex: number) {
     obj.rows[rowIndex].element.style.display = "none";
   });
 };
@@ -722,15 +802,19 @@ export const hideRow = function (this: any, rowNumber: any) {
 /**
  * Get a row data by rowNumber
  */
-export const getRowData = function (this: any, rowNumber: any, processed: any) {
+export const getRowData = function (
+  this: WorksheetInstance,
+  rowNumber: number,
+  processed: boolean
+): string[] {
   const obj = this;
 
   if (processed) {
-    return obj.records[rowNumber].map(function (record: any) {
+    return obj.records[rowNumber].map(function (record) {
       return record.element.innerHTML;
     });
   } else {
-    return obj.options.data[rowNumber];
+    return (obj.options.data?.[rowNumber] as CellValue[] || []).map(v => String(v));
   }
 };
 
@@ -738,11 +822,11 @@ export const getRowData = function (this: any, rowNumber: any, processed: any) {
  * Set a row data by rowNumber
  */
 export const setRowData = function (
-  this: any,
-  rowNumber: any,
-  data: any,
-  force: any
-) {
+  this: WorksheetInstance,
+  rowNumber: number,
+  data: CellValue[],
+  force: boolean
+): void {
   const obj = this;
 
   for (let i = 0; i < obj.headers.length; i++) {
@@ -750,7 +834,7 @@ export const setRowData = function (
     const columnName = getColumnNameFromId([i, rowNumber]);
     // Set value
     if (data[i] != null) {
-      obj.setValue(columnName, data[i], force);
+      obj.setValue?.(columnName, data[i], force);
     }
   }
 };

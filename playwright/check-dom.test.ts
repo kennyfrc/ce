@@ -36,7 +36,7 @@ test("check DOM structure after initialization", async ({ page }) => {
 
   // Check for any elements with jexcel class
   const jexcelElements = await page.$$eval(
-    ".jexcel",
+    ".jss_spreadsheet",
     (elements) => elements.length
   );
   console.log("Elements with jexcel class:", jexcelElements);

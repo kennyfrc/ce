@@ -1,0 +1,153 @@
+Analyzing any types in TypeScript files...
+
+Found 174 any types across 27 files:
+
+src/utils/copyPaste.ts: 13 any types
+  Line 28: this: any,
+  Line 53: let tmp: any = "";
+  Line 96: const colspan = parseInt((tmp[j][i] as any).colspan);
+  ... and 10 more
+
+src/utils/editor.ts: 13 any types
+  Line 6: dropdown?: any;
+  Line 7: calendar?: any;
+  Line 8: color?: any;
+  ... and 10 more
+
+src/utils/meta.ts: 13 any types
+  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
+  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
+  Line 8: export const getMeta = function (this: any, cell: any, key: any) {
+  ... and 10 more
+
+src/utils/history.ts: 12 any types
+  Line 13: export const setHistory = function (this: any, changes: any) {
+  Line 13: export const setHistory = function (this: any, changes: any) {
+  Line 31: const historyProcessRow = function (this: any, type: any, historyRecord: any) {
+  ... and 9 more
+
+src/utils/pagination.ts: 11 any types
+  Line 9: export const whichPage = function (this: any, row: any): number {
+  Line 9: export const whichPage = function (this: any, row: any): number {
+  Line 26: export const updatePagination = function (this: any): void {
+  ... and 8 more
+
+src/utils/style.ts: 11 any types
+  Line 10: export const getStyle = function (this: any, cell: any, key: string) {
+  Line 10: export const getStyle = function (this: any, cell: any, key: string) {
+  Line 16: const data: Record<string, any> = {};
+  ... and 8 more
+
+src/utils/toolbar.ts: 11 any types
+  Line 516: onclick: function (a: any, b: any, c: any) {
+  Line 516: onclick: function (a: any, b: any, c: any) {
+  Line 516: onclick: function (a: any, b: any, c: any) {
+  ... and 8 more
+
+src/utils/columns.ts: 10 any types
+  Line 121: mixed?: number | any[],
+  Line 124: properties?: any
+  Line 154: ...(obj.options.data?.map(function (row: any[]) {
+  ... and 7 more
+
+src/utils/worksheets.ts: 10 any types
+  Line 475: } as any);
+  Line 509: const typedPlugin = plugin as any;
+  Line 590: const typedPlugin = plugin as any;
+  ... and 7 more
+
+src/utils/helpers.ts: 9 any types
+  Line 6: export const getCaretIndex = function (this: any, e: HTMLElement) {
+  Line 31: export const invert = function (o: Record<string, any>) {
+  Line 120: const arr: any[][] = [];
+  ... and 6 more
+
+src/utils/headers.ts: 7 any types
+  Line 11: export const getHeader = function (this: any, column: any) {
+  Line 11: export const getHeader = function (this: any, column: any) {
+  Line 23: export const getHeaders = function (this: any, asArray: any) {
+  ... and 4 more
+
+src/utils/internal.ts: 6 any types
+  Line 545: const tmp = (jSuites.calendar as any).extractDateFromString(
+  Line 666: this: any,
+  Line 669: value: any,
+  ... and 3 more
+
+src/utils/comments.ts: 5 any types
+  Line 10: this: any,
+  Line 46: export const setComments = function (this: any, cellId: any, comments: any) {
+  Line 46: export const setComments = function (this: any, cellId: any, comments: any) {
+  ... and 2 more
+
+src/utils/filter.ts: 5 any types
+  Line 8: export const openFilter = function (this: any, columnId: string | number) {
+  Line 66: onclose: function (o: any) {
+  Line 83: export const closeFilter = function (this: any, columnId?: number) {
+  ... and 2 more
+
+src/utils/lazyLoading.ts: 5 any types
+  Line 4: export const loadPage = function (this: any, pageNumber: any) {
+  Line 4: export const loadPage = function (this: any, pageNumber: any) {
+  Line 55: export const loadValidation = function (this: any) {
+  ... and 2 more
+
+src/utils/orderBy.ts: 5 any types
+  Line 104: (jSuites as any).translate(
+  Line 105: "This action will destroy any existing merged cells. Are you sure?"
+  Line 155: obj.parent.config.sorting = function (direction: any) {
+  ... and 2 more
+
+src/utils/search.ts: 5 any types
+  Line 9: export const search = function (this: any, query: string): void {
+  Line 30: const search = function (item: any[], query: RegExp, index: number) {
+  Line 55: obj.options.data.forEach(function (v: any, k: any) {
+  ... and 2 more
+
+src/utils/config.ts: 4 any types
+  Line 4: export const getWorksheetConfig = function (this: any) {
+  Line 10: export const getSpreadsheetConfig = function (this: any) {
+  Line 17: this: any,
+  ... and 1 more
+
+src/utils/data.ts: 3 any types
+  Line 432: const resultRow: Record<number, any> = {};
+  Line 446: this: any,
+  Line 454: const dataset: any[][] = [];
+
+src/utils/merges.ts: 3 any types
+  Line 146: alert((jSuites as any).translate("No cells selected"));
+  Line 187: alert((jSuites as any).translate(test));
+  Line 253: data: any,
+
+src/utils/rows.ts: 3 any types
+  Line 181: "This action will destroy any existing merged cells. Are you sure?"
+  Line 331: "This action will destroy any existing merged cells. Are you sure?"
+  Line 500: "This action will destroy any existing merged cells. Are you sure?"
+
+src/test.ts: 2 any types
+  Line 6: (window as any).jss = jspreadsheet;
+  Line 10: (window as any).instance = jspreadsheet(root, {
+
+src/utils/events.ts: 2 any types
+  Line 946: } else if ((window as any).clipboardData) {
+  Line 951: (window as any).clipboardData.getData("text")
+
+src/utils/footer.ts: 2 any types
+  Line 3: export const setFooter = function (this: any, data?: any) {
+  Line 3: export const setFooter = function (this: any, data?: any) {
+
+src/utils/internalHelpers.ts: 2 any types
+  Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
+  Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
+
+src/utils/columnHelpers.ts: 1 any types
+  Line 66: ): any | undefined {
+
+src/utils/selection.ts: 1 any types
+  Line 182: origin?: any
+
+
+Total any types found: 174
+
+Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

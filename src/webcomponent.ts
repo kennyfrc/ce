@@ -1,13 +1,15 @@
-declare const jspreadsheet: any;
+import type { JSpreadsheet, WorksheetInstance } from "./types/core";
+
+declare const jspreadsheet: JSpreadsheet;
 
 class Jspreadsheet extends HTMLElement {
-  el: any;
+  el: WorksheetInstance[] | undefined;
 
   constructor() {
     super();
   }
 
-  init(o: any) {
+  init(o: HTMLElement) {
     // Shadow root
     const shadowRoot = this.attachShadow({ mode: "open" });
 
@@ -43,7 +45,7 @@ class Jspreadsheet extends HTMLElement {
     this.el = jspreadsheet(container, {
       tabs: true,
       toolbar: toolbar,
-      root: shadowRoot,
+                           root: shadowRoot,
       worksheets: [
         {
           filters: true,

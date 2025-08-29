@@ -4,14 +4,15 @@ import dispatch from "./dispatch";
 import { updateTableReferences } from "./internal";
 import { loadPage } from "./lazyLoading";
 import { closeFilter } from "./filter";
+import type { WorksheetInstance, CellValue } from "../types/core";
 
 /**
  * Update order arrow
  */
 export const updateOrderArrow = function (
-  this: any,
-  column: any,
-  order: any
+  this: WorksheetInstance,
+  column: number,
+  order: boolean
 ): void {
   const obj = this;
 
@@ -32,40 +33,44 @@ export const updateOrderArrow = function (
 /**
  * Update rows position
  */
-export const updateOrder = function (this: any, rows: any): void {
+export const updateOrder = function (this: WorksheetInstance, rows: number[]): void {
   const obj = this;
 
   // History
-  let data = [];
+  const data: CellValue[][] | Record<string, CellValue>[] = [];
   for (let j = 0; j < rows.length; j++) {
-    data[j] = obj.options.data[rows[j]];
-  }
-  obj.options.data = data;
-
-  data = [];
-  for (let j = 0; j < rows.length; j++) {
-    data[j] = obj.records[rows[j]];
-
-    for (let i = 0; i < data[j].length; i++) {
-      data[j][i].y = j;
+    if (obj.options.data) {
+      data[j] = obj.options.data[rows[j]];
     }
   }
-  obj.records = data;
-
-  data = [];
-  for (let j = 0; j < rows.length; j++) {
-    data[j] = obj.rows[rows[j]];
-    data[j].y = j;
+  if (obj.options.data) {
+    obj.options.data = data as typeof obj.options.data;
   }
-  obj.rows = data;
+
+  const recordsData: typeof obj.records = [];
+  for (let j = 0; j < rows.length; j++) {
+    recordsData[j] = obj.records[rows[j]];
+
+    for (let i = 0; i < recordsData[j].length; i++) {
+      recordsData[j][i].y = j;
+    }
+  }
+  obj.records = recordsData;
+
+  const rowsData: typeof obj.rows = [];
+  for (let j = 0; j < rows.length; j++) {
+    rowsData[j] = obj.rows[rows[j]];
+    rowsData[j].y = j;
+  }
+  obj.rows = rowsData;
 
   // Update references
   updateTableReferences.call(obj);
 
   // Redo search
   if (obj.results && obj.results.length) {
-    if (obj.searchInput.value) {
-      obj.search(obj.searchInput.value);
+    if (obj.searchInput?.value) {
+      obj.search?.(obj.searchInput.value);
     } else {
       closeFilter.call(obj);
     }
@@ -74,8 +79,8 @@ export const updateOrder = function (this: any, rows: any): void {
     obj.results = null;
     obj.pageNumber = 0;
 
-    if (obj.options.pagination > 0) {
-      obj.page(0);
+    if (typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
+      obj.page?.(0);
     } else if (obj.options.lazyLoading == true) {
       loadPage.call(obj, 0);
     } else {
@@ -89,7 +94,7 @@ export const updateOrder = function (this: any, rows: any): void {
 /**
  * Sort data and reload table
  */
-export const orderBy = function (this: any, column: any, order: any): boolean {
+export const orderBy = function (this: WorksheetInstance, column: number, order?: number | boolean): boolean {
   const obj = this;
 
   if (column >= 0) {
@@ -100,7 +105,7 @@ export const orderBy = function (this: any, column: any, order: any): boolean {
     ) {
       if (
         !confirm(
-          (jSuites as any).translate(
+          jSuites.translate(
             "This action will destroy any existing merged cells. Are you sure?"
           )
         )
@@ -108,30 +113,40 @@ export const orderBy = function (this: any, column: any, order: any): boolean {
         return false;
       } else {
         // Remove merged cells
-        obj.destroyMerge();
+        obj.destroyMerge?.();
       }
     }
 
     // Direction
+    let direction: boolean;
     if (order == null) {
-      order = obj.headers[column].classList.contains("arrow-down") ? 1 : 0;
+      if (obj.headers[column]) {
+        direction = obj.headers[column].classList.contains("arrow-down");
+      } else {
+        direction = false;
+      }
     } else {
-      order = order ? 1 : 0;
+      direction = order ? true : false;
     }
 
     // Test order
-    let temp = [];
+    let temp: [number, CellValue][] = [];
     if (
       obj.options.columns &&
       obj.options.columns[column] &&
-      (obj.options.columns[column].type == "number" ||
-        obj.options.columns[column].type == "numeric" ||
-        obj.options.columns[column].type == "percentage" ||
-        obj.options.columns[column].type == "autonumber" ||
-        obj.options.columns[column].type == "color")
+      (obj.options.columns[column].type === "numeric" ||
+        obj.options.columns[column].type === "color")
     ) {
-      for (let j = 0; j < obj.options.data.length; j++) {
-        temp[j] = [j, Number(obj.options.data[j][column])];
+      if (obj.options.data) {
+        for (let j = 0; j < obj.options.data.length; j++) {
+          if (obj.options.data[j]) {
+            if (Array.isArray(obj.options.data[j])) {
+              temp[j] = [j, Number((obj.options.data[j] as CellValue[])[column])];
+            } else {
+              temp[j] = [j, Number((obj.options.data[j] as Record<string, CellValue>)[Object.keys(obj.options.data[j] as Record<string, CellValue>)[column]])];
+            }
+          }
+        }
       }
     } else if (
       obj.options.columns &&
@@ -140,40 +155,57 @@ export const orderBy = function (this: any, column: any, order: any): boolean {
         obj.options.columns[column].type == "checkbox" ||
         obj.options.columns[column].type == "radio")
     ) {
-      for (let j = 0; j < obj.options.data.length; j++) {
-        temp[j] = [j, obj.options.data[j][column]];
+      if (obj.options.data) {
+        for (let j = 0; j < obj.options.data.length; j++) {
+          if (obj.options.data[j]) {
+            if (Array.isArray(obj.options.data[j])) {
+              temp[j] = [j, (obj.options.data[j] as CellValue[])[column]];
+            } else {
+              temp[j] = [j, (obj.options.data[j] as Record<string, CellValue>)[Object.keys(obj.options.data[j] as Record<string, CellValue>)[column]]];
+            }
+          }
+        }
       }
     } else {
-      for (let j = 0; j < obj.options.data.length; j++) {
-        temp[j] = [j, obj.records[j][column].element.textContent.toLowerCase()];
+      if (obj.options.data) {
+        for (let j = 0; j < obj.options.data.length; j++) {
+          if (obj.records[j] && obj.records[j][column] && obj.records[j][column].element) {
+            const textContent = obj.records[j][column].element.textContent;
+            temp[j] = [j, textContent ? textContent.toLowerCase() : ""];
+          }
+        }
       }
     }
 
     // Default sorting method
     if (typeof obj.parent.config.sorting !== "function") {
-      obj.parent.config.sorting = function (direction: any) {
-        return function (a: any, b: any) {
+      obj.parent.config.sorting = function (direction: boolean) {
+        return function (a: [number, CellValue], b: [number, CellValue]) {
           const valueA = a[1];
           const valueB = b[1];
 
+          // Handle null/undefined values
+          const aVal = valueA ?? "";
+          const bVal = valueB ?? "";
+
           if (!direction) {
-            return valueA === "" && valueB !== ""
+            return aVal === "" && bVal !== ""
               ? 1
-              : valueA !== "" && valueB === ""
+              : aVal !== "" && bVal === ""
               ? -1
-              : valueA > valueB
+              : aVal > bVal
               ? 1
-              : valueA < valueB
+              : aVal < bVal
               ? -1
               : 0;
           } else {
-            return valueA === "" && valueB !== ""
+            return aVal === "" && bVal !== ""
               ? 1
-              : valueA !== "" && valueB === ""
+              : aVal !== "" && bVal === ""
               ? -1
-              : valueA > valueB
+              : aVal > bVal
               ? -1
-              : valueA < valueB
+              : aVal < bVal
               ? 1
               : 0;
           }
@@ -181,10 +213,10 @@ export const orderBy = function (this: any, column: any, order: any): boolean {
       };
     }
 
-    temp = temp.sort(obj.parent.config.sorting(order));
+    temp = temp.sort((obj.parent.config.sorting as (direction: boolean) => (a: [number, CellValue], b: [number, CellValue]) => number)(direction));
 
     // Save history
-    const newValue = [];
+    const newValue: number[] = [];
     for (let j = 0; j < temp.length; j++) {
       newValue[j] = temp[j][0];
     }
@@ -194,11 +226,11 @@ export const orderBy = function (this: any, column: any, order: any): boolean {
       action: "orderBy",
       rows: newValue,
       column: column,
-      order: order,
+      order: direction,
     });
 
     // Update order
-    updateOrderArrow.call(obj, column, order);
+    updateOrderArrow.call(obj, column, direction);
     updateOrder.call(obj, newValue);
 
     // On sort event
@@ -207,7 +239,7 @@ export const orderBy = function (this: any, column: any, order: any): boolean {
       "onsort",
       obj,
       column,
-      order,
+      direction,
       newValue.map((row) => row)
     );
 

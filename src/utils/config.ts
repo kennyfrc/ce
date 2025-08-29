@@ -1,26 +1,33 @@
+import type { SpreadsheetContext, SpreadsheetInstance } from "../types/core";
+
 /**
  * Get table config information
  */
-export const getWorksheetConfig = function (this: any) {
+export const getWorksheetConfig = function (this: SpreadsheetContext) {
   const obj = this;
 
   return obj.options;
 };
 
-export const getSpreadsheetConfig = function (this: any) {
+export const getSpreadsheetConfig = function (this: SpreadsheetContext) {
   const spreadsheet = this;
 
   return spreadsheet.config;
 };
 
 export const setConfig = function (
-  this: any,
-  config: any,
+  this: SpreadsheetContext,
+  config: unknown,
   spreadsheetLevel?: boolean
 ) {
   const obj = this;
 
-  const keys = Object.keys(config);
+  if (typeof config !== 'object' || config === null) {
+    return;
+  }
+
+  const configRecord = config as Record<string, unknown>;
+  const keys = Object.keys(configRecord);
 
   let spreadsheet;
 
@@ -34,17 +41,18 @@ export const setConfig = function (
 
   keys.forEach(function (key) {
     if (spreadsheetLevel) {
-      spreadsheet.config[key] = config[key];
+      spreadsheet.config[key] = configRecord[key];
 
       if (key === "toolbar") {
-        if (config[key] === true) {
-          spreadsheet.showToolbar();
-        } else if (config[key] === false) {
-          spreadsheet.hideToolbar();
+        const spreadsheetInstance = spreadsheet as SpreadsheetInstance;
+        if (configRecord[key] === true) {
+          spreadsheetInstance.showToolbar?.();
+        } else if (configRecord[key] === false) {
+          spreadsheetInstance.hideToolbar?.();
         }
       }
     } else {
-      obj.options[key] = config[key];
+      obj.options[key] = configRecord[key];
     }
   });
 };

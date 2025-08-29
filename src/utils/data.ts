@@ -6,9 +6,13 @@ import { setHistory } from "./history";
 import { updatePagination } from "./pagination";
 import { setMerge } from "./merges";
 import { getCoordsFromRange } from "./helpers";
+import type { SpreadsheetContext, CellValue } from "../types/core";
 
-export const setData = function (this: any, data: any) {
+export const setData = function (this: SpreadsheetContext, data?: CellValue[][]) {
   const obj = this;
+
+  // Local aliases and defaults to satisfy strict checks
+  const columns = obj.options.columns ?? [];
 
   // Update data
   if (data) {
@@ -20,14 +24,16 @@ export const setData = function (this: any, data: any) {
     obj.options.data = [];
   }
 
-  // Prepare data
+  // Prepare data: support both array-of-arrays and array-of-objects
   if (obj.options.data && obj.options.data[0]) {
     if (!Array.isArray(obj.options.data[0])) {
       data = [];
       for (let j = 0; j < obj.options.data.length; j++) {
-        const row = [];
-        for (let i = 0; i < obj.options.columns.length; i++) {
-          row[i] = obj.options.data[j][obj.options.columns[i].name];
+        const row: CellValue[] = [];
+        const rowObj = obj.options.data[j] as Record<string, CellValue>;
+        for (let i = 0; i < columns.length; i++) {
+          const key = columns[i]?.name ?? String(i);
+          row[i] = rowObj[key];
         }
         data.push(row);
       }
@@ -39,21 +45,33 @@ export const setData = function (this: any, data: any) {
   // Adjust minimal dimensions
   let j = 0;
   let i = 0;
-  const size_i = (obj.options.columns && obj.options.columns.length) || 0;
+  const size_i = columns.length;
   const size_j = obj.options.data.length;
-  const min_i = obj.options.minDimensions[0];
-  const min_j = obj.options.minDimensions[1];
+  const minDims = obj.options.minDimensions ?? [0, 0];
+  const min_i = minDims[0];
+  const min_j = minDims[1];
   const max_i = min_i > size_i ? min_i : size_i;
   const max_j = min_j > size_j ? min_j : size_j;
 
   for (j = 0; j < max_j; j++) {
-    for (i = 0; i < max_i; i++) {
-      if (obj.options.data[j] == undefined) {
-        obj.options.data[j] = [];
+    if (!obj.options.data[j]) {
+      obj.options.data[j] = [];
+    }
+    const row = obj.options.data[j];
+    if (Array.isArray(row)) {
+      const arr = row as CellValue[];
+      for (i = 0; i < max_i; i++) {
+        if (arr[i] == undefined) {
+          arr[i] = "";
+        }
       }
-
-      if (obj.options.data[j][i] == undefined) {
-        obj.options.data[j][i] = "";
+    } else {
+      const rowObj = row as Record<string, CellValue>;
+      for (i = 0; i < max_i; i++) {
+        const key = columns[i]?.name ?? String(i);
+        if (rowObj[key] == undefined) {
+          rowObj[key] = "";
+        }
       }
     }
   }
@@ -90,10 +108,10 @@ export const setData = function (this: any, data: any) {
     if (!obj.pageNumber) {
       obj.pageNumber = 0;
     }
-    var quantityPerPage = obj.options.pagination;
-    startNumber = obj.options.pagination * obj.pageNumber;
+    var quantityPerPage = obj.options.pagination as number;
+    startNumber = (obj.options.pagination as number) * obj.pageNumber;
     finalNumber =
-      obj.options.pagination * obj.pageNumber + obj.options.pagination;
+      (obj.options.pagination as number) * obj.pageNumber + (obj.options.pagination as number);
 
     if (obj.options.data.length < finalNumber) {
       finalNumber = obj.options.data.length;
@@ -105,9 +123,13 @@ export const setData = function (this: any, data: any) {
 
   // Append nodes to the HTML
   for (j = 0; j < obj.options.data.length; j++) {
-    // Create row
-    const row = createRow.call(obj, j, obj.options.data[j]);
-    // Append line to the table
+    const rawRow = obj.options.data[j];
+    const rowData: CellValue[] = Array.isArray(rawRow)
+      ? (rawRow as CellValue[])
+      : (obj.options.columns ?? []).map((col, idx) =>
+          (rawRow as Record<string, CellValue>)[col?.name ?? String(idx)]
+        );
+    const row = createRow.call(obj, j, rowData);
     if (j >= startNumber && j < finalNumber) {
       obj.tbody.appendChild(row.element);
     }
@@ -121,10 +143,13 @@ export const setData = function (this: any, data: any) {
 
   // Merge cells
   if (obj.options.mergeCells) {
-    const keys = Object.keys(obj.options.mergeCells);
+    const mergeCells = obj.options.mergeCells as Record<string, [number, number] | false>;
+    const keys = Object.keys(mergeCells);
     for (let i = 0; i < keys.length; i++) {
-      const num = obj.options.mergeCells[keys[i]];
-      setMerge.call(obj, keys[i], num[0], num[1], 1);
+      const num = mergeCells[keys[i]];
+      if (Array.isArray(num)) {
+        setMerge.call(obj, keys[i], num[0], num[1], true);
+      }
     }
   }
 
@@ -138,7 +163,7 @@ export const setData = function (this: any, data: any) {
  * @param object cell
  * @return string value
  */
-export const getValue = function (this: any, cell: any, processedValue: any) {
+export const getValue = function (this: SpreadsheetContext, cell: string, processedValue?: boolean) {
   const obj = this;
 
   let x;
@@ -148,9 +173,9 @@ export const getValue = function (this: any, cell: any, processedValue: any) {
     return null;
   }
 
-  cell = getIdFromColumnName(cell, true);
-  x = cell[0];
-  y = cell[1];
+  const columnId = getIdFromColumnName(cell, true);
+  x = columnId[0] as number;
+  y = columnId[1] as number;
 
   let value = null;
 
@@ -158,8 +183,20 @@ export const getValue = function (this: any, cell: any, processedValue: any) {
     if (obj.records[y] && obj.records[y][x] && processedValue) {
       value = obj.records[y][x].element.innerHTML;
     } else {
-      if (obj.options.data[y] && obj.options.data[y][x] != "undefined") {
-        value = obj.options.data[y][x];
+      const data = obj.options.data;
+      if (data && data[y] !== undefined) {
+        const row = data[y];
+        if (Array.isArray(row)) {
+          if (row[x] !== undefined) {
+            value = row[x];
+          }
+        } else {
+          const rowObj = row as Record<string, CellValue>;
+          const key = (obj.options.columns ?? [])[x]?.name ?? String(x);
+          if (key in rowObj) {
+            value = rowObj[key];
+          }
+        }
       }
     }
   }
@@ -175,10 +212,10 @@ export const getValue = function (this: any, cell: any, processedValue: any) {
  * @return string value
  */
 export const getValueFromCoords = function (
-  this: any,
+  this: SpreadsheetContext,
   x: number,
   y: number,
-  processedValue: any
+  processedValue?: boolean
 ) {
   const obj = this;
 
@@ -188,8 +225,20 @@ export const getValueFromCoords = function (
     if (obj.records[y] && obj.records[y][x] && processedValue) {
       value = obj.records[y][x].element.innerHTML;
     } else {
-      if (obj.options.data[y] && obj.options.data[y][x] != "undefined") {
-        value = obj.options.data[y][x];
+      const data = obj.options.data;
+      if (data && data[y] !== undefined) {
+        const row = data[y];
+        if (Array.isArray(row)) {
+          if (row[x] !== undefined) {
+            value = row[x];
+          }
+        } else {
+          const rowObj = row as Record<string, CellValue>;
+          const key = (obj.options.columns ?? [])[x]?.name ?? String(x);
+          if (key in rowObj) {
+            value = rowObj[key];
+          }
+        }
       }
     }
   }
@@ -205,9 +254,9 @@ export const getValueFromCoords = function (
  * @return void
  */
 export const setValue = function (
-  this: any,
-  cell: any,
-  value: any,
+  this: SpreadsheetContext,
+  cell: string | HTMLElement[] | Array<{ element: HTMLElement }>,
+  value: CellValue,
   force?: boolean
 ) {
   const obj = this;
@@ -227,58 +276,47 @@ export const setValue = function (
       updateFormulaChain.call(obj, x, y, records);
     }
   } else {
-    let x: number | null = null;
-    let y: number | null = null;
-    if (cell && cell.getAttribute) {
-      x = parseInt(cell.getAttribute("data-x") || "", 10);
-      y = parseInt(cell.getAttribute("data-y") || "", 10);
-    }
-
-    // Update cell
-    if (x !== null && y !== null && !isNaN(x) && !isNaN(y)) {
-      records.push(updateCell.call(obj, x, y, value, force));
-
-      // Update all formulas in the chain
-      updateFormulaChain.call(obj, x, y, records);
-    }
-
-    // Update cell
-    if (x != null && y != null) {
-      records.push(updateCell.call(obj, x, y, value, force));
-
-      // Update all formulas in the chain
-      updateFormulaChain.call(obj, x, y, records);
+    // Single HTMLElement passed (non-array)
+    if (!Array.isArray(cell) && (cell as HTMLElement)?.getAttribute) {
+      const el = cell as HTMLElement;
+      const xVal = parseInt(el.getAttribute("data-x") || "", 10);
+      const yVal = parseInt(el.getAttribute("data-y") || "", 10);
+      if (!isNaN(xVal) && !isNaN(yVal)) {
+        records.push(updateCell.call(obj, xVal, yVal, value, force));
+        updateFormulaChain.call(obj, xVal, yVal, records);
+      }
     } else {
-      const keys = Object.keys(cell);
-      if (keys.length > 0) {
-        for (let i = 0; i < keys.length; i++) {
-          let x, y;
+      const items: (HTMLElement | { element: HTMLElement } | unknown)[] = Array.isArray(cell)
+        ? cell
+        : Object.keys(cell as Record<string, unknown>).map((k) => (cell as Record<string, unknown>)[k]);
 
-          if (typeof cell[i] == "string") {
-            const columnId = getIdFromColumnName(cell[i], true);
-            x = columnId[0];
-            y = columnId[1];
+      for (let idx = 0; idx < items.length; idx++) {
+        const item = items[idx];
+        let xi: number | null = null;
+        let yi: number | null = null;
+
+        if (typeof item === "string") {
+          const columnId = getIdFromColumnName(item, true);
+          xi = columnId[0] as number;
+          yi = columnId[1] as number;
+        } else if (item && typeof item === "object") {
+          if ("x" in item && "y" in item) {
+            xi = Number((item as { x: unknown }).x);
+            yi = Number((item as { y: unknown }).y);
+            if ("value" in item) value = (item as { value: unknown }).value as CellValue;
           } else {
-            if (cell[i].x != null && cell[i].y != null) {
-              x = cell[i].x;
-              y = cell[i].y;
-              // Flexible setup
-              if (cell[i].value != null) {
-                value = cell[i].value;
-              }
-            } else {
-              x = cell[i].getAttribute("data-x");
-              y = cell[i].getAttribute("data-y");
-            }
+            const el =
+              "element" in item && item.element && (item.element as HTMLElement).getAttribute
+                ? (item.element as HTMLElement)
+                : (item as HTMLElement);
+            xi = parseInt(el.getAttribute("data-x") || "", 10);
+            yi = parseInt(el.getAttribute("data-y") || "", 10);
           }
+        }
 
-          // Update cell
-          if (x != null && y != null) {
-            records.push(updateCell.call(obj, x, y, value, force));
-
-            // Update all formulas in the chain
-            updateFormulaChain.call(obj, x, y, records);
-          }
+        if (xi != null && yi != null && !isNaN(xi) && !isNaN(yi)) {
+          records.push(updateCell.call(obj, xi, yi, value, force));
+          updateFormulaChain.call(obj, xi, yi, records);
         }
       }
     }
@@ -299,8 +337,8 @@ export const setValue = function (
     return {
       x: record.x,
       y: record.y,
-      value: record.value,
-      oldValue: record.oldValue,
+      value: record.value ?? "",
+      oldValue: record.oldValue ?? "",
     };
   });
 
@@ -316,10 +354,10 @@ export const setValue = function (
  * @return void
  */
 export const setValueFromCoords = function (
-  this: any,
+  this: SpreadsheetContext,
   x: number,
   y: number,
-  value: any,
+  value: CellValue,
   force?: boolean
 ) {
   const obj = this;
@@ -345,8 +383,8 @@ export const setValueFromCoords = function (
     return {
       x: record.x,
       y: record.y,
-      value: record.value,
-      oldValue: record.oldValue,
+      value: record.value ?? "",
+      oldValue: record.oldValue ?? "",
     };
   });
 
@@ -360,26 +398,29 @@ export const setValueFromCoords = function (
  * @return array data
  */
 export const getData = function (
-  this: any,
+  this: SpreadsheetContext,
   highlighted: boolean,
   processed: boolean,
-  delimiter: string,
-  asJson: boolean
+  delimiter?: string,
+  asJson?: boolean
 ) {
   const obj = this;
 
   // Control vars
-  const dataset: any[][] = [];
+  const dataset: CellValue[][] = [];
   let px = 0;
   let py = 0;
 
   // Column and row length
+  const columnsLen = obj.options.columns ? obj.options.columns.length : 0;
+  const data = obj.options.data ?? [];
   const x = Math.max(
-    ...obj.options.data.map(function (row: any[]) {
-      return row.length;
+    0,
+    ...data.map(function (row) {
+      return Array.isArray(row) ? (row as CellValue[]).length : columnsLen;
     })
   );
-  const y = obj.options.data.length;
+  const y = data.length;
 
   // Go through the columns to get the data
   for (let j = 0; j < y; j++) {
@@ -397,7 +438,19 @@ export const getData = function (
         if (processed) {
           dataset[py][px] = obj.records[j][i].element.innerHTML;
         } else {
-          dataset[py][px] = obj.options.data[j][i];
+          const data = obj.options.data ?? [];
+          const rawRow = data[j];
+          if (rawRow !== undefined) {
+            if (Array.isArray(rawRow)) {
+              dataset[py][px] = (rawRow as CellValue[])[i] ?? "";
+            } else {
+              const columns = obj.options.columns ?? [];
+              const key = columns[i]?.name ?? String(i);
+              dataset[py][px] = (rawRow as Record<string, CellValue>)[key] ?? "";
+            }
+          } else {
+            dataset[py][px] = "";
+          }
         }
         px++;
       }
@@ -411,7 +464,7 @@ export const getData = function (
     return (
       dataset
         .map(function (row) {
-          return row.join(delimiter);
+          return row.map(cell => String(cell ?? "")).join(delimiter);
         })
         .join("\r\n") + "\r\n"
     );
@@ -419,7 +472,7 @@ export const getData = function (
 
   if (asJson) {
     return dataset.map(function (row) {
-      const resultRow: Record<number, any> = {};
+      const resultRow: Record<number, CellValue> = {};
 
       row.forEach(function (item, index) {
         resultRow[index] = item;
@@ -433,7 +486,7 @@ export const getData = function (
 };
 
 export const getDataFromRange = function (
-  this: any,
+  this: SpreadsheetContext,
   range: string,
   processed: boolean
 ) {
@@ -441,7 +494,7 @@ export const getDataFromRange = function (
 
   const coords = getCoordsFromRange(range);
 
-  const dataset: any[][] = [];
+  const dataset: CellValue[][] = [];
 
   for (let y = coords[1]; y <= coords[3]; y++) {
     dataset.push([]);
@@ -450,7 +503,19 @@ export const getDataFromRange = function (
       if (processed) {
         dataset[dataset.length - 1].push(obj.records[y][x].element.innerHTML);
       } else {
-        dataset[dataset.length - 1].push(obj.options.data[y][x]);
+        const data = obj.options.data ?? [];
+        const rawRow = data[y];
+        if (rawRow !== undefined) {
+          if (Array.isArray(rawRow)) {
+            dataset[dataset.length - 1].push((rawRow as CellValue[])[x] ?? "");
+          } else {
+            const columns = obj.options.columns ?? [];
+            const key = columns[x]?.name ?? String(x);
+            dataset[dataset.length - 1].push((rawRow as Record<string, CellValue>)[key] ?? "");
+          }
+        } else {
+          dataset[dataset.length - 1].push("");
+        }
       }
     }
   }

@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run type checking
+        run: npm run type-check:ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run any types analysis
+        run: |
+          node .agent/find-any-types.js
+          if grep -q "Total any types: [1-9]" .agent/any-types-report.txt; then
+            echo "❌ CI failed: Found any types in the codebase"
+            exit 1
+          else
+            echo "✅ No any types found"
+          fi
+
+      - name: Check for banned type assertions
+        run: |
+          echo "Checking for banned type assertions..."
+          as_any_count=$(grep -r "as any" src/ --include="*.ts" | wc -l)
+          as_unknown_as_count=$(grep -r "as unknown as" src/ --include="*.ts" | wc -l)
+
+          if [ "$as_any_count" -gt 0 ] || [ "$as_unknown_as_count" -gt 0 ]; then
+            echo "❌ CI failed: Found banned type assertions"
+            echo "Found $as_any_count 'as any' assertions"
+            echo "Found $as_unknown_as_count 'as unknown as' assertions"
+            echo ""
+            echo "'as any' and 'as unknown as' are banned. Use proper typing or guards instead."
+            exit 1
+          else
+            echo "✅ No banned type assertions found"
+          fi

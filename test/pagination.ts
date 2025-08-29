@@ -25,7 +25,7 @@ describe('Use pagination', () => {
             ]
         })
 
-        expect(instance[0].quantiyOfPages()).to.equal(4)
+        expect(instance[0].quantityOfPages?.()).to.equal(4)
 
         const bodyTag = root.querySelector('tbody');
 
@@ -59,9 +59,9 @@ describe('Use pagination', () => {
             ]
         })
 
-        instance[0].page(2)
+        instance[0].page?.(2)
 
-        expect(instance[0].quantiyOfPages()).to.equal(4)
+        expect(instance[0].quantityOfPages?.()).to.equal(4)
 
         const bodyTag = root.querySelector('tbody');
 

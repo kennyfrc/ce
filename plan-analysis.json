@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "currentBranch": "wm/ts2",
+    "updatedAt": "2025-08-28T06:54:46Z"
+  },
+  "tasks": [
+    {
+      "id": "ts-baseline-20250828-0001",
+      "name": "Baseline: Count any types",
+      "description": "Run any-type scanner and capture hotspots",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "test/**/*.ts"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "baseline",
+        "metrics"
+      ],
+      "acceptanceCriteria": [
+        "any count captured in analysis notes"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T06:54:46Z"
+    },
+    {
+      "id": "ts-baseline-20250828-0002",
+      "name": "Baseline: Type-check (tsconfig.test.json)",
+      "description": "Run tsc --noEmit and record error count",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.test.json",
+        "src/**",
+        "test/**"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "baseline",
+        "tsc"
+      ],
+      "acceptanceCriteria": [
+        "error count captured in analysis notes"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T06:54:46Z"
+    },
+    {
+      "id": "ts-baseline-20250828-0003",
+      "name": "Config: Strict status snapshot",
+      "description": "Report strict flags across tsconfigs",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.json",
+        "tsconfig.test.json",
+        "tsconfig.run.json"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "config",
+        "strict"
+      ],
+      "acceptanceCriteria": [
+        "flags recorded: strict, noImplicitAny, strictNullChecks, skipLibCheck"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T06:54:46Z"
+    },
+    {
+      "id": "ts-baseline-20250828-0004",
+      "name": "Identify core data structures",
+      "description": "List primary domain types and shapes",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/**",
+        "src/index.ts",
+        "src/utils/**"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "analysis",
+        "architecture"
+      ],
+      "acceptanceCriteria": [
+        "top 6-10 types enumerated with brief roles"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T06:54:46Z"
+    },
+    {
+      "id": "ts-baseline-20250828-0005",
+      "name": "Port order proposal",
+      "description": "Prioritized sequencing for TS port",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "analysis/**"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "plan"
+      ],
+      "acceptanceCriteria": [
+        "ordered steps with rationale recorded"
+      ],
+      "links": [],
+      "createdAt": "2025-08-28T00:00:00Z",
+      "updatedAt": "2025-08-28T06:54:46Z"
+    }
+  ]
+}

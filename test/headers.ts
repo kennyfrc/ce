@@ -17,17 +17,18 @@ describe('Use the headers method', () => {
         let table = root.querySelector('thead');
 
 
-        if (!table) throw new Error('Element not found');let headers = table.children[0].children
+        if (!table) throw new Error('Element not found');
+        let headers = table.children[0].children;
 
         expect(headers[1].innerHTML).to.include('A')
         expect(headers[2].innerHTML).to.include('B')
 
-        instance[0].setHeader(0, 'Produtos')
+        instance[0].setHeader?.(0, 'Produtos')
 
         expect(headers[1].innerHTML).to.include('Produtos')
         expect(headers[2].innerHTML).to.include('B')
 
-        instance[0].setHeader(1, 'Quantidade')
+        instance[0]?.setHeader?.(1, 'Quantidade')
 
         expect(headers[1].innerHTML).to.include('Produtos')
         expect(headers[2].innerHTML).to.include('Quantidade')
@@ -47,14 +48,15 @@ describe('Use the headers method', () => {
         let table = root.querySelector('thead');
 
 
-        if (!table) throw new Error('Element not found');let headers = table.children[0].children
+        if (!table) throw new Error('Element not found');
+        let headers = table.children[0].children;
 
         expect(headers[1].innerHTML).to.include('A')
         expect(headers[2].innerHTML).to.include('B')
 
-        expect(instance[0].getHeader(0)).to.include('A')
-        expect(instance[0].getHeader(1)).to.include('B')
-        expect(instance[0].getHeader(2)).to.include('C')
+        expect(instance[0].getHeader?.(0)).to.include('A')
+        expect(instance[0].getHeader?.(1)).to.include('B')
+        expect(instance[0].getHeader?.(2)).to.include('C')
     });
 
     it('getHeaders and header titles are retrieved', () => {
@@ -71,12 +73,13 @@ describe('Use the headers method', () => {
         let table = root.querySelector('thead');
 
 
-        if (!table) throw new Error('Element not found');let headers = table.children[0].children
+        if (!table) throw new Error('Element not found');
+        let headers = table.children[0].children;
 
         expect(headers[1].innerHTML).to.include('A')
         expect(headers[2].innerHTML).to.include('B')
 
-        let h = instance[0].getHeaders()
+        let h = instance[0].getHeaders?.()
 
         expect(h).to.include('A')
         expect(h).to.include('B')
@@ -100,22 +103,23 @@ describe('Use the headers method', () => {
         let table = root.querySelector('thead');
 
 
-        if (!table) throw new Error('Element not found');let headers = table.children[0].children
+        if (!table) throw new Error('Element not found');
+        let headers = table.children[0].children;
 
         expect(headers[1].innerHTML).to.equal('A')
         expect(headers[2].innerHTML).to.equal('B')
 
-        instance[0].setHeader(0, 'Products')
+        instance[0].setHeader?.(0, 'Products')
 
         expect(headers[1].innerHTML).to.equal('Products')
         expect(headers[2].innerHTML).to.equal('B')
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(headers[1].innerHTML).to.equal('A')
         expect(headers[2].innerHTML).to.equal('B')
 
-        instance[0].redo()
+        instance[0]?.redo?.()
 
         expect(headers[1].innerHTML).to.equal('Products')
         expect(headers[2].innerHTML).to.equal('B')

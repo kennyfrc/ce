@@ -1,0 +1,1 @@
+const testFunc = () => { return 'test'; };

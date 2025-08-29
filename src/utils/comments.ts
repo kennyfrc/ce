@@ -2,12 +2,13 @@ import dispatch from "./dispatch";
 import { getCoordsFromCellName } from "./helpers";
 import { setHistory } from "./history";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
+import type { SpreadsheetContext } from "../types/core";
 
 /**
  * Get cell comments, null cell for all
  */
 export const getComments = function (
-  this: any,
+  this: SpreadsheetContext,
   cellParam?: string
 ): string | Record<string, string> {
   const obj = this;
@@ -27,9 +28,12 @@ export const getComments = function (
     );
   } else {
     const data: Record<string, string> = {};
-    for (let j = 0; j < obj.options.data.length; j++) {
-      for (let i = 0; i < obj.options.columns.length; i++) {
-        const comments = obj.records[j][i].element.getAttribute("title");
+    const dataRows = obj.options.data ?? [];
+    const columns = obj.options.columns ?? [];
+
+    for (let j = 0; j < dataRows.length; j++) {
+      for (let i = 0; i < columns.length; i++) {
+        const comments = obj.records[j]?.[i]?.element.getAttribute("title");
         if (comments) {
           const cell = getColumnNameFromId([i, j]);
           data[cell] = comments;
@@ -43,7 +47,7 @@ export const getComments = function (
 /**
  * Set cell comments
  */
-export const setComments = function (this: any, cellId: any, comments: any) {
+export const setComments = function (this: SpreadsheetContext, cellId: string | Record<string, string>, comments?: string) {
   const obj = this;
 
   let commentsObj;
@@ -54,7 +58,7 @@ export const setComments = function (this: any, cellId: any, comments: any) {
     commentsObj = cellId;
   }
 
-  const oldValue: Record<string, any> = {};
+  const oldValue: Record<string, string | null> = {};
 
   Object.entries(commentsObj).forEach(function ([cellName, comment]) {
     const cellCoords = getCoordsFromCellName(cellName);
@@ -72,7 +76,7 @@ export const setComments = function (this: any, cellId: any, comments: any) {
 
     // Remove class if there is no comment
     if (comment) {
-      obj.records[cellCoords[1]][cellCoords[0]].element.classList.add(
+      obj.records[cellCoords[1]]?.[cellCoords[0]]?.element.classList.add(
         "jss_comments"
       );
 
@@ -80,14 +84,15 @@ export const setComments = function (this: any, cellId: any, comments: any) {
         obj.options.comments = {};
       }
 
-      obj.options.comments[cellName] = comment;
+      (obj.options.comments as Record<string, string>)[cellName] = comment;
     } else {
-      obj.records[cellCoords[1]][cellCoords[0]].element.classList.remove(
+      obj.records[cellCoords[1]]?.[cellCoords[0]]?.element.classList.remove(
         "jss_comments"
       );
 
-      if (obj.options.comments && obj.options.comments[cellName]) {
-        delete obj.options.comments[cellName];
+      const commentsRecord = obj.options.comments as Record<string, string> | undefined;
+      if (commentsRecord && commentsRecord[cellName]) {
+        delete commentsRecord[cellName];
       }
     }
   });
@@ -95,8 +100,8 @@ export const setComments = function (this: any, cellId: any, comments: any) {
   // Save history
   setHistory.call(obj, {
     action: "setComments",
-    newValue: commentsObj,
-    oldValue: oldValue,
+    newValue: commentsObj as Record<string, string | string[]>,
+    oldValue: oldValue as Record<string, string | string[]>,
   });
 
   // Set comments

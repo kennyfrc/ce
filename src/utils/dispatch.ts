@@ -1,30 +1,42 @@
 import jSuites from "jsuites";
+import type {
+  WorksheetInstance,
+  SpreadsheetInstance,
+  SpreadsheetContext,
+  ColumnDefinition,
+} from "../types/core";
 
 /**
  * Prepare JSON in the correct format
  */
-const prepareJson = function (this: any, data: any[]) {
+const prepareJson = function (this: WorksheetInstance, data: unknown) {
   const obj = this;
 
-  const rows = [];
-  for (let i = 0; i < data.length; i++) {
-    const x = data[i].x;
-    const y = data[i].y;
-    const k = obj.options.columns[x].name ? obj.options.columns[x].name : x;
+  if (!Array.isArray(data)) {
+    return [];
+  }
 
-    // Create row
+  type DispatchItem = { x: number; y: number; value: unknown };
+  const arr = data as DispatchItem[];
+  const rows: Array<{ row: number; data: Record<string, unknown> }> = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    const x = arr[i].x;
+    const y = arr[i].y;
+    const col = obj.options.columns && obj.options.columns[x] as ColumnDefinition | undefined;
+    const k = col && typeof col.name === "string" ? col.name : String(x);
+
     if (!rows[y]) {
       rows[y] = {
         row: y,
         data: {},
       };
     }
-    if (rows[y] && rows[y].data) {
-      (rows[y].data as any)[k] = data[i].value;
+    if (rows[y]) {
+      rows[y].data[k] = arr[i].value;
     }
   }
 
-  // Filter rows
   return rows.filter(function (el) {
     return el != null;
   });
@@ -33,27 +45,31 @@ const prepareJson = function (this: any, data: any[]) {
 /**
  * Post json to a remote server
  */
-const save = function (this: any, url: string, data: any[]) {
+const save = function (this: WorksheetInstance, url: string, data: unknown[]) {
   const obj = this;
 
   // Parse anything in the data before sending to the server
   const ret = dispatch.call(obj.parent, "onbeforesave", obj.parent, obj, data);
   if (ret) {
-    data = ret;
-  } else {
-    if (ret === false) {
+    if (Array.isArray(ret)) {
+      data = ret;
+    } else if (ret === false) {
       return false;
+    } else {
+      return undefined;
     }
+  } else {
     return undefined;
   }
 
-  // Remove update
-  (jSuites as any).ajax({
-    url: url,
+  const jsuitesLib = jSuites;
+
+  jsuitesLib.ajax?.({
+    url,
     method: "POST",
     dataType: "json",
     data: { data: JSON.stringify(data) },
-    success: function (result: any) {
+    success: function (result: unknown) {
       // Event
       dispatch.call(obj, "onsave", obj.parent, obj, data);
     },
@@ -65,62 +81,60 @@ const save = function (this: any, url: string, data: any[]) {
 /**
  * Trigger events
  */
-const dispatch = function (this: any, event: string, ...args: any[]) {
+const dispatch = function (
+  this: WorksheetInstance | SpreadsheetInstance,
+  event: string,
+  ...args: unknown[]
+) {
   const obj = this;
-  let ret = null;
-
-  let spreadsheet = obj.parent ? obj.parent : obj;
+  let ret: unknown = null;
+  
+  // Get the spreadsheet instance
+  let spreadsheet: SpreadsheetInstance;
+  if ('parent' in obj && obj.parent) {
+    spreadsheet = obj.parent;
+  } else {
+    spreadsheet = obj as SpreadsheetInstance;
+  }
 
   // Dispatch events
   if (!spreadsheet.ignoreEvents) {
-    // Call global event
-    if (typeof spreadsheet.config.onevent == "function") {
-      ret = spreadsheet.config.onevent.apply(this, [event, ...args]);
-    }
-    // Call specific events
-    if (typeof (spreadsheet.config as any)[event] == "function") {
-      ret = spreadsheet.config[event].apply(this, args);
+    // Handle global onevent handler
+    if (spreadsheet.config && typeof spreadsheet.config.onevent === "function") {
+      ret = spreadsheet.config.onevent.call(this, event, ...args);
     }
 
-    if (typeof spreadsheet.plugins === "object") {
-      const pluginKeys = Object.keys(spreadsheet.plugins);
+    // Handle specific event handlers
+    if (spreadsheet.config && typeof (spreadsheet.config as Record<string, unknown>)[event] === "function") {
+      const specificHandler = (spreadsheet.config as Record<string, Function>)[event];
+      ret = specificHandler.apply(this, args);
+    }
 
-      for (
-        let pluginKeyIndex = 0;
-        pluginKeyIndex < pluginKeys.length;
-        pluginKeyIndex++
-      ) {
-        const key = pluginKeys[pluginKeyIndex];
-        const plugin = (spreadsheet.plugins as any)[key];
-
-        if (typeof (plugin as any).onevent === "function") {
-          ret = plugin.onevent.apply(this, arguments);
+    // Handle plugin event handlers
+    if (spreadsheet.plugins) {
+      Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
+        if (plugin && typeof plugin.onevent === "function") {
+          ret = plugin.onevent.apply(obj, [event, ...args]);
         }
-      }
+      });
     }
   }
 
-  if (event == "onafterchanges") {
-    const scope = arguments;
-
-    if (typeof spreadsheet.plugins === "object") {
-      Object.entries(spreadsheet.plugins as any).forEach(function ([, plugin]: [
-        string,
-        any
-      ]) {
-        if (typeof (plugin as any).persistence === "function") {
-          plugin.persistence(obj, "setValue", { data: scope[2] });
+  if (event === "onafterchanges" && args.length >= 3) {
+    if (spreadsheet.plugins) {
+      Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
+        if (plugin && typeof plugin.persistence === "function") {
+          plugin.persistence(obj, "setValue", { data: args[2] });
         }
       });
     }
 
     if (obj.options.persistence) {
-      const url =
-        obj.options.persistence == true
-          ? obj.options.url
-          : obj.options.persistence;
-      const data = prepareJson.call(obj, arguments[2]);
-      save.call(obj, url, data);
+      const rawUrl = obj.options.persistence === true ? obj.options.url : obj.options.persistence;
+      if (typeof rawUrl === "string") {
+        const data = prepareJson.call(obj, args[2]);
+        save.call(obj, rawUrl, data);
+      }
     }
   }
 

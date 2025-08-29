@@ -1,4 +1,5 @@
 import jSuites from "jsuites";
+import type { SpreadsheetContext, NestedHeader, CellValue } from "../types/core";
 
 import { parseCSV } from "./helpers";
 import dispatch from "./dispatch";
@@ -25,7 +26,7 @@ import { getColumnNameFromId } from "./internalHelpers";
  * @return string value
  */
 export const copy = function (
-  this: any,
+  this: SpreadsheetContext,
   highlighted?: boolean,
   delimiter?: string,
   returnData?: boolean,
@@ -48,9 +49,18 @@ export const copy = function (
   let colLabel = [];
   const row = [];
   const rowLabel = [];
-  const x = obj.options.data[0].length;
-  const y = obj.options.data.length;
-  let tmp: any = "";
+
+  // Guard data access
+  const data = obj.options.data;
+  if (!data || data.length === 0) {
+    return "";
+  }
+
+  const firstRow = Array.isArray(data[0]) ? data[0] : Object.values(data[0] || {});
+  const x = firstRow.length;
+  const y = data.length;
+  // tmp was previously reused for different purposes; keep it string-only here
+  let tmp: string = "";
   let copyHeader = false;
   let headers = "";
   let nestedHeaders = "";
@@ -63,7 +73,9 @@ export const copy = function (
   let isPartialCopy = true;
   // Go through the columns to get the data
   for (let j = 0; j < y; j++) {
-    for (let i = 0; i < x; i++) {
+    const rowData = Array.isArray(data[j]) ? data[j] : Object.values(data[j] || {});
+    const rowLength = Array.isArray(rowData) ? rowData.length : 0;
+    for (let i = 0; i < x && i < rowLength; i++) {
       // If cell is highlighted
       if (
         !highlighted ||
@@ -88,13 +100,14 @@ export const copy = function (
   ) {
     // Nested headers
     if (obj.options.nestedHeaders && obj.options.nestedHeaders.length > 0) {
-      tmp = obj.options.nestedHeaders;
+      const nestedData = obj.options.nestedHeaders as NestedHeader[][];
 
-      for (let j = 0; j < tmp.length; j++) {
+      for (let j = 0; j < nestedData.length; j++) {
         const nested = [];
-        for (let i = 0; i < tmp[j].length; i++) {
-          const colspan = parseInt((tmp[j][i] as any).colspan);
-          nested.push((tmp[j][i] as any).title);
+        for (let i = 0; i < nestedData[j].length; i++) {
+          const cell = nestedData[j][i];
+          const colspan = cell && cell.colspan ? Number(cell.colspan) : 1;
+          nested.push(cell && cell.title ? String(cell.title) : "");
           for (let c = 0; c < colspan - 1; c++) {
             nested.push("");
           }
@@ -114,7 +127,9 @@ export const copy = function (
     col = [];
     colLabel = [];
 
-    for (let i = 0; i < x; i++) {
+    const rowData = Array.isArray(data[j]) ? data[j] : Object.values(data[j] || {});
+    const rowLength = Array.isArray(rowData) ? rowData.length : 0;
+    for (let i = 0; i < x && i < rowLength; i++) {
       // If cell is highlighted
       if (
         !highlighted ||
@@ -124,9 +139,9 @@ export const copy = function (
           header.push(obj.headers[i].textContent);
         }
         // Values
-        let value = obj.options.data[j][i];
+        let value = Array.isArray(rowData) ? rowData[i] : String(rowData[i] || "");
         if (
-          value.match &&
+          typeof value === 'string' &&
           (value.match(div) ||
             value.match(/,/g) ||
             value.match(/\n/) ||
@@ -164,9 +179,8 @@ export const copy = function (
         colLabel.push(label);
 
         // Get style
-        tmp = obj.records[j][i].element.getAttribute("style");
-        tmp = tmp.replace("display: none;", "");
-        obj.style.push(tmp ? tmp : "");
+        const styleAttr = obj.records[j][i].element.getAttribute("style") || "";
+        obj.style.push(styleAttr.replace("display: none;", ""));
       }
     }
 
@@ -198,6 +212,9 @@ export const copy = function (
   // Create a hidden textarea to copy the values
   if (!returnData) {
     // Paste event
+    if (!obj.selectedCell || obj.selectedCell.length < 4) {
+      return "";
+    }
     const selectedRange = [
       Math.min(obj.selectedCell[0], obj.selectedCell[2]),
       Math.min(obj.selectedCell[1], obj.selectedCell[3]),
@@ -211,18 +228,20 @@ export const copy = function (
       obj,
       selectedRange,
       strLabel,
-      isCut
+      Boolean(isCut)
     );
 
-    if (result) {
+    if (typeof result === "string") {
       strLabel = result;
     } else if (result === false) {
       return false;
     }
 
-    obj.textarea.value = strLabel;
-    obj.textarea.select();
-    document.execCommand("copy");
+    if (obj.textarea) {
+      (obj.textarea as HTMLTextAreaElement).value = strLabel;
+      (obj.textarea as HTMLTextAreaElement).select();
+      document.execCommand("copy");
+    }
   }
 
   // Keep data
@@ -232,7 +251,7 @@ export const copy = function (
     obj.data = str;
   }
   // Keep non visible information
-  obj.hashString = hash.call(obj, obj.data);
+  obj.hashString = String(hash.call(obj, obj.data));
 
   // Any exiting border should go
   if (!returnData) {
@@ -269,21 +288,25 @@ export const copy = function (
  * @param data paste data. if data hash is the same as the copied data, apply style from copied cells
  * @return string value
  */
-export const paste = function (this: any, x: number, y: number, data: any) {
+export const paste = function (this: SpreadsheetContext, x: number, y: number, data: unknown) {
   const obj = this;
 
   // Controls
-  const dataHash = hash(data);
-  let style = dataHash == obj.hashString ? obj.style : null;
+  let dataStr = typeof data === "string" ? data : String(data);
+  const dataHash = String(hash(dataStr));
+  let style = (dataHash === (obj.hashString || "") && obj.hashString && obj.style) ? obj.style : null;
 
   // Depending on the behavior
-  if (dataHash == obj.hashString) {
-    data = obj.data;
+  if (dataHash === (obj.hashString || "") && obj.data) {
+    dataStr = obj.data;
   }
 
   // Split new line
-  data = parseCSV(data, "\t");
+  let parsedData = parseCSV(dataStr, "\t");
 
+  if (!obj.selectedCell || obj.selectedCell.length < 4) {
+    return false;
+  }
   const ex = obj.selectedCell[2];
   const ey = obj.selectedCell[3];
 
@@ -291,7 +314,10 @@ export const paste = function (this: any, x: number, y: number, data: any) {
   const h = ey - y + 1;
 
   // Modify data to allow wor extending paste range in multiples of input range
-  const srcW = data[0].length;
+  if (!Array.isArray(parsedData) || parsedData.length === 0 || !Array.isArray(parsedData[0])) {
+    return false;
+  }
+  const srcW = parsedData[0].length;
   if (w > 1 && Number.isInteger(w / srcW)) {
     const repeats = w / srcW;
     if (style) {
@@ -305,15 +331,15 @@ export const paste = function (this: any, x: number, y: number, data: any) {
       style = newStyle;
     }
 
-    const arrayB = data.map(function (row: any[], i: number) {
+    const arrayB = parsedData.map(function (row: string[], i: number) {
       const arrayC = Array.from({ length: repeats * row.length }, (e, i) => {
         return row[i % row.length];
       });
       return arrayC;
     });
-    data = arrayB;
+    parsedData = arrayB;
   }
-  const srcH = data.length;
+  const srcH = parsedData.length;
   if (h > 1 && Number.isInteger(h / srcH)) {
     const repeats = h / srcH;
     if (style) {
@@ -324,9 +350,9 @@ export const paste = function (this: any, x: number, y: number, data: any) {
       style = newStyle;
     }
     const arrayB = Array.from({ length: repeats * srcH }, (e, i) => {
-      return data[i % srcH];
+      return parsedData[i % srcH];
     });
-    data = arrayB;
+    parsedData = arrayB;
   }
 
   // Paste filter
@@ -334,8 +360,8 @@ export const paste = function (this: any, x: number, y: number, data: any) {
     obj,
     "onbeforepaste",
     obj,
-    data.map(function (row: any[]) {
-      return row.map(function (item: any) {
+    parsedData.map(function (row: string[]) {
+      return row.map(function (item: string) {
         return { value: item };
       });
     }),
@@ -345,17 +371,17 @@ export const paste = function (this: any, x: number, y: number, data: any) {
 
   if (ret === false) {
     return false;
-  } else if (ret) {
-    data = ret;
+  } else if (ret && Array.isArray(ret)) {
+    parsedData = ret;
   }
 
-  if (x != null && y != null && data) {
+  if (x != null && y != null && parsedData) {
     // Records
     let i = 0;
     let j = 0;
     const records = [];
-    const newStyle: Record<string, any> = {};
-    const oldStyle: Record<string, any> = {};
+    const newStyle: Record<string, unknown> = {};
+    const oldStyle: Record<string, unknown> = {};
     let styleIndex = 0;
 
     // Index
@@ -363,23 +389,24 @@ export const paste = function (this: any, x: number, y: number, data: any) {
     let rowIndex = y;
     let row = null;
 
+    const firstRow = Array.isArray(parsedData[0]) ? parsedData[0] : [];
     const hiddenColCount = obj.headers
       .slice(colIndex)
-      .filter((x: any) => x.style.display === "none").length;
-    const expandedColCount = colIndex + hiddenColCount + data[0].length;
+      .filter((x: HTMLElement) => x.style.display === "none").length;
+    const expandedColCount = colIndex + hiddenColCount + firstRow.length;
     const currentColCount = obj.headers.length;
     if (expandedColCount > currentColCount) {
       obj.skipUpdateTableReferences = true;
-      obj.insertColumn(expandedColCount - currentColCount);
+      obj.insertColumn?.(expandedColCount - currentColCount);
     }
     const hiddenRowCount = obj.rows
       .slice(rowIndex)
-      .filter((x: any) => x.element.style.display === "none").length;
-    const expandedRowCount = rowIndex + hiddenRowCount + data.length;
+      .filter((x: { element: HTMLElement }) => x.element.style.display === "none").length;
+    const expandedRowCount = rowIndex + hiddenRowCount + parsedData.length;
     const currentRowCount = obj.rows.length;
     if (expandedRowCount > currentRowCount) {
       obj.skipUpdateTableReferences = true;
-      obj.insertRow(expandedRowCount - currentRowCount);
+      obj.insertRow?.(expandedRowCount - currentRowCount);
     }
 
     if (obj.skipUpdateTableReferences) {
@@ -388,11 +415,11 @@ export const paste = function (this: any, x: number, y: number, data: any) {
     }
 
     // Go through the columns to get the data
-    while ((row = data[j])) {
+    while (j < parsedData.length && (row = parsedData[j])) {
       i = 0;
       colIndex = x;
 
-      while (row[i] != null) {
+      while (i < row.length && row[i] != null) {
         let value = row[i];
 
         if (
@@ -400,12 +427,13 @@ export const paste = function (this: any, x: number, y: number, data: any) {
           obj.options.columns[i] &&
           obj.options.columns[i].type == "calendar"
         ) {
-          value = jSuites.calendar.extractDateFromString(
+          const column = obj.options.columns[i];
+          const format = column.options?.format || "YYYY-MM-DD";
+          const extractedDate = jSuites.calendar.extractDateFromString(
             value,
-            (obj.options.columns[i].options &&
-              obj.options.columns[i].options.format) ||
-              "YYYY-MM-DD"
+            format
           );
+          value = extractedDate ? String(extractedDate) : value;
         }
 
         // Update and keep history
@@ -418,19 +446,19 @@ export const paste = function (this: any, x: number, y: number, data: any) {
         if (style && style[styleIndex]) {
           const columnName = getColumnNameFromId([colIndex, rowIndex]);
           newStyle[columnName] = style[styleIndex];
-          oldStyle[columnName] = obj.getStyle(columnName);
+          oldStyle[columnName] = obj.getStyle?.(columnName) || "";
           obj.records[rowIndex][colIndex].element.setAttribute(
             "style",
-            style[styleIndex]
+            String(style[styleIndex])
           );
           styleIndex++;
         }
         i++;
-        if (row[i] != null) {
+        if (i < row.length && row[i] != null) {
           if (colIndex >= obj.headers.length - 1) {
             // If the pasted column is out of range, create it if possible
             if (obj.options.allowInsertColumn != false) {
-              obj.insertColumn();
+              obj.insertColumn?.();
               // Otherwise skip the pasted data that overflows
             } else {
               break;
@@ -441,11 +469,11 @@ export const paste = function (this: any, x: number, y: number, data: any) {
       }
 
       j++;
-      if (data[j]) {
+      if (j < parsedData.length && parsedData[j]) {
         if (rowIndex >= obj.rows.length - 1) {
           // If the pasted row is out of range, create it if possible
           if (obj.options.allowInsertRow != false) {
-            obj.insertRow();
+            obj.insertRow?.(1);
             // Otherwise skip the pasted data that overflows
           } else {
             break;
@@ -461,8 +489,8 @@ export const paste = function (this: any, x: number, y: number, data: any) {
     // Update history
     setHistory.call(obj, {
       action: "setValue",
-      records: records,
-      selection: obj.selectedCell,
+                           records: records,
+      selection: obj.selectedCell || [],
       newStyle: newStyle,
       oldStyle: oldStyle,
     });
@@ -473,13 +501,16 @@ export const paste = function (this: any, x: number, y: number, data: any) {
     // Paste event
     const eventRecords = [];
 
-    for (let j = 0; j < data.length; j++) {
-      for (let i = 0; i < data[j].length; i++) {
-        eventRecords.push({
-          x: i + x,
-          y: j + y,
-          value: data[j][i],
-        });
+    for (let j = 0; j < parsedData.length; j++) {
+      const row = parsedData[j];
+      if (Array.isArray(row)) {
+        for (let i = 0; i < row.length; i++) {
+          eventRecords.push({
+            x: i + x,
+            y: j + y,
+            value: row[i],
+          });
+        }
       }
     }
 

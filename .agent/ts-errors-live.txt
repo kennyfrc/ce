@@ -1,0 +1,1115 @@
+src/utils/dispatch.ts(133,22): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/utils/events.ts(103,25): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(103,25): error TS18048: 'current.getSelectedColumns' is possibly 'undefined'.
+src/utils/events.ts(159,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(159,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(188,13): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(190,34): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(190,56): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(190,74): error TS18048: 'current.selection' is possibly 'undefined'.
+src/utils/events.ts(238,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(304,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(332,19): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(332,27): error TS2554: Expected 2 arguments, but got 1.
+src/utils/events.ts(347,15): error TS2345: Argument of type 'number | true' is not assignable to parameter of type 'number'.
+  Type 'boolean' is not assignable to type 'number'.
+src/utils/events.ts(364,20): error TS18048: 'current.options.columns' is possibly 'undefined'.
+src/utils/events.ts(404,43): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(412,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(440,15): error TS2345: Argument of type 'number | boolean | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(515,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(518,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(520,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(566,35): error TS18048: 'current.resizing.mousePosition' is possibly 'undefined'.
+src/utils/events.ts(568,15): error TS18048: 'current.resizing.width' is possibly 'undefined'.
+src/utils/events.ts(569,31): error TS18048: 'current.resizing.width' is possibly 'undefined'.
+src/utils/events.ts(570,84): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(575,36): error TS18048: 'current.resizing.mousePosition' is possibly 'undefined'.
+src/utils/events.ts(577,15): error TS18048: 'current.resizing.height' is possibly 'undefined'.
+src/utils/events.ts(578,32): error TS18048: 'current.resizing.height' is possibly 'undefined'.
+src/utils/events.ts(579,26): error TS2538: Type 'undefined' cannot be used as an index type.
+src/utils/events.ts(690,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
+src/utils/events.ts(691,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
+src/utils/events.ts(692,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
+src/utils/events.ts(693,14): error TS18048: 'obj.selectedContainer' is possibly 'undefined'.
+src/utils/events.ts(717,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(718,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(720,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(721,21): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(738,11): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/events.ts(822,17): error TS2345: Argument of type 'number | boolean' is not assignable to parameter of type 'number'.
+  Type 'boolean' is not assignable to type 'number'.
+src/utils/events.ts(872,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(874,20): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(877,13): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(877,33): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(883,11): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(883,31): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(886,52): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(886,85): error TS2538: Type 'null' cannot be used as an index type.
+src/utils/events.ts(892,32): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string | number'.
+  Type 'null' is not assignable to type 'string | number'.
+src/utils/events.ts(902,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(902,19): error TS2554: Expected 2 arguments, but got 1.
+src/utils/events.ts(1041,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1052,28): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1052,28): error TS18048: 'worksheet.getHeader' is possibly 'undefined'.
+src/utils/events.ts(1056,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1056,34): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/events.ts(1069,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1069,32): error TS2345: Argument of type '0' is not assignable to parameter of type '"asc" | "desc"'.
+src/utils/events.ts(1075,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1075,32): error TS2345: Argument of type '1' is not assignable to parameter of type '"asc" | "desc"'.
+src/utils/events.ts(1087,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1087,34): error TS2554: Expected 1 arguments, but got 3.
+src/utils/events.ts(1094,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1094,34): error TS2554: Expected 1 arguments, but got 2.
+src/utils/events.ts(1103,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1104,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1104,13): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/events.ts(1122,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1131,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1164,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1165,19): error TS18048: 'worksheet.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1182,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1266,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1267,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1268,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1269,33): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1318,40): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1318,40): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1319,57): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1319,57): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1320,17): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1321,17): error TS18048: 'libraryBase.jspreadsheet.current.selectedCell' is possibly 'undefined'.
+src/utils/events.ts(1421,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1427,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1497,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1498,11): error TS18048: 'libraryBase.jspreadsheet.current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1498,11): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1598,13): error TS2345: Argument of type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/events.ts(1641,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1641,25): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1658,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1659,15): error TS18048: 'current.highlighted' is possibly 'undefined'.
+src/utils/events.ts(1659,15): error TS2345: Argument of type 'HTMLElement[]' is not assignable to parameter of type 'string'.
+src/utils/events.ts(1675,17): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1675,25): error TS2554: Expected 1 arguments, but got 0.
+src/utils/events.ts(1708,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1712,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1716,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/events.ts(1732,41): error TS2345: Argument of type 'Event' is not assignable to parameter of type 'ClipboardEvent'.
+  Property 'clipboardData' is missing in type 'Event' but required in type 'ClipboardEvent'.
+src/utils/events.ts(1802,44): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
+src/utils/events.ts(1816,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1816,35): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1817,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1821,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1821,39): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1822,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1824,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1825,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1825,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1829,20): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1829,45): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1831,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1832,15): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1833,17): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1833,41): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1850,16): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/events.ts(1853,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1867,36): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/events.ts(1871,28): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'string'.
+  Type 'number' is not assignable to type 'string'.
+src/utils/events.ts(1883,13): error TS2365: Operator '+' cannot be applied to types 'number' and 'string | number'.
+src/utils/events.ts(1893,25): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1914,7): error TS18048: 'obj.options.freezeColumns' is possibly 'undefined'.
+src/utils/events.ts(1914,40): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/factory.ts(89,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
+src/utils/factory.ts(110,11): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
+src/utils/factory.ts(131,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/factory.ts(146,24): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(o: { [s: string]: number | CSSStyleDeclaration; } | ArrayLike<number | CSSStyleDeclaration>): [string, number | CSSStyleDeclaration][]', gave the following error.
+    Argument of type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[] | undefined' is not assignable to parameter of type '{ [s: string]: number | CSSStyleDeclaration; } | ArrayLike<number | CSSStyleDeclaration>'.
+      Type 'undefined' is not assignable to type '{ [s: string]: number | CSSStyleDeclaration; } | ArrayLike<number | CSSStyleDeclaration>'.
+  Overload 2 of 2, '(o: {}): [string, any][]', gave the following error.
+    Argument of type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[] | undefined' is not assignable to parameter of type '{}'.
+      Type 'undefined' is not assignable to type '{}'.
+src/utils/factory.ts(148,13): error TS2532: Object is possibly 'undefined'.
+src/utils/factory.ts(148,13): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+  No index signature with a parameter of type 'string' was found on type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+src/utils/factory.ts(148,36): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+  No index signature with a parameter of type 'number' was found on type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+src/utils/factory.ts(190,5): error TS18047: 'el.parentNode' is possibly 'null'.
+src/utils/factory.ts(195,7): error TS2741: Property 'options' is missing in type '{ worksheets: SpreadsheetContext[]; config: SpreadsheetOptions; element: HTMLElement; el: HTMLElement; }' but required in type 'SpreadsheetInstance'.
+src/utils/factory.ts(206,60): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: SpreadsheetContext) => number, thisArg: SpreadsheetContext): () => number', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+  Overload 2 of 2, '(this: (this: SpreadsheetContext) => number, thisArg: SpreadsheetContext): () => number', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(207,44): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: SpreadsheetContext, activate?: boolean | undefined) => void, thisArg: SpreadsheetContext): (activate?: boolean | undefined) => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+  Overload 2 of 2, '(this: (this: SpreadsheetContext, activate?: boolean | undefined) => void, thisArg: SpreadsheetContext): (activate?: boolean | undefined) => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(208,46): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+  Overload 2 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(209,46): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+  Overload 2 of 2, '(this: (this: SpreadsheetContext) => void, thisArg: SpreadsheetContext): () => void', gave the following error.
+    Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+      Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(236,9): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
+src/utils/factory.ts(252,20): error TS2345: Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/factory.ts(261,6): error TS2551: Property 'spreadsheet' does not exist on type 'HTMLElement'. Did you mean 'jspreadsheet'?
+src/utils/factory.ts(281,33): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: {}; }' is not assignable to parameter of type 'SpreadsheetContext'.
+  Type '{ parent: SpreadsheetInstance; options: {}; }' is missing the following properties from type 'SpreadsheetContext': headers, rows, element, config, and 5 more.
+src/utils/factory.ts(283,48): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: {}; }' is not assignable to parameter of type 'SpreadsheetContext'.
+  Type '{ parent: SpreadsheetInstance; options: {}; }' is missing the following properties from type 'SpreadsheetContext': headers, rows, element, config, and 5 more.
+src/utils/history.ts(304,9): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean'.
+  Type 'number' is not assignable to type 'boolean'.
+src/utils/history.ts(382,9): error TS2345: Argument of type '1' is not assignable to parameter of type 'boolean | undefined'.
+src/utils/internal.ts(42,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/internal.ts(428,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
+src/utils/internal.ts(430,7): error TS2367: This comparison appears to be unintentional because the types 'string' and 'number' have no overlap.
+src/utils/internal.ts(445,8): error TS2322: Type 'HTMLCollectionOf<HTMLScriptElement>' is not assignable to type 'string'.
+src/utils/internal.ts(446,7): error TS2339: Property 'parentNode' does not exist on type 'string'.
+src/utils/internal.ts(468,31): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(518,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/internal.ts(598,36): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(601,38): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(603,11): error TS2322: Type 'CellValue' is not assignable to type 'string | null'.
+  Type 'number' is not assignable to type 'string'.
+src/utils/internal.ts(858,13): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(863,15): error TS2345: Argument of type 'CellValue' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/internal.ts(945,6): error TS2304: Cannot find name 'ColumnDefinition'.
+src/utils/internal.ts(1094,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1095,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1096,26): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1102,11): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/internal.ts(1110,28): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(o: {}): string[]', gave the following error.
+    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type '{}'.
+      Type 'undefined' is not assignable to type '{}'.
+  Overload 2 of 2, '(o: object): string[]', gave the following error.
+    Argument of type 'Record<string, string[]> | undefined' is not assignable to parameter of type 'object'.
+      Type 'undefined' is not assignable to type 'object'.
+src/utils/internal.ts(1114,19): error TS18048: 'obj.formula' is possibly 'undefined'.
+src/utils/internal.ts(1139,11): error TS2339: Property 'skipUpdateTableReferences' does not exist on type 'SpreadsheetContext'.
+src/utils/internal.ts(1147,9): error TS2367: This comparison appears to be unintentional because the types 'string | null' and 'number' have no overlap.
+src/utils/internal.ts(1149,45): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1162,11): error TS2367: This comparison appears to be unintentional because the types 'string | null' and 'number' have no overlap.
+src/utils/internal.ts(1164,52): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1165,64): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1167,9): error TS2322: Type 'number' is not assignable to type 'string'.
+src/utils/internal.ts(1179,56): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1182,56): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/internal.ts(1202,53): error TS2322: Type 'string | null' is not assignable to type 'string | number'.
+  Type 'null' is not assignable to type 'string | number'.
+src/utils/internal.ts(1202,56): error TS2322: Type 'string | null' is not assignable to type 'string | number'.
+  Type 'null' is not assignable to type 'string | number'.
+src/utils/internal.ts(1208,34): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+src/utils/internal.ts(1208,34): error TS18047: 'x' is possibly 'null'.
+src/utils/internal.ts(1209,34): error TS2363: The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+src/utils/internal.ts(1209,34): error TS18047: 'y' is possibly 'null'.
+src/utils/internal.ts(1214,26): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/internal.ts(1229,11): error TS2345: Argument of type 'string | number' is not assignable to parameter of type 'number'.
+  Type 'string' is not assignable to type 'number'.
+src/utils/internal.ts(1231,15): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [string, number, number]'.
+  Property '1' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1232,15): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [string, number, number]'.
+  Property '2' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1236,28): error TS7053: Element implicitly has an 'any' type because expression of type '0' can't be used to index type 'false | [string, number, number]'.
+  Property '0' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1239,15): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1243,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1246,13): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1248,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1250,17): error TS7053: Element implicitly has an 'any' type because expression of type '1' can't be used to index type 'false | [string, number, number]'.
+  Property '1' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1252,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1254,17): error TS7053: Element implicitly has an 'any' type because expression of type '2' can't be used to index type 'false | [string, number, number]'.
+  Property '2' does not exist on type 'false | [string, number, number]'.
+src/utils/internal.ts(1258,9): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1259,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1260,16): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/internal.ts(1288,23): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1296,17): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/internal.ts(1296,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/internal.ts(1309,19): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1310,19): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1312,19): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1313,19): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1317,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1317,45): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1321,13): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1322,7): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1324,7): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1332,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1332,51): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1336,13): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1337,7): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1338,11): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1339,9): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1341,20): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1342,7): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1344,7): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/internal.ts(1414,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
+  Type 'string' is not assignable to type 'number'.
+src/utils/internal.ts(1417,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/internal.ts(1454,5): error TS2322: Type 'string | number' is not assignable to type 'number'.
+  Type 'string' is not assignable to type 'number'.
+src/utils/internal.ts(1457,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/internal.ts(1512,22): error TS2304: Cannot find name 'NestedHeader'.
+src/utils/internal.ts(1523,21): error TS2339: Property 'element' does not exist on type 'NestedHeader[]'.
+src/utils/internal.ts(1546,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/internal.ts(1547,9): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/keys.ts(92,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(96,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(99,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(99,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(100,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(100,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(104,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(105,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(106,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(107,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(108,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(113,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(113,37): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(115,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(116,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(117,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(118,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(119,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(123,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(124,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(125,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(126,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(127,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(138,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(140,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(141,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(142,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(143,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(144,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(151,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(151,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
+src/utils/keys.ts(151,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(153,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(157,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(196,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(197,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(199,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(200,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(215,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(216,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(218,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(219,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(231,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(235,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(238,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(238,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(239,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(239,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(242,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(243,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(244,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(245,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(246,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(248,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(296,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(297,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(299,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(300,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(321,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(322,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(324,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(325,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(337,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(341,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(344,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(344,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(345,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(345,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(348,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(349,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(350,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(351,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(352,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(358,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(359,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(362,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(363,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(364,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(365,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(366,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(370,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(371,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(372,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(373,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(374,11): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(381,23): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(383,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(384,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(385,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(386,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(387,15): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(394,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(394,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
+src/utils/keys.ts(394,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(396,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(400,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(438,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(439,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(441,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(442,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(457,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(458,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(460,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(461,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(473,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(477,9): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(480,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(480,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(481,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(481,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(484,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(485,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(486,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(487,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(488,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(490,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(502,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(508,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(512,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(512,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(513,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(513,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(519,6): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(519,34): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(523,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(523,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
+src/utils/keys.ts(523,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(525,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(529,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(530,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(531,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(532,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(533,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(535,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/keys.ts(547,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(553,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(557,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(557,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(558,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(558,27): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(564,6): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(565,7): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(569,24): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(569,24): error TS18048: 'obj.whichPage' is possibly 'undefined'.
+src/utils/keys.ts(569,38): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(571,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(575,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/keys.ts(576,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(577,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(578,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(579,5): error TS18048: 'obj.selectedCell' is possibly 'undefined'.
+src/utils/keys.ts(581,26): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/utils/merges.ts(27,23): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(65,23): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(102,35): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(104,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(105,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(115,9): error TS18047: 'data' is possibly 'null'.
+src/utils/merges.ts(116,11): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(117,11): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(145,10): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/merges.ts(149,27): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/merges.ts(149,46): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
+src/utils/merges.ts(150,27): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/merges.ts(150,46): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
+src/utils/merges.ts(152,9): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/merges.ts(152,25): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/merges.ts(152,53): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
+src/utils/merges.ts(155,9): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/merges.ts(155,25): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/merges.ts(155,53): error TS2339: Property 'getAttribute' does not exist on type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }'.
+src/utils/merges.ts(168,33): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(176,41): error TS18048: 'rowspan' is possibly 'undefined'.
+src/utils/merges.ts(177,43): error TS18048: 'colspan' is possibly 'undefined'.
+src/utils/merges.ts(190,9): error TS18048: 'colspan' is possibly 'undefined'.
+src/utils/merges.ts(191,69): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/merges.ts(195,9): error TS18048: 'rowspan' is possibly 'undefined'.
+src/utils/merges.ts(196,69): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/merges.ts(205,5): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/merges.ts(213,41): error TS18048: 'rowspan' is possibly 'undefined'.
+src/utils/merges.ts(214,43): error TS18048: 'colspan' is possibly 'undefined'.
+src/utils/merges.ts(216,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/merges.ts(218,11): error TS18046: 'obj.options.mergeCells' is of type 'unknown'.
+src/utils/merges.ts(228,7): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'HTMLElement | null'.
+src/utils/merges.ts(258,33): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(264,18): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/merges.ts(294,14): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/orderBy.ts(42,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/orderBy.ts(59,13): error TS2339: Property 'y' does not exist on type 'Row'.
+src/utils/orderBy.ts(68,9): error TS18048: 'obj.searchInput' is possibly 'undefined'.
+src/utils/orderBy.ts(69,11): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
+src/utils/orderBy.ts(69,18): error TS18048: 'obj.searchInput' is possibly 'undefined'.
+src/utils/orderBy.ts(78,9): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/orderBy.ts(79,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/orderBy.ts(112,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/orderBy.ts(128,8): error TS2367: This comparison appears to be unintentional because the types '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"number"' have no overlap.
+src/utils/orderBy.ts(130,9): error TS2367: This comparison appears to be unintentional because the types '"text" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"percentage"' have no overlap.
+src/utils/orderBy.ts(131,9): error TS2367: This comparison appears to be unintentional because the types '"text" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined' and '"autonumber"' have no overlap.
+src/utils/orderBy.ts(134,27): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/orderBy.ts(135,30): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/orderBy.ts(144,27): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/orderBy.ts(145,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/orderBy.ts(148,27): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/orderBy.ts(185,22): error TS18046: 'obj.parent.config.sorting' is of type 'unknown'.
+src/utils/orderBy.ts(202,40): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean'.
+src/utils/orderBy.ts(203,27): error TS2345: Argument of type '(string | number | boolean | null)[]' is not assignable to parameter of type 'number[]'.
+  Type 'string | number | boolean | null' is not assignable to type 'number'.
+    Type 'null' is not assignable to type 'number'.
+src/utils/rows.ts(31,12): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(39,3): error TS2739: Type '{ element: HTMLTableRowElement; y: number; }' is missing the following properties from type 'Row': cells, index, height
+src/utils/rows.ts(51,27): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(52,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(53,34): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(55,9): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(56,15): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/rows.ts(75,44): error TS2345: Argument of type 'CellValue | undefined' is not assignable to parameter of type 'CellValue'.
+  Type 'undefined' is not assignable to type 'CellValue'.
+src/utils/rows.ts(87,7): error TS2571: Object is of type 'unknown'.
+src/utils/rows.ts(124,9): error TS7034: Variable 'data' implicitly has type 'any[]' in some locations where its type cannot be determined.
+src/utils/rows.ts(155,23): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(155,35): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(187,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(202,15): error TS2339: Property 'resetSearch' does not exist on type 'SpreadsheetContext'.
+src/utils/rows.ts(216,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(226,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(228,9): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(228,38): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(228,50): error TS7005: Variable 'data' implicitly has an 'any[]' type.
+src/utils/rows.ts(231,47): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(254,24): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(264,19): error TS2339: Property 'y' does not exist on type 'Row'.
+src/utils/rows.ts(274,9): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/rows.ts(275,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(275,16): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/rows.ts(326,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'boolean | undefined'.
+src/utils/rows.ts(337,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(351,13): error TS2339: Property 'resetSearch' does not exist on type 'SpreadsheetContext'.
+src/utils/rows.ts(380,3): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(380,33): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(386,17): error TS2339: Property 'y' does not exist on type 'Row'.
+src/utils/rows.ts(397,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/rows.ts(400,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(400,14): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/rows.ts(414,49): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(414,62): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(435,7): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(442,23): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(451,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(462,36): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(463,21): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(483,20): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(506,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(520,19): error TS2339: Property 'resetSearch' does not exist on type 'SpreadsheetContext'.
+src/utils/rows.ts(549,13): error TS2531: Object is possibly 'null'.
+src/utils/rows.ts(555,25): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(559,23): error TS2339: Property 'y' does not exist on type 'Row'.
+src/utils/rows.ts(570,11): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/rows.ts(573,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/rows.ts(573,20): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/utils/rows.ts(643,3): error TS2322: Type 'string | string[]' is not assignable to type 'number | number[]'.
+  Type 'string' is not assignable to type 'number | number[]'.
+src/utils/rows.ts(664,7): error TS2322: Type 'string | null' is not assignable to type 'number | undefined'.
+  Type 'null' is not assignable to type 'number | undefined'.
+src/utils/rows.ts(673,23): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+src/utils/rows.ts(683,10): error TS18046: 'obj.options.rows' is of type 'unknown'.
+src/utils/rows.ts(684,7): error TS18046: 'obj.options.rows' is of type 'unknown'.
+src/utils/rows.ts(686,5): error TS18046: 'obj.options.rows' is of type 'unknown'.
+src/utils/rows.ts(755,5): error TS2322: Type 'CellValue[]' is not assignable to type 'string[]'.
+  Type 'CellValue' is not assignable to type 'string'.
+    Type 'null' is not assignable to type 'string'.
+src/utils/rows.ts(755,12): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/rows.ts(775,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/selection.ts(20,5): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(21,5): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(27,25): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/selection.ts(37,25): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/selection.ts(38,25): error TS18048: 'obj.content' is possibly 'undefined'.
+src/utils/selection.ts(41,5): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(42,5): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(48,9): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(51,11): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(56,9): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(61,22): error TS2345: Argument of type 'SpreadsheetInstance' is not assignable to parameter of type 'SpreadsheetContext'.
+  Type 'SpreadsheetInstance' is missing the following properties from type 'SpreadsheetContext': headers, rows, tbody, table, and 3 more.
+src/utils/selection.ts(86,27): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(87,27): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(94,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(97,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(126,3): error TS2322: Type 'null' is not assignable to type 'number[] | undefined'.
+src/utils/selection.ts(129,3): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(130,3): error TS18048: 'obj.corner' is possibly 'undefined'.
+src/utils/selection.ts(162,39): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/selection.ts(197,10): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/selection.ts(256,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(257,28): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(259,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(262,11): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(335,25): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/selection.ts(335,25): error TS18048: 'obj.resetSelection' is possibly 'undefined'.
+src/utils/selection.ts(353,9): error TS18048: 'obj.highlighted' is possibly 'undefined'.
+src/utils/selection.ts(402,40): error TS2322: Type 'number | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/selection.ts(402,64): error TS2322: Type 'number | null' is not assignable to type 'number'.
+  Type 'null' is not assignable to type 'number'.
+src/utils/selection.ts(463,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/selection.ts(481,23): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/selection.ts(482,5): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/selection.ts(483,5): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/selection.ts(484,5): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/selection.ts(485,5): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/selection.ts(486,5): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/selection.ts(511,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/selection.ts(511,16): error TS18048: 'obj.getData' is possibly 'undefined'.
+src/utils/selection.ts(517,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(518,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(519,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(520,23): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/utils/selection.ts(528,7): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(530,14): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(531,24): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(537,14): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(538,24): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(562,9): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(563,16): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(564,26): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(579,14): error TS18048: 'obj.selection' is possibly 'undefined'.
+src/utils/selection.ts(580,15): error TS18048: 'obj.options.data' is possibly 'undefined'.
+src/utils/selection.ts(608,23): error TS7034: Variable 'affectedTokens' implicitly has type 'any[]' in some locations where its type cannot be determined.
+src/utils/selection.ts(623,23): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
+src/utils/selection.ts(623,38): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/selection.ts(628,21): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
+src/utils/selection.ts(629,41): error TS2345: Argument of type 'string | number | true' is not assignable to parameter of type 'string'.
+  Type 'number' is not assignable to type 'string'.
+src/utils/selection.ts(629,48): error TS7005: Variable 'affectedTokens' implicitly has an 'any[]' type.
+src/utils/selection.ts(662,11): error TS18048: 'h' is possibly 'undefined'.
+src/utils/selection.ts(727,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/selection.ts(736,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/selection.ts(784,3): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/selection.ts(841,3): error TS2322: Type '(string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; })[]' is not assignable to type 'string[] | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]'.
+  Type '(string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; })[]' is not assignable to type 'string[]'.
+    Type 'string | { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+      Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(40,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(49,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(59,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(72,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(84,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(84,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(84,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(88,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(107,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(113,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(113,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(113,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(115,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(132,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(138,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(138,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(138,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(140,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(159,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(159,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(159,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(161,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(202,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(215,11): error TS2322: Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]' is not assignable to type 'string[]'.
+  Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(215,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(215,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(217,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(261,11): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(267,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(292,5): error TS2322: Type '(e: string) => string' is not assignable to type '(element: HTMLElement, value: string, column: string, row: string, context: SpreadsheetContext, columnDefinition: ColumnDefinition) => string'.
+  Types of parameters 'e' and 'element' are incompatible.
+    Type 'HTMLElement' is not assignable to type 'string'.
+src/utils/toolbar.ts(422,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(566,27): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(566,27): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
+src/utils/toolbar.ts(566,49): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(568,13): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(570,27): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+  Types of parameters 'cellName' and 'value' are incompatible.
+    Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/toolbar.ts(587,29): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(587,29): error TS18048: 'worksheet.getSelected' is possibly 'undefined'.
+src/utils/toolbar.ts(587,51): error TS2554: Expected 0 arguments, but got 1.
+src/utils/toolbar.ts(589,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/toolbar.ts(591,29): error TS2345: Argument of type '(cellName: string) => [string, string]' is not assignable to parameter of type '(value: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }, index: number, array: { element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }[]) => [...]'.
+  Types of parameters 'cellName' and 'value' are incompatible.
+    Type '{ element: HTMLElement; x: number; y: number; colspan?: number | undefined; rowspan?: number | undefined; }' is not assignable to type 'string'.
+src/utils/worksheets.ts(86,5): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'SpreadsheetContext'.
+  No index signature with a parameter of type 'string' was found on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(125,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(132,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/worksheets.ts(134,35): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/worksheets.ts(139,46): error TS2339: Property 'value' does not exist on type 'GlobalEventHandlers'.
+src/utils/worksheets.ts(140,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(143,55): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/worksheets.ts(145,20): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/worksheets.ts(146,24): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+  No index signature with a parameter of type 'number' was found on type '{}'.
+src/utils/worksheets.ts(151,5): error TS2322: Type 'number | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/worksheets.ts(212,25): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(217,11): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(252,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(253,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(254,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(255,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(256,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(261,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(262,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(267,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(274,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(275,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(278,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(279,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(283,9): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(294,31): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(297,31): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(298,31): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(307,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(308,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(315,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(343,7): error TS2551: Property 'setData' does not exist on type 'SpreadsheetContext'. Did you mean 'getData'?
+src/utils/worksheets.ts(347,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(347,37): error TS2554: Expected 1 arguments, but got 5.
+src/utils/worksheets.ts(356,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+src/utils/worksheets.ts(361,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(361,9): error TS2554: Expected 2 arguments, but got 1.
+src/utils/worksheets.ts(369,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(370,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+src/utils/worksheets.ts(453,18): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(453,43): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(454,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(454,40): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(458,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(458,15): error TS2571: Object is of type 'unknown'.
+src/utils/worksheets.ts(458,40): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(488,7): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/utils/worksheets.ts(525,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(528,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
+  Types of parameters 'result' and 'data' are incompatible.
+    Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(566,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(569,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
+  Types of parameters 'result' and 'data' are incompatible.
+    Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(571,37): error TS2339: Property 'data' does not exist on type 'string'.
+src/utils/worksheets.ts(571,51): error TS2339: Property 'data' does not exist on type 'string'.
+src/utils/worksheets.ts(620,3): error TS18048: 'spreadsheet.config.worksheets' is possibly 'undefined'.
+src/utils/worksheets.ts(621,31): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: any; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is not assignable to parameter of type 'SpreadsheetContext'.
+  Type '{ parent: SpreadsheetInstance; options: any; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is missing the following properties from type 'SpreadsheetContext': headers, rows, element, config, and 5 more.
+src/utils/worksheets.ts(704,63): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'boolean'.
+src/utils/worksheets.ts(796,32): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'Event'.
+test/calculations.ts(21,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(22,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(23,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(25,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(25,35): error TS2554: Expected 1 arguments, but got 2.
+test/calculations.ts(43,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(43,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(45,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(46,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(47,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(48,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(66,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(66,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(68,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(69,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(70,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(71,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(72,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(90,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(90,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(92,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(93,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(94,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(95,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(96,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(114,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(114,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(116,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(117,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(118,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(119,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(120,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(138,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(138,28): error TS2554: Expected 1 arguments, but got 3.
+test/calculations.ts(140,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(141,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(142,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(143,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(144,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(166,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(167,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(168,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(169,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(189,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(190,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(191,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(192,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(193,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(213,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(214,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(215,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(216,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(217,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(237,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(238,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(239,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(240,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(241,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(261,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(262,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(263,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(264,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(265,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(285,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/calculations.ts(287,14): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/columns.ts(155,21): error TS2339: Property 'hideColumn' does not exist on type 'SpreadsheetContext'.
+test/columns.ts(163,21): error TS2339: Property 'showColumn' does not exist on type 'SpreadsheetContext'.
+test/columns.ts(194,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/columns.ts(198,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/columns.ts(230,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/columns.ts(230,26): error TS2554: Expected 0 arguments, but got 1.
+test/columns.ts(236,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/columns.ts(236,26): error TS2554: Expected 0 arguments, but got 1.
+test/comments.ts(31,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(35,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(60,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(62,28): error TS2551: Property 'getComments' does not exist on type 'SpreadsheetContext'. Did you mean 'setComments'?
+test/comments.ts(90,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(94,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/comments.ts(98,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(23,22): error TS2532: Object is possibly 'undefined'.
+test/data.ts(23,22): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(55,34): error TS2551: Property 'setData' does not exist on type 'SpreadsheetContext'. Did you mean 'getData'?
+test/data.ts(99,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(104,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(105,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(110,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(135,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(136,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(137,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(138,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(160,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(161,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(162,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(163,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(185,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(186,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(187,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(188,28): error TS2339: Property 'getValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(215,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(220,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(221,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(226,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(250,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/data.ts(254,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/data.ts(258,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/footer.ts(19,26): error TS2322: Type 'number' is not assignable to type 'string'.
+test/footer.ts(19,29): error TS2322: Type 'number' is not assignable to type 'string'.
+test/footer.ts(19,32): error TS2322: Type 'number' is not assignable to type 'string'.
+test/headers.ts(25,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(30,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(55,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(56,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(57,16): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(79,29): error TS2551: Property 'getHeaders' does not exist on type 'SpreadsheetContext'. Did you mean 'getHeader'?
+test/headers.ts(108,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(113,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/headers.ts(118,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/merges.ts(38,32): error TS2551: Property 'getMerge' does not exist on type 'SpreadsheetContext'. Did you mean 'setMerge'?
+test/merges.ts(39,32): error TS2551: Property 'getMerge' does not exist on type 'SpreadsheetContext'. Did you mean 'setMerge'?
+test/merges.ts(41,32): error TS2551: Property 'getMerge' does not exist on type 'SpreadsheetContext'. Did you mean 'setMerge'?
+test/merges.ts(72,32): error TS2551: Property 'getMerge' does not exist on type 'SpreadsheetContext'. Did you mean 'setMerge'?
+test/merges.ts(74,32): error TS2551: Property 'getMerge' does not exist on type 'SpreadsheetContext'. Did you mean 'setMerge'?
+test/merges.ts(106,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/merges.ts(154,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/merges.ts(200,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/merges.ts(237,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/merges.ts(247,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/merges.ts(252,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/meta.ts(19,25): error TS2339: Property 'setMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(23,25): error TS2339: Property 'setMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(40,25): error TS2339: Property 'setMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(41,25): error TS2339: Property 'setMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(42,25): error TS2339: Property 'setMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(49,25): error TS2339: Property 'setMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(74,28): error TS2339: Property 'getMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(79,28): error TS2339: Property 'getMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(84,28): error TS2339: Property 'getMeta' does not exist on type 'SpreadsheetContext'.
+test/meta.ts(86,28): error TS2339: Property 'getMeta' does not exist on type 'SpreadsheetContext'.
+test/orderBy.ts(20,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(20,17): error TS2554: Expected 2 arguments, but got 1.
+test/orderBy.ts(29,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(29,17): error TS2554: Expected 2 arguments, but got 1.
+test/orderBy.ts(74,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(74,28): error TS2345: Argument of type '1' is not assignable to parameter of type '"asc" | "desc"'.
+test/orderBy.ts(98,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(98,17): error TS2554: Expected 2 arguments, but got 1.
+test/orderBy.ts(107,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(107,22): error TS2554: Expected 0 arguments, but got 1.
+test/orderBy.ts(116,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/orderBy.ts(116,22): error TS2554: Expected 0 arguments, but got 1.
+test/pagination.ts(28,28): error TS2339: Property 'quantiyOfPages' does not exist on type 'SpreadsheetContext'.
+test/pagination.ts(62,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/pagination.ts(64,28): error TS2339: Property 'quantiyOfPages' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(28,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(29,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(29,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(29,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(31,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(50,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(51,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(51,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(51,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(53,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(74,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(75,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(75,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(75,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(77,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(95,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(96,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(96,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(96,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(98,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(116,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(117,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(117,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(117,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(119,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(143,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(144,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(144,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(144,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(146,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(164,11): error TS2339: Property 'hideRow' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(165,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(166,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(166,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(166,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(168,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(189,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(190,11): error TS2339: Property 'copy' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(191,11): error TS2339: Property 'hideRow' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(192,11): error TS2339: Property 'hideColumn' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(193,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(194,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(194,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(194,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(194,69): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(196,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(217,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(218,11): error TS2339: Property 'copy' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(219,11): error TS2339: Property 'hideColumn' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(220,11): error TS2339: Property 'hideColumn' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(221,11): error TS2339: Property 'hideRow' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(222,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(223,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(230,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(230,29): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(232,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(249,17): error TS7006: Parameter 'event' implicitly has an 'any' type.
+test/paste.ts(250,9): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(250,25): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(263,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(264,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(264,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(264,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(265,18): error TS2339: Property 'onbeforechange' does not exist on type '{}'.
+test/paste.ts(266,18): error TS2339: Property 'onbeforeinsertcolumn' does not exist on type '{}'.
+test/paste.ts(267,18): error TS2339: Property 'onbeforeinsertrow' does not exist on type '{}'.
+test/paste.ts(268,18): error TS2339: Property 'onchange' does not exist on type '{}'.
+test/paste.ts(269,18): error TS2339: Property 'oninsertcolumn' does not exist on type '{}'.
+test/paste.ts(270,18): error TS2339: Property 'oninsertrow' does not exist on type '{}'.
+test/paste.ts(271,18): error TS2339: Property 'onselection' does not exist on type '{}'.
+test/paste.ts(288,17): error TS7006: Parameter 'event' implicitly has an 'any' type.
+test/paste.ts(289,9): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(289,25): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+test/paste.ts(295,11): error TS2339: Property 'hideRow' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(296,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(297,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(297,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(297,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(298,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(306,18): error TS2339: Property 'onbeforeinsertcolumn' does not exist on type '{}'.
+test/paste.ts(307,18): error TS2339: Property 'onbeforeinsertrow' does not exist on type '{}'.
+test/paste.ts(320,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(320,26): error TS2554: Expected 1 arguments, but got 3.
+test/paste.ts(321,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(322,11): error TS2339: Property 'copy' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(323,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(323,29): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(324,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(330,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(331,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(335,5): error TS2322: Type '() => void' is not assignable to type '(commandId: string, showUI?: boolean | undefined, value?: string | undefined) => boolean'.
+  Type 'void' is not assignable to type 'boolean'.
+test/paste.ts(346,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(346,26): error TS2554: Expected 1 arguments, but got 3.
+test/paste.ts(347,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(348,11): error TS2339: Property 'copy' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(349,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(350,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(350,29): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(351,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(358,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(360,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(361,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(362,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(363,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(365,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(366,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(367,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(368,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+test/paste.ts(372,5): error TS2322: Type '() => void' is not assignable to type '(commandId: string, showUI?: boolean | undefined, value?: string | undefined) => boolean'.
+  Type 'void' is not assignable to type 'boolean'.
+test/paste.ts(387,7): error TS2322: Type '(instance: any) => void' is not assignable to type '() => void'.
+  Target signature provides too few arguments. Expected 1 or more, but got 0.
+test/paste.ts(387,16): error TS7006: Parameter 'instance' implicitly has an 'any' type.
+test/paste.ts(392,24): error TS7006: Parameter 'resolve' implicitly has an 'any' type.
+test/paste.ts(405,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(405,25): error TS2554: Expected 1 arguments, but got 3.
+test/paste.ts(406,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(407,10): error TS2339: Property 'copy' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(409,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(410,8): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(410,25): error TS2339: Property 'data' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(411,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(430,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(431,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(431,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(431,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(433,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(452,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/paste.ts(453,11): error TS2339: Property 'paste' does not exist on type 'SpreadsheetContext'.
+test/paste.ts(453,17): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(453,40): error TS18048: 'sheet.selectedCell' is possibly 'undefined'.
+test/paste.ts(455,12): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/redo.ts(30,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/redo.ts(31,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/redo.ts(37,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/redo.ts(42,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/redo.ts(72,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/redo.ts(73,21): error TS2339: Property 'setValueFromCoords' does not exist on type 'SpreadsheetContext'.
+test/redo.ts(79,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/redo.ts(84,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/redo.ts(89,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/redo.ts(94,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(31,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(34,16): error TS18047: 'table' is possibly 'null'.
+test/rows.ts(68,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(68,42): error TS2554: Expected 1 arguments, but got 3.
+test/rows.ts(71,16): error TS18047: 'table' is possibly 'null'.
+test/rows.ts(103,21): error TS2339: Property 'moveRow' does not exist on type 'SpreadsheetContext'.
+test/rows.ts(106,16): error TS18047: 'table' is possibly 'null'.
+test/rows.ts(136,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(142,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(148,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(175,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(175,42): error TS2554: Expected 1 arguments, but got 3.
+test/rows.ts(181,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(187,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(211,21): error TS2339: Property 'moveRow' does not exist on type 'SpreadsheetContext'.
+test/rows.ts(216,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/rows.ts(221,9): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+test/search.ts(23,21): error TS2339: Property 'search' does not exist on type 'SpreadsheetContext'.
+test/search.ts(25,16): error TS2532: Object is possibly 'undefined'.
+test/search.ts(35,21): error TS2339: Property 'resetSearch' does not exist on type 'SpreadsheetContext'.
+test/search.ts(37,16): error TS2532: Object is possibly 'undefined'.
+test/types.test.ts(10,39): error TS2694: Namespace 'jspreadsheet' has no exported member 'SpreadsheetInstance'.

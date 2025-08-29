@@ -5,12 +5,13 @@ import { updateCell } from "./internal";
 import { setHistory } from "./history";
 import dispatch from "./dispatch";
 import { updateSelection } from "./selection";
+import type { WorksheetInstance, CellValue } from "../types/core";
 
 /**
  * Is column merged
  */
 export const isColMerged = function (
-  this: any,
+  this: WorksheetInstance,
   x: number,
   insertBefore?: boolean
 ) {
@@ -23,7 +24,9 @@ export const isColMerged = function (
     for (let i = 0; i < keys.length; i++) {
       const info = getIdFromColumnName(keys[i], true);
       if (typeof info === "string") return cols;
-      const colspan = obj.options.mergeCells[keys[i]][0];
+      const mergeInfo = obj.options.mergeCells[keys[i]];
+      if (!mergeInfo) continue;
+      const colspan = mergeInfo[0];
       const x1 = info[0];
       const x2 = info[0] + (colspan > 1 ? colspan - 1 : 0);
 
@@ -51,17 +54,19 @@ export const isColMerged = function (
 /**
  * Is rows merged
  */
-export const isRowMerged = function (this: any, y: any, insertBefore: any) {
+export const isRowMerged = function (this: WorksheetInstance, y: number, insertBefore?: boolean) {
   const obj = this;
 
-  const rows = [];
+  const rows: string[] = [];
   // Remove any merged cells
   if (obj.options.mergeCells) {
     const keys = Object.keys(obj.options.mergeCells);
     for (let i = 0; i < keys.length; i++) {
       const info = getIdFromColumnName(keys[i], true);
       if (typeof info === "string") return [];
-      const rowspan = obj.options.mergeCells[keys[i]][1];
+      const mergeInfo = obj.options.mergeCells[keys[i]];
+      if (!mergeInfo) continue;
+      const rowspan = mergeInfo[1];
       const y1 = info[1];
       const y2 = info[1] + (rowspan > 1 ? rowspan - 1 : 0);
 
@@ -93,33 +98,36 @@ export const isRowMerged = function (this: any, y: any, insertBefore: any) {
  * @param rowspan
  * @param ignoreHistoryAndEvents
  */
-export const getMerge = function (this: any, cellName: any) {
+export const getMerge = function (this: WorksheetInstance, cellName?: string) {
   const obj = this;
 
-  let data: any = {};
   if (cellName) {
     if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
-      data = [
-        obj.options.mergeCells[cellName][0],
-        obj.options.mergeCells[cellName][1],
-      ];
+      const mergeInfo = obj.options.mergeCells[cellName];
+      if (!mergeInfo) return null;
+      return [
+        mergeInfo[0],
+        mergeInfo[1],
+      ] as [number, number];
     } else {
-      data = null;
+      return null;
     }
   } else {
+    const data: Record<string, [number, number]> = {};
     if (obj.options.mergeCells) {
-      var mergedCells = obj.options.mergeCells;
       const keys = Object.keys(obj.options.mergeCells);
       for (let i = 0; i < keys.length; i++) {
-        data[keys[i]] = [
-          obj.options.mergeCells[keys[i]][0],
-          obj.options.mergeCells[keys[i]][1],
-        ];
+        const mergeInfo = obj.options.mergeCells[keys[i]];
+        if (mergeInfo) {
+          data[keys[i]] = [
+            mergeInfo[0],
+            mergeInfo[1],
+          ];
+        }
       }
     }
+    return data;
   }
-
-  return data;
 };
 
 /**
@@ -130,29 +138,37 @@ export const getMerge = function (this: any, cellName: any) {
  * @param ignoreHistoryAndEvents
  */
 export const setMerge = function (
-  this: any,
-  cellName: any,
-  colspan: any,
-  rowspan: any,
-  ignoreHistoryAndEvents: any
+  this: WorksheetInstance,
+  cellName: string | undefined,
+  colspan: number | undefined,
+  rowspan: number | undefined,
+  ignoreHistoryAndEvents?: boolean
 ): void {
   const obj = this;
 
   let test: string | boolean = false;
 
   if (!cellName) {
-    if (!obj.highlighted.length) {
-      alert((jSuites as any).translate("No cells selected"));
+    if (!obj.highlighted || !obj.highlighted.length) {
+      alert(jSuites.translate("No cells selected"));
       return;
     } else {
-      const x1 = parseInt(obj.highlighted[0].getAttribute("data-x"));
-      const y1 = parseInt(obj.highlighted[0].getAttribute("data-y"));
-      const x2 = parseInt(
-        obj.highlighted[obj.highlighted.length - 1].getAttribute("data-x")
-      );
-      const y2 = parseInt(
-        obj.highlighted[obj.highlighted.length - 1].getAttribute("data-y")
-      );
+      const firstHighlighted = obj.highlighted[0];
+      const lastHighlighted = obj.highlighted[obj.highlighted.length - 1];
+      if (!firstHighlighted || !lastHighlighted) return;
+      
+      const x1Attr = firstHighlighted.element.getAttribute("data-x");
+      const y1Attr = firstHighlighted.element.getAttribute("data-y");
+      const x2Attr = lastHighlighted.element.getAttribute("data-x");
+      const y2Attr = lastHighlighted.element.getAttribute("data-y");
+      
+      if (!x1Attr || !y1Attr || !x2Attr || !y2Attr) return;
+      
+      const x1 = parseInt(x1Attr);
+      const y1 = parseInt(y1Attr);
+      const x2 = parseInt(x2Attr);
+      const y2 = parseInt(y2Attr);
+      
       cellName = getColumnNameFromId([x1, y1]);
       colspan = x2 - x1 + 1;
       rowspan = y2 - y1 + 1;
@@ -171,11 +187,10 @@ export const setMerge = function (
   } else if ((!colspan || colspan < 2) && (!rowspan || rowspan < 2)) {
     test = "Invalid merged properties";
   } else {
-    var cells = [];
-    for (let j = cell[1]; j < cell[1] + rowspan; j++) {
-      for (let i = cell[0]; i < cell[0] + colspan; i++) {
-        var columnName = getColumnNameFromId([i, j]);
-        if (obj.records[j][i].element.getAttribute("data-merged")) {
+    for (let j = cell[1]; j < cell[1] + (rowspan || 0); j++) {
+      for (let i = cell[0]; i < cell[0] + (colspan || 0); i++) {
+        const columnName = getColumnNameFromId([i, j]);
+        if (obj.records[j] && obj.records[j][i] && obj.records[j][i].element.getAttribute("data-merged")) {
           test = "There is a conflict with another merged cell";
         }
       }
@@ -183,16 +198,16 @@ export const setMerge = function (
   }
 
   if (test) {
-    alert((jSuites as any).translate(test));
+    alert(jSuites.translate(test));
   } else {
     // Add property
-    if (colspan > 1) {
-      obj.records[cell[1]][cell[0]].element.setAttribute("colspan", colspan);
+    if (colspan && colspan > 1) {
+      obj.records[cell[1]][cell[0]].element.setAttribute("colspan", String(colspan));
     } else {
       colspan = 1;
     }
-    if (rowspan > 1) {
-      obj.records[cell[1]][cell[0]].element.setAttribute("rowspan", rowspan);
+    if (rowspan && rowspan > 1) {
+      obj.records[cell[1]][cell[0]].element.setAttribute("rowspan", String(rowspan));
     } else {
       rowspan = 1;
     }
@@ -207,26 +222,45 @@ export const setMerge = function (
     // Overflow
     obj.records[cell[1]][cell[0]].element.style.overflow = "hidden";
     // History data
-    const data = [];
+    const data: CellValue[][] = [];
     // Adjust the nodes
     for (let y = cell[1]; y < cell[1] + rowspan; y++) {
+      const rowData: CellValue[] = [];
       for (let x = cell[0]; x < cell[0] + colspan; x++) {
         if (!(cell[0] == x && cell[1] == y)) {
-          data.push(obj.options.data[y][x]);
+          // Collect data for history
+          if (obj.options.data && obj.options.data[y]) {
+            if (Array.isArray(obj.options.data[y])) {
+              rowData.push((obj.options.data[y] as CellValue[])[x]);
+            } else {
+              rowData.push((obj.options.data[y] as Record<string, CellValue>)[x]);
+            }
+          } else {
+            rowData.push("");
+          }
+
+          // Update cell and handle merge
           updateCell.call(obj, x, y, "", true);
-          obj.options.mergeCells[cellName][2].push(obj.records[y][x].element);
-          obj.records[y][x].element.style.display = "none";
-          obj.records[y][x].element = obj.records[cell[1]][cell[0]].element;
+          if (obj.options.mergeCells[cellName] && obj.options.mergeCells[cellName] !== false && obj.records[y] && obj.records[y][x]) {
+            (obj.options.mergeCells[cellName] as [number, number, HTMLElement[]])[2].push(obj.records[y][x].element);
+            obj.records[y][x].element.style.display = "none";
+            obj.records[y][x].element = obj.records[cell[1]][cell[0]].element;
+          }
+        } else {
+          rowData.push("");
         }
       }
+      data.push(rowData);
     }
+
     // In the initialization is not necessary keep the history
-    updateSelection.call(
-      obj,
-      obj.records[cell[1]][cell[0]].element,
-      undefined,
-      undefined
-    );
+    if (obj.records[cell[1]] && obj.records[cell[1]][cell[0]]) {
+      updateSelection.call(
+        obj,
+        obj.records[cell[1]][cell[0]].element,
+        null
+      );
+    }
 
     if (!ignoreHistoryAndEvents) {
       setHistory.call(obj, {
@@ -247,20 +281,23 @@ export const setMerge = function (
  * @param cellName
  */
 export const removeMerge = function (
-  this: any,
-  cellName: any,
-  data: any,
-  keepOptions: any
+  this: WorksheetInstance,
+  cellName: string,
+  data?: CellValue[] | null,
+  keepOptions?: boolean
 ) {
   const obj = this;
 
   if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
     const cell = getIdFromColumnName(cellName, true);
     if (typeof cell === "string") return;
-    obj.records[cell[1]][cell[0]].element.removeAttribute("colspan");
-    obj.records[cell[1]][cell[0]].element.removeAttribute("rowspan");
-    obj.records[cell[1]][cell[0]].element.removeAttribute("data-merged");
+    if (obj.records[cell[1]] && obj.records[cell[1]][cell[0]]) {
+      obj.records[cell[1]][cell[0]].element.removeAttribute("colspan");
+      obj.records[cell[1]][cell[0]].element.removeAttribute("rowspan");
+      obj.records[cell[1]][cell[0]].element.removeAttribute("data-merged");
+    }
     const info = obj.options.mergeCells[cellName];
+    if (!info) return;
 
     let index = 0;
 
@@ -270,11 +307,15 @@ export const removeMerge = function (
     for (j = 0; j < info[1]; j++) {
       for (i = 0; i < info[0]; i++) {
         if (j > 0 || i > 0) {
-          obj.records[cell[1] + j][cell[0] + i].element = info[2][index!];
-          obj.records[cell[1] + j][cell[0] + i].element.style.display = "";
-          // Recover data
-          if (data && data[index]) {
-            updateCell.call(obj, cell[0] + i, cell[1] + j, data[index]);
+          if (info[2] && info[2][index]) {
+            if (obj.records[cell[1] + j] && obj.records[cell[1] + j][cell[0] + i]) {
+              obj.records[cell[1] + j][cell[0] + i].element = info[2][index];
+              obj.records[cell[1] + j][cell[0] + i].element.style.display = "";
+              // Recover data
+              if (data && data[index]) {
+                updateCell.call(obj, cell[0] + i, cell[1] + j, data[index]);
+              }
+            }
           }
           index++;
         }
@@ -298,12 +339,11 @@ export const removeMerge = function (
 /**
  * Remove all merged cells
  */
-export const destroyMerge = function (this: any, keepOptions: any) {
+export const destroyMerge = function (this: WorksheetInstance, keepOptions?: boolean) {
   const obj = this;
 
   // Remove any merged cells
   if (obj.options.mergeCells) {
-    var mergedCells = obj.options.mergeCells;
     const keys = Object.keys(obj.options.mergeCells);
     for (let i = 0; i < keys.length; i++) {
       removeMerge.call(obj, keys[i], null, keepOptions);

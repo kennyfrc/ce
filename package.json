@@ -59,6 +59,8 @@
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "c8": "^7.13.0",
     "chai": "^4.3.7",
     "copy-webpack-plugin": "^11.0.0",
@@ -68,6 +70,7 @@
     "eslint-config-prettier": "^8.8.0",
     "html-replace-webpack-plugin": "^2.6.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^9.1.7",
     "jsdoc": "^4.0.2",
     "jsdom": "^22.0.0",
     "jsdom-global": "^3.0.2",
@@ -98,6 +101,9 @@
     "prettier:fix": "prettier --write .",
     "start": "webpack serve --history-api-fallback",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "test": "npm run build && mocha --recursive --require=ts-node/register --require=mocha.config.js test/"
+    "test": "npx tsc -p tsconfig.run.json && npx mocha --recursive -r mocha.config.js \"dist-test/test/**/*.js\"",
+    "type-check": "tsc -p tsconfig.test.json --noEmit",
+    "type-check:ci": "npm run type-check 2>&1 | head -50",
+    "prepare": "husky"
   }
 }

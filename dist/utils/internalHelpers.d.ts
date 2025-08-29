@@ -1,7 +1,7 @@
 /**
  * Helper injectArray
  */
-export declare const injectArray: (o: any[], idx: number, arr: any[]) => any[];
+export declare const injectArray: (o: unknown[], idx: number, arr: unknown[]) => unknown[];
 /**
  * Convert excel like column to jss id
  *

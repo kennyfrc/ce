@@ -1,15 +1,16 @@
-export declare const getNextDefaultWorksheetName: (spreadsheet: any) => string;
-export declare const buildWorksheet: (this: any) => Promise<void>;
-export declare const createWorksheetObj: (this: any, options: any) => {
-    parent: any;
-    options: any;
+import { WorksheetInstance, SpreadsheetInstance, SpreadsheetOptions } from "../types/core";
+export declare const getNextDefaultWorksheetName: (spreadsheet: SpreadsheetInstance) => string;
+export declare const buildWorksheet: (this: WorksheetInstance) => Promise<void>;
+export declare const createWorksheetObj: (this: WorksheetInstance, options: SpreadsheetOptions) => {
+    parent: SpreadsheetInstance;
+    options: SpreadsheetOptions;
     filters: never[];
     formula: never[];
     history: never[];
     selection: never[];
     historyIndex: number;
 };
-export declare const createWorksheet: (this: any, options: any) => void;
-export declare const openWorksheet: (this: any, position: any) => void;
-export declare const deleteWorksheet: (this: any, position: any) => void;
+export declare const createWorksheet: (this: WorksheetInstance, options: SpreadsheetOptions) => void;
+export declare const openWorksheet: (this: WorksheetInstance, position: number) => void;
+export declare const deleteWorksheet: (this: WorksheetInstance, position: number) => void;
 //# sourceMappingURL=worksheets.d.ts.map

@@ -1,10 +1,11 @@
+import type { SpreadsheetContext } from "../types/core";
 /**
  * Open the editor
  *
  * @param object cell
  * @return void
  */
-export declare const openEditor: (this: any, cell: HTMLElement, empty: boolean, e: Event) => void;
+export declare const openEditor: (this: SpreadsheetContext, cell: HTMLElement, empty: boolean, e: Event) => void;
 /**
  * Close the editor and save the information
  *
@@ -12,9 +13,9 @@ export declare const openEditor: (this: any, cell: HTMLElement, empty: boolean, 
  * @param boolean save
  * @return void
  */
-export declare const closeEditor: (this: any, cell: HTMLElement, save: boolean) => void;
+export declare const closeEditor: (this: SpreadsheetContext, cell: HTMLElement, save: boolean) => void;
 /**
  * Toogle
  */
-export declare const setCheckRadioValue: (this: any) => void;
+export declare const setCheckRadioValue: (this: SpreadsheetContext) => void;
 //# sourceMappingURL=editor.d.ts.map

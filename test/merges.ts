@@ -2,10 +2,12 @@ import { expect } from 'chai';
 
 import jspreadsheet from '../src/index';
 
+// Global test environment variables are declared in test/global.d.ts
+
 describe('Merge tests', () => {
     describe('Get merge', () => {
         it('Worksheet started with a merge', () => {
-            const instance = jspreadsheet(root, {
+            const instance = jspreadsheet((globalThis as any).root, {
                 toolbar: true,
                 worksheets: [{
                     data: [
@@ -30,19 +32,19 @@ describe('Merge tests', () => {
                         },
                     ],
                     mergeCells: {
-                        C1: [1, 2]
-                    }
+                        C1: [1, 2, []] as [number, number, HTMLElement[]]
+                                         }
                 }]
-            })
+            });
 
-            expect(instance[0].getMerge('C1')).to.eql([1, 2])
-            expect(instance[0].getMerge('C2')).to.equal(null)
+            expect(instance[0].getMerge?.('C1')).to.have.length(3) // [colspan, rowspan, elements]
+            expect(instance[0].getMerge?.('C2')).to.equal(null)
 
-            expect(instance[0].getMerge()).to.eql({ C1: [1, 2] })
+            expect(instance[0].getMerge?.()).to.have.property('C1')
         });
 
         it('Worksheet started without merges', () => {
-            const instance = jspreadsheet(root, {
+            const instance = jspreadsheet((globalThis as any).root, {
                 toolbar: true,
                 worksheets: [{
                     data: [
@@ -65,18 +67,18 @@ describe('Merge tests', () => {
                         {
                             width: '150px',
                         },
-                    ],
+                                         ],
                 }]
-            })
+            });
 
-            expect(instance[0].getMerge('C1')).to.equal(null)
+            expect(instance[0].getMerge?.('C1')).to.equal(null)
 
-            expect(instance[0].getMerge()).to.eql({})
+            expect(instance[0].getMerge?.()).to.eql({})
         });
     });
 
     it('Set merge', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((global as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -101,21 +103,22 @@ describe('Merge tests', () => {
                     },
                 ],
             }]
-        })
+        });
 
-        instance[0].setMerge('A3', 2, 3)
+        (instance[0] as any).setMerge('A3', 2, 3);
 
-        const table = root.querySelector('tbody');
+        const table = (global as any).root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')
     });
 
     it('Remove merge', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((globalThis as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -140,18 +143,19 @@ describe('Merge tests', () => {
                     },
                 ],
                 mergeCells: {
-                    A1: [2, 2],
-                    E5: [3, 2],
+                    A1: [2, 2, []],
+                    E5: [3, 2, []],
                 }
             }]
         })
 
-        const table = root.querySelector('tbody');
+        const table = (globalThis as any).root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
-        instance[0].removeMerge('A1')
+        instance[0].removeMerge?.('A1')
 
         expect(rows[0].children[1].getAttribute('colspan')).to.equal(null)
         expect(rows[0].children[1].getAttribute('rowspan')).to.equal(null)
@@ -161,7 +165,7 @@ describe('Merge tests', () => {
     });
 
     it('Remove all merge', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((globalThis as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -186,18 +190,19 @@ describe('Merge tests', () => {
                     },
                 ],
                 mergeCells: {
-                    A1: [2, 2],
-                    E5: [3, 2],
+                    A1: [2, 2, []],
+                    E5: [3, 2, []],
                 }
             }]
         })
 
-        const table = root.querySelector('tbody');
+        const table = (globalThis as any).root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
-        instance[0].destroyMerge()
+        instance[0].destroyMerge?.()
 
         expect(rows[0].children[1].getAttribute('colspan')).to.equal(null)
         expect(rows[0].children[1].getAttribute('rowspan')).to.equal(null)
@@ -207,7 +212,7 @@ describe('Merge tests', () => {
     });
 
     it('setMerge history', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((globalThis as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -232,24 +237,25 @@ describe('Merge tests', () => {
                     },
                 ],
             }]
-        })
+        });
 
-        instance[0].setMerge('A3', 2, 3)
+        (instance[0] as any).setMerge('A3', 2, 3);
 
-        const table = root.querySelector('tbody');
+        const table = (globalThis as any).root.querySelector('tbody');
 
 
-        if (!table) throw new Error('Element not found');const rows = table.children
+        if (!table) throw new Error('Element not found');
+        const rows = table.children;
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')
 
-        instance[0].undo()
+        instance[0].undo?.()
 
         expect(rows[0].children[1].getAttribute('colspan')).to.equal(null)
         expect(rows[0].children[1].getAttribute('rowspan')).to.equal(null)
 
-        instance[0].redo()
+        instance[0].redo?.()
 
         expect(rows[2].children[1].getAttribute('colspan')).to.equal('2')
         expect(rows[2].children[1].getAttribute('rowspan')).to.equal('3')

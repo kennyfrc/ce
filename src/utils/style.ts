@@ -1,31 +1,44 @@
 import dispatch from "./dispatch";
 import { getColumnNameFromId, getIdFromColumnName } from "./internalHelpers";
 import { setHistory } from "./history";
+import type { WorksheetInstance, CellValue, ColumnDefinition } from "../types/core";
+
+type CSSStyleDeclarationWithIndex = CSSStyleDeclaration & Record<string, string>;
 
 /**
  * Get style information from cell(s)
  *
  * @return integer
  */
-export const getStyle = function (this: any, cell: any, key: string) {
+export const getStyle = function (
+  this: WorksheetInstance,
+  cell?: string | number[],
+  key?: string
+) {
   const obj = this;
 
   // Cell
   if (!cell) {
     // Control vars
-    const data: Record<string, any> = {};
+    const data: Record<string, string | null | undefined> = {};
 
     // Column and row length
-    const x = obj.options.data[0].length;
-    const y = obj.options.data.length;
+    const dataArray = obj.options.data;
+    if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {
+      return {};
+    }
+    const x = (Array.isArray(dataArray[0]) ? dataArray[0].length : 0) || 0;
+    const y = dataArray.length;
 
     // Go through the columns to get the data
     for (let j = 0; j < y; j++) {
       for (let i = 0; i < x; i++) {
         // Value
+        const record = obj.records[j]?.[i];
+        if (!record) continue;
         const v = key
-          ? obj.records[j][i].element.style[key]
-          : obj.records[j][i].element.getAttribute("style");
+          ? (record.element.style as CSSStyleDeclarationWithIndex)[key]
+          : record.element.getAttribute("style");
 
         // Any meta data for this column?
         if (v) {
@@ -39,11 +52,11 @@ export const getStyle = function (this: any, cell: any, key: string) {
 
     return data;
   } else {
-    cell = getIdFromColumnName(cell, true);
+    const coords = getIdFromColumnName(cell as string, true) as number[];
 
     return key
-      ? obj.records[cell[1]][cell[0]].element.style[key]
-      : obj.records[cell[1]][cell[0]].element.getAttribute("style");
+      ? (obj.records[coords[1]][coords[0]].element.style as CSSStyleDeclarationWithIndex)[key]
+      : obj.records[coords[1]][coords[0]].element.getAttribute("style");
   }
 };
 
@@ -53,22 +66,22 @@ export const getStyle = function (this: any, cell: any, key: string) {
  * @return integer
  */
 export const setStyle = function (
-  this: any,
-  o: any,
-  k: string,
-  v: any,
+  this: WorksheetInstance,
+  o: string | Record<string, string | string[]>,
+  k?: string | null | undefined,
+  v?: string | null,
   force?: boolean,
   ignoreHistoryAndEvents?: boolean
 ) {
   const obj = this;
 
-  const newValue: Record<string, any> = {};
-  const oldValue: Record<string, any> = {};
+  const newValue: Record<string, string[] | string> = {};
+  const oldValue: Record<string, string[] | string> = {};
 
   // Apply style
-  const applyStyle = function (cellId: string, key: string, value: any) {
+  const applyStyle = function (cellId: string, key: string, value: string) {
     // Position
-    const cell = getIdFromColumnName(cellId, true);
+    const cell = getIdFromColumnName(cellId, true) as number[];
 
     if (
       obj.records[cell[1]] &&
@@ -78,14 +91,14 @@ export const setStyle = function (
         force)
     ) {
       // Current value
-      const currentValue = obj.records[cell[1]][cell[0]].element.style[key];
+      const currentValue = (obj.records[cell[1]][cell[0]].element.style as CSSStyleDeclarationWithIndex)[key];
 
       // Change layout
       if (currentValue == value && !force) {
         value = "";
-        obj.records[cell[1]][cell[0]].element.style[key] = "";
+        (obj.records[cell[1]][cell[0]].element.style as CSSStyleDeclarationWithIndex)[key] = "";
       } else {
-        obj.records[cell[1]][cell[0]].element.style[key] = value;
+        (obj.records[cell[1]][cell[0]].element.style as CSSStyleDeclarationWithIndex)[key] = value;
       }
 
       // History
@@ -96,30 +109,31 @@ export const setStyle = function (
         newValue[cellId] = [];
       }
 
-      oldValue[cellId].push([key + ":" + currentValue]);
-      newValue[cellId].push([key + ":" + value]);
+      (oldValue[cellId] as string[]).push(key + ":" + currentValue);
+      (newValue[cellId] as string[]).push(key + ":" + value);
     }
   };
 
   if (k && v) {
     // Get object from string
     if (typeof o == "string") {
-      applyStyle(o, k, v);
+      applyStyle(o, k, v as string);
     }
   } else {
-    const keys = Object.keys(o);
+    const keys = Object.keys(o as Record<string, string | string[]>);
     for (let i = 0; i < keys.length; i++) {
-      let style = o[keys[i]];
+      let style = (o as Record<string, string | string[]>)[keys[i]];
       if (typeof style == "string") {
         style = style.split(";");
       }
       for (let j = 0; j < style.length; j++) {
         if (typeof style[j] == "string") {
-          style[j] = style[j].split(":");
-        }
-        // Apply value
-        if (style[j][0].trim()) {
-          applyStyle(keys[i], style[j][0].trim(), style[j][1]);
+          // style[j] is like "key:value"
+          const parts = style[j].split(":");
+          // Apply value
+          if (parts[0] && parts[0].trim()) {
+            applyStyle(keys[i], parts[0].trim(), parts[1]);
+          }
         }
       }
     }
@@ -127,11 +141,11 @@ export const setStyle = function (
 
   let keys = Object.keys(oldValue);
   for (let i = 0; i < keys.length; i++) {
-    oldValue[keys[i]] = oldValue[keys[i]].join(";");
+    oldValue[keys[i]] = (oldValue[keys[i]] as string[]).join(";");
   }
   keys = Object.keys(newValue);
   for (let i = 0; i < keys.length; i++) {
-    newValue[keys[i]] = newValue[keys[i]].join(";");
+    newValue[keys[i]] = (newValue[keys[i]] as string[]).join(";");
   }
 
   if (!ignoreHistoryAndEvents) {
@@ -147,8 +161,8 @@ export const setStyle = function (
 };
 
 export const resetStyle = function (
-  this: any,
-  o: Record<string, any>,
+  this: WorksheetInstance,
+  o: Record<string, string | string[]>,
   ignoreHistoryAndEvents?: boolean
 ) {
   const obj = this;
@@ -156,10 +170,10 @@ export const resetStyle = function (
   const keys = Object.keys(o);
   for (let i = 0; i < keys.length; i++) {
     // Position
-    const cell = getIdFromColumnName(keys[i], true);
+    const cell = getIdFromColumnName(keys[i], true) as number[];
     if (obj.records[cell[1]] && obj.records[cell[1]][cell[0]]) {
       obj.records[cell[1]][cell[0]].element.setAttribute("style", "");
     }
   }
-  obj.setStyle(o, null, null, null, ignoreHistoryAndEvents);
+  obj.setStyle?.(o, null, null, undefined, ignoreHistoryAndEvents);
 };

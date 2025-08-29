@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "currentBranch": "ts2",
+    "updatedAt": "2025-08-28T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "id": "ts-zero-20250828-0001",
+      "name": "Unify core and jspreadsheet type definitions",
+      "description": "Resolve conflicts between core.ts and jspreadsheet.d.ts interfaces",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": ["src/types/core.ts", "src/types/jspreadsheet.d.ts"],
+      "acceptanceCriteria": [
+        "No type conflicts between core and jspreadsheet interfaces",
+        "CellValue properly handled in public API"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0002",
+      "name": "Fix WorksheetInstance and SpreadsheetContext compatibility",
+      "description": "Align WorksheetInstance and SpreadsheetContext interfaces",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts",
+        "src/types/jspreadsheet.d.ts",
+        "src/utils/internal.ts"
+      ],
+      "acceptanceCriteria": [
+        "WorksheetInstance and SpreadsheetContext are compatible",
+        "No missing property errors"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0003",
+      "name": "Type columns.ts utility functions",
+      "description": "Add proper types to columns utility functions",
+      "phase": 2,
+      "state": "completed",
+      "candidateFiles": ["src/utils/columns.ts"],
+      "acceptanceCriteria": [
+        "No implicit any errors in columns.ts",
+        "All functions properly typed"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0004",
+      "name": "Type events.ts utility functions",
+      "description": "Add proper types to events utility functions",
+      "phase": 2,
+      "state": "in_progress",
+      "candidateFiles": ["src/utils/events.ts"],
+      "acceptanceCriteria": [
+        "No implicit any errors in events.ts",
+        "Event handlers properly typed"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0005",
+      "name": "Type worksheets.ts utility functions",
+      "description": "Add proper types to worksheets utility functions",
+      "phase": 2,
+      "state": "pending",
+      "candidateFiles": ["src/utils/worksheets.ts"],
+      "acceptanceCriteria": [
+        "No implicit any errors in worksheets.ts",
+        "Worksheet functions properly typed"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0006",
+      "name": "Type internal.ts utility functions",
+      "description": "Add proper types to internal utility functions",
+      "phase": 2,
+      "state": "pending",
+      "candidateFiles": ["src/utils/internal.ts"],
+      "acceptanceCriteria": [
+        "No implicit any errors in internal.ts",
+        "Internal functions properly typed"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0007",
+      "name": "Fix DOM element type issues",
+      "description": "Resolve HTMLElement vs custom interface type issues",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/columns.ts",
+        "src/utils/events.ts",
+        "src/types/core.ts"
+      ],
+      "acceptanceCriteria": [
+        "No DOM element type errors",
+        "Custom interfaces properly extend HTMLElement"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0008",
+      "name": "Fix optional property access issues",
+      "description": "Add proper null checks for optional properties",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/columns.ts",
+        "src/utils/rows.ts",
+        "src/utils/internal.ts"
+      ],
+      "acceptanceCriteria": [
+        "No optional property access errors",
+        "Proper null checking implemented"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0009",
+      "name": "Fix index signature issues",
+      "description": "Resolve object index signature problems",
+      "phase": 3,
+      "state": "pending",
+      "candidateFiles": ["src/utils/columns.ts", "src/utils/events.ts"],
+      "acceptanceCriteria": [
+        "No index signature errors",
+        "Proper object typing implemented"
+      ]
+    },
+    {
+      "id": "ts-zero-20250828-0010",
+      "name": "Final type checking and validation",
+      "description": "Run full type check and fix remaining errors",
+      "phase": 4,
+      "state": "pending",
+      "candidateFiles": ["src/", "test/"],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit passes",
+        "No type errors in test files"
+      ]
+    }
+  ]
+}

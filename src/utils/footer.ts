@@ -1,6 +1,7 @@
 import { parseValue } from "./internal";
+import type { SpreadsheetContext } from "../types/core";
 
-export const setFooter = function (this: any, data?: any) {
+export const setFooter = function (this: SpreadsheetContext, data?: string[][]) {
   const obj = this;
 
   if (data) {
@@ -13,11 +14,12 @@ export const setFooter = function (this: any, data?: any) {
       obj.table.appendChild(obj.tfoot);
     }
 
+    const columns = obj.options.columns ?? [];
     for (let j = 0; j < obj.options.footers.length; j++) {
       let tr;
 
       if (obj.tfoot.children[j]) {
-        tr = obj.tfoot.children[j];
+        tr = obj.tfoot.children[j] as HTMLElement;
       } else {
         tr = document.createElement("tr");
         const td = document.createElement("td");
@@ -31,29 +33,29 @@ export const setFooter = function (this: any, data?: any) {
 
         let td;
 
-        if (obj.tfoot.children[j].children[i + 1]) {
-          td = obj.tfoot.children[j].children[i + 1];
+        if (obj.tfoot.children[j]?.children[i + 1]) {
+          td = obj.tfoot.children[j].children[i + 1] as HTMLElement;
         } else {
           td = document.createElement("td");
           tr.appendChild(td);
 
           // Text align
           const colAlign =
-            obj.options.columns[i].align ||
+            columns[i]?.align ||
             obj.options.defaultColAlign ||
             "center";
           td.style.textAlign = colAlign;
         }
-        td.textContent = parseValue.call(
+        td.textContent = String(parseValue.call(
           obj,
           +obj.records.length + i,
           j,
           obj.options.footers[j][i],
           td
-        );
+        ));
 
         // Hide/Show with hideColumn()/showColumn()
-        td.style.display = obj.cols[i].colElement.style.display;
+        td.style.display = obj.cols[i]?.colElement.style.display ?? "";
       }
     }
   }

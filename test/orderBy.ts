@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import jspreadsheet from "../src/index";
+import type { CellValue } from "../src/types/core";
 
 describe("Sorting tests", () => {
   it("Default sorting", () => {
@@ -17,7 +18,7 @@ describe("Sorting tests", () => {
       ],
     });
 
-    instance[0].orderBy(5);
+    instance[0].orderBy?.(5);
 
     expect(instance[0].options.data).to.eql([
       ["Mazda", 2001, 2000, "2006-01-01", "453.00", "2", "=E1*F1"],
@@ -26,7 +27,7 @@ describe("Sorting tests", () => {
       ["Peugeot", 2010, 5000, "2005-01-01", "23.00", "5", "=E4*F4"],
     ]);
 
-    instance[0].orderBy(5);
+    instance[0].orderBy?.(5);
 
     expect(instance[0].options.data).to.eql([
       ["Peugeot", 2010, 5000, "2005-01-01", "23.00", "5", "=E1*F1"],
@@ -46,10 +47,10 @@ describe("Sorting tests", () => {
             ["test", 2009, 3000, "2004-01-01", "214.00", "3", "=E3*F3"],
             ["Honda CRV", 1900, 6000, "2003-01-01", "56.11", "2", "=E4*F4"],
           ],
-          sorting: function (direction: any) {
-            return function (a: any, b: any) {
-              let valueA = a[1];
-              let valueB = b[1];
+          sorting: function (direction: boolean) {
+            return function (a: CellValue[], b: CellValue[]) {
+              let valueA: CellValue = a[1];
+              let valueB: CellValue = b[1];
 
               if (valueA === "test") {
                 return direction ? 1 : -1;
@@ -58,6 +59,10 @@ describe("Sorting tests", () => {
               if (valueB === "test") {
                 return direction ? -1 : 1;
               }
+
+              // Handle null values
+              if (valueA === null) valueA = "";
+              if (valueB === null) valueB = "";
 
               // Consider blank rows in the sorting
               if (!direction) {
@@ -71,7 +76,7 @@ describe("Sorting tests", () => {
       ],
     });
 
-    instance[0].orderBy(0, 1);
+    instance[0].orderBy?.(0, "desc");
 
     expect(instance[0].options.data).to.eql([
       ["test", 2009, 3000, "2004-01-01", "214.00", "3", "=E1*F1"],
@@ -95,7 +100,7 @@ describe("Sorting tests", () => {
       ],
     });
 
-    instance[0].orderBy(5);
+    instance[0].orderBy?.(5);
 
     expect(instance[0].options.data).to.eql([
       ["Mazda", 2001, 2000, "2006-01-01", "453.00", "2", "=E1*F1"],
@@ -104,7 +109,7 @@ describe("Sorting tests", () => {
       ["Peugeot", 2010, 5000, "2005-01-01", "23.00", "5", "=E4*F4"],
     ]);
 
-    instance[0].undo(5);
+    instance[0].undo?.();
 
     expect(instance[0].options.data).to.eql([
       ["Mazda", 2001, 2000, "2006-01-01", "453.00", "2", "=E1*F1"],
@@ -113,7 +118,7 @@ describe("Sorting tests", () => {
       ["Honda CRV", 2010, 6000, "2003-01-01", "56.11", "2", "=E4*F4"],
     ]);
 
-    instance[0].redo(5);
+    instance[0].redo?.();
 
     expect(instance[0].options.data).to.eql([
       ["Mazda", 2001, 2000, "2006-01-01", "453.00", "2", "=E1*F1"],

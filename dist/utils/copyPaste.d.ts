@@ -1,3 +1,4 @@
+import type { SpreadsheetContext } from "../types/core";
 /**
  * Copy method
  *
@@ -5,7 +6,7 @@
  * @param delimiter - \t default to keep compatibility with excel
  * @return string value
  */
-export declare const copy: (this: any, highlighted?: boolean, delimiter?: string, returnData?: boolean, includeHeaders?: boolean, download?: boolean, isCut?: boolean, processed?: boolean) => any;
+export declare const copy: (this: SpreadsheetContext, highlighted?: boolean, delimiter?: string, returnData?: boolean, includeHeaders?: boolean, download?: boolean, isCut?: boolean, processed?: boolean) => string | false;
 /**
  * Jspreadsheet paste method
  *
@@ -14,5 +15,5 @@ export declare const copy: (this: any, highlighted?: boolean, delimiter?: string
  * @param data paste data. if data hash is the same as the copied data, apply style from copied cells
  * @return string value
  */
-export declare const paste: (this: any, x: number, y: number, data: any) => boolean;
+export declare const paste: (this: SpreadsheetContext, x: number, y: number, data: unknown) => boolean;
 //# sourceMappingURL=copyPaste.d.ts.map

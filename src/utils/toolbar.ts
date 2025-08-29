@@ -1,11 +1,25 @@
 import jSuites from "jsuites";
 import { getCellNameFromCoords } from "./helpers";
 import { getWorksheetInstance } from "./internal";
+import {
+  SpreadsheetContext,
+  WorksheetInstance,
+  ToolbarItem,
+  CellValue,
+  ColumnDefinition,
+} from "../types/core";
+
+type ColorWidget = { color?: { open: () => void; select: (value: string) => void; render: () => void; extract: () => string | null } };
+
+interface BorderOptions {
+  thickness?: number;
+  color?: string;
+  style?: string;
+}
 
 const setItemStatus = function (
-  this: any,
   toolbarItem: HTMLElement,
-  worksheet: any
+  worksheet: WorksheetInstance
 ) {
   if (worksheet.options.editable != false) {
     toolbarItem.classList.remove("jtoolbar-disabled");
@@ -14,11 +28,11 @@ const setItemStatus = function (
   }
 };
 
-export const getDefault = function (this: any) {
-  const items: any[] = [];
-  const spreadsheet: any = this;
+export const getDefault = function (this: SpreadsheetContext) {
+  const items: ToolbarItem[] = [];
+  const spreadsheet: SpreadsheetContext = this;
 
-  const getActive = function (): any {
+  const getActive = function (): WorksheetInstance {
     return getWorksheetInstance.call(spreadsheet);
   };
 
@@ -27,7 +41,7 @@ export const getDefault = function (this: any) {
     onclick: function () {
       const worksheet = getActive();
 
-      worksheet.undo();
+      worksheet.undo?.();
     },
   });
 
@@ -36,7 +50,7 @@ export const getDefault = function (this: any) {
     onclick: function () {
       const worksheet = getActive();
 
-      worksheet.redo();
+      worksheet.redo?.();
     },
   });
 
@@ -46,7 +60,7 @@ export const getDefault = function (this: any) {
       const worksheet = getActive();
 
       if (worksheet) {
-        worksheet.download();
+        worksheet.download?.();
       }
     },
   });
@@ -59,26 +73,33 @@ export const getDefault = function (this: any) {
     type: "select",
     width: "120px",
     options: ["Default", "Verdana", "Arial", "Courier New"],
-    render: function (e: string) {
-      return '<span style="font-family:' + e + '">' + e + "</span>";
+    render: function (element: HTMLElement, value: string) {
+      return '<span style="font-family:' + value + '">' + value + "</span>";
     },
-    onchange: function (a: any, b: any, c: any, d: any, e: any) {
+    onchange: function (
+      a: unknown,
+      b: unknown,
+      c: unknown,
+      d: unknown,
+      e: unknown
+    ) {
       const worksheet = getActive();
 
-      let cells: string[] = worksheet.getSelected(true);
-      if (cells) {
-        let value = !e ? "" : d;
+      let cells = worksheet.getSelected?.(true);
+      if (!Array.isArray(cells)) {
+        return;
+      }
+             let value = !e ? "" : d;
 
-        worksheet.setStyle(
+        worksheet.setStyle?.(
           Object.fromEntries(
             cells.map(function (cellName) {
               return [cellName, "font-family: " + value];
             })
           )
         );
-      }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -88,24 +109,25 @@ export const getDefault = function (this: any) {
     width: "48px",
     content: "format_size",
     options: ["x-small", "small", "medium", "large", "x-large"],
-    render: function (e: string) {
-      return '<span style="font-size:' + e + '">' + e + "</span>";
+    render: function (element: HTMLElement, value: string) {
+      return '<span style="font-size:' + value + '">' + value + "</span>";
     },
-    onchange: function (a: any, b: any, c: any, value: any) {
+    onchange: function (a: unknown, b: unknown, c: unknown, value: unknown) {
       const worksheet = getActive();
 
-      let cells: string[] = worksheet.getSelected(true);
-      if (cells) {
-        worksheet.setStyle(
-          Object.fromEntries(
-            cells.map(function (cellName) {
-              return [cellName, "font-size: " + value];
-            })
-          )
-        );
+      let cells = worksheet.getSelected?.(true);
+      if (!Array.isArray(cells)) {
+        return;
       }
+      worksheet.setStyle?.(
+        Object.fromEntries(
+          cells.map(function (cellName) {
+            return [cellName, "font-size: " + value];
+          })
+        )
+      );
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -113,45 +135,47 @@ export const getDefault = function (this: any) {
   items.push({
     type: "select",
     options: ["left", "center", "right", "justify"],
-    render: function (e: string) {
-      return '<i class="material-icons">format_align_' + e + "</i>";
+    render: function (element: HTMLElement, value: string) {
+      return '<i class="material-icons">format_align_' + value + "</i>";
     },
-    onchange: function (a: any, b: any, c: any, value: any) {
+    onchange: function (a: unknown, b: unknown, c: unknown, value: unknown) {
       const worksheet = getActive();
 
-      let cells: string[] = worksheet.getSelected(true);
-      if (cells) {
-        worksheet.setStyle(
-          Object.fromEntries(
-            cells.map(function (cellName) {
-              return [cellName, "text-align: " + value];
-            })
-          )
-        );
+      let cells = worksheet.getSelected?.(true);
+      if (!Array.isArray(cells)) {
+        return;
       }
+      worksheet.setStyle?.(
+        Object.fromEntries(
+          cells.map(function (cellName) {
+            return [cellName, "text-align: " + value];
+          })
+        )
+      );
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
 
   items.push({
     content: "format_bold",
-    onclick: function (a: any, b: any, c: any) {
+    onclick: function (a: unknown, b: unknown, c: unknown) {
       const worksheet = getActive();
 
-      let cells: string[] = worksheet.getSelected(true);
-      if (cells) {
-        worksheet.setStyle(
-          Object.fromEntries(
-            cells.map(function (cellName) {
-              return [cellName, "font-weight:bold"];
-            })
-          )
-        );
+      let cells = worksheet.getSelected?.(true);
+      if (!Array.isArray(cells)) {
+        return;
       }
+      worksheet.setStyle?.(
+        Object.fromEntries(
+          cells.map(function (cellName) {
+            return [cellName, "font-weight:bold"];
+          })
+        )
+      );
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -160,7 +184,7 @@ export const getDefault = function (this: any) {
     type: "color",
     content: "format_color_text",
     k: "color",
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -169,7 +193,7 @@ export const getDefault = function (this: any) {
     type: "color",
     content: "format_color_fill",
     k: "background-color",
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement, d: any) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -183,39 +207,49 @@ export const getDefault = function (this: any) {
       "vertical_align_center",
       "vertical_align_bottom",
     ],
-    render: function (e: string) {
-      return '<i class="material-icons">' + e + "</i>";
+    render: function (element: HTMLElement, value: string) {
+      return '<i class="material-icons">' + value + "</i>";
     },
     value: 1,
-    onchange: function (a: any, b: any, c: any, d: any, value: any) {
+    onchange: function (
+      a: unknown,
+      b: unknown,
+      c: unknown,
+      d: unknown,
+      value: unknown
+    ) {
       const worksheet = getActive();
 
-      let cells: string[] = worksheet.getSelected(true);
-      if (cells) {
-        worksheet.setStyle(
-          Object.fromEntries(
-            cells.map(function (cellName) {
-              return [cellName, "vertical-align: " + verticalAlign[value]];
-            })
-          )
-        );
+      let cells = worksheet.getSelected?.(true);
+      if (!Array.isArray(cells)) {
+        return;
       }
+      worksheet.setStyle?.(
+        Object.fromEntries(
+          cells.map(function (cellName) {
+            return [
+              cellName,
+              "vertical-align: " + verticalAlign[value as number],
+            ];
+          })
+        )
+      );
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
 
   items.push({
     content: "web",
-    tooltip: (jSuites as any).translate("Merge the selected cells"),
+    tooltip: jSuites.translate("Merge the selected cells"),
     onclick: function () {
       const worksheet = getActive();
 
       if (
         worksheet.selectedCell &&
         confirm(
-          (jSuites as any).translate(
+          jSuites.translate(
             "The merged cells will retain the value of the top-left cell only. Are you sure?"
           )
         )
@@ -233,18 +267,18 @@ export const getDefault = function (this: any) {
             selectedRange[0]
           ].element.getAttribute("data-merged")
         ) {
-          worksheet.removeMerge(cell);
+          worksheet.removeMerge?.(cell);
         } else {
           let colspan = selectedRange[2] - selectedRange[0] + 1;
           let rowspan = selectedRange[3] - selectedRange[1] + 1;
 
           if (colspan !== 1 || rowspan !== 1) {
-            worksheet.setMerge(cell, colspan, rowspan);
+            worksheet.setMerge?.(cell, colspan, rowspan);
           }
         }
       }
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -264,11 +298,17 @@ export const getDefault = function (this: any) {
       "border_clear",
     ],
     columns: 5,
-    render: function (e: string) {
-      return '<i class="material-icons">' + e + "</i>";
+    render: function (element: HTMLElement, value: string) {
+      return '<i class="material-icons">' + value + "</i>";
     },
     right: true,
-    onchange: function (a: any, b: any, c: any, d: any) {
+    onchange: function (
+      a: unknown,
+      b: unknown,
+      c: unknown,
+      d: unknown,
+      e: unknown
+    ) {
       const worksheet = getActive();
 
       if (worksheet.selectedCell) {
@@ -282,10 +322,12 @@ export const getDefault = function (this: any) {
         let type = d;
 
         if (selectedRange) {
+          // Type guard for border options
+          const borderOptions = b as BorderOptions;
           // Default options
-          let thickness = b.thickness || 1;
-          let color = b.color || "black";
-          const borderStyle = b.style || "solid";
+          let thickness = borderOptions.thickness || 1;
+          let color = borderOptions.color || "black";
+          const borderStyle = borderOptions.style || "solid";
 
           if (borderStyle === "double") {
             thickness += 2;
@@ -386,22 +428,31 @@ export const getDefault = function (this: any) {
           }
 
           if (Object.keys(style)) {
-            worksheet.setStyle(style);
+            worksheet.setStyle?.(style);
           }
         }
       }
     },
-    onload: function (a: any, b: any) {
+    onload: function (a: unknown, b: unknown) {
       // Border color
+      const element = a as HTMLElement;
+      const config = b as {
+        color?: string;
+        thickness?: string;
+        style?: string;
+      };
       let container = document.createElement("div");
       let div = document.createElement("div");
       container.appendChild(div);
 
       let colorPicker = jSuites.color(div, {
         closeOnChange: false,
-        onchange: function (o: any, v: string) {
-          o.parentNode.children[1].style.color = v;
-          b.color = v;
+        onchange: function (o: HTMLElement, v: string) {
+          if (o.parentNode && o.parentNode.children[1]) {
+            const child = o.parentNode.children[1] as HTMLElement;
+            child.style.color = v;
+          }
+          config.color = v;
         },
       });
 
@@ -412,54 +463,54 @@ export const getDefault = function (this: any) {
         colorPicker.open();
       };
       container.appendChild(i);
-      a.children[1].appendChild(container);
+      element.children[1].appendChild(container);
 
       div = document.createElement("div");
       jSuites.picker(div, {
         type: "select",
-        data: [1, 2, 3, 4, 5],
-        render: function (e: string) {
+        data: ["1", "2", "3", "4", "5"],
+        render: function (value: string) {
           return (
             '<div style="height: ' +
-            e +
+            value +
             'px; width: 30px; background-color: black;"></div>'
           );
         },
-        onchange: function (a: any, k: any, c: any, d: any) {
-          b.thickness = d;
+        onchange: function (a: unknown, k: unknown, c: unknown, d: unknown) {
+          config.thickness = d as string;
         },
-        width: "50px",
+        width: 50,
       });
-      a.children[1].appendChild(div);
+      element.children[1].appendChild(div);
 
       const borderStylePicker = document.createElement("div");
       jSuites.picker(borderStylePicker, {
         type: "select",
         data: ["solid", "dotted", "dashed", "double"],
-        render: function (e: string) {
-          if (e === "double") {
+        render: function (value: string) {
+          if (value === "double") {
             return (
               '<div style="width: 30px; border-top: 3px ' +
-              e +
+              value +
               ' black;"></div>'
             );
           }
           return (
-            '<div style="width: 30px; border-top: 2px ' + e + ' black;"></div>'
+            '<div style="width: 30px; border-top: 2px ' + value + ' black;"></div>'
           );
         },
-        onchange: function (a: any, k: any, c: any, d: any) {
-          b.style = d;
+        onchange: function (a: unknown, k: unknown, c: unknown, d: unknown) {
+          config.style = d as string;
         },
-        width: "50px",
+        width: 50,
       });
-      a.children[1].appendChild(borderStylePicker);
+      element.children[1].appendChild(borderStylePicker);
 
       div = document.createElement("div");
       div.style.flex = "1";
-      a.children[1].appendChild(div);
+      element.children[1].appendChild(div);
     },
-    updateState: function (a: any, b: any, toolbarItem: HTMLElement) {
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
       setItemStatus(toolbarItem, getActive());
     },
   });
@@ -471,20 +522,23 @@ export const getDefault = function (this: any) {
   items.push({
     content: "fullscreen",
     tooltip: "Toggle Fullscreen",
-    onclick: function (a: any, b: any, c: any) {
-      if (c.children[0].textContent === "fullscreen") {
-        spreadsheet.fullscreen(true);
-        c.children[0].textContent = "fullscreen_exit";
-      } else {
-        spreadsheet.fullscreen(false);
-        c.children[0].textContent = "fullscreen";
+    onclick: function (a: unknown, b: unknown, c: unknown) {
+      if (!(c instanceof HTMLElement)) return;
+      const label = c.children?.[0] as HTMLElement | undefined;
+      if (label && label.textContent === "fullscreen") {
+        spreadsheet.fullscreen?.(true);
+        label.textContent = "fullscreen_exit";
+      } else if (label) {
+        spreadsheet.fullscreen?.(false);
+        label.textContent = "fullscreen";
       }
     },
-    updateState: function (a: any, b: any, c: any, d: any) {
-      if (d.parent.config.fullscreen === true) {
-        c.children[0].textContent = "fullscreen_exit";
+    updateState: function (a: unknown, b: unknown, toolbarItem: HTMLElement) {
+      const config = a as { parent: { config: { fullscreen?: boolean } } };
+      if (config.parent.config.fullscreen === true) {
+        toolbarItem.children[0].textContent = "fullscreen_exit";
       } else {
-        c.children[0].textContent = "fullscreen";
+        toolbarItem.children[0].textContent = "fullscreen";
       }
     },
   });
@@ -492,8 +546,11 @@ export const getDefault = function (this: any) {
   return items;
 };
 
-const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
-  const spreadsheet: any = this;
+const adjustToolbarSettingsForJSuites = function (
+  this: SpreadsheetContext,
+  toolbar: { items: ToolbarItem[] }
+) {
+  const spreadsheet: SpreadsheetContext = this;
 
   const items = toolbar.items;
 
@@ -514,15 +571,18 @@ const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
         delete items[i].v;
 
         if (items[i].k && !items[i].onchange) {
-          items[i].onchange = function (el: any, config: any, value: any) {
+          items[i].onchange = function (el: unknown, config: unknown, value: unknown) {
             const worksheet = getWorksheetInstance.call(spreadsheet);
 
-            const cells = worksheet.getSelected(true);
+            const cells = worksheet.getSelected?.(true);
+            if (!Array.isArray(cells)) return;
 
-            worksheet.setStyle(
+            const val = value == null ? "" : String(value);
+
+            worksheet.setStyle?.(
               Object.fromEntries(
-                cells.map(function (cellName: string) {
-                  return [cellName, items[i].k + ": " + value];
+                (cells as string[]).map(function (cellName: string) {
+                  return [cellName, items[i].k + ": " + val];
                 })
               )
             );
@@ -532,28 +592,36 @@ const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
     } else if (items[i].type == "color") {
       items[i].type = "i";
 
-      items[i].onclick = function (a: any, b: any, c: any) {
-        if (!c.color) {
-          jSuites.color(c, {
-            onchange: function (o: any, v: string) {
+      items[i].onclick = function (a: unknown, b: unknown, c: unknown) {
+        const target = c as ColorWidget;
+        if (!target.color) {
+          jSuites.color(target as HTMLElement, {
+            onchange: function (o: HTMLElement, v: string) {
               const worksheet = getWorksheetInstance.call(spreadsheet);
 
-              const cells = worksheet.getSelected(true);
+              const cells = worksheet.getSelected?.(true);
+              if (!Array.isArray(cells)) return;
 
-              worksheet.setStyle(
+              worksheet.setStyle?.(
                 Object.fromEntries(
-                  cells.map(function (cellName: string) {
+                  (cells as string[]).map(function (cellName: string) {
                     return [cellName, items[i].k + ": " + v];
                   })
                 )
               );
             },
-            onopen: function (o: any) {
-              o.color.select("");
+            onopen: function (o: unknown) {
+              const widget = o as ColorWidget;
+              if (widget.color?.select) {
+                widget.color.select("");
+              }
             },
           });
 
-          c.color.open();
+          const colorWidget = target as ColorWidget;
+          if (colorWidget.color?.open) {
+            colorWidget.color.open();
+          }
         }
       };
     }
@@ -563,8 +631,11 @@ const adjustToolbarSettingsForJSuites = function (this: any, toolbar: any) {
 /**
  * Create toolbar
  */
-export const createToolbar = function (this: any, toolbar: any) {
-  const spreadsheet: any = this;
+export const createToolbar = function (
+  this: SpreadsheetContext,
+  toolbar: { items: ToolbarItem[] }
+) {
+  const spreadsheet: SpreadsheetContext = this;
 
   const toolbarElement = document.createElement("div");
   toolbarElement.classList.add("jss_toolbar");
@@ -574,10 +645,14 @@ export const createToolbar = function (this: any, toolbar: any) {
   if (typeof spreadsheet.plugins === "object") {
     Object.entries(spreadsheet.plugins).forEach(function ([, plugin]: [
       string,
-      any
+      unknown
     ]) {
-      if (typeof plugin.toolbar === "function") {
-        const result = plugin.toolbar(toolbar);
+      const p = plugin as {
+        toolbar?: (t: { items: ToolbarItem[] }) => { items: ToolbarItem[] } | undefined;
+      };
+
+      if (typeof p.toolbar === "function") {
+        const result = p.toolbar(toolbar);
 
         if (result) {
           toolbar = result;
@@ -591,14 +666,17 @@ export const createToolbar = function (this: any, toolbar: any) {
   return toolbarElement;
 };
 
-export const updateToolbar = function (this: any, worksheet: any) {
-  if (worksheet.parent.toolbar) {
+export const updateToolbar = function (
+  this: SpreadsheetContext,
+  worksheet: WorksheetInstance
+) {
+  if (worksheet.parent.toolbar?.toolbar) {
     worksheet.parent.toolbar.toolbar.update(worksheet);
   }
 };
 
-export const showToolbar = function (this: any) {
-  const spreadsheet: any = this;
+export const showToolbar = function (this: SpreadsheetContext) {
+  const spreadsheet: SpreadsheetContext = this;
 
   if (spreadsheet.config.toolbar && !spreadsheet.toolbar) {
     let toolbar;
@@ -626,11 +704,11 @@ export const showToolbar = function (this: any) {
   }
 };
 
-export const hideToolbar = function (this: any) {
-  const spreadsheet: any = this;
+export const hideToolbar = function (this: SpreadsheetContext) {
+  const spreadsheet: SpreadsheetContext = this;
 
   if (spreadsheet.toolbar) {
-    spreadsheet.toolbar.parentNode.removeChild(spreadsheet.toolbar);
+    spreadsheet.toolbar.parentNode?.removeChild(spreadsheet.toolbar);
 
     delete spreadsheet.toolbar;
   }

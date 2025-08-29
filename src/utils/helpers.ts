@@ -1,18 +1,52 @@
 import { getColumnNameFromId } from "./internalHelpers";
+import type { SpreadsheetOptions, CellValue } from "../types/core";
+import type { RowDefinition } from "../types/rows";
+
+/**
+ * Type guard to check if a string is a valid column type
+ */
+export function isColumnType(value: string): value is
+  | "text"
+  | "numeric"
+  | "calendar"
+  | "dropdown"
+  | "checkbox"
+  | "color"
+  | "hidden"
+  | "radio"
+  | "image"
+  | "html" {
+  return [
+    "text",
+    "numeric",
+    "calendar",
+    "dropdown",
+    "checkbox",
+    "color",
+    "hidden",
+    "radio",
+    "image",
+    "html"
+  ].includes(value);
+}
 
 /**
  * Get carret position for one element
  */
-export const getCaretIndex = function (this: any, e: HTMLElement) {
-  let d;
+export const getCaretIndex = function (
+  this: { config?: { root?: { getSelection: () => Selection | null } } },
+  e: HTMLElement
+) {
+  let d: { getSelection: () => Selection | null } | Window | Document;
 
-  if (this.config.root) {
-    d = this.config.root;
+  if (this.config && this.config.root) {
+    d = this.config.root as { getSelection: () => Selection | null };
   } else {
     d = window;
   }
   let pos = 0;
-  const s = d.getSelection();
+  const owner = d as { getSelection?: () => Selection | null };
+  const s = owner.getSelection ? owner.getSelection() : null;
   if (s) {
     if (s.rangeCount !== 0) {
       const r = s.getRangeAt(0);
@@ -28,11 +62,13 @@ export const getCaretIndex = function (this: any, e: HTMLElement) {
 /**
  * Invert keys and values
  */
-export const invert = function (o: Record<string, any>) {
-  const d = [];
+export const invert = function (
+  o: Record<string, string | number | boolean | null | undefined>
+) {
+  const d: Record<string, string> = {};
   const k = Object.keys(o);
   for (let i = 0; i < k.length; i++) {
-    d[o[k[i]]] = k[i];
+    d[String(o[k[i]])] = k[i];
   }
   return d;
 };
@@ -117,7 +153,7 @@ export const parseCSV = function (str: string, delimiter?: string) {
   // Remove last line break
   str = str.replace(/\r?\n$|\r$|\n$/g, "");
 
-  const arr: any[][] = [];
+  const arr: string[][] = [];
   let quote = false; // true means we're inside a quoted field
   // iterate over each character, keep track of current row and column (of the returned array)
   let maxCol = 0;
@@ -184,17 +220,18 @@ export const parseCSV = function (str: string, delimiter?: string) {
   return arr;
 };
 
-export const createFromTable = function (el: HTMLElement, options?: any) {
+export const createFromTable = function (el: HTMLElement, options?: Partial<SpreadsheetOptions>) {
   if (el.tagName != "TABLE") {
     console.log("Element is not a table");
+    return {};
   } else {
     // Configuration
     if (!options) {
       options = {};
     }
 
-    options.columns = [];
-    options.data = [];
+    options.columns = options.columns || [];
+    options.data = options.data || [];
 
     // Colgroup
     const colgroup = el.querySelectorAll("colgroup > col");
@@ -225,29 +262,33 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
       const width = info.width > 50 ? info.width : 50;
 
       // Create column option
-      if (!options.columns[i]) {
-        options.columns[i] = {};
+      if (!options!.columns) {
+        options!.columns = [];
       }
-      if (header.getAttribute("data-celltype")) {
-        options.columns[i].type = header.getAttribute("data-celltype");
+      if (!options!.columns[i]) {
+        options!.columns[i] = {};
+      }
+      const cellTypeAttr = header.getAttribute("data-celltype");
+      if (cellTypeAttr && isColumnType(cellTypeAttr)) {
+        options!.columns[i].type = cellTypeAttr;
       } else {
-        options.columns[i].type = "text";
+        options!.columns[i].type = "text";
       }
-      options.columns[i].width = width + "px";
-      options.columns[i].title = header.innerHTML;
+      options!.columns[i].width = width + "px";
+      options!.columns[i].title = header.innerHTML;
       if ((header as HTMLElement).style.textAlign) {
-        options.columns[i].align = (header as HTMLElement).style.textAlign;
+        options!.columns[i].align = (header as HTMLElement).style.textAlign as "left" | "center" | "right";
       }
 
       let attrValue;
       if ((attrValue = header.getAttribute("name"))) {
-        options.columns[i].name = attrValue;
+        options!.columns[i].name = attrValue;
       }
       if ((attrValue = header.getAttribute("id"))) {
-        options.columns[i].id = attrValue;
+        options!.columns[i].id = attrValue;
       }
       if ((attrValue = header.getAttribute("data-mask"))) {
-        options.columns[i].mask = attrValue;
+        options!.columns[i].mask = attrValue;
       }
     };
 
@@ -276,10 +317,10 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
 
     // Content
     let rowNumber = 0;
-    const mergeCells: Record<string, any> = {};
-    const rows: Record<string, any> = {};
-    const style: Record<string, any> = {};
-    const classes: Record<string, any> = {};
+    const mergeCells: Record<string, [number, number, HTMLElement[]] | false> = {};
+    const rows: Record<number, { height: string }> = {};
+    const style: Record<string, string> = {};
+    const classes: Record<string, string> = {};
 
     let content = el.querySelectorAll(":scope > tr, :scope > tbody > tr");
     for (let j = 0; j < content.length; j++) {
@@ -303,8 +344,8 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
           } else {
             value = content[j].children[i].innerHTML;
           }
-          if (options.data[rowNumber]) {
-            options.data[rowNumber].push(value);
+          if (options.data && Array.isArray(options.data[rowNumber])) {
+            (options.data[rowNumber] as string[]).push(value);
           }
 
           // Key
@@ -322,7 +363,7 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
           const mergedColspan = colspanAttr ? parseInt(colspanAttr) : 0;
           const mergedRowspan = rowspanAttr ? parseInt(rowspanAttr) : 0;
           if (mergedColspan || mergedRowspan) {
-            mergeCells[cellName] = [mergedColspan || 1, mergedRowspan || 1];
+            mergeCells[cellName] = [mergedColspan || 1, mergedRowspan || 1, []];
           }
 
           // Avoid problems with hidden cells
@@ -366,7 +407,7 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
     }
     // Style
     if (Object.keys(style).length > 0) {
-      options.style = style;
+      options.style = style as unknown as Record<string, CSSStyleDeclaration | number>;
     }
     // Merged
     if (Object.keys(mergeCells).length > 0) {
@@ -374,7 +415,9 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
     }
     // Row height
     if (Object.keys(rows).length > 0) {
-      options.rows = rows;
+      options.rows = Object.keys(rows).map(key => ({
+        height: parseInt(rows[parseInt(key)].height) || undefined
+      })) as RowDefinition[];
     }
     // Classes
     if (Object.keys(classes).length > 0) {
@@ -399,13 +442,14 @@ export const createFromTable = function (el: HTMLElement, options?: any) {
 
     // I guess in terms the better column type
     if (options.parseTableAutoCellType == true) {
-      const pattern: Record<string, any>[] = [];
+      const pattern: Record<string, number>[] = [];
       for (let i = 0; i < options.columns.length; i++) {
         let test = true;
         let testCalendar = true;
-        pattern[i] = [];
-        for (let j = 0; j < options.data.length; j++) {
-          const value = options.data[j][i];
+        pattern[i] = {};
+        for (let j = 0; j < options!.data!.length; j++) {
+          const dataRow: CellValue[] = Array.isArray(options!.data![j]) ? options!.data![j] as CellValue[] : [];
+          const value = String(dataRow[i] || '');
           if (!pattern[i][value]) {
             pattern[i][value] = 0;
           }
