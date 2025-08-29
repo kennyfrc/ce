@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T21:30:00Z"
+          "updatedAt": "2025-08-29T22:30:00Z"
   },
   "tasks": [
     {
@@ -3256,7 +3256,7 @@
       "name": "Fix remaining TypeScript errors in hotspots",
       "description": "Systematically fix remaining 874 TypeScript errors in major hotspots: selection.ts, style.ts, toolbar.ts, worksheets.ts, and test files using guard-and-cast patterns.",
       "phase": 6,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/selection.ts",
         "src/utils/style.ts",
