@@ -101,7 +101,9 @@
     "prettier:fix": "prettier --write .",
     "start": "webpack serve --history-api-fallback",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "test": "npx tsc -p tsconfig.run.json && npx mocha --recursive -r mocha.config.js \"dist-test/test/**/*.js\"",
+    "test": "npm run type-check && npx tsc -p tsconfig.run.json && npx mocha --recursive -r mocha.config.js \"dist-test/test/**/*.js\"",
+    "test:unit": "npm run type-check && npx mocha --recursive -r ts-node/register -r mocha.config.js --extension ts \"test/**/*.ts\"",
+    "e2e": "npx playwright test",
     "type-check": "tsc -p tsconfig.test.json --noEmit",
     "type-check:ci": "npm run type-check 2>&1 | head -50",
     "prepare": "husky"

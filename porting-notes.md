@@ -1503,6 +1503,14 @@ The JavaScript to TypeScript porting program is now **COMPLETE** with full TypeS
 - Repository root now clean with only legitimate config files (playwright.config.ts)
 - No stray .ts test files remain at repository root level
 
+### Script Hardening: 2025-08-29T14:30:00Z — NPM scripts improved for better test execution and CI
+
+- Added test:unit script: runs TypeScript tests directly with ts-node/register (--extension ts)
+- Added e2e script: runs Playwright end-to-end tests with npx playwright test
+- Enhanced main test script: added type-check before compilation to catch errors early
+- Scripts now support both direct TS execution and compiled JS execution patterns
+- CI-friendly separation of unit tests (TypeScript) and E2E tests (Playwright)
+
 ### Final Verification: 2025-08-29T13:45:00Z — Zero any types and zero errors confirmed
 
 - **TypeScript errors**: 0 (verified via `npx tsc -p tsconfig.test.json --noEmit`)
