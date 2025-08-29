@@ -42,15 +42,19 @@ type HistoryRecord = {
 export const setHistory = function (this: WorksheetInstance, changes: HistoryRecord) {
   const obj = this;
 
-  if (obj.ignoreHistory != true) {
+  if (obj.ignoreHistory !== true) {
     // Increment and get the current history index
-    const index = ++obj.historyIndex;
+    if (obj.historyIndex !== undefined) {
+      const index = ++obj.historyIndex;
 
-    // Slice the array to discard undone changes
-    obj.history = obj.history = obj.history.slice(0, index + 1);
+      // Slice the array to discard undone changes
+      if (obj.history) {
+        obj.history = obj.history.slice(0, index + 1);
 
-    // Keep history
-    obj.history[index] = changes;
+        // Keep history
+        obj.history[index] = changes;
+      }
+    }
   }
 };
 
@@ -61,25 +65,27 @@ const historyProcessRow = function (this: WorksheetInstance, type: number, histo
   const obj = this;
 
   const rowIndex = !historyRecord.insertBefore
-    ? historyRecord.rowNumber + 1
-    : +historyRecord.rowNumber;
+    ? (historyRecord.rowNumber ?? 0) + 1
+    : +(historyRecord.rowNumber ?? 0);
 
-  if (obj.options.search == true) {
-    if (obj.results && obj.results.length != obj.rows.length) {
-      obj.resetSearch();
+  if (obj.options.search === true) {
+    if (obj.results && obj.results.length !== obj.rows.length) {
+      obj.resetSearch?.();
     }
   }
 
   // Remove row
-  if (type == 1) {
-    const numOfRows = historyRecord.numOfRows;
+  if (type === 1) {
+    const numOfRows = historyRecord.numOfRows ?? 0;
     // Remove nodes
     for (let j = rowIndex; j < numOfRows + rowIndex; j++) {
-      obj.rows[j].element.parentNode.removeChild(obj.rows[j].element);
+      obj.rows[j]?.element?.parentNode?.removeChild(obj.rows[j].element);
     }
     // Remove references
     obj.records.splice(rowIndex, numOfRows);
-    obj.options.data.splice(rowIndex, numOfRows);
+    if (Array.isArray(obj.options.data)) {
+      obj.options.data.splice(rowIndex, numOfRows);
+    }
     obj.rows.splice(rowIndex, numOfRows);
 
     conditionalSelectionUpdate.call(obj, 1, rowIndex, numOfRows + rowIndex - 1);
@@ -88,19 +94,21 @@ const historyProcessRow = function (this: WorksheetInstance, type: number, histo
     const records = historyRecord.rowRecords?.map((row: CellValue[]) => {
       return [...row];
     }) ?? [];
-    obj.records = injectArray(obj.records, rowIndex, records);
+    obj.records = injectArray(obj.records, rowIndex, records) as typeof obj.records;
 
     const data = historyRecord.rowData?.map((row: CellValue[]) => {
       return [...row];
     }) ?? [];
-    obj.options.data = injectArray(obj.options.data, rowIndex, data);
+    if (Array.isArray(obj.options.data)) {
+      obj.options.data = injectArray(obj.options.data, rowIndex, data) as typeof obj.options.data;
+    }
 
-    obj.rows = injectArray(obj.rows, rowIndex, historyRecord.rowNode);
+    obj.rows = injectArray(obj.rows, rowIndex, historyRecord.rowNode) as typeof obj.rows;
     // Insert nodes
     let index = 0;
     for (let j = rowIndex; j < historyRecord.numOfRows + rowIndex; j++) {
       obj.tbody.insertBefore(
-        historyRecord.rowNode[index].element,
+        historyRecord.rowNode?.[index]?.element,
         obj.tbody.children[j]
       );
       index++;
@@ -112,14 +120,18 @@ const historyProcessRow = function (this: WorksheetInstance, type: number, histo
   }
 
   for (let j = rowIndex; j < obj.records.length; j++) {
-    for (let i = 0; i < obj.records[j].length; i++) {
-      obj.records[j][i].y = j;
+    if (obj.records[j]) {
+      for (let i = 0; i < obj.records[j].length; i++) {
+        if (obj.records[j][i]) {
+          obj.records[j][i].y = j;
+        }
+      }
     }
   }
 
   // Respect pagination
-  if (obj.options.pagination > 0) {
-    obj.page(obj.pageNumber);
+  if (typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
+    obj.page?.(obj.pageNumber);
   }
 
   updateTableReferences.call(obj);
@@ -140,29 +152,33 @@ const historyProcessColumn = function (
     : historyRecord.columnNumber;
 
   // Remove column
-  if (type == 1) {
+  if (type === 1) {
     const numOfColumns = historyRecord.numOfColumns;
 
     obj.options.columns.splice(columnIndex, numOfColumns);
     for (let i = columnIndex; i < numOfColumns + columnIndex; i++) {
-      obj.headers[i].parentNode.removeChild(obj.headers[i]);
-      obj.cols[i].colElement.parentNode.removeChild(obj.cols[i].colElement);
+      obj.headers[i]?.parentNode?.removeChild(obj.headers[i]);
+      obj.cols[i]?.colElement?.parentNode?.removeChild(obj.cols[i].colElement);
     }
     obj.headers.splice(columnIndex, numOfColumns);
     obj.cols.splice(columnIndex, numOfColumns);
     for (let j = 0; j < historyRecord.data.length; j++) {
       for (let i = columnIndex; i < numOfColumns + columnIndex; i++) {
-        obj.records[j][i].element.parentNode.removeChild(
+        obj.records[j]?.[i]?.element?.parentNode?.removeChild(
           obj.records[j][i].element
         );
       }
-      obj.records[j].splice(columnIndex, numOfColumns);
-      obj.options.data[j].splice(columnIndex, numOfColumns);
+      obj.records[j]?.splice(columnIndex, numOfColumns);
+      if (Array.isArray(obj.options.data) && obj.options.data[j]) {
+        obj.options.data[j].splice(columnIndex, numOfColumns);
+      }
     }
     // Process footers
     if (obj.options.footers) {
       for (let j = 0; j < obj.options.footers.length; j++) {
-        obj.options.footers[j].splice(columnIndex, numOfColumns);
+        if (obj.options.footers[j]) {
+          obj.options.footers[j].splice(columnIndex, numOfColumns);
+        }
       }
     }
   } else {
@@ -172,8 +188,8 @@ const historyProcessColumn = function (
       columnIndex,
       historyRecord.columns
     );
-    obj.headers = injectArray(obj.headers, columnIndex, historyRecord.headers);
-    obj.cols = injectArray(obj.cols, columnIndex, historyRecord.cols);
+    obj.headers = injectArray(obj.headers, columnIndex, historyRecord.headers ?? []);
+    obj.cols = injectArray(obj.cols, columnIndex, historyRecord.cols ?? []);
 
     let index = 0;
     for (
@@ -181,36 +197,40 @@ const historyProcessColumn = function (
       i < historyRecord.numOfColumns + columnIndex;
       i++
     ) {
-      obj.headerContainer.insertBefore(
-        historyRecord.headers[index],
+      obj.headerContainer?.insertBefore(
+        historyRecord.headers?.[index],
         obj.headerContainer.children[i + 1]
       );
-      obj.colgroupContainer.insertBefore(
-        historyRecord.cols[index].colElement,
+      obj.colgroupContainer?.insertBefore(
+        historyRecord.cols?.[index]?.colElement,
         obj.colgroupContainer.children[i + 1]
       );
       index++;
     }
 
     for (let j = 0; j < historyRecord.data.length; j++) {
-      obj.options.data[j] = injectArray(
-        obj.options.data[j],
-        columnIndex,
-        historyRecord.data[j]
-      );
-      obj.records[j] = injectArray(
-        obj.records[j],
-        columnIndex,
-        historyRecord.records[j]
-      );
+      if (Array.isArray(obj.options.data) && obj.options.data[j]) {
+        obj.options.data[j] = injectArray(
+          obj.options.data[j],
+          columnIndex,
+          historyRecord.data[j]
+        );
+      }
+      if (obj.records[j]) {
+        obj.records[j] = injectArray(
+          obj.records[j],
+          columnIndex,
+          historyRecord.records?.[j]
+        );
+      }
       let index = 0;
       for (
         let i = columnIndex;
         i < historyRecord.numOfColumns + columnIndex;
         i++
       ) {
-        obj.rows[j].element.insertBefore(
-          historyRecord.records[j][index].element,
+        obj.rows[j]?.element?.insertBefore(
+          historyRecord.records?.[j]?.[index]?.element,
           obj.rows[j].element.children[i + 1]
         );
         index++;
@@ -219,11 +239,13 @@ const historyProcessColumn = function (
     // Process footers
     if (obj.options.footers) {
       for (let j = 0; j < obj.options.footers.length; j++) {
-        obj.options.footers[j] = injectArray(
-          obj.options.footers[j],
-          columnIndex,
-          historyRecord.footers[j]
-        );
+        if (obj.options.footers[j]) {
+          obj.options.footers[j] = injectArray(
+            obj.options.footers[j],
+            columnIndex,
+            historyRecord.footers?.[j]
+          );
+        }
       }
     }
   }
@@ -248,7 +270,7 @@ const historyProcessColumn = function (
     for (let j = 0; j < obj.options.nestedHeaders.length; j++) {
       let colspan;
 
-      if (type == 1) {
+      if (type === 1) {
         colspan =
           parseInt(
             obj.options.nestedHeaders[j][
@@ -266,9 +288,9 @@ const historyProcessColumn = function (
       obj.options.nestedHeaders[j][
         obj.options.nestedHeaders[j].length - 1
       ].colspan = colspan;
-      obj.thead.children[j].children[
+      obj.thead?.children[j]?.children[
         obj.thead.children[j].children.length - 1
-      ].setAttribute("colspan", colspan);
+      ]?.setAttribute("colspan", colspan.toString());
     }
   }
 
@@ -282,10 +304,12 @@ export const undo = function (this: WorksheetInstance) {
   const obj = this;
 
   // Ignore events and history
-  const ignoreEvents = obj.parent.ignoreEvents ? true : false;
+  const ignoreEvents = obj.parent?.ignoreEvents ? true : false;
   const ignoreHistory = obj.ignoreHistory ? true : false;
 
-  obj.parent.ignoreEvents = true;
+  if (obj.parent) {
+    obj.parent.ignoreEvents = true;
+  }
   obj.ignoreHistory = true;
 
   // Records
@@ -294,35 +318,35 @@ export const undo = function (this: WorksheetInstance) {
   // Update cells
   let historyRecord;
 
-  if (obj.historyIndex >= 0) {
+  if (obj.historyIndex !== undefined && obj.historyIndex >= 0 && obj.history) {
     // History
     historyRecord = obj.history[obj.historyIndex--];
 
-    if (historyRecord.action == "insertRow") {
+    if (historyRecord.action === "insertRow") {
       historyProcessRow.call(obj, 1, historyRecord);
-    } else if (historyRecord.action == "deleteRow") {
+    } else if (historyRecord.action === "deleteRow") {
       historyProcessRow.call(obj, 0, historyRecord);
-    } else if (historyRecord.action == "insertColumn") {
+    } else if (historyRecord.action === "insertColumn") {
       historyProcessColumn.call(obj, 1, historyRecord);
-    } else if (historyRecord.action == "deleteColumn") {
+    } else if (historyRecord.action === "deleteColumn") {
       historyProcessColumn.call(obj, 0, historyRecord);
-    } else if (historyRecord.action == "moveRow") {
-      obj.moveRow(historyRecord.newValue, historyRecord.oldValue);
-    } else if (historyRecord.action == "moveColumn") {
-      obj.moveColumn(historyRecord.newValue, historyRecord.oldValue);
-    } else if (historyRecord.action == "setMerge") {
-      obj.removeMerge(historyRecord.column, historyRecord.data);
-    } else if (historyRecord.action == "setStyle") {
-      obj.setStyle(historyRecord.oldValue, null, null, 1);
-    } else if (historyRecord.action == "setWidth") {
-      obj.setWidth(historyRecord.column, historyRecord.oldValue);
-    } else if (historyRecord.action == "setHeight") {
-      obj.setHeight(historyRecord.row, historyRecord.oldValue);
-    } else if (historyRecord.action == "setHeader") {
-      obj.setHeader(historyRecord.column, historyRecord.oldValue);
-    } else if (historyRecord.action == "setComments") {
-      obj.setComments(historyRecord.oldValue);
-    } else if (historyRecord.action == "orderBy") {
+    } else if (historyRecord.action === "moveRow") {
+      obj.moveRow?.(historyRecord.newValue, historyRecord.oldValue);
+    } else if (historyRecord.action === "moveColumn") {
+      obj.moveColumn?.(historyRecord.newValue, historyRecord.oldValue);
+    } else if (historyRecord.action === "setMerge") {
+      obj.removeMerge?.(historyRecord.column, historyRecord.data);
+    } else if (historyRecord.action === "setStyle") {
+      obj.setStyle?.(historyRecord.oldValue, null, null, 1);
+    } else if (historyRecord.action === "setWidth") {
+      obj.setWidth?.(historyRecord.column, historyRecord.oldValue);
+    } else if (historyRecord.action === "setHeight") {
+      obj.setHeight?.(historyRecord.row, historyRecord.oldValue);
+    } else if (historyRecord.action === "setHeader") {
+      obj.setHeader?.(historyRecord.column, historyRecord.oldValue);
+    } else if (historyRecord.action === "setComments") {
+      obj.setComments?.(historyRecord.oldValue);
+    } else if (historyRecord.action === "orderBy") {
       let rows = [];
       for (let j = 0; j < historyRecord.rows.length; j++) {
         rows[historyRecord.rows[j]] = j;
@@ -333,7 +357,7 @@ export const undo = function (this: WorksheetInstance) {
         historyRecord.order ? 0 : 1
       );
       updateOrder.call(obj, rows);
-    } else if (historyRecord.action == "setValue") {
+    } else if (historyRecord.action === "setValue") {
       // Redo for changes in cells
       for (let i = 0; i < historyRecord.records.length; i++) {
         records.push({
@@ -347,11 +371,11 @@ export const undo = function (this: WorksheetInstance) {
         }
       }
       // Update records
-      obj.setValue(records);
+      obj.setValue?.(records);
 
       // Update selection
       if (historyRecord.selection) {
-        obj.updateSelectionFromCoords(
+        obj.updateSelectionFromCoords?.(
           historyRecord.selection[0],
           historyRecord.selection[1],
           historyRecord.selection[2],
@@ -360,7 +384,9 @@ export const undo = function (this: WorksheetInstance) {
       }
     }
   }
-  obj.parent.ignoreEvents = ignoreEvents;
+  if (obj.parent) {
+    obj.parent.ignoreEvents = ignoreEvents;
+  }
   obj.ignoreHistory = ignoreHistory;
 
   // Events
@@ -374,35 +400,37 @@ export const redo = function (this: WorksheetInstance) {
   const obj = this;
 
   // Ignore events and history
-  const ignoreEvents = obj.parent.ignoreEvents ? true : false;
+  const ignoreEvents = obj.parent?.ignoreEvents ? true : false;
   const ignoreHistory = obj.ignoreHistory ? true : false;
 
-  obj.parent.ignoreEvents = true;
+  if (obj.parent) {
+    obj.parent.ignoreEvents = true;
+  }
   obj.ignoreHistory = true;
 
   // Records
-  var records = [];
+  const records = [];
 
   // Update cells
   let historyRecord;
 
-  if (obj.historyIndex < obj.history.length - 1) {
+  if (obj.historyIndex !== undefined && obj.history && obj.historyIndex < obj.history.length - 1) {
     // History
     historyRecord = obj.history[++obj.historyIndex];
 
-    if (historyRecord.action == "insertRow") {
+    if (historyRecord.action === "insertRow") {
       historyProcessRow.call(obj, 0, historyRecord);
-    } else if (historyRecord.action == "deleteRow") {
+    } else if (historyRecord.action === "deleteRow") {
       historyProcessRow.call(obj, 1, historyRecord);
-    } else if (historyRecord.action == "insertColumn") {
+    } else if (historyRecord.action === "insertColumn") {
       historyProcessColumn.call(obj, 0, historyRecord);
-    } else if (historyRecord.action == "deleteColumn") {
+    } else if (historyRecord.action === "deleteColumn") {
       historyProcessColumn.call(obj, 1, historyRecord);
-    } else if (historyRecord.action == "moveRow") {
-      obj.moveRow(historyRecord.oldValue, historyRecord.newValue);
-    } else if (historyRecord.action == "moveColumn") {
-      obj.moveColumn(historyRecord.oldValue, historyRecord.newValue);
-    } else if (historyRecord.action == "setMerge") {
+    } else if (historyRecord.action === "moveRow") {
+      obj.moveRow?.(historyRecord.oldValue, historyRecord.newValue);
+    } else if (historyRecord.action === "moveColumn") {
+      obj.moveColumn?.(historyRecord.oldValue, historyRecord.newValue);
+    } else if (historyRecord.action === "setMerge") {
       setMerge.call(
         obj,
         historyRecord.column,
@@ -410,30 +438,30 @@ export const redo = function (this: WorksheetInstance) {
         historyRecord.rowspan,
         1
       );
-    } else if (historyRecord.action == "setStyle") {
-      obj.setStyle(historyRecord.newValue, null, null, 1);
-    } else if (historyRecord.action == "setWidth") {
-      obj.setWidth(historyRecord.column, historyRecord.newValue);
-    } else if (historyRecord.action == "setHeight") {
-      obj.setHeight(historyRecord.row, historyRecord.newValue);
-    } else if (historyRecord.action == "setHeader") {
-      obj.setHeader(historyRecord.column, historyRecord.newValue);
-    } else if (historyRecord.action == "setComments") {
-      obj.setComments(historyRecord.newValue);
-    } else if (historyRecord.action == "orderBy") {
+    } else if (historyRecord.action === "setStyle") {
+      obj.setStyle?.(historyRecord.newValue, null, null, 1);
+    } else if (historyRecord.action === "setWidth") {
+      obj.setWidth?.(historyRecord.column, historyRecord.newValue);
+    } else if (historyRecord.action === "setHeight") {
+      obj.setHeight?.(historyRecord.row, historyRecord.newValue);
+    } else if (historyRecord.action === "setHeader") {
+      obj.setHeader?.(historyRecord.column, historyRecord.newValue);
+    } else if (historyRecord.action === "setComments") {
+      obj.setComments?.(historyRecord.newValue);
+    } else if (historyRecord.action === "orderBy") {
       updateOrderArrow.call(obj, historyRecord.column, historyRecord.order);
       updateOrder.call(obj, historyRecord.rows);
-    } else if (historyRecord.action == "setValue") {
-      obj.setValue(historyRecord.records);
+    } else if (historyRecord.action === "setValue") {
+      obj.setValue?.(historyRecord.records);
       // Redo for changes in cells
       for (let i = 0; i < historyRecord.records.length; i++) {
         if (historyRecord.oldStyle) {
-          obj.resetStyle(historyRecord.newStyle);
+          obj.resetStyle?.(historyRecord.newStyle);
         }
       }
       // Update selection
       if (historyRecord.selection) {
-        obj.updateSelectionFromCoords(
+        obj.updateSelectionFromCoords?.(
           historyRecord.selection[0],
           historyRecord.selection[1],
           historyRecord.selection[2],
@@ -442,7 +470,9 @@ export const redo = function (this: WorksheetInstance) {
       }
     }
   }
-  obj.parent.ignoreEvents = ignoreEvents;
+  if (obj.parent) {
+    obj.parent.ignoreEvents = ignoreEvents;
+  }
   obj.ignoreHistory = ignoreHistory;
 
   // Events

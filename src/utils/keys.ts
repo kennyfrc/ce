@@ -18,11 +18,11 @@ const upGet = function (
       obj.records[j][x] &&
       obj.records[j][x].element &&
       obj.records[j][x].element.style.display !== "none" &&
-      obj.rows[j].element &&
-      obj.rows[j].element!.style.display !== "none"
+      obj.rows[j]?.element &&
+      obj.rows[j].element.style.display !== "none"
     ) {
       if (obj.records[j][x].element.getAttribute("data-merged")) {
-        if (obj.records[j][x].element == obj.records[y][x].element) {
+        if (obj.records[j][x].element === obj.records[y]?.[x]?.element) {
           continue;
         }
       }
@@ -47,7 +47,7 @@ const upVisible = function (
     return; // No selected cell, nothing to do
   }
 
-  if (group == 0) {
+  if (group === 0) {
     x = obj.selectedCell[0];
     y = obj.selectedCell[1];
   } else {
@@ -55,14 +55,14 @@ const upVisible = function (
     y = obj.selectedCell[3];
   }
 
-  if (direction == 0) {
+  if (direction === 0) {
     for (let j = 0; j < y; j++) {
       if (
-        obj.records[j][x] &&
+        obj.records[j]?.[x] &&
         obj.records[j][x].element &&
         obj.records[j][x].element.style.display !== "none" &&
-        obj.rows[j].element &&
-        obj.rows[j].element!.style.display !== "none"
+        obj.rows[j]?.element &&
+        obj.rows[j].element.style.display !== "none"
       ) {
         y = j;
         break;
@@ -72,7 +72,7 @@ const upVisible = function (
     y = upGet.call(obj, x, y);
   }
 
-  if (group == 0) {
+  if (group === 0) {
     obj.selectedCell[0] = x;
     obj.selectedCell[1] = y;
   } else {
@@ -88,6 +88,10 @@ export const up = function (
 ): void {
   const obj = this;
 
+  if (!obj.selectedCell) {
+    return;
+  }
+
   if (shiftKey) {
     if (obj.selectedCell[3] > 0) {
       upVisible.call(obj, 1, ctrlKey ? 0 : 1);
@@ -101,7 +105,7 @@ export const up = function (
   }
 
   // Update selection
-  obj.updateSelectionFromCoords(
+  obj.updateSelectionFromCoords?.(
     obj.selectedCell[0],
     obj.selectedCell[1],
     obj.selectedCell[2],
@@ -109,10 +113,10 @@ export const up = function (
   );
 
   // Change page
-  if (obj.options.lazyLoading == true) {
-    if (obj.selectedCell[1] == 0 || obj.selectedCell[3] == 0) {
+  if (obj.options.lazyLoading === true) {
+    if (obj.selectedCell[1] === 0 || obj.selectedCell[3] === 0) {
       loadPage.call(obj, 0);
-      obj.updateSelectionFromCoords(
+      obj.updateSelectionFromCoords?.(
         obj.selectedCell[0],
         obj.selectedCell[1],
         obj.selectedCell[2],
@@ -120,7 +124,7 @@ export const up = function (
       );
     } else {
       if (loadValidation.call(obj)) {
-        obj.updateSelectionFromCoords(
+        obj.updateSelectionFromCoords?.(
           obj.selectedCell[0],
           obj.selectedCell[1],
           obj.selectedCell[2],
@@ -137,7 +141,7 @@ export const up = function (
           );
           if (obj.selectedCell[1] - dataY < 30) {
             loadUp.call(obj);
-            obj.updateSelectionFromCoords(
+            obj.updateSelectionFromCoords?.(
               obj.selectedCell[0],
               obj.selectedCell[1],
               obj.selectedCell[2],
@@ -147,14 +151,14 @@ export const up = function (
         }
       }
     }
-  } else if (obj.options.pagination && obj.options.pagination > 0) {
-    const pageNumber = obj.whichPage(obj.selectedCell[3]);
-    if (pageNumber != obj.pageNumber) {
-      obj.page(pageNumber);
+  } else if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
+    const pageNumber = obj.whichPage?.(obj.selectedCell[3]);
+    if (pageNumber !== undefined && pageNumber !== obj.pageNumber) {
+      obj.page?.(pageNumber);
     }
   }
 
-  updateScroll.call(obj, "down");
+  updateScroll.call(obj, 1);
 };
 
 export const rightGet = function (
@@ -169,9 +173,9 @@ export const rightGet = function (
   y = typeof y === "string" ? parseInt(y) : y;
 
   for (let i = x + 1; i < obj.headers.length; i++) {
-    if (obj.records[y][i].element.style.display != "none") {
+    if (obj.records[y]?.[i]?.element?.style.display !== "none") {
       if (obj.records[y][i].element.getAttribute("data-merged")) {
-        if (obj.records[y][i].element == obj.records[y][x].element) {
+        if (obj.records[y][i].element === obj.records[y]?.[x]?.element) {
           continue;
         }
       }
@@ -192,7 +196,11 @@ const rightVisible = function (
 
   let x, y;
 
-  if (group == 0) {
+  if (!obj.selectedCell) {
+    return;
+  }
+
+  if (group === 0) {
     x = obj.selectedCell[0];
     y = obj.selectedCell[1];
   } else {
@@ -200,9 +208,9 @@ const rightVisible = function (
     y = obj.selectedCell[3];
   }
 
-  if (direction == 0) {
+  if (direction === 0) {
     for (let i = obj.headers.length - 1; i > x; i--) {
-      if (obj.records[y][i].element.style.display != "none") {
+      if (obj.records[y]?.[i]?.element?.style.display !== "none") {
         x = i;
         break;
       }
@@ -211,7 +219,7 @@ const rightVisible = function (
     x = rightGet.call(obj, x, y);
   }
 
-  if (group == 0) {
+  if (group === 0) {
     obj.selectedCell[0] = x;
     obj.selectedCell[1] = y;
   } else {
@@ -227,6 +235,10 @@ export const right = function (
 ): void {
   const obj = this;
 
+  if (!obj.selectedCell) {
+    return;
+  }
+
   if (shiftKey) {
     if (obj.selectedCell[2] < obj.headers.length - 1) {
       rightVisible.call(obj, 1, ctrlKey ? 0 : 1);
@@ -239,13 +251,13 @@ export const right = function (
     obj.selectedCell[3] = obj.selectedCell[1];
   }
 
-  obj.updateSelectionFromCoords(
+  obj.updateSelectionFromCoords?.(
     obj.selectedCell[0],
     obj.selectedCell[1],
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, "down");
+  updateScroll.call(obj, 1);
 };
 
 export const downGet = function (
@@ -263,15 +275,12 @@ export const downGet = function (
       obj.records[j] &&
       obj.records[j][x] &&
       obj.records[j][x].element &&
-      obj.records[j][x] &&
-      obj.records[j][x].element &&
       obj.records[j][x].element.style.display !== "none" &&
-      obj.rows[j].element &&
-      obj.rows[j].element &&
-      obj.rows[j].element!.style.display !== "none"
+      obj.rows[j]?.element &&
+      obj.rows[j].element.style.display !== "none"
     ) {
       if (obj.records[j][x].element.getAttribute("data-merged")) {
-        if (obj.records[j][x].element == obj.records[y][x].element) {
+        if (obj.records[j][x].element === obj.records[y]?.[x]?.element) {
           continue;
         }
       }
@@ -292,7 +301,11 @@ const downVisible = function (
 
   let x, y;
 
-  if (group == 0) {
+  if (!obj.selectedCell) {
+    return;
+  }
+
+  if (group === 0) {
     x = obj.selectedCell[0];
     y = obj.selectedCell[1];
   } else {
@@ -300,14 +313,14 @@ const downVisible = function (
     y = obj.selectedCell[3];
   }
 
-  if (direction == 0) {
+  if (direction === 0) {
     for (let j = obj.rows.length - 1; j > y; j--) {
       if (
-        obj.records[j][x] &&
+        obj.records[j]?.[x] &&
         obj.records[j][x].element &&
         obj.records[j][x].element.style.display !== "none" &&
-        obj.rows[j].element &&
-        obj.rows[j].element!.style.display !== "none"
+        obj.rows[j]?.element &&
+        obj.rows[j].element.style.display !== "none"
       ) {
         y = j;
         break;
@@ -317,7 +330,7 @@ const downVisible = function (
     y = downGet.call(obj, x, y);
   }
 
-  if (group == 0) {
+  if (group === 0) {
     obj.selectedCell[0] = x;
     obj.selectedCell[1] = y;
   } else {
@@ -333,6 +346,10 @@ export const down = function (
 ): void {
   const obj = this;
 
+  if (!obj.selectedCell) {
+    return;
+  }
+
   if (shiftKey) {
     if (obj.selectedCell[3] < obj.records.length - 1) {
       downVisible.call(obj, 1, ctrlKey ? 0 : 1);
@@ -345,7 +362,7 @@ export const down = function (
     obj.selectedCell[3] = obj.selectedCell[1];
   }
 
-  obj.updateSelectionFromCoords(
+  obj.updateSelectionFromCoords?.(
     obj.selectedCell[0],
     obj.selectedCell[1],
     obj.selectedCell[2],
@@ -353,13 +370,13 @@ export const down = function (
   );
 
   // Change page
-  if (obj.options.lazyLoading == true) {
+  if (obj.options.lazyLoading === true) {
     if (
-      obj.selectedCell[1] == obj.records.length - 1 ||
-      obj.selectedCell[3] == obj.records.length - 1
+      obj.selectedCell[1] === obj.records.length - 1 ||
+      obj.selectedCell[3] === obj.records.length - 1
     ) {
       loadPage.call(obj, -1);
-      obj.updateSelectionFromCoords(
+      obj.updateSelectionFromCoords?.(
         obj.selectedCell[0],
         obj.selectedCell[1],
         obj.selectedCell[2],
@@ -367,7 +384,7 @@ export const down = function (
       );
     } else {
       if (loadValidation.call(obj)) {
-        obj.updateSelectionFromCoords(
+        obj.updateSelectionFromCoords?.(
           obj.selectedCell[0],
           obj.selectedCell[1],
           obj.selectedCell[2],
@@ -380,7 +397,7 @@ export const down = function (
           );
           if (dataY - obj.selectedCell[3] < 30) {
             loadDown.call(obj);
-            obj.updateSelectionFromCoords(
+            obj.updateSelectionFromCoords?.(
               obj.selectedCell[0],
               obj.selectedCell[1],
               obj.selectedCell[2],
@@ -390,14 +407,14 @@ export const down = function (
         }
       }
     }
-  } else if (obj.options.pagination && obj.options.pagination > 0) {
-    const pageNumber = obj.whichPage(obj.selectedCell[3]);
-    if (pageNumber != obj.pageNumber) {
-      obj.page(pageNumber);
+  } else if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
+    const pageNumber = obj.whichPage?.(obj.selectedCell[3]);
+    if (pageNumber !== undefined && pageNumber !== obj.pageNumber) {
+      obj.page?.(pageNumber);
     }
   }
 
-  updateScroll.call(obj, "down");
+  updateScroll.call(obj, 1);
 };
 
 const leftGet = function (
@@ -411,9 +428,9 @@ const leftGet = function (
   x = typeof x === "string" ? parseInt(x) : x;
   y = typeof y === "string" ? parseInt(y) : y;
   for (let i = x - 1; i >= 0; i--) {
-    if (obj.records[y][i].element.style.display != "none") {
+    if (obj.records[y]?.[i]?.element?.style.display !== "none") {
       if (obj.records[y][i].element.getAttribute("data-merged")) {
-        if (obj.records[y][i].element == obj.records[y][x].element) {
+        if (obj.records[y][i].element === obj.records[y]?.[x]?.element) {
           continue;
         }
       }
@@ -434,7 +451,11 @@ const leftVisible = function (
 
   let x, y;
 
-  if (group == 0) {
+  if (!obj.selectedCell) {
+    return;
+  }
+
+  if (group === 0) {
     x = obj.selectedCell[0];
     y = obj.selectedCell[1];
   } else {
@@ -442,9 +463,9 @@ const leftVisible = function (
     y = obj.selectedCell[3];
   }
 
-  if (direction == 0) {
+  if (direction === 0) {
     for (let i = 0; i < x; i++) {
-      if (obj.records[y][i].element.style.display != "none") {
+      if (obj.records[y]?.[i]?.element?.style.display !== "none") {
         x = i;
         break;
       }
@@ -453,7 +474,7 @@ const leftVisible = function (
     x = leftGet.call(obj, x, y);
   }
 
-  if (group == 0) {
+  if (group === 0) {
     obj.selectedCell[0] = x;
     obj.selectedCell[1] = y;
   } else {
@@ -469,6 +490,10 @@ export const left = function (
 ): void {
   const obj = this;
 
+  if (!obj.selectedCell) {
+    return;
+  }
+
   if (shiftKey) {
     if (obj.selectedCell[2] > 0) {
       leftVisible.call(obj, 1, ctrlKey ? 0 : 1);
@@ -481,13 +506,13 @@ export const left = function (
     obj.selectedCell[3] = obj.selectedCell[1];
   }
 
-  obj.updateSelectionFromCoords(
+  obj.updateSelectionFromCoords?.(
     obj.selectedCell[0],
     obj.selectedCell[1],
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, "up");
+  updateScroll.call(obj, -1);
 };
 
 export const first = function (
@@ -496,6 +521,10 @@ export const first = function (
   ctrlKey: boolean
 ): void {
   const obj = this;
+
+  if (!obj.selectedCell) {
+    return;
+  }
 
   if (shiftKey) {
     if (ctrlKey) {
@@ -515,24 +544,24 @@ export const first = function (
 
   // Change page
   if (
-    obj.options.lazyLoading == true &&
-    (obj.selectedCell[1] == 0 || obj.selectedCell[3] == 0)
+    obj.options.lazyLoading === true &&
+    (obj.selectedCell[1] === 0 || obj.selectedCell[3] === 0)
   ) {
     loadPage.call(obj, 0);
-  } else if (obj.options.pagination && obj.options.pagination > 0) {
-    const pageNumber = obj.whichPage(obj.selectedCell[3]);
-    if (pageNumber != obj.pageNumber) {
-      obj.page(pageNumber);
+  } else if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
+    const pageNumber = obj.whichPage?.(obj.selectedCell[3]);
+    if (pageNumber !== undefined && pageNumber !== obj.pageNumber) {
+      obj.page?.(pageNumber);
     }
   }
 
-  obj.updateSelectionFromCoords(
+  obj.updateSelectionFromCoords?.(
     obj.selectedCell[0],
     obj.selectedCell[1],
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, "down");
+  updateScroll.call(obj, 1);
 };
 
 export const last = function (
@@ -541,6 +570,10 @@ export const last = function (
   ctrlKey: boolean
 ): void {
   const obj = this;
+
+  if (!obj.selectedCell) {
+    return;
+  }
 
   if (shiftKey) {
     if (ctrlKey) {
@@ -560,23 +593,23 @@ export const last = function (
 
   // Change page
   if (
-    obj.options.lazyLoading == true &&
-    (obj.selectedCell[1] == obj.records.length - 1 ||
-      obj.selectedCell[3] == obj.records.length - 1)
+    obj.options.lazyLoading === true &&
+    (obj.selectedCell[1] === obj.records.length - 1 ||
+      obj.selectedCell[3] === obj.records.length - 1)
   ) {
     loadPage.call(obj, -1);
-  } else if (obj.options.pagination && obj.options.pagination > 0) {
-    const pageNumber = obj.whichPage(obj.selectedCell[3]);
-    if (pageNumber != obj.pageNumber) {
-      obj.page(pageNumber);
+  } else if (obj.options.pagination && typeof obj.options.pagination === 'number' && obj.options.pagination > 0) {
+    const pageNumber = obj.whichPage?.(obj.selectedCell[3]);
+    if (pageNumber !== undefined && pageNumber !== obj.pageNumber) {
+      obj.page?.(pageNumber);
     }
   }
 
-  obj.updateSelectionFromCoords(
+  obj.updateSelectionFromCoords?.(
     obj.selectedCell[0],
     obj.selectedCell[1],
     obj.selectedCell[2],
     obj.selectedCell[3]
   );
-  updateScroll.call(obj, "down");
+  updateScroll.call(obj, 1);
 };

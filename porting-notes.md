@@ -1,3 +1,22 @@
+### Snapshot: 2025-08-29T18:30:00Z — history.ts partial fixes
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1356 (down from 1483, -127 errors)
+- Explicit any count (find-any-types): 1 (copyPaste.ts remaining)
+- Changes: Partial fix of src/utils/history.ts (107 errors remaining):
+  - Fixed equality comparisons (== to ===, != to !==)
+  - Added guards for obj.history and obj.historyIndex undefined access
+  - Fixed optional chaining for DOM element access
+  - Added type guards for pagination (typeof === 'number')
+  - Corrected method calls with optional chaining (?.)
+  - Fixed injectArray return types with type assertions
+  - Added null coalescing for optional properties (??)
+- Learnings:
+  - History management requires careful null checks for state properties
+  - Type assertions help bridge injectArray's unknown[] return to specific types
+  - Optional chaining prevents runtime errors in DOM manipulation
+  - Systematic pattern application reduces errors significantly
+- Next: Complete history.ts fixes and move to internal.ts hotspot.
+
 ### Snapshot: 2025-08-29T04:36:30Z — events.ts alias pass (assistant)
 
 - TypeScript errors (tsconfig.test.json --noEmit): 1382 (saved to .agent/ts-errors-run-2.txt)

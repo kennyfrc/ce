@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T05:42:05Z"
+    "updatedAt": "2025-08-29T05:55:43Z"
   },
   "tasks": [
     {
@@ -147,7 +147,7 @@
       "name": "Priority: Baseline & CI gating",
       "description": "Ensure live metrics and CI gates (tsc --noEmit + any-analyzer) run after each major change; capture artifacts for trend analysis.",
       "phase": 5,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "tsconfig.test.json",
         ".agent/find-any-types.js",
@@ -174,7 +174,7 @@
       "name": "Priority: Break into per-file PRs & estimates",
       "description": "Turn priority plan into a set of small, reviewable per-file tasks with owners and time estimates to enable steady progress and CI-friendly commits.",
       "phase": 1,
-      "state": "in_progress",
+      "state": "completed",
       "owners": [
         "@assistant",
         "@team/types"
@@ -2164,7 +2164,7 @@
       "name": "columns.ts: Fix SpreadsheetContext vs WorksheetInstance mismatches",
       "description": "Resolve type mismatches between SpreadsheetContext and WorksheetInstance in src/utils/columns.ts and src/types/core.ts; add guards and adjust core types where appropriate.",
       "phase": 3,
-      "state": "in_progress",
+      "state": "completed",
       "candidateFiles": [
         "src/utils/columns.ts",
         "src/types/core.ts"
@@ -2967,6 +2967,161 @@
       ],
       "createdAt": "2025-08-29T04:34:19Z",
       "updatedAt": "2025-08-29T04:36:07Z"
+    },
+    {
+      "id": "ts-fix-copypaste-errors-20250829-0001",
+      "name": "Fix copyPaste.ts TypeScript errors",
+      "description": "Address undefined checks, property access, and indexing errors in copyPaste.ts",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/copyPaste.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "types",
+        "errors"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in copyPaste.ts"
+      ],
+      "createdAt": "2025-08-29T17:00:00Z",
+      "updatedAt": "2025-08-29T17:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0001",
+      "name": "Fix TypeScript errors in src/utils/keys.ts",
+      "description": "Address 156 TypeScript errors in keys.ts including this-context typing and DOM event handling",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/keys.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in keys.ts"
+      ],
+      "createdAt": "2025-08-29T18:00:00Z",
+      "updatedAt": "2025-08-29T18:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0002",
+      "name": "Fix TypeScript errors in src/utils/history.ts",
+      "description": "Address 153 TypeScript errors in history.ts including this-context and data typing",
+      "phase": 4,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/history.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in history.ts"
+      ],
+      "createdAt": "2025-08-29T18:00:00Z",
+      "updatedAt": "2025-08-29T18:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0003",
+      "name": "Fix TypeScript errors in src/utils/internal.ts",
+      "description": "Address 140 TypeScript errors in internal.ts including this-context and data operations",
+      "phase": 4,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in internal.ts"
+      ],
+      "createdAt": "2025-08-29T18:00:00Z",
+      "updatedAt": "2025-08-29T18:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0004",
+      "name": "Fix TypeScript errors in src/utils/rows.ts",
+      "description": "Address 71 TypeScript errors in rows.ts including row operations and data typing",
+      "phase": 4,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/rows.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in rows.ts"
+      ],
+      "createdAt": "2025-08-29T18:00:00Z",
+      "updatedAt": "2025-08-29T18:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0005",
+      "name": "Fix TypeScript errors in src/utils/selection.ts",
+      "description": "Address 66 TypeScript errors in selection.ts including DOM element typing and selection state",
+      "phase": 4,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/selection.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in selection.ts"
+      ],
+      "createdAt": "2025-08-29T18:00:00Z",
+      "updatedAt": "2025-08-29T18:00:00Z"
+    },
+    {
+      "id": "ts-fix-20250829-0006",
+      "name": "Fix TypeScript errors in src/utils/worksheets.ts",
+      "description": "Address 55 TypeScript errors in worksheets.ts including worksheet operations and context typing",
+      "phase": 4,
+      "state": "pending",
+      "candidateFiles": [
+        "src/utils/worksheets.ts"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "types",
+        "hotspot"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript errors in worksheets.ts"
+      ],
+      "createdAt": "2025-08-29T18:00:00Z",
+      "updatedAt": "2025-08-29T18:00:00Z"
     }
   ]
 }
