@@ -119,14 +119,14 @@ describe('Use the columns method', () => {
         expect(rows[0].children[3].innerHTML).to.include(9)
 
         // Delete first two columns
-        instance[0].deleteColumn(0, 2)
+        instance[0]?.deleteColumn?.(0, 2)
 
         expect(rows[0].children[1].innerHTML).to.include(9)
         expect(rows[0].children[2].innerHTML).to.include(12)
         expect(rows[0].children[3].innerHTML).to.include(15)
 
         // Delete first two columns
-        instance[0].deleteColumn(0, 2)
+        instance[0]?.deleteColumn?.(0, 2)
 
         expect(rows[0].children[1].innerHTML).to.include(15)
         expect(rows[0].children[2].innerHTML).to.include(18)

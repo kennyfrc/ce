@@ -69,7 +69,7 @@ const webpack = {
       "Access-Control-Allow-Headers":
         "X-Requested-With, content-type, Authorization",
     },
-    port: 8000,
+    port: 8080,
     devMiddleware: {
       publicPath: "https://localhost:3000/",
     },
@@ -99,7 +99,7 @@ const webpack = {
             },
           },
         ],
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /src\/test\.ts$/],
       },
       {
         test: /\.css$/,

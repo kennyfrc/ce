@@ -485,8 +485,9 @@ const adjustToolbarSettingsForJSuites = function (toolbar) {
                             }
                         },
                     });
-                    if ((_a = target.color) === null || _a === void 0 ? void 0 : _a.open) {
-                        target.color.open();
+                    const colorWidget = target;
+                    if ((_a = colorWidget.color) === null || _a === void 0 ? void 0 : _a.open) {
+                        colorWidget.color.open();
                     }
                 }
             };

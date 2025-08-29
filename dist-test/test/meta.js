@@ -8,6 +8,7 @@ const index_1 = __importDefault(require("../src/index"));
 describe('Meta tests', () => {
     describe('Set meta information', () => {
         it('Set meta information using an object', () => {
+            var _a, _b, _c, _d;
             const instance = (0, index_1.default)(root, {
                 worksheets: [{
                         data: [
@@ -18,12 +19,13 @@ describe('Meta tests', () => {
                         ],
                     }]
             });
-            instance[0].setMeta({ B1: { id: '1', y: '2019' }, C2: { test: '2' } });
+            (_b = (_a = instance[0]) === null || _a === void 0 ? void 0 : _a.setMeta) === null || _b === void 0 ? void 0 : _b.call(_a, { B1: { id: '1', y: '2019' }, C2: { test: '2' } });
             (0, chai_1.expect)(instance[0].options.meta).to.eql({ B1: { id: '1', y: '2019' }, C2: { test: '2' } });
-            instance[0].setMeta({ C2: { something: '35' } });
+            (_d = (_c = instance[0]) === null || _c === void 0 ? void 0 : _c.setMeta) === null || _d === void 0 ? void 0 : _d.call(_c, { C2: { something: '35' } });
             (0, chai_1.expect)(instance[0].options.meta).to.eql({ B1: { id: '1', y: '2019' }, C2: { test: '2', something: '35' } });
         });
         it('Set meta information using strings', () => {
+            var _a, _b, _c, _d, _e, _f, _g, _h;
             const instance = (0, index_1.default)(root, {
                 worksheets: [{
                         data: [
@@ -34,14 +36,14 @@ describe('Meta tests', () => {
                         ],
                     }],
             });
-            instance[0].setMeta('A1', 'myMeta', 'this is just a test');
-            instance[0].setMeta('A1', 'otherMetaInformation', 'other test');
-            instance[0].setMeta('D2', 'info', 'test');
+            (_b = (_a = instance[0]) === null || _a === void 0 ? void 0 : _a.setMeta) === null || _b === void 0 ? void 0 : _b.call(_a, 'A1', 'myMeta', 'this is just a test');
+            (_d = (_c = instance[0]) === null || _c === void 0 ? void 0 : _c.setMeta) === null || _d === void 0 ? void 0 : _d.call(_c, 'A1', 'otherMetaInformation', 'other test');
+            (_f = (_e = instance[0]) === null || _e === void 0 ? void 0 : _e.setMeta) === null || _f === void 0 ? void 0 : _f.call(_e, 'D2', 'info', 'test');
             (0, chai_1.expect)(instance[0].options.meta).to.eql({
                 A1: { myMeta: 'this is just a test', otherMetaInformation: 'other test' },
                 D2: { info: 'test' }
             });
-            instance[0].setMeta('D2', 'myMetaData', 'something');
+            (_h = (_g = instance[0]) === null || _g === void 0 ? void 0 : _g.setMeta) === null || _h === void 0 ? void 0 : _h.call(_g, 'D2', 'myMetaData', 'something');
             (0, chai_1.expect)(instance[0].options.meta).to.eql({
                 A1: { myMeta: 'this is just a test', otherMetaInformation: 'other test' },
                 D2: { info: 'test', myMetaData: 'something' }
@@ -49,6 +51,7 @@ describe('Meta tests', () => {
         });
     });
     it('Get meta information', () => {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const instance = (0, index_1.default)(root, {
             worksheets: [{
                     data: [
@@ -63,15 +66,15 @@ describe('Meta tests', () => {
                     },
                 }]
         });
-        (0, chai_1.expect)(instance[0].getMeta()).to.eql({
+        (0, chai_1.expect)((_b = (_a = instance[0]) === null || _a === void 0 ? void 0 : _a.getMeta) === null || _b === void 0 ? void 0 : _b.call(_a)).to.eql({
             A1: { myMeta: 'this is just a test', otherMetaInformation: 'other test' },
             D2: { info: 'test' }
         });
-        (0, chai_1.expect)(instance[0].getMeta('A1')).to.eql({
+        (0, chai_1.expect)((_d = (_c = instance[0]) === null || _c === void 0 ? void 0 : _c.getMeta) === null || _d === void 0 ? void 0 : _d.call(_c, 'A1')).to.eql({
             myMeta: 'this is just a test',
             otherMetaInformation: 'other test'
         });
-        (0, chai_1.expect)(instance[0].getMeta('D2')).to.eql({ info: 'test' });
-        (0, chai_1.expect)(instance[0].getMeta('A2')).to.equal(null);
+        (0, chai_1.expect)((_f = (_e = instance[0]) === null || _e === void 0 ? void 0 : _e.getMeta) === null || _f === void 0 ? void 0 : _f.call(_e, 'D2')).to.eql({ info: 'test' });
+        (0, chai_1.expect)((_h = (_g = instance[0]) === null || _g === void 0 ? void 0 : _g.getMeta) === null || _h === void 0 ? void 0 : _h.call(_g, 'A2')).to.equal(null);
     });
 });

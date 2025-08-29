@@ -55,6 +55,7 @@ describe('Use the columns method', () => {
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(2);
     });
     it('deleteColumn and column is removed in the given index', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -72,17 +73,18 @@ describe('Use the columns method', () => {
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(6);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(9);
         // Delete first column
-        instance[0].deleteColumn(0);
+        (_b = (_a = instance[0]).deleteColumn) === null || _b === void 0 ? void 0 : _b.call(_a, 0);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(6);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(9);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(9);
         // Delete first column
-        instance[0].deleteColumn(0);
+        (_d = (_c = instance[0]).deleteColumn) === null || _d === void 0 ? void 0 : _d.call(_c, 0);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(9);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(9);
     });
     it('deleteColumn and multiple column are removed starting from the given index', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -100,16 +102,17 @@ describe('Use the columns method', () => {
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(6);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(9);
         // Delete first two columns
-        instance[0].deleteColumn(0, 2);
+        (_b = (_a = instance[0]) === null || _a === void 0 ? void 0 : _a.deleteColumn) === null || _b === void 0 ? void 0 : _b.call(_a, 0, 2);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(12);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(15);
         // Delete first two columns
-        instance[0].deleteColumn(0, 2);
+        (_d = (_c = instance[0]) === null || _c === void 0 ? void 0 : _c.deleteColumn) === null || _d === void 0 ? void 0 : _d.call(_c, 0, 2);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(15);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(18);
     });
     it('hideColumn and showColumn', () => {
+        var _a, _b, _c, _d;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -126,20 +129,20 @@ describe('Use the columns method', () => {
         (0, chai_1.expect)(headers[1].innerHTML).to.include('A');
         (0, chai_1.expect)(window.getComputedStyle(headers[1]).display).not.to.include('none');
         // Hides the first column 'A'
-        instance[0].hideColumn(0);
+        (_b = (_a = instance[0]).hideColumn) === null || _b === void 0 ? void 0 : _b.call(_a, 0);
         (0, chai_1.expect)(headers[1].innerHTML).to.include('A');
         (0, chai_1.expect)(window.getComputedStyle(headers[1]).display).to.include('none');
         (0, chai_1.expect)(headers[2].innerHTML).to.include('B');
         (0, chai_1.expect)(window.getComputedStyle(headers[2]).display).not.to.include('none');
         // Shows the column that was hidden
-        instance[0].showColumn(0);
+        (_d = (_c = instance[0]).showColumn) === null || _d === void 0 ? void 0 : _d.call(_c, 0);
         (0, chai_1.expect)(headers[1].innerHTML).to.include('A');
         (0, chai_1.expect)(window.getComputedStyle(headers[1]).display).not.to.include('none');
         (0, chai_1.expect)(headers[2].innerHTML).to.include('B');
         (0, chai_1.expect)(window.getComputedStyle(headers[2]).display).not.to.include('none');
     });
     it('insertColumn history', () => {
-        var _a, _b;
+        var _a, _b, _c, _d, _e, _f;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -157,12 +160,13 @@ describe('Use the columns method', () => {
         // Insert [3, 3] column in the first column
         (_b = (_a = instance[0]).insertColumn) === null || _b === void 0 ? void 0 : _b.call(_a, [3, 3], 0, true);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(3);
-        instance[0].undo();
+        (_d = (_c = instance[0]).undo) === null || _d === void 0 ? void 0 : _d.call(_c);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(9);
-        instance[0].redo();
+        (_f = (_e = instance[0]).redo) === null || _f === void 0 ? void 0 : _f.call(_e);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(3);
     });
     it('deleteColumn history', () => {
+        var _a, _b, _c, _d, _e, _f;
         const instance = (0, index_1.default)(root, {
             tabs: true,
             worksheets: [
@@ -180,15 +184,15 @@ describe('Use the columns method', () => {
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(2);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(3);
         // Delete first column
-        instance[0].deleteColumn(0);
+        (_b = (_a = instance[0]).deleteColumn) === null || _b === void 0 ? void 0 : _b.call(_a, 0);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(2);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(3);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(4);
-        instance[0].undo(0);
+        (_d = (_c = instance[0]).undo) === null || _d === void 0 ? void 0 : _d.call(_c);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(1);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(2);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(3);
-        instance[0].redo(0);
+        (_f = (_e = instance[0]).redo) === null || _f === void 0 ? void 0 : _f.call(_e);
         (0, chai_1.expect)(rows[0].children[1].innerHTML).to.include(2);
         (0, chai_1.expect)(rows[0].children[2].innerHTML).to.include(3);
         (0, chai_1.expect)(rows[0].children[3].innerHTML).to.include(4);

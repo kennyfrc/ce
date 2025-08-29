@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-30T05:30:00Z"
+    "updatedAt": "2025-08-29T12:25:15Z"
   },
   "tasks": [
     {
@@ -153,6 +153,117 @@
       "links": [],
       "createdAt": "2025-08-29T23:30:00Z",
       "updatedAt": "2025-08-29T23:30:00Z"
+    },
+    {
+      "id": "verify-20250829-0006",
+      "name": "Fix webpack build TypeScript errors (src/test.ts globals)",
+      "description": "Resolve TS2339 errors in src/test.ts during production build by excluding src/test.ts from webpack TS program or adding proper Window global declarations.",
+      "phase": 7,
+      "state": "completed",
+      "candidateFiles": [
+        "src/test.ts",
+        "tsconfig.webpack.json"
+      ],
+      "owners": [
+        "@team/types",
+        "@team/build"
+      ],
+      "labels": [
+        "build",
+        "typescript",
+        "config"
+      ],
+      "acceptanceCriteria": [
+        "npm run build exits with code 0",
+        "No TS errors from src/test.ts during build"
+      ]
+    },
+    {
+      "id": "verify-20250829-0007",
+      "name": "Correct tsconfig.json include/rootDir mismatch",
+      "description": "Remove Playwright includes from tsconfig.json or adjust rootDir to avoid TS6059 when running tsc -p tsconfig.json.",
+      "phase": 7,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.json"
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "typescript",
+        "config"
+      ],
+      "acceptanceCriteria": [
+        "tsc -p tsconfig.json --noEmit exits 0",
+        "No TS6059 errors about files outside rootDir"
+      ]
+    },
+    {
+      "id": "verify-20250829-0008",
+      "name": "Fix Mocha test script to discover .ts tests",
+      "description": "Update npm test script to include --extension ts and remove unnecessary build step, or ensure build passes before running tests.",
+      "phase": 7,
+      "state": "completed",
+      "candidateFiles": [
+        "package.json"
+      ],
+      "owners": [
+        "@team/tests"
+      ],
+      "labels": [
+        "mocha",
+        "scripts"
+      ],
+      "acceptanceCriteria": [
+        "npm test discovers and runs TypeScript tests",
+        "Mocha exits 0 locally"
+      ]
+    },
+    {
+      "id": "verify-20250829-0009",
+      "name": "Update Playwright tests to new DOM/CSS classes",
+      "description": "Replace outdated .jexcel selectors and brittle assertions; align with new jss_* class names and computed totals.",
+      "phase": 7,
+      "state": "completed",
+      "candidateFiles": [
+        "playwright/*.test.ts"
+      ],
+      "owners": [
+        "@team/e2e"
+      ],
+      "labels": [
+        "playwright",
+        "e2e",
+        "selectors"
+      ],
+      "acceptanceCriteria": [
+        "npx playwright test passes all specs locally",
+        "No flaky waits; use robust selectors"
+      ]
+    },
+    {
+      "id": "verify-20250829-0010",
+      "name": "demo.html verification and hardening",
+      "description": "Ensure demo.html works standalone: depends on dist/ assets, loads without errors, and basic interactions function; document steps in README.",
+      "phase": 7,
+      "state": "completed",
+      "candidateFiles": [
+        "demo.html",
+        "README.md"
+      ],
+      "owners": [
+        "@team/docs",
+        "@team/e2e"
+      ],
+      "labels": [
+        "demo",
+        "docs"
+      ],
+      "acceptanceCriteria": [
+        "demo.html loads with http-server on port 8080",
+        "Window.jspreadsheet available; basic init works"
+      ]
     }
   ]
 }

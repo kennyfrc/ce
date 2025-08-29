@@ -25,6 +25,7 @@ describe('Use the data method', () => {
             ]
         });
         const data = (_b = (_a = instance[0]).getData) === null || _b === void 0 ? void 0 : _b.call(_a);
+        (0, chai_1.expect)(data).to.not.be.undefined;
         (0, chai_1.expect)(data.length).to.eq(7);
         (0, chai_1.expect)(data[0].length).to.eq(7);
         (0, chai_1.expect)(data[0][0]).to.eq(1);

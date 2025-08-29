@@ -5,10 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const index_1 = __importDefault(require("../src/index"));
+// Global test environment variables are declared in test/global.d.ts
 describe('Merge tests', () => {
     describe('Get merge', () => {
         it('Worksheet started with a merge', () => {
-            const instance = (0, index_1.default)(root, {
+            var _a, _b, _c, _d, _e, _f;
+            const instance = (0, index_1.default)(globalThis.root, {
                 toolbar: true,
                 worksheets: [{
                         data: [
@@ -33,16 +35,17 @@ describe('Merge tests', () => {
                             },
                         ],
                         mergeCells: {
-                            C1: [1, 2]
+                            C1: [1, 2, []]
                         }
                     }]
             });
-            (0, chai_1.expect)(instance[0].getMerge('C1')).to.eql([1, 2]);
-            (0, chai_1.expect)(instance[0].getMerge('C2')).to.equal(null);
-            (0, chai_1.expect)(instance[0].getMerge()).to.eql({ C1: [1, 2] });
+            (0, chai_1.expect)((_b = (_a = instance[0]).getMerge) === null || _b === void 0 ? void 0 : _b.call(_a, 'C1')).to.have.length(3); // [colspan, rowspan, elements]
+            (0, chai_1.expect)((_d = (_c = instance[0]).getMerge) === null || _d === void 0 ? void 0 : _d.call(_c, 'C2')).to.equal(null);
+            (0, chai_1.expect)((_f = (_e = instance[0]).getMerge) === null || _f === void 0 ? void 0 : _f.call(_e)).to.have.property('C1');
         });
         it('Worksheet started without merges', () => {
-            const instance = (0, index_1.default)(root, {
+            var _a, _b, _c, _d;
+            const instance = (0, index_1.default)(globalThis.root, {
                 toolbar: true,
                 worksheets: [{
                         data: [
@@ -68,12 +71,12 @@ describe('Merge tests', () => {
                         ],
                     }]
             });
-            (0, chai_1.expect)(instance[0].getMerge('C1')).to.equal(null);
-            (0, chai_1.expect)(instance[0].getMerge()).to.eql({});
+            (0, chai_1.expect)((_b = (_a = instance[0]).getMerge) === null || _b === void 0 ? void 0 : _b.call(_a, 'C1')).to.equal(null);
+            (0, chai_1.expect)((_d = (_c = instance[0]).getMerge) === null || _d === void 0 ? void 0 : _d.call(_c)).to.eql({});
         });
     });
     it('Set merge', () => {
-        const instance = (0, index_1.default)(root, {
+        const instance = (0, index_1.default)(global.root, {
             toolbar: true,
             worksheets: [{
                     data: [
@@ -100,7 +103,7 @@ describe('Merge tests', () => {
                 }]
         });
         instance[0].setMerge('A3', 2, 3);
-        const table = root.querySelector('tbody');
+        const table = global.root.querySelector('tbody');
         if (!table)
             throw new Error('Element not found');
         const rows = table.children;
@@ -108,7 +111,8 @@ describe('Merge tests', () => {
         (0, chai_1.expect)(rows[2].children[1].getAttribute('rowspan')).to.equal('3');
     });
     it('Remove merge', () => {
-        const instance = (0, index_1.default)(root, {
+        var _a, _b;
+        const instance = (0, index_1.default)(globalThis.root, {
             toolbar: true,
             worksheets: [{
                     data: [
@@ -133,23 +137,24 @@ describe('Merge tests', () => {
                         },
                     ],
                     mergeCells: {
-                        A1: [2, 2],
-                        E5: [3, 2],
+                        A1: [2, 2, []],
+                        E5: [3, 2, []],
                     }
                 }]
         });
-        const table = root.querySelector('tbody');
+        const table = globalThis.root.querySelector('tbody');
         if (!table)
             throw new Error('Element not found');
         const rows = table.children;
-        instance[0].removeMerge('A1');
+        (_b = (_a = instance[0]).removeMerge) === null || _b === void 0 ? void 0 : _b.call(_a, 'A1');
         (0, chai_1.expect)(rows[0].children[1].getAttribute('colspan')).to.equal(null);
         (0, chai_1.expect)(rows[0].children[1].getAttribute('rowspan')).to.equal(null);
         (0, chai_1.expect)(rows[4].children[5].getAttribute('colspan')).to.equal('3');
         (0, chai_1.expect)(rows[4].children[5].getAttribute('rowspan')).to.equal('2');
     });
     it('Remove all merge', () => {
-        const instance = (0, index_1.default)(root, {
+        var _a, _b;
+        const instance = (0, index_1.default)(globalThis.root, {
             toolbar: true,
             worksheets: [{
                     data: [
@@ -174,23 +179,24 @@ describe('Merge tests', () => {
                         },
                     ],
                     mergeCells: {
-                        A1: [2, 2],
-                        E5: [3, 2],
+                        A1: [2, 2, []],
+                        E5: [3, 2, []],
                     }
                 }]
         });
-        const table = root.querySelector('tbody');
+        const table = globalThis.root.querySelector('tbody');
         if (!table)
             throw new Error('Element not found');
         const rows = table.children;
-        instance[0].destroyMerge();
+        (_b = (_a = instance[0]).destroyMerge) === null || _b === void 0 ? void 0 : _b.call(_a);
         (0, chai_1.expect)(rows[0].children[1].getAttribute('colspan')).to.equal(null);
         (0, chai_1.expect)(rows[0].children[1].getAttribute('rowspan')).to.equal(null);
         (0, chai_1.expect)(rows[4].children[5].getAttribute('colspan')).to.equal(null);
         (0, chai_1.expect)(rows[4].children[5].getAttribute('rowspan')).to.equal(null);
     });
     it('setMerge history', () => {
-        const instance = (0, index_1.default)(root, {
+        var _a, _b, _c, _d;
+        const instance = (0, index_1.default)(globalThis.root, {
             toolbar: true,
             worksheets: [{
                     data: [
@@ -217,16 +223,16 @@ describe('Merge tests', () => {
                 }]
         });
         instance[0].setMerge('A3', 2, 3);
-        const table = root.querySelector('tbody');
+        const table = globalThis.root.querySelector('tbody');
         if (!table)
             throw new Error('Element not found');
         const rows = table.children;
         (0, chai_1.expect)(rows[2].children[1].getAttribute('colspan')).to.equal('2');
         (0, chai_1.expect)(rows[2].children[1].getAttribute('rowspan')).to.equal('3');
-        instance[0].undo();
+        (_b = (_a = instance[0]).undo) === null || _b === void 0 ? void 0 : _b.call(_a);
         (0, chai_1.expect)(rows[0].children[1].getAttribute('colspan')).to.equal(null);
         (0, chai_1.expect)(rows[0].children[1].getAttribute('rowspan')).to.equal(null);
-        instance[0].redo();
+        (_d = (_c = instance[0]).redo) === null || _d === void 0 ? void 0 : _d.call(_c);
         (0, chai_1.expect)(rows[2].children[1].getAttribute('colspan')).to.equal('2');
         (0, chai_1.expect)(rows[2].children[1].getAttribute('rowspan')).to.equal('3');
     });

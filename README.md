@@ -110,6 +110,28 @@ Serve your html file and then you will get the rendered table in your browser
 
 % npm run start
 
+### Demo
+
+To run the interactive demo:
+
+1. Start the development server:
+   ```bash
+   npm run start
+   ```
+
+2. Open your browser and navigate to:
+   ```
+   http://localhost:8080/demo.html
+   ```
+
+The demo showcases Jspreadsheet CE features including:
+- Basic spreadsheet with different column types
+- Formula calculations and data manipulation
+- Interactive controls (add row, get data, clear data)
+- Advanced features with search and export functionality
+
+The demo uses the built library from `dist/` and demonstrates both programmatic initialization and interactive usage.
+
 ## Data Grid Examples
 
 - https://bossanova.uk/jspreadsheet/docs/examples/create-from-table

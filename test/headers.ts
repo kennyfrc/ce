@@ -28,7 +28,7 @@ describe('Use the headers method', () => {
         expect(headers[1].innerHTML).to.include('Produtos')
         expect(headers[2].innerHTML).to.include('B')
 
-        instance[0].setHeader(1, 'Quantidade')
+        instance[0]?.setHeader?.(1, 'Quantidade')
 
         expect(headers[1].innerHTML).to.include('Produtos')
         expect(headers[2].innerHTML).to.include('Quantidade')
@@ -114,12 +114,12 @@ describe('Use the headers method', () => {
         expect(headers[1].innerHTML).to.equal('Products')
         expect(headers[2].innerHTML).to.equal('B')
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(headers[1].innerHTML).to.equal('A')
         expect(headers[2].innerHTML).to.equal('B')
 
-        instance[0].redo()
+        instance[0]?.redo?.()
 
         expect(headers[1].innerHTML).to.equal('Products')
         expect(headers[2].innerHTML).to.equal('B')

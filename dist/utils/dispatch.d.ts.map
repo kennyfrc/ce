@@ -1,1 +1,1 @@
-{"version":3,"file":"dispatch.d.ts","sourceRoot":"","sources":["../../src/utils/dispatch.ts"],"names":[],"mappings":"AAgEA;;GAEG;AACH,QAAA,MAAM,QAAQ,GAAa,MAAM,GAAG,EAAE,OAAO,MAAM,EAAE,GAAG,MAAM,GAAG,EAAE,QA4DlE,CAAC;AAEF,eAAe,QAAQ,CAAC"}
+{"version":3,"file":"dispatch.d.ts","sourceRoot":"","sources":["../../src/utils/dispatch.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EACV,iBAAiB,EACjB,mBAAmB,EAGpB,MAAM,eAAe,CAAC;AA0EvB;;GAEG;AACH,QAAA,MAAM,QAAQ,GACZ,MAAM,iBAAiB,GAAG,mBAAmB,EAC7C,OAAO,MAAM,EACb,GAAG,MAAM,OAAO,EAAE,YAuDnB,CAAC;AAEF,eAAe,QAAQ,CAAC"}

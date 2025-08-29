@@ -27,19 +27,19 @@ describe('Use the redo method', () => {
         expect(secondRow.children[1].innerHTML).to.include('Testing')
         expect(secondRow.children[2].innerHTML).to.include('CE')
 
-        instance[0].setValueFromCoords(0, 0, 'New Value')
-        instance[0].setValueFromCoords(1, 0, 'TESTING')
+        instance[0]?.setValueFromCoords?.(0, 0, 'New Value')
+        instance[0]?.setValueFromCoords?.(1, 0, 'TESTING')
 
 
         expect(firstRow.children[1].innerHTML).to.include('New Value')
         expect(firstRow.children[2].innerHTML).to.include('TESTING')
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(firstRow.children[1].innerHTML).to.include('New Value')
         expect(firstRow.children[2].innerHTML).to.include('World')
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(firstRow.children[1].innerHTML).to.include('Hello')
         expect(firstRow.children[2].innerHTML).to.include('World')
@@ -69,29 +69,29 @@ describe('Use the redo method', () => {
         expect(secondRow.children[1].innerHTML).to.include('Testing')
         expect(secondRow.children[2].innerHTML).to.include('CE')
 
-        instance[0].setValueFromCoords(0, 0, 'New Value')
-        instance[0].setValueFromCoords(1, 0, 'TESTING')
+        instance[0]?.setValueFromCoords?.(0, 0, 'New Value')
+        instance[0]?.setValueFromCoords?.(1, 0, 'TESTING')
 
 
         expect(firstRow.children[1].innerHTML).to.include('New Value')
         expect(firstRow.children[2].innerHTML).to.include('TESTING')
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(firstRow.children[1].innerHTML).to.include('New Value')
         expect(firstRow.children[2].innerHTML).to.include('World')
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(firstRow.children[1].innerHTML).to.include('Hello')
         expect(firstRow.children[2].innerHTML).to.include('World')
 
-        instance[0].redo()
+        instance[0]?.redo?.()
 
         expect(firstRow.children[1].innerHTML).to.include('New Value')
         expect(firstRow.children[2].innerHTML).to.include('World')
 
-        instance[0].redo()
+        instance[0]?.redo?.()
 
         expect(firstRow.children[1].innerHTML).to.include('New Value')
         expect(firstRow.children[2].innerHTML).to.include('TESTING')

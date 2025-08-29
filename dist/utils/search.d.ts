@@ -1,9 +1,10 @@
+import type { SpreadsheetContext } from "../types/core";
 /**
  * Search
  */
-export declare const search: (this: any, query: string) => void;
+export declare const search: (this: SpreadsheetContext, query: string) => void;
 /**
  * Reset search
  */
-export declare const resetSearch: (this: any) => void;
+export declare const resetSearch: (this: SpreadsheetContext) => void;
 //# sourceMappingURL=search.d.ts.map

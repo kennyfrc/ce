@@ -1,1 +1,1 @@
-{"version":3,"file":"footer.d.ts","sourceRoot":"","sources":["../../src/utils/footer.ts"],"names":[],"mappings":"AAEA,eAAO,MAAM,SAAS,GAAa,MAAM,GAAG,EAAE,OAAO,GAAG,SAyDvD,CAAC"}
+{"version":3,"file":"footer.d.ts","sourceRoot":"","sources":["../../src/utils/footer.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,kBAAkB,EAAE,MAAM,eAAe,CAAC;AAExD,eAAO,MAAM,SAAS,GAAa,MAAM,kBAAkB,EAAE,OAAO,MAAM,EAAE,EAAE,SA0D7E,CAAC"}

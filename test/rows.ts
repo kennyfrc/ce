@@ -28,10 +28,11 @@ describe('Use the rows method', () => {
         expect(firstRow.children[3].innerHTML).to.include(3)
         
         
-        instance[0].deleteRow(0)
-        
-        table = root.querySelector('tbody')
-        rows = table.children
+        instance[0]?.deleteRow?.(0)
+
+        table = (globalThis as any).root.querySelector('tbody')
+        if (!table) throw new Error('Table not found');
+        rows = table.children;
         firstRow = rows[0]
         
         // Check that the value of the first row now is [4, 5, 6] since the first one got removed
@@ -65,10 +66,11 @@ describe('Use the rows method', () => {
         expect(firstRow.children[3].innerHTML).to.include(3)
         
         
-        instance[0].insertRow([9, 9, 9], 0, 1)
-        
-        table = root.querySelector('tbody')
-        rows = table.children
+        instance[0]?.insertRow?.([9, 9, 9], 0, true)
+
+        table = (globalThis as any).root.querySelector('tbody')
+        if (!table) throw new Error('Table not found');
+        rows = table.children;
         firstRow = rows[0]
         
         // Check that the value of the first row now is [9, 9, 9]
@@ -100,10 +102,11 @@ describe('Use the rows method', () => {
         expect(A1.innerHTML).to.include(1)
         expect(A2.innerHTML).to.include(4)
 
-        instance[0].moveRow(0, 1)
+        instance[0]?.moveRow?.(0, 1)
 
-        table = root.querySelector('tbody')
-        rows = table.children
+        table = (globalThis as any).root.querySelector('tbody')
+        if (!table) throw new Error('Table not found');
+        rows = table.children;
         firstRow = rows[0]
         secondRow = rows[1]
         A1 = firstRow.children[1]
@@ -133,19 +136,19 @@ describe('Use the rows method', () => {
         expect(rows[0].children[2].innerHTML).to.include(2)
         expect(rows[0].children[3].innerHTML).to.include(3)
 
-        instance[0].deleteRow(0)
+        instance[0]?.deleteRow?.(0)
 
         expect(rows[0].children[1].innerHTML).to.include(4)
         expect(rows[0].children[2].innerHTML).to.include(5)
         expect(rows[0].children[3].innerHTML).to.include(6)
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(1)
         expect(rows[0].children[2].innerHTML).to.include(2)
         expect(rows[0].children[3].innerHTML).to.include(3)
 
-        instance[0].redo()
+        instance[0]?.redo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(4)
         expect(rows[0].children[2].innerHTML).to.include(5)
@@ -172,19 +175,19 @@ describe('Use the rows method', () => {
         expect(rows[0].children[2].innerHTML).to.include(2)
         expect(rows[0].children[3].innerHTML).to.include(3)
 
-        instance[0].insertRow([9, 9, 9], 0, 1)
+        instance[0]?.insertRow?.([9, 9, 9], 0, true)
 
         expect(rows[0].children[1].innerHTML).to.include(9)
         expect(rows[0].children[2].innerHTML).to.include(9)
         expect(rows[0].children[3].innerHTML).to.include(9)
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(1)
         expect(rows[0].children[2].innerHTML).to.include(2)
         expect(rows[0].children[3].innerHTML).to.include(3)
 
-        instance[0].redo()
+        instance[0]?.redo?.()
 
         expect(rows[0].children[1].innerHTML).to.include(9)
         expect(rows[0].children[2].innerHTML).to.include(9)
@@ -208,17 +211,17 @@ describe('Use the rows method', () => {
         if (!table) throw new Error('Element not found');expect(table.children[0].children[1].innerHTML).to.include(1)
         expect(table.children[1].children[1].innerHTML).to.include(4)
 
-        instance[0].moveRow(0, 1)
+        instance[0]?.moveRow?.(0, 1)
 
         expect(table.children[0].children[1].innerHTML).to.include(4)
         expect(table.children[1].children[1].innerHTML).to.include(1)
 
-        instance[0].undo()
+        instance[0]?.undo?.()
 
         expect(table.children[0].children[1].innerHTML).to.include(1)
         expect(table.children[1].children[1].innerHTML).to.include(4)
 
-        instance[0].redo()
+        instance[0]?.redo?.()
 
         expect(table.children[0].children[1].innerHTML).to.include(4)
         expect(table.children[1].children[1].innerHTML).to.include(1)

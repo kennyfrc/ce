@@ -1,10 +1,12 @@
-declare const factory: {
+import type { SpreadsheetInstance, SpreadsheetOptions, WorksheetInstance } from "../types/core";
+interface Factory {
     (): void;
-    spreadsheet(this: any, el: any, options: any, worksheets: any): Promise<any>;
-    worksheet(this: any, spreadsheet: any, options: any, position: any): {
-        parent: any;
-        options: {};
+    spreadsheet(el: HTMLElement, options: SpreadsheetOptions, worksheets: WorksheetInstance[]): Promise<SpreadsheetInstance>;
+    worksheet(spreadsheet: SpreadsheetInstance, options: SpreadsheetOptions, position: number): {
+        parent: SpreadsheetInstance;
+        options: SpreadsheetOptions;
     };
-};
+}
+declare const factory: Factory;
 export default factory;
 //# sourceMappingURL=factory.d.ts.map

@@ -14,13 +14,13 @@ test("demo.html functionality test", async ({ page }) => {
   expect(spreadsheetLoaded).toBe(true);
 
   // Test 2: Check if basic spreadsheet elements are present
-  const spreadsheetElements = await page.$$eval(".jexcel", (elements) => {
+  const spreadsheetElements = await page.$$eval(".jss_spreadsheet", (elements) => {
     return elements.length > 0;
   });
   expect(spreadsheetElements).toBe(true);
 
   // Test 3: Test basic interaction - click on a cell
-  const firstCell = await page.$(".jexcel td");
+  const firstCell = await page.$(".jss_worksheet td");
   expect(firstCell).not.toBeNull();
 
   if (firstCell) {
@@ -29,7 +29,7 @@ test("demo.html functionality test", async ({ page }) => {
     // Check if cell gets focus (has editing class or attribute)
     const hasFocus = await page.evaluate(() => {
       const activeElement = document.activeElement;
-      return activeElement && activeElement.classList.contains("jexcel_cell");
+      return activeElement && activeElement.closest(".jss_worksheet") !== null;
     });
     expect(hasFocus).toBe(true);
   }
@@ -39,11 +39,11 @@ test("demo.html functionality test", async ({ page }) => {
   await page.keyboard.press("Enter");
 
   // Verify the value was entered
-  const cellValue = await page.$eval(".jexcel td", (cell) => cell.textContent);
+  const cellValue = await page.$eval(".jss_worksheet td", (cell) => cell.textContent);
   expect(cellValue).toBe("Test123");
 
   // Test 5: Check if toolbar functionality works
-  const toolbarButtons = await page.$$eval(".jspreadsheet-toolbar button", (buttons) => buttons.length);
+  const toolbarButtons = await page.$$eval(".jss_toolbar button", (buttons) => buttons.length);
   expect(toolbarButtons).toBeGreaterThan(0);
 
   // Test 6: Verify that external libraries (jSuites) are loaded

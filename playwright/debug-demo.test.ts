@@ -38,7 +38,7 @@ test("debug demo.html loading", async ({ page }) => {
   console.log("Spreadsheet 2 exists:", !!spreadsheet2);
 
   // Check for any jexcel elements
-  const jexcelElements = await page.$$(".jexcel");
+  const jexcelElements = await page.$$(".jss_spreadsheet");
   console.log("jexcel elements found:", jexcelElements.length);
 
   // Take a screenshot for debugging

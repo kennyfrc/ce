@@ -1,19 +1,20 @@
+import type { SpreadsheetContext } from "../types/core";
 /**
  * Get meta information from cell(s)
  *
- * @return integer
+ * @return unknown
  */
-export declare const getMeta: (this: any, cell: any, key: any) => any;
+export declare const getMeta: (this: SpreadsheetContext, cell?: string, key?: string) => unknown;
 /**
  * Update meta information
  *
- * @return integer
+ * @return void
  */
-export declare const updateMeta: (this: any, affectedCells: any) => void;
+export declare const updateMeta: (this: SpreadsheetContext, affectedCells: Record<string, string>) => void;
 /**
  * Set meta information to cell(s)
  *
- * @return integer
+ * @return void
  */
-export declare const setMeta: (this: any, o: any, k: any, v: any) => void;
+export declare const setMeta: (this: SpreadsheetContext, o: string | Record<string, Record<string, unknown>>, k?: string, v?: unknown) => void;
 //# sourceMappingURL=meta.d.ts.map
