@@ -10,6 +10,7 @@ import {
   SpreadsheetContext,
   WorksheetInstance,
   CellValue,
+  NestedHeader,
 } from "../types/core";
 import { updatePagination } from "./pagination";
 import { setFooter } from "./footer";
@@ -1061,7 +1062,7 @@ export const updateFormulaChain = function (
         ) as number[];
         // Update cell
         let cellValue = "";
-        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[cell[1]] && Array.isArray(obj.options.data[cell[1]]) && cell[0] < obj.options.data[cell[1]].length && obj.options.data[cell[1]][cell[0]] !== undefined) {
+        if (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[cell[1]] && Array.isArray(obj.options.data[cell[1]]) && typeof cell[0] === 'number' && cell[0] < (obj.options.data[cell[1]] as CellValue[]).length && (obj.options.data[cell[1]] as CellValue[])[cell[0]] !== undefined) {
           cellValue = "" + (obj.options.data[cell[1]] as CellValue[])[cell[0]];
         }
         if (cellValue.substr(0, 1) == "=") {
@@ -1481,11 +1482,17 @@ export const getCell = function (
     // Convert in case name is excel liked ex. A10, BB92
     const cell = getIdFromColumnName(x, true);
 
-    x = cell[0];
-    y = cell[1];
+    if (Array.isArray(cell) && cell.length >= 2) {
+      x = typeof cell[0] === 'number' ? cell[0] : parseInt(String(cell[0])) || 0;
+      y = typeof cell[1] === 'number' ? cell[1] : parseInt(String(cell[1])) || 0;
+    }
   }
 
-  return obj.records[y][x].element;
+  // Ensure x and y are numbers for indexing
+  const colIndex = typeof x === 'number' ? x : parseInt(String(x)) || 0;
+  const rowIndex = typeof y === 'number' ? y : parseInt(String(y)) || 0;
+
+  return obj.records[rowIndex][colIndex].element;
 };
 
 /**
@@ -1521,11 +1528,17 @@ export const getLabel = function (
     // Convert in case name is excel liked ex. A10, BB92
     const cell = getIdFromColumnName(x, true);
 
-    x = cell[0];
-    y = cell[1];
+    if (Array.isArray(cell) && cell.length >= 2) {
+      x = typeof cell[0] === 'number' ? cell[0] : parseInt(String(cell[0])) || 0;
+      y = typeof cell[1] === 'number' ? cell[1] : parseInt(String(cell[1])) || 0;
+    }
   }
 
-  return obj.records[y][x].element.innerHTML;
+  // Ensure x and y are numbers for indexing
+  const colIndex = typeof x === 'number' ? x : parseInt(String(x)) || 0;
+  const rowIndex = typeof y === 'number' ? y : parseInt(String(y)) || 0;
+
+  return obj.records[rowIndex][colIndex].element.innerHTML;
 };
 
 /**
@@ -1591,7 +1604,7 @@ export const createNestedHeader = function (
 
   tr.appendChild(td);
   // Element
-  nestedInformation.element = tr;
+  (nestedInformation as NestedHeader[] & { element: HTMLElement }).element = tr;
 
   let headerIndex = 0;
   for (let i = 0; i < nestedInformation.length; i++) {
@@ -1607,13 +1620,17 @@ export const createNestedHeader = function (
     }
 
     // Number of columns
-    let numberOfColumns = nestedInformation[i].colspan;
+    const colspanValue = nestedInformation[i].colspan;
+    let numberOfColumns: number = typeof colspanValue === 'number'
+      ? colspanValue
+      : parseInt(String(colspanValue || 1)) || 1;
 
     // Classes container
     const column = [];
     // Header classes for this cell
     for (let x = 0; x < numberOfColumns; x++) {
       if (
+        obj.options.columns &&
         obj.options.columns[headerIndex] &&
         obj.options.columns[headerIndex].type == "hidden"
       ) {
@@ -1626,10 +1643,12 @@ export const createNestedHeader = function (
     // Created the nested cell
     const td = document.createElement("td");
     td.setAttribute("data-column", column.join(","));
-    td.setAttribute("colspan", nestedInformation[i].colspan);
+    td.setAttribute("colspan", String(nestedInformation[i].colspan || 1));
     td.setAttribute("align", nestedInformation[i].align || "center");
-    td.setAttribute("id", nestedInformation[i].id);
-    td.textContent = nestedInformation[i].title;
+    if (nestedInformation[i].id) {
+      td.setAttribute("id", String(nestedInformation[i].id));
+    }
+    td.textContent = nestedInformation[i].title || "";
     tr.appendChild(td);
   }
 

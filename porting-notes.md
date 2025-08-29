@@ -73,6 +73,28 @@
   - Complex history replay logic requires careful type checking at each step
 - Next: Continue with remaining pending tasks (internal.ts data shape unions, rows.ts optional method calls, filter.ts dropdown options)
 
+### Snapshot: 2025-08-30T02:25:00Z — internal.ts data shape unions and missing types completed: Fixed complex data indexing and union handling
+
+- TypeScript errors (tsconfig.test.json --noEmit): 258 (stable, internal.ts errors eliminated)
+- Explicit any count (find-any-types): 0 (maintained)
+- Changes: Fixed all TypeScript errors in src/utils/internal.ts:
+  - Added NestedHeader import from src/types/core.ts to resolve TS2304
+  - Fixed data shape union indexing with Array.isArray guards and proper type assertions
+  - Added runtime type guards for getIdFromColumnName results to handle string/number conversion
+  - Fixed colspan type conversion from string | number | undefined to number with proper fallbacks
+  - Added null-safety guards for obj.options.columns access before indexing
+  - Fixed NestedHeader element property assignment with intersection type casting
+  - Resolved all TS7053, TS2304, TS2322, TS7015, TS2365, TS18048, and TS2356 errors
+- Learnings:
+  - Missing type imports cause cascading TS2304 errors that affect multiple function calls
+  - Data shape unions require consistent Array.isArray guards before all indexing operations
+  - getIdFromColumnName return type ambiguity requires explicit type guards and conversions
+  - colspan properties need robust type conversion from union types to numbers
+  - NestedHeader interface augmentation requires intersection types for runtime properties
+  - Null-safety guards prevent runtime errors while satisfying strict TypeScript checks
+  - Complex data structures benefit from explicit type narrowing at each access point
+- Next: Continue with remaining pending tasks (rows.ts optional method calls, filter.ts dropdown options, footer.ts CellValue conversion)
+
 - TypeScript errors (tsconfig.test.json --noEmit): 333 (down from 366, 33 errors fixed)
 - Explicit any count (find-any-types): 0 (maintained)
 - Changes: Fixed major hotspots lazyLoading.ts and pagination.ts:
