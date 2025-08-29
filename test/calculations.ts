@@ -2,6 +2,9 @@ import { expect } from "chai";
 
 import jspreadsheet from "../src/index";
 
+// Global test environment variables are declared in test/global.d.ts
+declare const root: HTMLDivElement;
+
 describe("Calculations", () => {
   it("Testing formula chain", () => {
     let test = jspreadsheet(root, {

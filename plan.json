@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "currentBranch": "ts2",
+    "updatedAt": "2025-08-29T23:30:00Z"
+  },
+  "tasks": [
+    {
+      "id": "ts-zero-20250829-0001",
+      "name": "Fix test/merges.ts syntax and configuration issues",
+      "description": "Resolve global root variable conflicts and type issues in test/merges.ts",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "test/merges.ts",
+        "test/global.d.ts",
+        "tsconfig.test.json"
+      ],
+      "fileHints": [
+        {
+          "path": "test/merges.ts",
+          "lineStart": 1,
+          "lineEnd": 10
+        }
+      ],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "test",
+        "types",
+        "configuration"
+      ],
+      "acceptanceCriteria": [
+        "No TypeScript syntax errors in test/merges.ts",
+        "Global root variable properly accessible",
+        "jspreadsheet calls properly typed"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T22:00:00Z",
+      "updatedAt": "2025-08-29T22:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250829-0002",
+      "name": "Add optional chaining to test file method calls",
+      "description": "Fix TS2722 errors by adding optional chaining to SpreadsheetContext method calls in test files",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "test/paste.ts",
+        "test/rows.ts",
+        "test/headers.ts",
+        "test/columns.ts",
+        "test/meta.ts",
+        "test/redo.ts"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "test",
+        "types",
+        "optional-chaining"
+      ],
+      "acceptanceCriteria": [
+        "All TS2722 'possibly undefined' errors resolved",
+        "Test files use proper optional chaining for SpreadsheetContext methods"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T22:00:00Z",
+      "updatedAt": "2025-08-29T22:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250829-0003",
+      "name": "Fix type mismatches in test files",
+      "description": "Resolve TS2345 argument type mismatches and TS18047 null checks in test files",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "test/rows.ts",
+        "src/types/core.ts"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "test",
+        "types",
+        "type-mismatches"
+      ],
+      "acceptanceCriteria": [
+        "All TS2345 and TS18047 errors resolved",
+        "Method signatures match runtime usage"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T22:00:00Z",
+      "updatedAt": "2025-08-29T22:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250829-0004",
+      "name": "Validate zero TypeScript errors achievement",
+      "description": "Run final verification that all TypeScript errors are resolved with strict settings",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.test.json",
+        "tsconfig.json"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "validation",
+        "zero-errors"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit returns exit code 0",
+        "No TypeScript errors in src/ or test/ directories",
+        "CI gates pass with zero any types maintained"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T22:00:00Z",
+      "updatedAt": "2025-08-29T22:00:00Z"
+    },
+    {
+      "id": "ts-zero-20250829-0005",
+      "name": "Program completion: Zero TypeScript errors achieved",
+      "description": "Successfully reached zero TypeScript errors with strict settings and maintained zero explicit any types",
+      "phase": 6,
+      "state": "completed",
+      "candidateFiles": [
+        "tsconfig.test.json",
+        "test/merges.ts",
+        "test/calculations.ts"
+      ],
+      "fileHints": [],
+      "owners": [
+        "@team/types"
+      ],
+      "labels": [
+        "completion",
+        "zero-errors",
+        "success"
+      ],
+      "acceptanceCriteria": [
+        "npx tsc -p tsconfig.test.json --noEmit returns exit code 0",
+        "Zero explicit any types in codebase",
+        "All test file global variable issues resolved"
+      ],
+      "links": [],
+      "createdAt": "2025-08-29T23:30:00Z",
+      "updatedAt": "2025-08-29T23:30:00Z"
+    }
+  ]
+}

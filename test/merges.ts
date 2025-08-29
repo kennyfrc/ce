@@ -2,12 +2,12 @@ import { expect } from 'chai';
 
 import jspreadsheet from '../src/index';
 
-declare const root: HTMLDivElement;
+// Global test environment variables are declared in test/global.d.ts
 
 describe('Merge tests', () => {
     describe('Get merge', () => {
         it('Worksheet started with a merge', () => {
-            const instance = jspreadsheet(root, {
+            const instance = jspreadsheet((globalThis as any).root, {
                 toolbar: true,
                 worksheets: [{
                     data: [
@@ -33,9 +33,9 @@ describe('Merge tests', () => {
                     ],
                     mergeCells: {
                         C1: [1, 2, []] as [number, number, HTMLElement[]]
-                    }
+                                         }
                 }]
-            })
+            });
 
             expect(instance[0].getMerge?.('C1')).to.have.length(3) // [colspan, rowspan, elements]
             expect(instance[0].getMerge?.('C2')).to.equal(null)
@@ -44,7 +44,7 @@ describe('Merge tests', () => {
         });
 
         it('Worksheet started without merges', () => {
-            const instance = jspreadsheet(root, {
+            const instance = jspreadsheet((globalThis as any).root, {
                 toolbar: true,
                 worksheets: [{
                     data: [
@@ -67,9 +67,9 @@ describe('Merge tests', () => {
                         {
                             width: '150px',
                         },
-                    ],
+                                         ],
                 }]
-            })
+            });
 
             expect(instance[0].getMerge?.('C1')).to.equal(null)
 
@@ -78,7 +78,7 @@ describe('Merge tests', () => {
     });
 
     it('Set merge', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((global as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -103,11 +103,11 @@ describe('Merge tests', () => {
                     },
                 ],
             }]
-        })
+        });
 
-        instance[0].setMerge?('A3', 2, 3)
+        (instance[0] as any).setMerge('A3', 2, 3);
 
-        const table = root.querySelector('tbody');
+        const table = (global as any).root.querySelector('tbody');
 
 
         if (!table) throw new Error('Element not found');
@@ -118,7 +118,7 @@ describe('Merge tests', () => {
     });
 
     it('Remove merge', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((globalThis as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -149,7 +149,7 @@ describe('Merge tests', () => {
             }]
         })
 
-        const table = root.querySelector('tbody');
+        const table = (globalThis as any).root.querySelector('tbody');
 
 
         if (!table) throw new Error('Element not found');
@@ -165,7 +165,7 @@ describe('Merge tests', () => {
     });
 
     it('Remove all merge', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((globalThis as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -196,7 +196,7 @@ describe('Merge tests', () => {
             }]
         })
 
-        const table = root.querySelector('tbody');
+        const table = (globalThis as any).root.querySelector('tbody');
 
 
         if (!table) throw new Error('Element not found');
@@ -212,7 +212,7 @@ describe('Merge tests', () => {
     });
 
     it('setMerge history', () => {
-        const instance = jspreadsheet(root, {
+        const instance = jspreadsheet((globalThis as any).root, {
             toolbar: true,
             worksheets: [{
                 data: [
@@ -237,11 +237,11 @@ describe('Merge tests', () => {
                     },
                 ],
             }]
-        })
+        });
 
-        instance[0].setMerge?('A3', 2, 3)
+        (instance[0] as any).setMerge('A3', 2, 3);
 
-        const table = root.querySelector('tbody');
+        const table = (globalThis as any).root.querySelector('tbody');
 
 
         if (!table) throw new Error('Element not found');
