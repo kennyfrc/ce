@@ -22,12 +22,12 @@ describe('Use the columns method', () => {
         expect(rows[0].children[1].innerHTML).to.include(9)
 
         // Insert [3, 3] column in the first column
-        instance[0].insertColumn([3, 3], 0, 1)
+        instance[0].insertColumn?.([3, 3], 0, true)
 
         expect(rows[0].children[1].innerHTML).to.include(3)
 
         // Insert [2, 2] column in the first column
-        instance[0].insertColumn([2, 2], 0, 1)
+        instance[0].insertColumn?.([2, 2], 0, true)
 
         expect(rows[0].children[1].innerHTML).to.include(2)
     });
@@ -51,13 +51,13 @@ describe('Use the columns method', () => {
         expect(rows[0].children[2].innerHTML).to.include(9)
 
         // Insert [3, 3] column in the second column
-        instance[0].insertColumn([3, 3], 0)
+        instance[0].insertColumn?.([3, 3], 0)
 
         expect(rows[0].children[1].innerHTML).to.include(9)
         expect(rows[0].children[2].innerHTML).to.include(3)
 
         // Insert [2, 2] column in the second column
-        instance[0].insertColumn([2, 2], 0)
+        instance[0].insertColumn?.([2, 2], 0)
 
         expect(rows[0].children[1].innerHTML).to.include(9)
         expect(rows[0].children[2].innerHTML).to.include(2)
@@ -187,7 +187,7 @@ describe('Use the columns method', () => {
         expect(rows[0].children[1].innerHTML).to.include(9)
 
         // Insert [3, 3] column in the first column
-        instance[0].insertColumn([3, 3], 0, 1)
+        instance[0].insertColumn?.([3, 3], 0, true)
 
         expect(rows[0].children[1].innerHTML).to.include(3)
 

@@ -136,6 +136,8 @@ export interface SpreadsheetContext {
   insertColumn?: (mixed?: number | CellValue[], columnNumber?: number, insertBefore?: boolean, properties?: ColumnDefinition[]) => boolean | void;
   deleteColumn?: (index: number) => void;
   getValue?: (cell: string, processedValue?: boolean) => string | number | boolean | null;
+  getValueFromCoords?: (x: number, y: number, processedValue?: boolean) => string | number | boolean | null;
+  setValueFromCoords?: (x: number, y: number, value: CellValue, force?: boolean) => void;
   undo?: () => void;
   redo?: () => void;
   download?: (filename?: string, format?: string) => void;
@@ -196,6 +198,7 @@ export interface SpreadsheetContext {
   selectedRow?: number | boolean | null;
   setHeader?: (column: number, header?: string) => void;
   setComments?: (cellId: string | Record<string, string>, comments?: string) => void;
+  getComments?: (cellParam?: string) => string | Record<string, string>;
   getHeader?: (column: number) => string;
   search?: (query: string) => void;
   resetSearch?: () => void;

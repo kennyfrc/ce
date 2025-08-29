@@ -28,11 +28,11 @@ describe('Comment tests', () => {
 
         if (!table) throw new Error('Element not found');const rows = table.children
 
-        instance[0].setComments('C2', 'Test')
+        instance[0].setComments?.('C2', 'Test')
 
         expect(rows[1].children[3].getAttribute('title')).to.equal('Test')
 
-        instance[0].setComments('C2', '')
+        instance[0].setComments?.('C2', '')
 
         expect(rows[1].children[3].getAttribute('title')).to.equal('')
     });
@@ -57,9 +57,9 @@ describe('Comment tests', () => {
             ],
         })
 
-        instance[0].setComments('B3', 'something')
+        instance[0].setComments?.('B3', 'something')
 
-        expect(instance[0].getComments('B3')).to.equal('something')
+        expect(instance[0].getComments?.('B3')).to.equal('something')
     });
 
     it('setComments history', () => {
@@ -87,15 +87,15 @@ describe('Comment tests', () => {
 
         if (!table) throw new Error('Element not found');const rows = table.children
 
-        instance[0].setComments('C2', 'Test')
+        instance[0].setComments?.('C2', 'Test')
 
         expect(rows[1].children[3].getAttribute('title')).to.equal('Test')
 
-        instance[0].undo()
+        instance[0].undo?.()
 
         expect(rows[1].children[3].getAttribute('title')).to.equal('')
 
-        instance[0].redo()
+        instance[0].redo?.()
 
         expect(rows[1].children[3].getAttribute('title')).to.equal('Test')
     });
