@@ -303,6 +303,8 @@ src/utils/factory.ts(148,13): error TS7053: Element implicitly has an 'any' type
   No index signature with a parameter of type 'string' was found on type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
 src/utils/factory.ts(148,36): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
   No index signature with a parameter of type 'number' was found on type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[]'.
+src/utils/factory.ts(187,5): error TS2322: Type 'Partial<SpreadsheetOptions> | undefined' is not assignable to type 'SpreadsheetOptions'.
+  Type 'undefined' is not assignable to type 'SpreadsheetOptions'.
 src/utils/factory.ts(190,5): error TS18047: 'el.parentNode' is possibly 'null'.
 src/utils/factory.ts(195,7): error TS2740: Type '{ worksheets: SpreadsheetContext[]; config: SpreadsheetOptions; element: HTMLElement; el: HTMLElement; }' is missing the following properties from type 'SpreadsheetInstance': options, headers, rows, tbody, and 4 more.
 src/utils/factory.ts(236,9): error TS2684: The 'this' context of type 'void' is not assignable to method's 'this' of type 'SpreadsheetContext'.
@@ -311,6 +313,40 @@ src/utils/factory.ts(281,33): error TS2345: Argument of type '{ parent: Spreadsh
   Type '{ parent: SpreadsheetInstance; options: {}; }' is missing the following properties from type 'SpreadsheetContext': headers, rows, element, config, and 5 more.
 src/utils/factory.ts(283,48): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: {}; }' is not assignable to parameter of type 'SpreadsheetContext'.
   Type '{ parent: SpreadsheetInstance; options: {}; }' is missing the following properties from type 'SpreadsheetContext': headers, rows, element, config, and 5 more.
+src/utils/helpers.ts(194,32): error TS7030: Not all code paths return a value.
+src/utils/helpers.ts(235,12): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(235,12): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(236,9): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(236,9): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(239,9): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(239,9): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(239,9): error TS2322: Type 'string | null' is not assignable to type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined'.
+  Type 'null' is not assignable to type '"text" | "numeric" | "calendar" | "dropdown" | "checkbox" | "color" | "hidden" | "radio" | "image" | "html" | { createCell?: ((element: HTMLElement, value: CellValue, x: number, y: number, worksheet: SpreadsheetContext, column: ColumnDefinition) => void) | undefined; } | undefined'.
+src/utils/helpers.ts(241,9): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(241,9): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(243,7): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(243,7): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(244,7): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(244,7): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(246,9): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(246,9): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(246,9): error TS2322: Type 'string' is not assignable to type '"left" | "center" | "right" | undefined'.
+src/utils/helpers.ts(251,9): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(251,9): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(254,9): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(254,9): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(257,9): error TS18048: 'options' is possibly 'undefined'.
+src/utils/helpers.ts(257,9): error TS18048: 'options.columns' is possibly 'undefined'.
+src/utils/helpers.ts(314,13): error TS2721: Cannot invoke an object which is possibly 'null'.
+src/utils/helpers.ts(314,37): error TS2349: This expression is not callable.
+  Not all constituents of type 'string | number | boolean | ((...items: CellValue[]) => number)' are callable.
+    Type 'string' has no call signatures.
+src/utils/helpers.ts(376,7): error TS2322: Type 'Record<string, string>' is not assignable to type 'Record<string, number | CSSStyleDeclaration> | CSSStyleDeclaration[] | undefined'.
+  Type 'Record<string, string>' is missing the following properties from type 'CSSStyleDeclaration[]': length, pop, push, concat, and 28 more.
+src/utils/helpers.ts(413,9): error TS2322: Type 'never[]' is not assignable to type 'Record<string, number>'.
+  Index signature for type 'string' is missing in type 'never[]'.
+src/utils/helpers.ts(415,25): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'CellValue[] | Record<string, CellValue>'.
+  No index signature with a parameter of type 'number' was found on type 'CellValue[] | Record<string, CellValue>'.
 src/utils/history.ts(47,21): error TS18048: 'obj.historyIndex' is possibly 'undefined'.
 src/utils/history.ts(50,33): error TS18048: 'obj.history' is possibly 'undefined'.
 src/utils/history.ts(64,7): error TS18048: 'historyRecord.rowNumber' is possibly 'undefined'.
@@ -1224,75 +1260,78 @@ src/utils/toolbar.ts(597,29): error TS2345: Argument of type '(cellName: string)
 src/utils/toolbar.ts(604,15): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 src/utils/toolbar.ts(608,25): error TS2339: Property 'open' does not exist on type 'never'.
 src/utils/toolbar.ts(658,5): error TS18048: 'worksheet.parent.toolbar.toolbar' is possibly 'undefined'.
-src/utils/worksheets.ts(86,5): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'SpreadsheetContext'.
+src/utils/worksheets.ts(93,5): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'SpreadsheetContext'.
   No index signature with a parameter of type 'string' was found on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(125,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/worksheets.ts(132,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
-src/utils/worksheets.ts(132,5): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
-src/utils/worksheets.ts(134,35): error TS2339: Property 'length' does not exist on type '{}'.
-src/utils/worksheets.ts(139,46): error TS2339: Property 'value' does not exist on type 'GlobalEventHandlers'.
-src/utils/worksheets.ts(140,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/worksheets.ts(143,55): error TS2339: Property 'length' does not exist on type '{}'.
-src/utils/worksheets.ts(145,20): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+src/utils/worksheets.ts(132,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(139,5): error TS18048: 'obj.options.pagination' is possibly 'undefined'.
+src/utils/worksheets.ts(139,5): error TS2365: Operator '>' cannot be applied to types 'number | boolean' and 'number'.
+src/utils/worksheets.ts(141,35): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/worksheets.ts(146,46): error TS2339: Property 'value' does not exist on type 'GlobalEventHandlers'.
+src/utils/worksheets.ts(147,7): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(150,55): error TS2339: Property 'length' does not exist on type '{}'.
+src/utils/worksheets.ts(152,20): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
   No index signature with a parameter of type 'number' was found on type '{}'.
-src/utils/worksheets.ts(146,24): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
+src/utils/worksheets.ts(153,24): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type '{}'.
   No index signature with a parameter of type 'number' was found on type '{}'.
-src/utils/worksheets.ts(151,5): error TS2322: Type 'number | boolean | undefined' is not assignable to type 'string'.
+src/utils/worksheets.ts(158,5): error TS2322: Type 'number | boolean | undefined' is not assignable to type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/worksheets.ts(212,25): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/worksheets.ts(217,11): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/worksheets.ts(252,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(253,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(254,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(255,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(256,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(261,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(262,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(267,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(274,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(275,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(278,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(279,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(283,9): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(294,31): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(297,31): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(298,31): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(307,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/worksheets.ts(308,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(219,25): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(224,11): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(259,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(260,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(261,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(262,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(263,7): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(268,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(269,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(274,7): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(281,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(282,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(285,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(286,7): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(290,9): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(301,31): error TS2339: Property 'textarea' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(304,31): error TS2339: Property 'pagination' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(305,31): error TS2339: Property 'ads' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(314,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
 src/utils/worksheets.ts(315,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/worksheets.ts(343,7): error TS2551: Property 'setData' does not exist on type 'SpreadsheetContext'. Did you mean 'getData'?
-src/utils/worksheets.ts(347,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/worksheets.ts(347,37): error TS2554: Expected 1 arguments, but got 5.
-src/utils/worksheets.ts(356,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
-src/utils/worksheets.ts(361,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
-src/utils/worksheets.ts(361,9): error TS2554: Expected 2 arguments, but got 1.
-src/utils/worksheets.ts(369,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
-src/utils/worksheets.ts(370,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+src/utils/worksheets.ts(322,25): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(350,7): error TS2551: Property 'setData' does not exist on type 'SpreadsheetContext'. Did you mean 'getData'?
+src/utils/worksheets.ts(354,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(354,37): error TS2554: Expected 1 arguments, but got 5.
+src/utils/worksheets.ts(363,18): error TS2551: Property 'getStyle' does not exist on type 'SpreadsheetContext'. Did you mean 'setStyle'?
+src/utils/worksheets.ts(368,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/utils/worksheets.ts(368,9): error TS2554: Expected 2 arguments, but got 1.
+src/utils/worksheets.ts(376,19): error TS7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+src/utils/worksheets.ts(377,9): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
   No index signature with a parameter of type 'string' was found on type '{}'.
-src/utils/worksheets.ts(453,18): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/worksheets.ts(453,43): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(454,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/worksheets.ts(454,40): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(458,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
-src/utils/worksheets.ts(458,15): error TS2571: Object is of type 'unknown'.
-src/utils/worksheets.ts(458,40): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
-src/utils/worksheets.ts(488,7): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/worksheets.ts(460,18): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(460,43): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(461,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(461,40): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(465,15): error TS18048: 'obj.options.columns' is possibly 'undefined'.
+src/utils/worksheets.ts(465,15): error TS2571: Object is of type 'unknown'.
+src/utils/worksheets.ts(465,40): error TS2339: Property 'index' does not exist on type 'SpreadsheetContext'.
+src/utils/worksheets.ts(477,18): error TS2345: Argument of type '{ url: unknown; success: (this: SpreadsheetContext) => void; }' is not assignable to parameter of type 'AjaxOptions'.
+  Types of property 'url' are incompatible.
+    Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(495,7): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
   Type 'undefined' is not assignable to type 'string'.
-src/utils/worksheets.ts(525,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
-src/utils/worksheets.ts(528,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
+src/utils/worksheets.ts(532,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(535,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
   Types of parameters 'result' and 'data' are incompatible.
     Type 'unknown' is not assignable to type 'string'.
-src/utils/worksheets.ts(566,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
-src/utils/worksheets.ts(569,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
+src/utils/worksheets.ts(573,9): error TS2322: Type 'unknown' is not assignable to type 'string'.
+src/utils/worksheets.ts(576,9): error TS2322: Type '(result: string) => void' is not assignable to type '(data: unknown) => void'.
   Types of parameters 'result' and 'data' are incompatible.
     Type 'unknown' is not assignable to type 'string'.
-src/utils/worksheets.ts(571,37): error TS2339: Property 'data' does not exist on type 'string'.
-src/utils/worksheets.ts(571,51): error TS2339: Property 'data' does not exist on type 'string'.
-src/utils/worksheets.ts(620,3): error TS18048: 'spreadsheet.config.worksheets' is possibly 'undefined'.
-src/utils/worksheets.ts(621,31): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: any; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is not assignable to parameter of type 'SpreadsheetContext'.
-  Type '{ parent: SpreadsheetInstance; options: any; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is missing the following properties from type 'SpreadsheetContext': headers, rows, element, config, and 5 more.
-src/utils/worksheets.ts(704,63): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'boolean'.
-src/utils/worksheets.ts(796,32): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'Event'.
+src/utils/worksheets.ts(578,37): error TS2339: Property 'data' does not exist on type 'string'.
+src/utils/worksheets.ts(578,51): error TS2339: Property 'data' does not exist on type 'string'.
+src/utils/worksheets.ts(627,3): error TS18048: 'spreadsheet.config.worksheets' is possibly 'undefined'.
+src/utils/worksheets.ts(628,31): error TS2345: Argument of type '{ parent: SpreadsheetInstance; options: SpreadsheetOptions; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is not assignable to parameter of type 'SpreadsheetContext'.
+  Type '{ parent: SpreadsheetInstance; options: SpreadsheetOptions; filters: never[]; formula: never[]; history: never[]; selection: never[]; historyIndex: number; }' is missing the following properties from type 'SpreadsheetContext': headers, rows, element, config, and 5 more.
+src/utils/worksheets.ts(711,63): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'boolean'.
+src/utils/worksheets.ts(803,32): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'Event'.
 src/webcomponent.ts(48,7): error TS2740: Type 'ShadowRoot' is missing the following properties from type 'HTMLElement': accessKey, accessKeyLabel, autocapitalize, autocorrect, and 250 more.
 test/calculations.ts(21,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
 test/calculations.ts(22,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.

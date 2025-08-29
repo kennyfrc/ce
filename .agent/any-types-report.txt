@@ -1,28 +1,6 @@
-Any Types Analysis Report - 2025-08-29T04:19:03.809Z
-Total any types: 82
-Files with any types: 20
-
-src/utils/columns.ts: 9 any types
-  Line 121: mixed?: number | any[],
-  Line 124: properties?: any
-  Line 224: "This action will destroy any existing merged cells. Are you sure?"
-  Line 249: const historyColgroup: any[] = [];
-  Line 250: const historyRecords: any[] = [];
-  Line 251: const historyData: any[] = [];
-  Line 252: const historyFooters: any[][] = [];
-  Line 443: "This action will destroy any existing merged cells. Are you sure?"
-  Line 628: "This action will destroy any existing merged cells. Are you sure?"
-
-src/utils/helpers.ts: 9 any types
-  Line 6: export const getCaretIndex = function (this: any, e: HTMLElement) {
-  Line 31: export const invert = function (o: Record<string, any>) {
-  Line 120: const arr: any[][] = [];
-  Line 187: export const createFromTable = function (el: HTMLElement, options?: any) {
-  Line 279: const mergeCells: Record<string, any> = {};
-  Line 280: const rows: Record<string, any> = {};
-  Line 281: const style: Record<string, any> = {};
-  Line 282: const classes: Record<string, any> = {};
-  Line 402: const pattern: Record<string, any>[] = [];
+Any Types Analysis Report - 2025-08-29T04:37:56.015Z
+Total any types: 67
+Files with any types: 19
 
 src/utils/copyPaste.ts: 7 any types
   Line 311: const arrayB = data.map(function (row: any[], i: number) {
@@ -89,6 +67,11 @@ src/utils/config.ts: 4 any types
   Line 10: export const getSpreadsheetConfig = function (this: any) {
   Line 17: this: any,
   Line 18: config: any,
+
+src/utils/columns.ts: 3 any types
+  Line 224: "This action will destroy any existing merged cells. Are you sure?"
+  Line 443: "This action will destroy any existing merged cells. Are you sure?"
+  Line 628: "This action will destroy any existing merged cells. Are you sure?"
 
 src/utils/rows.ts: 3 any types
   Line 181: "This action will destroy any existing merged cells. Are you sure?"

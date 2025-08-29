@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T04:30:05Z"
+    "updatedAt": "2025-08-29T04:36:26Z"
   },
   "tasks": [
     {
@@ -2943,6 +2943,30 @@
       ],
       "createdAt": "2025-08-29T03:06:46Z",
       "updatedAt": "2025-08-29T04:30:05Z"
+    },
+    {
+      "id": "ts-assist-20250829-0001",
+      "name": "events: alias libraryBase.jspreadsheet.current to local current and add guards",
+      "description": "Alias libraryBase.jspreadsheet.current to a local const inside hot functions in src/utils/events.ts and add null/undefined guards to enable narrowing and reduce TS18047 diagnostics.",
+      "phase": 3,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/events.ts"
+      ],
+      "owners": [
+        "@assistant",
+        "@team/types"
+      ],
+      "labels": [
+        "hotspot",
+        "events"
+      ],
+      "acceptanceCriteria": [
+        "No repeated libraryBase.jspreadsheet.current accesses in targeted hotspots",
+        "Reduce TS18047 diagnostics in events.ts by introducing local alias and guards"
+      ],
+      "createdAt": "2025-08-29T04:34:19Z",
+      "updatedAt": "2025-08-29T04:36:07Z"
     }
   ]
 }

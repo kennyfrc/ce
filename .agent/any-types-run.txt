@@ -1,30 +1,6 @@
 Analyzing any types in TypeScript files...
 
-Found 104 any types across 22 files:
-
-src/utils/toolbar.ts: 11 any types
-  Line 516: onclick: function (a: any, b: any, c: any) {
-  Line 516: onclick: function (a: any, b: any, c: any) {
-  Line 516: onclick: function (a: any, b: any, c: any) {
-  ... and 8 more
-
-src/utils/worksheets.ts: 10 any types
-  Line 475: } as any);
-  Line 509: const typedPlugin = plugin as any;
-  Line 590: const typedPlugin = plugin as any;
-  ... and 7 more
-
-src/utils/columns.ts: 9 any types
-  Line 121: mixed?: number | any[],
-  Line 124: properties?: any
-  Line 224: "This action will destroy any existing merged cells. Are you sure?"
-  ... and 6 more
-
-src/utils/helpers.ts: 9 any types
-  Line 6: export const getCaretIndex = function (this: any, e: HTMLElement) {
-  Line 31: export const invert = function (o: Record<string, any>) {
-  Line 120: const arr: any[][] = [];
-  ... and 6 more
+Found 67 any types across 19 files:
 
 src/utils/copyPaste.ts: 7 any types
   Line 311: const arrayB = data.map(function (row: any[], i: number) {
@@ -80,10 +56,10 @@ src/utils/config.ts: 4 any types
   Line 17: this: any,
   ... and 1 more
 
-src/utils/merges.ts: 3 any types
-  Line 146: alert((jSuites as any).translate("No cells selected"));
-  Line 187: alert((jSuites as any).translate(test));
-  Line 253: data: any,
+src/utils/columns.ts: 3 any types
+  Line 224: "This action will destroy any existing merged cells. Are you sure?"
+  Line 443: "This action will destroy any existing merged cells. Are you sure?"
+  Line 628: "This action will destroy any existing merged cells. Are you sure?"
 
 src/utils/rows.ts: 3 any types
   Line 181: "This action will destroy any existing merged cells. Are you sure?"
@@ -106,6 +82,10 @@ src/utils/internalHelpers.ts: 2 any types
   Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
   Line 6: export const injectArray = function (o: any[], idx: number, arr: any[]) {
 
+src/utils/merges.ts: 2 any types
+  Line 146: alert((jSuites as any).translate("No cells selected"));
+  Line 187: alert((jSuites as any).translate(test));
+
 src/utils/columnHelpers.ts: 1 any types
   Line 66: ): any | undefined {
 
@@ -116,6 +96,6 @@ src/utils/selection.ts: 1 any types
   Line 182: origin?: any
 
 
-Total any types found: 104
+Total any types found: 67
 
 Detailed report written to: /Users/kennyfrc/.worktrees/ts2/.agent/any-types-report.txt

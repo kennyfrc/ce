@@ -1,3 +1,13 @@
+### Snapshot: 2025-08-29T04:36:30Z — events.ts alias pass (assistant)
+
+- TypeScript errors (tsconfig.test.json --noEmit): 1382 (saved to .agent/ts-errors-run-2.txt)
+- Explicit any count (find-any-types): 67 (saved to .agent/any-types-run-2.txt)
+- Changes: patched src/utils/events.ts to alias libraryBase.jspreadsheet.current in touchStartControls to enable narrowing and reduce repeated property access.
+- Learnings:
+
+- Local aliasing reduces repeated global property access and enables safer null/undefined narrowing, but did not measurably reduce global tsc diagnostics alone; remaining hotspots require similar edits and core type reconciliation.
+- Next: apply alias-and-guard edits to other hotspots in events.ts and reconcile WorksheetInstance/SpreadsheetContext shapes in src/types/core.ts.
+
 ### Snapshot: 2025-08-29T04:01:56Z — Baseline run (assistant)
 
 - TypeScript errors (tsconfig.test.json --noEmit): 1350 (saved to .agent/ts-errors-run.txt)
