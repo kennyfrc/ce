@@ -208,6 +208,7 @@ export interface SpreadsheetContext {
   setComments?: (cellId: string | Record<string, string>, comments?: string) => void;
   getComments?: (cellParam?: string) => string | Record<string, string>;
   getHeader?: (column: number) => string;
+  getHeaders?: (asArray?: boolean) => string[] | string;
   search?: (query: string) => void;
   resetSearch?: () => void;
   moveRow?: (from: number, to: number) => void;

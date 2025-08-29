@@ -54,7 +54,7 @@ import { destroyMerge, getMerge, removeMerge, setMerge } from "./merges";
 import { resetSearch, search } from "./search";
 import { getHeader, getHeaders, setHeader } from "./headers";
 import { getStyle, resetStyle, setStyle } from "./style";
-import { page, quantiyOfPages, whichPage } from "./pagination";
+import { page, quantityOfPages, whichPage } from "./pagination";
 import { download } from "./download";
 import { down, first, last, left, right, up } from "./keys";
 import {
@@ -90,7 +90,7 @@ const setWorksheetFunctions = function (worksheet: WorksheetInstance) {
   for (let i = 0; i < worksheetPublicMethodsLength; i++) {
     const [methodName, method] = worksheetPublicMethods[i] as [string, Function];
 
-    (worksheet as Record<string, unknown>)[methodName] = method.bind(worksheet);
+    (worksheet as unknown as Record<string, unknown>)[methodName] = method.bind(worksheet);
   }
 };
 
@@ -682,7 +682,7 @@ export const createWorksheetObj = function (
     spreadsheet.config.worksheets = [];
   }
   spreadsheet.config.worksheets.push(newWorksheet.options);
-  spreadsheet.worksheets.push(newWorksheet as WorksheetInstance);
+     spreadsheet.worksheets.push(newWorksheet as unknown as WorksheetInstance);
 
   return newWorksheet;
 };

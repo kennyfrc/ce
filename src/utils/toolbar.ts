@@ -619,7 +619,7 @@ const adjustToolbarSettingsForJSuites = function (
           });
 
           if (target.color?.open) {
-            target.color.open();
+            (target.color as { open: () => void }).open();
           }
         }
       };
