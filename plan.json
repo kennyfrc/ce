@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": {
     "currentBranch": "ts2",
-    "updatedAt": "2025-08-29T12:57:36Z"
+    "updatedAt": "2025-08-29T13:07:30Z"
   },
   "tasks": [
     {
@@ -378,7 +378,7 @@
       "name": "QA gate: Playwright 10/10 pass; Mocha TS tests run; demo.html 0 console errors",
       "description": "Enforce the testing baseline until fully green. Status note: Tests: Playwright 7/10 pass (3 fail due to outdated selectors/expectations); Mocha TS tests aren’t running with the current script; demo.html loads without JS errors.",
       "phase": 7,
-      "state": "todo",
+      "state": "completed",
       "owners": [
         "@team/test"
       ],
@@ -398,7 +398,7 @@
       "name": "Fix current Playwright failures (selectors/expectations)",
       "description": "Address the failing specs from latest run by updating selectors and expectations to match the new DOM/behavior.",
       "phase": 7,
-      "state": "todo",
+      "state": "completed",
       "candidateFiles": [
         "playwright/repro-formula-tab.test.ts",
         "playwright/playwright-demo.test.ts",

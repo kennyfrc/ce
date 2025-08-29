@@ -422,7 +422,7 @@ const getNextDefaultWorksheetName = function (spreadsheet) {
     return "Sheet" + (largestWorksheetNumber + 1);
 };
 exports.getNextDefaultWorksheetName = getNextDefaultWorksheetName;
-const buildWorksheet = async function () {
+const buildWorksheet = function () {
     const obj = this;
     const el = obj.element;
     const spreadsheet = obj.parent;
@@ -497,7 +497,9 @@ const buildWorksheet = async function () {
         // Prepare table
         prepareTable.call(obj);
     }
-    await Promise.all(promises);
+    if (promises.length > 0) {
+        Promise.all(promises);
+    }
     if (typeof spreadsheet.plugins === "object") {
         Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {
             const typedPlugin = plugin;

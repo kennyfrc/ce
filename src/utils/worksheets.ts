@@ -558,7 +558,7 @@ export const getNextDefaultWorksheetName = function (
   return "Sheet" + (largestWorksheetNumber + 1);
 };
 
-export const buildWorksheet = async function (this: WorksheetInstance) {
+export const buildWorksheet = function (this: WorksheetInstance) {
   const obj = this;
   const el = obj.element;
 
@@ -644,7 +644,9 @@ export const buildWorksheet = async function (this: WorksheetInstance) {
     prepareTable.call(obj);
   }
 
-  await Promise.all(promises);
+  if (promises.length > 0) {
+    Promise.all(promises);
+  }
 
   if (typeof spreadsheet.plugins === "object") {
     Object.entries(spreadsheet.plugins).forEach(function ([, plugin]) {

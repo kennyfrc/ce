@@ -29,7 +29,7 @@ interface Factory {
     el: HTMLElement,
     options: SpreadsheetOptions,
     worksheets: WorksheetInstance[]
-  ): Promise<SpreadsheetInstance>;
+  ): SpreadsheetInstance;
   worksheet(
     spreadsheet: SpreadsheetInstance,
     options: SpreadsheetOptions,
@@ -39,7 +39,7 @@ interface Factory {
 
 const factory: Factory = function () {};
 
-const createWorksheets = async function (
+const createWorksheets = function (
   this: SpreadsheetContext,
   spreadsheet: SpreadsheetInstance,
   options: SpreadsheetOptions,
@@ -85,17 +85,16 @@ const createWorksheets = async function (
 
         newWorksheet.element = newTabContent;
 
-        buildWorksheet.call(newWorksheet).then(function () {
-          updateToolbar.call(spreadsheet, newWorksheet);
+        buildWorksheet.call(newWorksheet);
+        updateToolbar.call(spreadsheet, newWorksheet);
 
-          dispatch.call(
-            newWorksheet,
-            "oncreateworksheet",
-            newWorksheet,
-            options,
-            spreadsheet.worksheets.length - 1
-          );
-        });
+        dispatch.call(
+          newWorksheet,
+          "oncreateworksheet",
+          newWorksheet,
+          options,
+          spreadsheet.worksheets.length - 1
+        );
       },
       onchange: function (
         this: JSuitesTabs,
@@ -155,6 +154,13 @@ const createWorksheets = async function (
         parent: spreadsheet,
         element: tabs.content.children[i],
         options: o[i],
+        headers: [],
+        rows: [],
+        config: spreadsheet.config,
+        worksheets: spreadsheet.worksheets,
+        tbody: document.createElement("tbody"),
+        table: document.createElement("table"),
+        records: [],
         filters: [],
         formula: {} as Record<string, string[]>,
         history: [],
@@ -162,14 +168,14 @@ const createWorksheets = async function (
         historyIndex: -1,
              } as unknown as WorksheetInstance);
 
-      await buildWorksheet.call(spreadsheet.worksheets[i]);
+      buildWorksheet.call(spreadsheet.worksheets[i]);
     }
   } else {
     throw new Error("JSS: worksheets are not defined");
   }
 };
 
-factory.spreadsheet = async function (
+factory.spreadsheet = function (
   el: HTMLElement,
   options: SpreadsheetOptions,
   worksheets: WorksheetInstance[]
@@ -244,7 +250,7 @@ factory.spreadsheet = async function (
   spreadsheet.setPlugins(options.plugins as Record<string, (...args: unknown[]) => unknown> | undefined);
 
   // Create as worksheets
-  await createWorksheets.call(spreadsheet, spreadsheet, options, el);
+  createWorksheets.call(spreadsheet, spreadsheet, options, el);
 
   spreadsheet.element.appendChild(spreadsheet.contextMenu!);
 
