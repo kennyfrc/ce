@@ -106,10 +106,7 @@ const getMerge = function (cellName) {
             const mergeInfo = obj.options.mergeCells[cellName];
             if (!mergeInfo)
                 return null;
-            return [
-                mergeInfo[0],
-                mergeInfo[1],
-            ];
+            return [mergeInfo[0], mergeInfo[1]];
         }
         else {
             return null;
@@ -122,10 +119,7 @@ const getMerge = function (cellName) {
             for (let i = 0; i < keys.length; i++) {
                 const mergeInfo = obj.options.mergeCells[keys[i]];
                 if (mergeInfo) {
-                    data[keys[i]] = [
-                        mergeInfo[0],
-                        mergeInfo[1],
-                    ];
+                    data[keys[i]] = [mergeInfo[0], mergeInfo[1]];
                 }
             }
         }

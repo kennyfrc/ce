@@ -159,6 +159,7 @@ const historyProcessColumn = function (type, historyRecord) {
         obj.options.columns = (0, internalHelpers_1.injectArray)((_j = obj.options.columns) !== null && _j !== void 0 ? _j : [], columnIndex, (_k = historyRecord.columns) !== null && _k !== void 0 ? _k : []);
         obj.headers = (0, internalHelpers_1.injectArray)(obj.headers, columnIndex, (_l = historyRecord.headers) !== null && _l !== void 0 ? _l : []);
         obj.cols = (0, internalHelpers_1.injectArray)(obj.cols, columnIndex, (_m = historyRecord.cols) !== null && _m !== void 0 ? _m : []);
+        // Debug: show what will be inserted for columns
         let index = 0;
         for (let i = columnIndex; i < ((_o = historyRecord.numOfColumns) !== null && _o !== void 0 ? _o : 0) + columnIndex; i++) {
             const headerElement = (_p = historyRecord.headers) === null || _p === void 0 ? void 0 : _p[index];
@@ -244,7 +245,7 @@ const historyProcessColumn = function (type, historyRecord) {
  * Undo last action
  */
 const undo = function () {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
     const obj = this;
     // Ignore events and history
     const ignoreEvents = ((_a = obj.parent) === null || _a === void 0 ? void 0 : _a.ignoreEvents) ? true : false;
@@ -307,7 +308,7 @@ const undo = function () {
             }
         }
         else if (historyRecord.action === "setValue") {
-            // Redo for changes in cells
+            // Undo for changes in cells
             if (historyRecord.records) {
                 for (let i = 0; i < historyRecord.records.length; i++) {
                     const record = historyRecord.records[i];
@@ -331,18 +332,16 @@ const undo = function () {
                             value: record.oldValue,
                         });
                     }
-                    if (historyRecord.oldStyle) {
-                        (_k = obj.resetStyle) === null || _k === void 0 ? void 0 : _k.call(obj, historyRecord.oldStyle, true);
-                    }
                 }
             }
             // Update records
-            for (const record of records) {
-                (_l = obj.setValueFromCoords) === null || _l === void 0 ? void 0 : _l.call(obj, record.x, record.y, (_m = record.value) !== null && _m !== void 0 ? _m : null, true);
+            (_k = obj.setValue) === null || _k === void 0 ? void 0 : _k.call(obj, records, undefined, true);
+            if (historyRecord.oldStyle) {
+                (_l = obj.resetStyle) === null || _l === void 0 ? void 0 : _l.call(obj, historyRecord.oldStyle, true);
             }
             // Update selection
             if (historyRecord.selection) {
-                (_o = obj.updateSelectionFromCoords) === null || _o === void 0 ? void 0 : _o.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
+                (_m = obj.updateSelectionFromCoords) === null || _m === void 0 ? void 0 : _m.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
             }
         }
     }
@@ -358,7 +357,7 @@ exports.undo = undo;
  * Redo previously undone action
  */
 const redo = function () {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     const obj = this;
     // Ignore events and history
     const ignoreEvents = ((_a = obj.parent) === null || _a === void 0 ? void 0 : _a.ignoreEvents) ? true : false;
@@ -424,22 +423,32 @@ const redo = function () {
                         // Handle array of arrays case - take first element
                         const firstElement = record[0];
                         if (firstElement && typeof firstElement === 'object' && 'x' in firstElement && 'y' in firstElement) {
-                            (_j = obj.setValueFromCoords) === null || _j === void 0 ? void 0 : _j.call(obj, firstElement.x, firstElement.y, (_k = firstElement.oldValue) !== null && _k !== void 0 ? _k : null, true);
+                            records.push({
+                                x: firstElement.x,
+                                y: firstElement.y,
+                                value: firstElement.newValue,
+                            });
                         }
                     }
                     else if (record && typeof record === 'object' && 'x' in record && 'y' in record) {
                         // Handle flat array case
-                        (_l = obj.setValueFromCoords) === null || _l === void 0 ? void 0 : _l.call(obj, record.x, record.y, (_m = record.oldValue) !== null && _m !== void 0 ? _m : null, true);
+                        records.push({
+                            x: record.x,
+                            y: record.y,
+                            value: record.value,
+                        });
                     }
                 }
+                // Update records
+                (_j = obj.setValue) === null || _j === void 0 ? void 0 : _j.call(obj, records, undefined, true);
                 // Reset old style if present (do this once, not in loop)
                 if (historyRecord.oldStyle) {
-                    (_o = obj.resetStyle) === null || _o === void 0 ? void 0 : _o.call(obj, historyRecord.oldStyle, true);
+                    (_k = obj.resetStyle) === null || _k === void 0 ? void 0 : _k.call(obj, historyRecord.oldStyle, true);
                 }
             }
             // Update selection
             if (historyRecord.selection) {
-                (_p = obj.updateSelectionFromCoords) === null || _p === void 0 ? void 0 : _p.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
+                (_l = obj.updateSelectionFromCoords) === null || _l === void 0 ? void 0 : _l.call(obj, historyRecord.selection[0], historyRecord.selection[1], historyRecord.selection[2], historyRecord.selection[3]);
             }
         }
     }

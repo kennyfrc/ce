@@ -39,7 +39,7 @@ describe('Merge tests', () => {
                         }
                     }]
             });
-            (0, chai_1.expect)((_b = (_a = instance[0]).getMerge) === null || _b === void 0 ? void 0 : _b.call(_a, 'C1')).to.have.length(3); // [colspan, rowspan, elements]
+            (0, chai_1.expect)((_b = (_a = instance[0]).getMerge) === null || _b === void 0 ? void 0 : _b.call(_a, 'C1')).to.have.length(2); // [colspan, rowspan]
             (0, chai_1.expect)((_d = (_c = instance[0]).getMerge) === null || _d === void 0 ? void 0 : _d.call(_c, 'C2')).to.equal(null);
             (0, chai_1.expect)((_f = (_e = instance[0]).getMerge) === null || _f === void 0 ? void 0 : _f.call(_e)).to.have.property('C1');
         });

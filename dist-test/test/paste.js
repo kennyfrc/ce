@@ -342,12 +342,10 @@ describe("Paste", () => {
         expect((_p = sheet === null || sheet === void 0 ? void 0 : sheet.getStyle) === null || _p === void 0 ? void 0 : _p.call(sheet, "C4", "color")).to.eql("red");
         expect((_q = sheet === null || sheet === void 0 ? void 0 : sheet.getStyle) === null || _q === void 0 ? void 0 : _q.call(sheet, "D4", "color")).to.eql("");
     });
-    it("copy and paste to another sheet", async () => {
+    it("copy and paste to another sheet", () => {
         var _a, _b, _c, _d, _e, _f;
         global.document.execCommand = function execCommandMock(commandId, showUI, value) { return true; };
-        let isLoaded = false;
         let sheets = (0, index_1.default)(root, {
-            tabs: true,
             worksheets: [
                 {
                     data: fixtureData(),
@@ -358,22 +356,7 @@ describe("Paste", () => {
                     worksheetName: "Sheet2",
                 },
             ],
-            onload: () => {
-                isLoaded = true;
-            },
         });
-        const awaitLoop = (resolve, reject) => {
-            setTimeout(() => {
-                if (isLoaded) {
-                    resolve();
-                }
-                else {
-                    awaitLoop(resolve, reject);
-                }
-            }, 100);
-        };
-        // NOTE: jpreadsheet constructor is acutally async. So it waits for load events in await.
-        await new Promise(awaitLoop);
         const from = sheets[0];
         (_a = from === null || from === void 0 ? void 0 : from.setStyle) === null || _a === void 0 ? void 0 : _a.call(from, "A1", "color", "red");
         (_b = from === null || from === void 0 ? void 0 : from.updateSelectionFromCoords) === null || _b === void 0 ? void 0 : _b.call(from, 0, 0, 1, 0);

@@ -94,7 +94,7 @@ const createWorksheets = async function (spreadsheet, options, el) {
                 selection: [],
                 historyIndex: -1,
             });
-            await worksheets_1.buildWorksheet.call(spreadsheet.worksheets[i]);
+            worksheets_1.buildWorksheet.call(spreadsheet.worksheets[i]);
         }
     }
     else {
@@ -153,7 +153,7 @@ factory.spreadsheet = async function (el, options, worksheets) {
     };
     spreadsheet.setPlugins(options.plugins);
     // Create as worksheets
-    await createWorksheets.call(spreadsheet, spreadsheet, options, el);
+    createWorksheets.call(spreadsheet, spreadsheet, options, el);
     spreadsheet.element.appendChild(spreadsheet.contextMenu);
     // Create element
     jsuites_1.default.contextmenu(spreadsheet.contextMenu, {
