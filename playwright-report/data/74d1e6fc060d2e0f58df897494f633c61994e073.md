@@ -1,0 +1,142 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - heading "Jspreadsheet CE Demo" [level=1] [ref=e3]
+  - paragraph [ref=e4]: This demo showcases the features of Jspreadsheet CE, a lightweight JavaScript spreadsheet library.
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - heading "📊 Data Grid" [level=3] [ref=e7]
+      - paragraph [ref=e8]: Excel-like spreadsheet functionality with rich data handling
+    - generic [ref=e9]:
+      - heading "🎯 Multiple Column Types" [level=3] [ref=e10]
+      - paragraph [ref=e11]: Text, dropdown, calendar, checkbox, numeric, color, and more
+    - generic [ref=e12]:
+      - heading "📋 Copy/Paste" [level=3] [ref=e13]
+      - paragraph [ref=e14]: Excel-compatible copy and paste operations
+    - generic [ref=e15]:
+      - heading "🔍 Search & Filter" [level=3] [ref=e16]
+      - paragraph [ref=e17]: Advanced search and filtering capabilities
+    - generic [ref=e18]:
+      - heading "📈 Formulas" [level=3] [ref=e19]
+      - paragraph [ref=e20]: Built-in formula support with custom functions
+    - generic [ref=e21]:
+      - heading "🎨 Styling" [level=3] [ref=e22]
+      - paragraph [ref=e23]: Customizable appearance and themes
+  - generic [ref=e24]:
+    - heading "1. Basic Spreadsheet" [level=2] [ref=e25]
+    - paragraph [ref=e26]: A simple spreadsheet with different column types and sample data.
+    - region "Tab Panels" [ref=e29]:
+      - generic [ref=e31]:
+        - table [ref=e32]:
+          - rowgroup [ref=e42]:
+            - row "Car Model Manufacturer Available Date Image URL In Stock Price Color" [ref=e43]:
+              - cell [ref=e44] [cursor=pointer]
+              - cell "Car Model" [ref=e45] [cursor=pointer]
+              - cell "Manufacturer" [ref=e46] [cursor=pointer]
+              - cell "Available Date" [ref=e47] [cursor=pointer]
+              - cell "Image URL" [ref=e48] [cursor=pointer]
+              - cell "In Stock" [ref=e49] [cursor=pointer]
+              - cell "Price" [ref=e50] [cursor=pointer]
+              - cell "Color" [ref=e51] [cursor=pointer]
+          - rowgroup [ref=e52]:
+            - row "1 Jazz Honda 2019-02-12 $ 2,000.00" [ref=e53]:
+              - cell "1" [ref=e54]
+              - cell "Jazz" [ref=e55]
+              - cell "Honda" [ref=e56]
+              - cell "2019-02-12" [ref=e57]
+              - cell [ref=e58]
+              - cell [ref=e59]:
+                - checkbox [checked] [ref=e60]
+              - cell "$ 2,000.00" [ref=e61]
+              - cell [ref=e62]
+            - row "2 Civic Honda 2018-07-11 $ 4,000.01" [ref=e64]:
+              - cell "2" [ref=e65]
+              - cell "Civic" [ref=e66]
+              - cell "Honda" [ref=e67]
+              - cell "2018-07-11" [ref=e68]
+              - cell [ref=e69]
+              - cell [ref=e70]:
+                - checkbox [checked] [ref=e71]
+              - cell "$ 4,000.01" [ref=e72]
+              - cell [ref=e73]
+            - row "3 Corolla Toyota 2020-01-15 $ 2,200.50" [ref=e75]:
+              - cell "3" [ref=e76]
+              - cell "Corolla" [ref=e77]
+              - cell "Toyota" [ref=e78]
+              - cell "2020-01-15" [ref=e79]
+              - cell [ref=e80]
+              - cell [ref=e81]:
+                - checkbox [ref=e82]
+              - cell "$ 2,200.50" [ref=e83]
+              - cell [ref=e84]
+            - row "4 Mustang Ford 2019-11-20 $ 3,500.75" [ref=e86]:
+              - cell "4" [ref=e87]
+              - cell "Mustang" [ref=e88]
+              - cell "Ford" [ref=e89]
+              - cell "2019-11-20" [ref=e90]
+              - cell [ref=e91]
+              - cell [ref=e92]:
+                - checkbox [checked] [ref=e93]
+              - cell "$ 3,500.75" [ref=e94]
+              - cell [ref=e95]
+        - textbox [ref=e98]
+    - generic [ref=e99]:
+      - button "Get Data" [ref=e100] [cursor=pointer]
+      - button "Add Row" [ref=e101] [cursor=pointer]
+      - button "Clear Data" [ref=e102] [cursor=pointer]
+  - generic [ref=e103]:
+    - heading "2. Advanced Features" [level=2] [ref=e104]
+    - paragraph [ref=e105]: Showcasing formulas, search, and other advanced functionality.
+    - region "Tab Panels" [ref=e108]:
+      - generic [ref=e110]:
+        - table [ref=e111]:
+          - rowgroup [ref=e118]:
+            - row "Product Quantity Price Total" [ref=e119]:
+              - cell [ref=e120] [cursor=pointer]
+              - cell "Product" [ref=e121] [cursor=pointer]
+              - cell "Quantity" [ref=e122] [cursor=pointer]
+              - cell "Price" [ref=e123] [cursor=pointer]
+              - cell "Total" [ref=e124] [cursor=pointer]
+          - rowgroup [ref=e125]:
+            - row "1 Product A 10 $ 25.99 $ 259.90" [ref=e126]:
+              - cell "1" [ref=e127]
+              - cell "Product A" [ref=e128]
+              - cell "10" [ref=e129]
+              - cell "$ 25.99" [ref=e130]
+              - cell "$ 259.90" [ref=e131]
+            - row "2 Product B 5 $ 49.99 $ 249.95" [ref=e132]:
+              - cell "2" [ref=e133]
+              - cell "Product B" [ref=e134]
+              - cell "5" [ref=e135]
+              - cell "$ 49.99" [ref=e136]
+              - cell "$ 249.95" [ref=e137]
+            - row "3 Product C 8 $ 15.50 $ 124.00" [ref=e138]:
+              - cell "3" [ref=e139]
+              - cell "Product C" [ref=e140]
+              - cell "8" [ref=e141]
+              - cell "$ 15.50" [ref=e142]
+              - cell "$ 124.00" [ref=e143]
+            - row "4 Product D 12 $ 9.99 $ 119.88" [ref=e144]:
+              - cell "4" [ref=e145]
+              - cell "Product D" [ref=e146]
+              - cell "12" [ref=e147]
+              - cell "$ 9.99" [ref=e148]
+              - cell "$ 119.88" [ref=e149]
+            - row "5 $ $ 753.73" [ref=e150]:
+              - cell "5" [ref=e151]
+              - cell [ref=e152]
+              - cell [ref=e153]
+              - cell "$" [ref=e154]
+              - cell "$ 753.73" [ref=e155]
+        - textbox [ref=e157]
+    - generic [ref=e158]:
+      - button "Search" [active] [ref=e159] [cursor=pointer]
+      - button "Apply Formula" [ref=e160] [cursor=pointer]
+      - button "Export CSV" [ref=e161] [cursor=pointer]
+  - generic [ref=e162]:
+    - heading "3. Code Examples" [level=2] [ref=e163]
+    - paragraph [ref=e164]: How to initialize and work with Jspreadsheet programmatically.
+    - heading "Basic Initialization" [level=3] [ref=e165]
+    - code [ref=e167]: "jspreadsheet(document.getElementById('spreadsheet'), { worksheets: [{ data: [ ['Jazz', 'Honda', '2019-02-12', '', true, '$ 2.000,00', '#777700'], ['Civic', 'Honda', '2018-07-11', '', true, '$ 4.000,01', '#007777'], ], columns: [ { type: 'text', title:'Car', width:120 }, { type: 'dropdown', title:'Make', width:200, source:['Alfa Romeo','Audi','Bmw','Honda'] }, { type: 'calendar', title:'Available', width:200 }, { type: 'image', title:'Photo', width:120 }, { type: 'checkbox', title:'Stock', width:80 }, { type: 'numeric', title:'Price', width:100, mask:'$ #.##,00', decimal:',' }, { type: 'color', width:100, render:'square' } ] }] });"
+```

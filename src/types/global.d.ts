@@ -7,6 +7,11 @@ declare global {
 
   var root: HTMLDivElement;
 
+  interface Window {
+    jss?: typeof import("../index").default;
+    instance?: ReturnType<typeof import("../index").default>;
+  }
+
   interface Navigator {
     msSaveOrOpenBlob?: (blob: Blob, defaultName?: string) => boolean;
   }
@@ -26,6 +31,8 @@ declare global {
 
   interface Window {
     clipboardData?: DataTransfer;
+    jss?: typeof import("../index").default;
+    instance?: ReturnType<typeof import("../index").default>;
   }
 
   function $(element: HTMLElement | string): {
@@ -39,10 +46,6 @@ interface HTMLElement {
   spreadsheet?: import("../types/core").SpreadsheetInstance;
   tabs?: JSuitesTabsType;
   contextmenu?: JSuitesContextMenuType;
-}
-
-interface Window {
-  clipboardData?: DataTransfer;
 }
 
 declare function $(element: HTMLElement | string): {

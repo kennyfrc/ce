@@ -25,12 +25,11 @@ libraryBase.jspreadsheet = (function (
     const worksheets: WorksheetInstance[] = [];
 
     // Create spreadsheet
-    void Factory.spreadsheet(el, options, worksheets).then((spreadsheet) => {
-      libraryBase.jspreadsheet.spreadsheet!.push(spreadsheet);
+    const spreadsheet = Factory.spreadsheet(el, options, worksheets);
+    libraryBase.jspreadsheet.spreadsheet!.push(spreadsheet);
 
-      // Global onload event
-      dispatch.call(spreadsheet, "onload");
-    });
+    // Global onload event
+    dispatch.call(spreadsheet, "onload");
 
     return worksheets;
   } catch (e) {

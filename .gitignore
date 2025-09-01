@@ -6,3 +6,16 @@
 .agent/
 .agent/
 original-ce/
+
+  # Development and migration files
+  plan*.json
+  plan-analysis.json
+  plan-v2.json
+  port*.md
+  porting-notes.md
+  debug-screenshot.png
+  *backup*
+  *tmp*
+  *original*
+  *orig*
+analysis/

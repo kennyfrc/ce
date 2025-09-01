@@ -13,7 +13,7 @@ const dispatch_1 = __importDefault(require("./dispatch"));
 const helpers_1 = require("./helpers");
 const config_1 = require("./config");
 const factory = function () { };
-const createWorksheets = async function (spreadsheet, options, el) {
+const createWorksheets = function (spreadsheet, options, el) {
     var _a;
     // Create worksheets
     let o = options.worksheets;
@@ -41,10 +41,9 @@ const createWorksheets = async function (spreadsheet, options, el) {
                 }
                 const newWorksheet = spreadsheet.worksheets[spreadsheet.worksheets.length - 1];
                 newWorksheet.element = newTabContent;
-                worksheets_1.buildWorksheet.call(newWorksheet).then(function () {
-                    toolbar_1.updateToolbar.call(spreadsheet, newWorksheet);
-                    dispatch_1.default.call(newWorksheet, "oncreateworksheet", newWorksheet, options, spreadsheet.worksheets.length - 1);
-                });
+                worksheets_1.buildWorksheet.call(newWorksheet);
+                toolbar_1.updateToolbar.call(spreadsheet, newWorksheet);
+                dispatch_1.default.call(newWorksheet, "oncreateworksheet", newWorksheet, options, spreadsheet.worksheets.length - 1);
             },
             onchange: function (element, instance, tabIndex) {
                 if (spreadsheet.worksheets.length != 0 &&
@@ -88,6 +87,13 @@ const createWorksheets = async function (spreadsheet, options, el) {
                 parent: spreadsheet,
                 element: tabs.content.children[i],
                 options: o[i],
+                headers: [],
+                rows: [],
+                config: spreadsheet.config,
+                worksheets: spreadsheet.worksheets,
+                tbody: document.createElement("tbody"),
+                table: document.createElement("table"),
+                records: [],
                 filters: [],
                 formula: {},
                 history: [],
@@ -101,7 +107,7 @@ const createWorksheets = async function (spreadsheet, options, el) {
         throw new Error("JSS: worksheets are not defined");
     }
 };
-factory.spreadsheet = async function (el, options, worksheets) {
+factory.spreadsheet = function (el, options, worksheets) {
     if (el.tagName == "TABLE") {
         if (!options) {
             options = {};

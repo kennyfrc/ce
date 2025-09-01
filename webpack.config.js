@@ -99,7 +99,7 @@ const webpack = {
             },
           },
         ],
-        exclude: [/node_modules/, /src\/test\.ts$/],
+        exclude: (file) => /node_modules/.test(file) || file === "/Users/kennyfrc/.worktrees/ts2/src/test.ts",
       },
       {
         test: /\.css$/,

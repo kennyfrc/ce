@@ -48,11 +48,10 @@ libraryBase_1.default.jspreadsheet = (function (el, options) {
     try {
         const worksheets = [];
         // Create spreadsheet
-        void factory_1.default.spreadsheet(el, options, worksheets).then((spreadsheet) => {
-            libraryBase_1.default.jspreadsheet.spreadsheet.push(spreadsheet);
-            // Global onload event
-            dispatch_1.default.call(spreadsheet, "onload");
-        });
+        const spreadsheet = factory_1.default.spreadsheet(el, options, worksheets);
+        libraryBase_1.default.jspreadsheet.spreadsheet.push(spreadsheet);
+        // Global onload event
+        dispatch_1.default.call(spreadsheet, "onload");
         return worksheets;
     }
     catch (e) {
