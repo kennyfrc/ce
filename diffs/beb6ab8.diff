@@ -1,0 +1,27 @@
+commit beb6ab86dbbd13d0770411a6bbb4a196aeb63716
+Author: snurf198 <sangmin@togglecampus.com>
+Date:   Thu Jul 24 15:15:49 2025 +0900
+
+    added type for onunmerge
+
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 738dc30..8f37546 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -871,6 +871,16 @@ declare namespace jspreadsheet {
+       merges: Record<string, [number, number]>,
+     ) => void;
+ 
++    /**
++     * Occurs when a merge is removed.
++     * @param instance - Instance of the worksheet where the change occurred.
++     * @param cellName - Address of the cell that merge was removed.
++     */
++    onunmerge?: (
++      instance: WorksheetInstance,
++      cellName: string,      
++    ) => void;
++
+     /**
+      * Occurs after a column is moved to a new position.
+      * @param instance - Instance of the worksheet where the change occurred.

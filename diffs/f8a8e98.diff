@@ -1,0 +1,77 @@
+commit f8a8e9810a6fb073b732474a1ea4e0c0b9495b6b
+Author: Pedro Teles <phtf.pedro12@gmail.com>
+Date:   Wed Aug 27 10:19:39 2025 -0300
+
+    fix error by changing minDimensions[0]
+
+diff --git a/docs/jspreadsheet/support.md b/docs/jspreadsheet/support.md
+new file mode 100644
+index 0000000..eaa24f7
+--- /dev/null
++++ b/docs/jspreadsheet/support.md
+@@ -0,0 +1,50 @@
++title: Jspreadsheet - Support  
++keywords: Contact Jspreadsheet, Get in Touch, Technical Support
++description: Contact us for expert technical support or sales inquiries about JSpreadsheet. Our team is ready to assist with all your questions and requirements.
++canonical: https://bossanova.uk/jspreadsheet/support
++
++<div class="home">
++
++
++{data-text="Jspreadsheet CE" .center}
++# Technical Support
++
++<br><br>
++
++<div class="box shadow center" data-number="3">
++<div>
++
++#### Upgrades
++
++Looking for more information? 
++
++Email: [contact@jspreadsheet.com](mailto:contact@jspreadsheet.com)
++
++[Contact Us](mailto:contact@jspreadsheet.com){.button .dark target="_blank"}
++
++</div><div>
++
++#### Technical Support
++
++Professional Technical Support
++
++Email: [support@jspreadsheet.com](mailto:support@jspreadsheet.com)
++
++[Talk to us](mailto:support@jspreadsheet.com){.button .dark target="_blank"}
++
++</div><div>
++
++#### Github
++
++GitHub repository: 
++
++[https://github.com/jspreadsheet/ce](https://github.com/jspreadsheet/ce)
++
++[![GitHub](img/github-logo.svg)](https://github.com/jspreadsheet/ce){target="_blank"}
++
++</div>
++</div>
++
++</div>
++
++<div class="space200 line"></div>
+diff --git a/src/utils/internal.js b/src/utils/internal.js
+index 24fb4b0..042376d 100644
+--- a/src/utils/internal.js
++++ b/src/utils/internal.js
+@@ -61,6 +61,10 @@ export const updateTable = function() {
+         setFooter.call(obj);
+     }
+ 
++    if (obj.options.columns.length < obj.options.minDimensions[0]) {
++        obj.options.minDimensions[0] = obj.options.columns.length;
++    }
++
+     // Update corner position
+     setTimeout(function() {
+         updateCornerPosition.call(obj);

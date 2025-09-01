@@ -283,6 +283,7 @@ export const removeMerge = function (
   const obj = this;
 
   if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
+    const beforeMerges = { [cellName]: obj.options.mergeCells[cellName] };
     const cell = getIdFromColumnName(cellName, true);
     if (typeof cell === "string") return;
     if (obj.records[cell[1]] && obj.records[cell[1]][cell[0]]) {
@@ -327,6 +328,8 @@ export const removeMerge = function (
     if (!keepOptions) {
       delete obj.options.mergeCells[cellName];
     }
+
+    dispatch.call(obj, 'onunmerge', obj, cellName, beforeMerges);
   }
 };
 

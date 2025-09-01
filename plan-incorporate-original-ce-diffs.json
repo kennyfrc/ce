@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "currentBranch": "master",
+    "updatedAt": "2025-09-01T02:25:53Z"
+  },
+  "tasks": [
+    {
+      "id": "incorp-2b1a29f",
+      "name": "Add onupdateresult event after search/filter",
+      "description": "Dispatch onupdateresult event in updateResult function",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/internal.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 1090,
+          "lineEnd": 1100
+        }
+      ],
+      "strategy": "Add dispatch.call(obj, 'onupdateresult', obj, obj.results); after updateCornerPosition.call(obj); in updateResult function",
+      "diffReference": "diffs/2b1a29f.diff"
+    },
+    {
+      "id": "incorp-4b8221b",
+      "name": "Add onunmerge event and test",
+      "description": "Dispatch onunmerge event in removeMerge function and add test",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/merges.ts",
+        "test/merges.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/merges.ts",
+          "lineStart": 250,
+          "lineEnd": 260
+        }
+      ],
+      "strategy": "Add dispatch.call(obj, 'onunmerge', obj, cellName); in removeMerge function, and add test case in test/merges.ts",
+      "diffReference": "diffs/4b8221b.diff"
+    },
+    {
+      "id": "incorp-7275820",
+      "name": "Update docs for onunmerge event",
+      "description": "Add onunmerge to events.md",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "docs/jspreadsheet/docs/events.md"
+      ],
+      "fileHints": [
+        {
+          "path": "docs/jspreadsheet/docs/events.md",
+          "lineStart": 30,
+          "lineEnd": 40
+        }
+      ],
+      "strategy": "Add | `onunmerge` | Triggered when merge is removed | in the events table",
+      "diffReference": "diffs/7275820.diff"
+    },
+    {
+      "id": "incorp-869f3e8",
+      "name": "Enhance onunmerge with beforeMerges",
+      "description": "Add beforeMerges parameter to onunmerge event",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/utils/merges.ts",
+        "src/types/core.ts",
+        "test/merges.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/merges.ts",
+          "lineStart": 220,
+          "lineEnd": 260
+        }
+      ],
+      "strategy": "Capture beforeMerges in removeMerge, pass to dispatch, update event type in core.ts, update test",
+      "diffReference": "diffs/869f3e8.diff"
+    },
+    {
+      "id": "incorp-beb6ab8",
+      "name": "Add type for onunmerge event",
+      "description": "Add onunmerge to Events interface",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "src/types/core.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/types/core.ts",
+          "lineStart": 870,
+          "lineEnd": 880
+        }
+      ],
+      "strategy": "Add onunmerge?: (instance: WorksheetInstance, cellName: string) => void; in Events interface",
+      "diffReference": "diffs/beb6ab8.diff"
+    },
+    {
+      "id": "incorp-e9a0850",
+      "name": "Remove support.md",
+      "description": "Delete docs/jspreadsheet/support.md",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "docs/jspreadsheet/support.md"
+      ],
+      "fileHints": [],
+      "strategy": "Remove the file if it exists",
+      "diffReference": "diffs/e9a0850.diff"
+    },
+    {
+      "id": "incorp-f8a8e98",
+      "name": "Add support.md and fix minDimensions",
+      "description": "Create support.md and fix minDimensions in internal.ts",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "docs/jspreadsheet/support.md",
+        "src/utils/internal.ts"
+      ],
+      "fileHints": [
+        {
+          "path": "src/utils/internal.ts",
+          "lineStart": 60,
+          "lineEnd": 80
+        }
+      ],
+      "strategy": "Create docs/jspreadsheet/support.md with content, add check in updateTable: if (obj.options.columns.length < obj.options.minDimensions[0]) obj.options.minDimensions[0] = obj.options.columns.length;",
+      "diffReference": "diffs/f8a8e98.diff"
+    },
+    {
+      "id": "incorp-fcdeaf9",
+      "name": "Update README changelog",
+      "description": "Add note about onupdateresult event",
+      "phase": 1,
+      "state": "completed",
+      "candidateFiles": [
+        "README.md"
+      ],
+      "fileHints": [
+        {
+          "path": "README.md",
+          "lineStart": 120,
+          "lineEnd": 130
+        }
+      ],
+      "strategy": "Add '### Custom - Add onupdateresult event after search/filter;' in changelog",
+      "diffReference": "diffs/fcdeaf9.diff"
+    }
+  ]
+}

@@ -135,7 +135,7 @@ export const insertColumn = function (
   // context the real worksheet instance is obj.worksheets[0]. When it's
   // called on a worksheet instance, `obj` is already the worksheet. Use
   // `worksheet` for operations that require a WorksheetInstance `this`.
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as SpreadsheetContext).worksheets?.[0] || obj;
 
   // Configuration
   if (worksheet.options.allowInsertColumn != false) {
@@ -436,7 +436,7 @@ export const moveColumn = function (
   d: number
 ): boolean | void {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
   let insertBefore: boolean;
   if (o > d) {
     insertBefore = true;
@@ -557,7 +557,7 @@ export const deleteColumn = function (
   numOfColumns?: number
 ): boolean | void {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
 
   // Global Configuration
   if (worksheet.options.allowDeleteColumn != false) {
@@ -787,7 +787,7 @@ export const getWidth = function (
   column: number | HTMLElement
 ): number | number[] {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
 
   let data;
 
@@ -832,7 +832,7 @@ export const setWidth = function (
   oldWidth?: string | number | number[]
 ): void {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
 
   if (width) {
     // Handle both array and non-array cases for oldWidth
@@ -936,7 +936,7 @@ export const showColumn = function (
   colNumber: number | number[]
 ): void {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
 
   if (!Array.isArray(colNumber)) {
     colNumber = [colNumber];
@@ -971,7 +971,7 @@ export const hideColumn = function (
   colNumber: number | number[]
 ): void {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
 
   if (!Array.isArray(colNumber)) {
     colNumber = [colNumber];
@@ -1008,7 +1008,7 @@ export const getColumnData = function (
   processed?: boolean
 ): (string | number | boolean | null)[] {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
 
   const dataset = [];
   // Go through the rows to get the data
@@ -1037,7 +1037,7 @@ export const setColumnData = function (
   force?: boolean
 ): void {
   const obj = this;
-  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
+  const worksheet = obj.worksheets?.[0] || obj;
 
   for (let j = 0; j < worksheet.rows.length; j++) {
     // Update cell

@@ -136,6 +136,18 @@ The demo showcases Jspreadsheet CE features including:
 
 The demo uses the built library from `dist/` and demonstrates both programmatic initialization and interactive usage.
 
+The demo uses the built library from `dist/` and demonstrates both programmatic initialization and interactive usage.
+
+## Jspreadsheet Changelog
+
+### Custom
+- Add onupdateresult event after search/filter;
+
+### Jspreadsheet 5.0.0
+- Separation of spreadsheet and worksheets;
+- New worksheet methods and events;
+
+## Data Grid Examples
 ## Data Grid Examples
 
 - https://bossanova.uk/jspreadsheet/docs/examples/create-from-table

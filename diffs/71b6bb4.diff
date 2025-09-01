@@ -1,0 +1,9 @@
+commit 71b6bb423a77e95e909c1e44960e44aec8ccf7eb
+Merge: fe71a3f e9a0850
+Author: HW <75275282+hodeware@users.noreply.github.com>
+Date:   Sun Aug 31 11:23:50 2025 +0100
+
+    Merge pull request #1777 from Plekest/Issue-deleteColumn-addRow
+    
+    Issue client - delete column & add row
+

@@ -76,6 +76,9 @@ const updateTable = function () {
     if (obj.options.footers) {
         footer_1.setFooter.call(obj);
     }
+    if (obj.options.columns && obj.options.minDimensions && obj.options.columns.length < obj.options.minDimensions[0]) {
+        obj.options.minDimensions[0] = obj.options.columns.length;
+    }
     // Update corner position
     setTimeout(function () {
         selection_1.updateCornerPosition.call(obj);
@@ -1212,6 +1215,7 @@ const updateResult = function () {
         pagination_1.updatePagination.call(obj);
     }
     selection_1.updateCornerPosition.call(obj);
+    dispatch_1.default.call(obj, 'onupdateresult', obj, obj.results);
     return total;
 };
 exports.updateResult = updateResult;

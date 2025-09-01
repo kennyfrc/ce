@@ -236,4 +236,56 @@ describe('Merge tests', () => {
         (0, chai_1.expect)(rows[2].children[1].getAttribute('colspan')).to.equal('2');
         (0, chai_1.expect)(rows[2].children[1].getAttribute('rowspan')).to.equal('3');
     });
+    it('removeMerge event', () => {
+        var _a, _b, _c, _d;
+        let eventCalled = false;
+        let eventCellName = null;
+        let eventInstance = null;
+        let eventBeforeMerges = null;
+        const instance = (0, index_1.default)(root, {
+            toolbar: true,
+            worksheets: [{
+                    data: [
+                        ['Mazda', 2001, 2000, '2006-01-01 12:00:00'],
+                        ['Peugeot', 2010, 5000, '2005-01-01 13:00:00'],
+                        ['Honda Fit', 2009, 3000, '2004-01-01 14:01:00'],
+                        ['Honda CRV', 2010, 6000, '2003-01-01 23:30:00'],
+                    ],
+                    minDimensions: [10, 15],
+                    columns: [
+                        {
+                            width: '300px',
+                        },
+                        {
+                            width: '80px',
+                        },
+                        {
+                            width: '100px',
+                        },
+                        {
+                            width: '150px',
+                        },
+                    ],
+                    mergeCells: {
+                        A1: [2, 2, []],
+                        E5: [3, 2, []],
+                    }
+                }],
+            onunmerge: (worksheetInstance, cellName, beforeMerges) => {
+                eventCalled = true;
+                eventCellName = cellName;
+                eventInstance = worksheetInstance;
+                eventBeforeMerges = beforeMerges;
+            }
+        });
+        (_b = (_a = instance[0]).removeMerge) === null || _b === void 0 ? void 0 : _b.call(_a, 'A1');
+        (0, chai_1.expect)(eventCalled).to.equal(true);
+        (0, chai_1.expect)(eventCellName).to.equal('A1');
+        (0, chai_1.expect)(eventInstance).to.equal(instance[0]);
+        (0, chai_1.expect)(eventBeforeMerges).to.not.equal(null);
+        (0, chai_1.expect)(eventBeforeMerges['A1'][0]).to.eql(2);
+        (0, chai_1.expect)(eventBeforeMerges['A1'][1]).to.eql(2);
+        (0, chai_1.expect)(Object.keys(eventBeforeMerges).length).to.eql(1);
+        (0, chai_1.expect)((_d = (_c = instance[0]).getMerge) === null || _d === void 0 ? void 0 : _d.call(_c, 'A1')).to.equal(null);
+    });
 });

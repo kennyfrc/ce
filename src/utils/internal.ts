@@ -83,6 +83,10 @@ export const updateTable = function(this: WorksheetInstance) {
         setFooter.call(obj);
     }
 
+    if (obj.options.columns && obj.options.minDimensions && obj.options.columns.length < obj.options.minDimensions[0]) {
+        obj.options.minDimensions[0] = obj.options.columns.length;
+    }
+
     // Update corner position
     setTimeout(function() {
         updateCornerPosition.call(obj);
@@ -1461,6 +1465,8 @@ export const updateResult = function(this: SpreadsheetContext) {
     }
 
     updateCornerPosition.call(obj);
+
+    dispatch.call(obj, 'onupdateresult', obj, obj.results);
 
     return total;
 };

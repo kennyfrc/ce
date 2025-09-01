@@ -269,6 +269,7 @@ exports.setMerge = setMerge;
 const removeMerge = function (cellName, data, keepOptions) {
     const obj = this;
     if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
+        const beforeMerges = { [cellName]: obj.options.mergeCells[cellName] };
         const cell = (0, internalHelpers_1.getIdFromColumnName)(cellName, true);
         if (typeof cell === "string")
             return;
@@ -304,6 +305,7 @@ const removeMerge = function (cellName, data, keepOptions) {
         if (!keepOptions) {
             delete obj.options.mergeCells[cellName];
         }
+        dispatch_1.default.call(obj, 'onunmerge', obj, cellName, beforeMerges);
     }
 };
 exports.removeMerge = removeMerge;

@@ -1,0 +1,9 @@
+commit c58cba2021c20c6ae3bf69d7b91d5c38efab3e89
+Merge: 71b6bb4 847bf9d
+Author: HW <75275282+hodeware@users.noreply.github.com>
+Date:   Sun Aug 31 11:25:39 2025 +0100
+
+    Merge pull request #1745 from polometallipreziosi/master
+    
+    Add onupdateresult event after search/filter
+

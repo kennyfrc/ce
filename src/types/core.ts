@@ -25,7 +25,9 @@ export interface SpreadsheetOptions {
     value: string | number | boolean | null,
     oldValue: string | number | boolean | null
   ) => void;
-  csvDelimiter?: string;
+     onupdateresult?: (instance: WorksheetInstance, results: number[] | null) => void;
+   onunmerge?: (instance: WorksheetInstance, cellName: string, beforeMerges: Record<string, [number, number]>) => void;
+   csvDelimiter?: string;
   csvFileName?: string;
   worksheetName?: string;
   freezeColumns?: number;
@@ -149,14 +151,16 @@ export interface SpreadsheetContext {
   undo?: () => void;
   redo?: () => void;
   download?: (filename?: string, format?: string) => void;
-  getSelected?: (columnNameOnly?: boolean) => string[] | Array<{
-    element: HTMLElement;
-    x: number;
-    y: number;
-    colspan?: number;
-    rowspan?: number;
-  }>;
-  setData?: (data?: CellValue[][]) => void;
+   getMerge?: (cellName?: string) => [number, number] | null | Record<string, [number, number]>;
+   removeMerge?: (cellName: string) => void;
+   getSelected?: (columnNameOnly?: boolean) => string[] | Array<{
+   element: HTMLElement;
+   x: number;
+   y: number;
+   colspan?: number;
+   rowspan?: number; 
+   }>;
+   setData?: (data?: CellValue[][]) => void;
   getSelectedRows?: () => number[];
   getData?: (
     processed?: boolean,
@@ -164,7 +168,6 @@ export interface SpreadsheetContext {
   ) => (string | number | boolean | null)[][];
   setStyle?: (o: string | Record<string, string | string[]>, k?: string | null | undefined, v?: string | null, force?: boolean, ignoreHistoryAndEvents?: boolean) => void;
   getStyle?: (cell?: string | number[], key?: string) => string | Record<string, string | null | undefined>;
-  removeMerge?: (cell: string) => void;
   setMerge?: (cell: string | undefined, colspan: number | undefined, rowspan: number | undefined, ignoreHistoryAndEvents?: boolean) => void;
   selectedCell?: number[];
   updateSelectionFromCoords?: (
@@ -198,7 +201,6 @@ export interface SpreadsheetContext {
   edition?: [HTMLElement, string, number, number];
   moveColumn?: (from: number, to: number) => void;
   orderBy?: (column: number, direction?: "asc" | "desc") => void;
-  getMerge?: (cell?: string) => Record<string, [number, number, HTMLElement[]] | false> | [number, number, HTMLElement[]] | null;
   setMeta?: (cellOrMeta: string | Record<string, Record<string, unknown>>, key?: string, value?: unknown) => void;
   getMeta?: (cell?: string) => Record<string, Record<string, unknown>> | Record<string, unknown> | null;
   paste?: (x: number, y: number, data: unknown) => void;

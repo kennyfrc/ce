@@ -1,0 +1,20 @@
+commit fcdeaf99a6c18ec4a128cb3a93977e833169884e
+Author: Alessio Leoncini <1419568+novecento@users.noreply.github.com>
+Date:   Tue Jun 17 23:25:44 2025 +0200
+
+    Note
+
+diff --git a/README.md b/README.md
+index b27dc53..3331064 100644
+--- a/README.md
++++ b/README.md
+@@ -123,6 +123,9 @@ Serve your html file and then you will get the rendered table in your browser
+ 
+ ## Jspreadsheet Changelog
+ 
++### Custom
++- Add onupdateresult event after search/filter;
++
+ ### Jspreadsheet 5.0.0
+ - Separation of spreadsheet and worksheets;
+ - New worksheet methods and events;
