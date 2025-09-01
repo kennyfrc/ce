@@ -21,3 +21,5 @@ original-ce/
 analysis/
 diffs/
 program.md
+playwright-report/
+test-results/
