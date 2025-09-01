@@ -206,6 +206,9 @@ const historyProcessColumn = function (
     obj.headers = injectArray(obj.headers, columnIndex, historyRecord.headers ?? []) as HeaderCell[];
     obj.cols = injectArray(obj.cols, columnIndex, historyRecord.cols ?? []) as Array<{ colElement: HTMLElement; x: number; }>;
 
+    // Debug: show what will be inserted for columns
+
+
     let index = 0;
     for (
       let i = columnIndex;
@@ -225,6 +228,7 @@ const historyProcessColumn = function (
 
     if (historyRecord.data && Array.isArray(historyRecord.data)) {
       for (let j = 0; j < historyRecord.data.length; j++) {
+
         if (Array.isArray(obj.options.data) && obj.options.data[j]) {
           obj.options.data[j] = injectArray(
             obj.options.data[j] as unknown[],
@@ -253,6 +257,7 @@ const historyProcessColumn = function (
               recordElement = (recordRow[index] as { element: HTMLElement }).element;
             }
             const targetElement = obj.rows[j]?.element?.children[i + 1];
+
             if (recordElement && targetElement && obj.rows[j]?.element) {
               obj.rows[j].element.insertBefore(recordElement, targetElement);
             }
@@ -326,6 +331,7 @@ const historyProcessColumn = function (
   }
 
   updateTableReferences.call(obj);
+
 };
 
 /**
@@ -360,6 +366,7 @@ export const undo = function (this: WorksheetInstance) {
     } else if (historyRecord.action === "insertColumn") {
       historyProcessColumn.call(obj, 1, historyRecord);
     } else if (historyRecord.action === "deleteColumn") {
+
       historyProcessColumn.call(obj, 0, historyRecord);
     } else if (historyRecord.action === "moveRow") {
       obj.moveRow?.(historyRecord.newValue as number, historyRecord.oldValue as number);
@@ -391,7 +398,7 @@ export const undo = function (this: WorksheetInstance) {
         updateOrder.call(obj, rows);
       }
     } else if (historyRecord.action === "setValue") {
-      // Redo for changes in cells
+      // Undo for changes in cells
       if (historyRecord.records) {
         for (let i = 0; i < historyRecord.records.length; i++) {
           const record = historyRecord.records[i];
@@ -414,15 +421,13 @@ export const undo = function (this: WorksheetInstance) {
               value: record.oldValue,
             });
           }
-
-          if (historyRecord.oldStyle) {
-            obj.resetStyle?.(historyRecord.oldStyle as Record<string, string | string[]>, true);
-          }
         }
       }
       // Update records
-      for (const record of records) {
-        obj.setValueFromCoords?.(record.x, record.y, record.value ?? null, true);
+      obj.setValue?.(records, undefined, true);
+
+      if (historyRecord.oldStyle) {
+        obj.resetStyle?.(historyRecord.oldStyle as Record<string, string | string[]>, true);
       }
 
       // Update selection
@@ -513,13 +518,24 @@ export const redo = function (this: WorksheetInstance) {
             // Handle array of arrays case - take first element
             const firstElement = record[0];
             if (firstElement && typeof firstElement === 'object' && 'x' in firstElement && 'y' in firstElement) {
-              obj.setValueFromCoords?.(firstElement.x, firstElement.y, firstElement.oldValue ?? null, true);
+              records.push({
+                x: firstElement.x,
+                y: firstElement.y,
+                value: firstElement.newValue,
+              });
             }
           } else if (record && typeof record === 'object' && 'x' in record && 'y' in record) {
             // Handle flat array case
-            obj.setValueFromCoords?.(record.x, record.y, record.oldValue ?? null, true);
+            records.push({
+              x: record.x,
+              y: record.y,
+              value: record.value,
+            });
           }
         }
+        // Update records
+        obj.setValue?.(records, undefined, true);
+
         // Reset old style if present (do this once, not in loop)
         if (historyRecord.oldStyle) {
           obj.resetStyle?.(historyRecord.oldStyle as Record<string, string | string[]>, true);

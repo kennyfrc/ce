@@ -162,7 +162,7 @@ const createWorksheets = async function (
         historyIndex: -1,
              } as unknown as WorksheetInstance);
 
-      await buildWorksheet.call(spreadsheet.worksheets[i]);
+      buildWorksheet.call(spreadsheet.worksheets[i]);
     }
   } else {
     throw new Error("JSS: worksheets are not defined");
@@ -244,7 +244,7 @@ factory.spreadsheet = async function (
   spreadsheet.setPlugins(options.plugins as Record<string, (...args: unknown[]) => unknown> | undefined);
 
   // Create as worksheets
-  await createWorksheets.call(spreadsheet, spreadsheet, options, el);
+  createWorksheets.call(spreadsheet, spreadsheet, options, el);
 
   spreadsheet.element.appendChild(spreadsheet.contextMenu!);
 

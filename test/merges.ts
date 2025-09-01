@@ -37,7 +37,7 @@ describe('Merge tests', () => {
                 }]
             });
 
-            expect(instance[0].getMerge?.('C1')).to.have.length(3) // [colspan, rowspan, elements]
+            expect(instance[0].getMerge?.('C1')).to.have.length(2) // [colspan, rowspan]
             expect(instance[0].getMerge?.('C2')).to.equal(null)
 
             expect(instance[0].getMerge?.()).to.have.property('C1')

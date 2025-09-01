@@ -131,9 +131,14 @@ export const insertColumn = function (
   properties?: ColumnDefinition[]
 ): boolean | void {
   const obj = this;
+  // Worksheet instance: when this function is called on the spreadsheet
+  // context the real worksheet instance is obj.worksheets[0]. When it's
+  // called on a worksheet instance, `obj` is already the worksheet. Use
+  // `worksheet` for operations that require a WorksheetInstance `this`.
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
   // Configuration
-  if (obj.options.allowInsertColumn != false) {
+  if (worksheet.options.allowInsertColumn != false) {
     // Records
     var records = [];
 
@@ -157,13 +162,13 @@ export const insertColumn = function (
 
     // Current column number
     let maxFromData = 0;
-    if (obj.options.data) {
-      for (const row of obj.options.data) {
+    if (worksheet.options.data) {
+      for (const row of worksheet.options.data) {
         const len = Array.isArray(row) ? row.length : Object.keys(row).length;
         if (len > maxFromData) maxFromData = len;
       }
     }
-    const currentNumOfColumns = Math.max(obj.options.columns?.length || 0, maxFromData);
+    const currentNumOfColumns = Math.max(worksheet.options.columns?.length || 0, maxFromData);
 
     const lastColumn = currentNumOfColumns - 1;
 
@@ -221,10 +226,10 @@ export const insertColumn = function (
 
     // Merged cells
     if (
-      obj.options.mergeCells &&
-      Object.keys(obj.options.mergeCells).length > 0
+      worksheet.options.mergeCells &&
+      Object.keys(worksheet.options.mergeCells).length > 0
     ) {
-      if (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], columnNumber, insertBefore).length) {
+      if (isColMerged.call(worksheet, columnNumber, insertBefore).length) {
         if (
           !confirm(
             jSuites.translate(
@@ -234,22 +239,22 @@ export const insertColumn = function (
         ) {
           return false;
         } else {
-          obj.destroyMerge?.();
+          worksheet.destroyMerge?.();
         }
       }
     }
 
     // Insert before
     const columnIndex = !insertBefore ? columnNumber + 1 : columnNumber;
-    obj.options.columns = injectArray(
-      obj.options.columns || [],
+    worksheet.options.columns = injectArray(
+      worksheet.options.columns || [],
       columnIndex,
       properties
     ) as ColumnDefinition[];
 
     // Open space in the containers
-    const currentHeaders = obj.headers.splice(columnIndex);
-    const currentColgroup = obj.cols.splice(columnIndex);
+    const currentHeaders = worksheet.headers.splice(columnIndex);
+    const currentColgroup = worksheet.cols.splice(columnIndex);
 
     // History
     const historyHeaders: HTMLElement[] = [];
@@ -260,38 +265,38 @@ export const insertColumn = function (
 
     // Add new headers
     for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
-      createCellHeader.call(obj, col);
-      obj.headerContainer?.insertBefore(
-        obj.headers[col],
-        obj.headerContainer.children[col + 1]
+      createCellHeader.call(worksheet, col);
+      worksheet.headerContainer?.insertBefore(
+        worksheet.headers[col],
+        worksheet.headerContainer.children[col + 1]
       );
-      obj.colgroupContainer?.insertBefore(
-        obj.cols[col].colElement,
-        obj.colgroupContainer.children[col + 1]
+      worksheet.colgroupContainer?.insertBefore(
+        worksheet.cols[col].colElement,
+        worksheet.colgroupContainer.children[col + 1]
       );
 
-      historyHeaders.push(obj.headers[col]);
-      historyColgroup.push(obj.cols[col]);
+      historyHeaders.push(worksheet.headers[col]);
+      historyColgroup.push(worksheet.cols[col]);
     }
 
     // Add new footer cells
-    if (obj.options.footers) {
-      for (let j = 0; j < obj.options.footers.length; j++) {
+    if (worksheet.options.footers) {
+      for (let j = 0; j < worksheet.options.footers.length; j++) {
         historyFooters[j] = [];
         for (let i = 0; i < numOfColumns; i++) {
           historyFooters[j].push("");
         }
-        obj.options.footers[j].splice(columnIndex, 0, ...historyFooters[j]);
+        worksheet.options.footers[j].splice(columnIndex, 0, ...historyFooters[j]);
       }
     }
 
     // Adding visual columns
-    for (let row = 0; row < (obj.options.data?.length || 0); row++) {
+    for (let row = 0; row < (worksheet.options.data?.length || 0); row++) {
       // Keep the current data
-      const currentData = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
-        ? (obj.options.data[row] as CellValue[]).splice(columnIndex)
+      const currentData = (worksheet.options.data && Array.isArray(worksheet.options.data) && Array.isArray(worksheet.options.data[row]))
+        ? (worksheet.options.data[row] as CellValue[]).splice(columnIndex)
         : [];
-      const currentRecord = obj.records[row].splice(columnIndex);
+      const currentRecord = worksheet.records[row].splice(columnIndex);
 
       // History
       historyData[row] = [];
@@ -300,45 +305,40 @@ export const insertColumn = function (
       for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
         // New value
         const value = data[row] ? data[row] : "";
-        if (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row])) {
-          (obj.options.data[row] as CellValue[])[col] = value;
+        if (worksheet.options.data && Array.isArray(worksheet.options.data) && Array.isArray(worksheet.options.data[row])) {
+          (worksheet.options.data[row] as CellValue[])[col] = value;
         }
         // New cell
-        const cellValue = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
-          ? (obj.options.data[row] as CellValue[])[col] ?? ""
+        const cellValue = (worksheet.options.data && Array.isArray(worksheet.options.data) && Array.isArray(worksheet.options.data[row]))
+          ? (worksheet.options.data[row] as CellValue[])[col] ?? ""
           : "";
-        const td = createCell.call(
-          obj.worksheets[0],
-          col,
-          row,
-          cellValue
-        );
-        obj.records[row][col] = {
+        const td = createCell.call(worksheet, col, row, cellValue);
+        worksheet.records[row][col] = {
           element: td,
           x: col,
           y: row,
         };
         // Add cell to the row
-        if (obj.rows[row]) {
-          obj.rows[row].element.insertBefore(
+        if (worksheet.rows[row]) {
+          worksheet.rows[row].element.insertBefore(
             td,
-            obj.rows[row].element.children[col + 1]
+            worksheet.rows[row].element.children[col + 1]
           );
         }
 
         if (
-          obj.options.columns &&
-          obj.options.columns[col] &&
-          typeof (obj.options.columns[col] as ColumnDefinition).render ===
+          worksheet.options.columns &&
+          worksheet.options.columns[col] &&
+          typeof (worksheet.options.columns[col] as ColumnDefinition).render ===
             "function"
         ) {
-          ((obj.options.columns[col] as ColumnDefinition).render as Function)?.(
+          ((worksheet.options.columns[col] as ColumnDefinition).render as Function)?.(
             td,
             value,
             col.toString(),
             row.toString(),
-            obj,
-            obj.options.columns[col] as ColumnDefinition
+            worksheet,
+            worksheet.options.columns[col] as ColumnDefinition
           );
         }
 
@@ -348,63 +348,63 @@ export const insertColumn = function (
       }
 
       // Copy the data back to the main data
-      if (obj.options.data && obj.options.data[row]) {
-        Array.prototype.push.apply(obj.options.data[row], currentData);
+      if (worksheet.options.data && worksheet.options.data[row]) {
+        Array.prototype.push.apply(worksheet.options.data[row], currentData);
       }
-      Array.prototype.push.apply(obj.records[row], currentRecord);
+      Array.prototype.push.apply(worksheet.records[row], currentRecord);
     }
 
-    Array.prototype.push.apply(obj.headers, currentHeaders);
-    Array.prototype.push.apply(obj.cols, currentColgroup);
+    Array.prototype.push.apply(worksheet.headers, currentHeaders);
+    Array.prototype.push.apply(worksheet.cols, currentColgroup);
 
-    for (let i = columnIndex; i < obj.cols.length; i++) {
-      obj.cols[i].x = i;
+    for (let i = columnIndex; i < worksheet.cols.length; i++) {
+      worksheet.cols[i].x = i;
     }
 
-    for (let j = 0; j < obj.records.length; j++) {
-      for (let i = 0; i < obj.records[j].length; i++) {
-        obj.records[j][i].x = i;
+    for (let j = 0; j < worksheet.records.length; j++) {
+      for (let i = 0; i < worksheet.records[j].length; i++) {
+        worksheet.records[j][i].x = i;
       }
     }
 
     // Adjust nested headers
     if (
-      obj.options.nestedHeaders &&
-      obj.options.nestedHeaders.length > 0 &&
-      obj.options.nestedHeaders[0] &&
-      obj.options.nestedHeaders[0][0]
+      worksheet.options.nestedHeaders &&
+      worksheet.options.nestedHeaders.length > 0 &&
+      worksheet.options.nestedHeaders[0] &&
+      worksheet.options.nestedHeaders[0][0]
     ) {
-      for (let j = 0; j < obj.options.nestedHeaders.length; j++) {
+      for (let j = 0; j < worksheet.options.nestedHeaders.length; j++) {
         const colspan =
           parseInt(
             (
-              obj.options.nestedHeaders[j][
-                obj.options.nestedHeaders[j].length - 1
+              worksheet.options.nestedHeaders[j][
+                worksheet.options.nestedHeaders[j].length - 1
               ].colspan || "1"
             ).toString()
           ) + numOfColumns;
-        obj.options.nestedHeaders[j][
-          obj.options.nestedHeaders[j].length - 1
+        worksheet.options.nestedHeaders[j][
+          worksheet.options.nestedHeaders[j].length - 1
         ].colspan = colspan;
-        obj.thead?.children[j]?.children[
-          obj.thead.children[j].children.length - 1
+        worksheet.thead?.children[j]?.children[
+          worksheet.thead.children[j].children.length - 1
         ]?.setAttribute("colspan", colspan.toString());
         const dataColumn =
-          obj.thead?.children[j]?.children[
-            obj.thead.children[j].children.length - 1
+          worksheet.thead?.children[j]?.children[
+            worksheet.thead.children[j].children.length - 1
           ]?.getAttribute("data-column");
         let oArray = dataColumn?.split(",") || [];
         for (let col = columnIndex; col < numOfColumns + columnIndex; col++) {
           oArray.push(col.toString());
         }
-        obj.thead?.children[j]?.children[
-          obj.thead.children[j].children.length - 1
+        worksheet.thead?.children[j]?.children[
+          worksheet.thead.children[j].children.length - 1
         ]?.setAttribute("data-column", oArray.join(","));
       }
     }
 
     // Keep history
-    setHistory.call(obj, {
+    setHistory.call(worksheet, {
       action: "insertColumn",
       columnNumber: columnNumber,
       numOfColumns: numOfColumns,
@@ -417,10 +417,8 @@ export const insertColumn = function (
       data: historyData,
     });
 
-    // Remove table references
-    if (obj.worksheets && obj.worksheets[0]) {
-      updateTableReferences.call(obj.worksheets[0]);
-    }
+    // Update table references on the worksheet instance
+    updateTableReferences.call(worksheet);
 
     // Events
     dispatch.call(obj, "oninsertcolumn", obj, columns);
@@ -438,6 +436,7 @@ export const moveColumn = function (
   d: number
 ): boolean | void {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
   let insertBefore: boolean;
   if (o > d) {
     insertBefore = true;
@@ -446,8 +445,8 @@ export const moveColumn = function (
   }
 
     if (
-      (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], o).length) ||
-      (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], d, !!insertBefore).length)
+      isColMerged.call(worksheet, o).length ||
+      isColMerged.call(worksheet, d, !!insertBefore).length
     ) {
     if (
       !confirm(
@@ -458,90 +457,88 @@ export const moveColumn = function (
     ) {
       return false;
     } else {
-      obj.destroyMerge?.();
+      worksheet.destroyMerge?.();
     }
   }
 
   // o and d are already numbers, no need for parseInt
 
   if (o > d) {
-    obj.headerContainer?.insertBefore(obj.headers[o], obj.headers[d]);
-    obj.colgroupContainer?.insertBefore(
-      obj.cols[o].colElement,
-      obj.cols[d].colElement
+    worksheet.headerContainer?.insertBefore(worksheet.headers[o], worksheet.headers[d]);
+    worksheet.colgroupContainer?.insertBefore(
+      worksheet.cols[o].colElement,
+      worksheet.cols[d].colElement
     );
 
-    for (let j = 0; j < obj.rows.length; j++) {
-      obj.rows[j].element.insertBefore(
-        obj.records[j][o].element,
-        obj.records[j][d].element
+    for (let j = 0; j < worksheet.rows.length; j++) {
+      worksheet.rows[j].element.insertBefore(
+        worksheet.records[j][o].element,
+        worksheet.records[j][d].element
       );
     }
   } else {
-    obj.headerContainer?.insertBefore(
-      obj.headers[o],
-      obj.headers[d].nextSibling
+    worksheet.headerContainer?.insertBefore(
+      worksheet.headers[o],
+      worksheet.headers[d].nextSibling
     );
-    obj.colgroupContainer?.insertBefore(
-      obj.cols[o].colElement,
-      obj.cols[d].colElement.nextSibling
+    worksheet.colgroupContainer?.insertBefore(
+      worksheet.cols[o].colElement,
+      worksheet.cols[d].colElement.nextSibling
     );
 
-    for (let j = 0; j < obj.rows.length; j++) {
-      obj.rows[j].element.insertBefore(
-        obj.records[j][o].element,
-        obj.records[j][d].element.nextSibling
+    for (let j = 0; j < worksheet.rows.length; j++) {
+      worksheet.rows[j].element.insertBefore(
+        worksheet.records[j][o].element,
+        worksheet.records[j][d].element.nextSibling
       );
     }
   }
 
-  obj.options.columns?.splice(d, 0, obj.options.columns.splice(o, 1)[0]);
-  obj.headers.splice(d, 0, obj.headers.splice(o, 1)[0]);
-  obj.cols.splice(d, 0, obj.cols.splice(o, 1)[0]);
+  worksheet.options.columns?.splice(d, 0, worksheet.options.columns.splice(o, 1)[0]);
+  worksheet.headers.splice(d, 0, worksheet.headers.splice(o, 1)[0]);
+  worksheet.cols.splice(d, 0, worksheet.cols.splice(o, 1)[0]);
 
   const firstAffectedIndex = Math.min(o, d);
   const lastAffectedIndex = Math.max(o, d);
 
-  for (let j = 0; j < obj.rows.length; j++) {
-    if (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j])) {
-      const movedValue = (obj.options.data[j] as CellValue[]).splice(o, 1)[0];
-      (obj.options.data[j] as CellValue[]).splice(d, 0, movedValue);
+  for (let j = 0; j < worksheet.rows.length; j++) {
+    if (worksheet.options.data && Array.isArray(worksheet.options.data) && Array.isArray(worksheet.options.data[j])) {
+      const movedValue = (worksheet.options.data[j] as CellValue[]).splice(o, 1)[0];
+      (worksheet.options.data[j] as CellValue[]).splice(d, 0, movedValue);
     }
-    obj.records[j].splice(d, 0, obj.records[j].splice(o, 1)[0]);
+    worksheet.records[j].splice(d, 0, worksheet.records[j].splice(o, 1)[0]);
   }
 
   for (let i = firstAffectedIndex; i <= lastAffectedIndex; i++) {
-    obj.cols[i].x = i;
+    worksheet.cols[i].x = i;
   }
 
-  for (let j = 0; j < obj.records.length; j++) {
+  for (let j = 0; j < worksheet.records.length; j++) {
     for (let i = firstAffectedIndex; i <= lastAffectedIndex; i++) {
-      obj.records[j][i].x = i;
+      worksheet.records[j][i].x = i;
     }
   }
 
   // Update footers position
-  if (obj.options.footers) {
-    for (let j = 0; j < obj.options.footers.length; j++) {
-      obj.options.footers[j].splice(
+  if (worksheet.options.footers) {
+    for (let j = 0; j < worksheet.options.footers.length; j++) {
+      worksheet.options.footers[j].splice(
         d,
         0,
-        obj.options.footers[j].splice(o, 1)[0]
+        worksheet.options.footers[j].splice(o, 1)[0]
       );
     }
   }
 
   // Keeping history of changes
-  setHistory.call(obj, {
+  setHistory.call(worksheet, {
     action: "moveColumn",
     oldValue: o,
     newValue: d,
   });
 
-  // Update table references
-  if (obj.worksheets && obj.worksheets[0]) {
-    updateTableReferences.call(obj.worksheets[0]);
-  }
+  // Update table references on the worksheet instance
+  updateTableReferences.call(worksheet);
 
   // Events
   dispatch.call(obj, "onmovecolumn", obj, o, d, 1);
@@ -560,17 +557,18 @@ export const deleteColumn = function (
   numOfColumns?: number
 ): boolean | void {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
   // Global Configuration
-  if (obj.options.allowDeleteColumn != false) {
-    if (obj.headers.length > 1) {
+  if (worksheet.options.allowDeleteColumn != false) {
+    if (worksheet.headers.length > 1) {
       // Delete column definitions
       if (columnNumber == undefined) {
-        const number = obj.getSelectedColumns?.(true) || [];
+        const number = worksheet.getSelectedColumns?.(true) || [];
 
         if (!number.length) {
           // Remove last column
-          columnNumber = obj.headers.length - 1;
+          columnNumber = worksheet.headers.length - 1;
           numOfColumns = 1;
         } else {
           // Remove selected
@@ -580,8 +578,8 @@ export const deleteColumn = function (
       }
 
       // Last column
-      const lastColumn = (obj.options.data && Array.isArray(obj.options.data) && obj.options.data[0] && Array.isArray(obj.options.data[0]))
-        ? obj.options.data[0].length - 1
+      const lastColumn = (worksheet.options.data && Array.isArray(worksheet.options.data) && worksheet.options.data[0] && Array.isArray(worksheet.options.data[0]))
+        ? worksheet.options.data[0].length - 1
         : 0;
 
       if (
@@ -599,10 +597,10 @@ export const deleteColumn = function (
 
       // Can't delete more than the limit of the table
       if (
-        obj.options.data && Array.isArray(obj.options.data) && obj.options.data[0] && Array.isArray(obj.options.data[0]) &&
-        numOfColumns > obj.options.data[0].length - columnNumber
+        worksheet.options.data && Array.isArray(worksheet.options.data) && worksheet.options.data[0] && Array.isArray(worksheet.options.data[0]) &&
+        numOfColumns > worksheet.options.data[0].length - columnNumber
       ) {
-        numOfColumns = obj.options.data[0].length - columnNumber;
+        numOfColumns = worksheet.options.data[0].length - columnNumber;
       }
 
       const removedColumns = [];
@@ -623,15 +621,15 @@ export const deleteColumn = function (
         // Merged cells
         let mergeExists = false;
         if (
-          obj.options.mergeCells &&
-          Object.keys(obj.options.mergeCells).length > 0
+          worksheet.options.mergeCells &&
+          Object.keys(worksheet.options.mergeCells).length > 0
         ) {
           for (
             let col = columnNumber;
             col < columnNumber + numOfColumns;
             col++
           ) {
-          if (obj.worksheets?.[0] && isColMerged.call(obj.worksheets[0], col, undefined).length) {
+            if (isColMerged.call(worksheet, col, undefined).length) {
               mergeExists = true;
             }
           }
@@ -646,69 +644,69 @@ export const deleteColumn = function (
           ) {
             return false;
           } else {
-            obj.destroyMerge?.();
+            worksheet.destroyMerge?.();
           }
         }
 
         // Delete the column properties
-        const columns = obj.options.columns
-          ? obj.options.columns.splice(columnNumber, numOfColumns)
+        const columns = worksheet.options.columns
+          ? worksheet.options.columns.splice(columnNumber, numOfColumns)
           : undefined;
 
         for (let col = columnNumber; col < columnNumber + numOfColumns; col++) {
-          obj.cols[col].colElement.className = "";
-          obj.headers[col].className = "";
-          obj.cols[col].colElement.parentNode?.removeChild(
-            obj.cols[col].colElement
+          worksheet.cols[col].colElement.className = "";
+          worksheet.headers[col].className = "";
+          worksheet.cols[col].colElement.parentNode?.removeChild(
+            worksheet.cols[col].colElement
           );
-          obj.headers[col].parentNode?.removeChild(obj.headers[col]);
+          worksheet.headers[col].parentNode?.removeChild(worksheet.headers[col]);
         }
 
-        const historyHeaders = obj.headers.splice(columnNumber, numOfColumns);
-        const historyColgroup = obj.cols.splice(columnNumber, numOfColumns);
+        const historyHeaders = worksheet.headers.splice(columnNumber, numOfColumns);
+        const historyColgroup = worksheet.cols.splice(columnNumber, numOfColumns);
         const historyRecords = [];
         const historyData = [];
         const historyFooters = [];
 
-        for (let row = 0; row < (obj.options.data?.length || 0); row++) {
+        for (let row = 0; row < (worksheet.options.data?.length || 0); row++) {
           for (
             let col = columnNumber;
             col < columnNumber + numOfColumns;
             col++
           ) {
-            obj.records[row][col].element.className = "";
-            obj.records[row][col].element.parentNode?.removeChild(
-              obj.records[row][col].element
+            worksheet.records[row][col].element.className = "";
+            worksheet.records[row][col].element.parentNode?.removeChild(
+              worksheet.records[row][col].element
             );
           }
         }
 
         // Delete headers
-        for (let row = 0; row < (obj.options.data?.length || 0); row++) {
+        for (let row = 0; row < (worksheet.options.data?.length || 0); row++) {
           // History
-          historyData[row] = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[row]))
-            ? (obj.options.data[row] as CellValue[]).splice(columnNumber, numOfColumns)
+          historyData[row] = (worksheet.options.data && Array.isArray(worksheet.options.data) && Array.isArray(worksheet.options.data[row]))
+            ? (worksheet.options.data[row] as CellValue[]).splice(columnNumber, numOfColumns)
             : [];
-          historyRecords[row] = obj.records[row].splice(
+          historyRecords[row] = worksheet.records[row].splice(
             columnNumber,
             numOfColumns
           );
         }
 
-        for (let i = columnNumber; i < obj.cols.length; i++) {
-          obj.cols[i].x = i;
+        for (let i = columnNumber; i < worksheet.cols.length; i++) {
+          worksheet.cols[i].x = i;
         }
 
-        for (let j = 0; j < obj.records.length; j++) {
-          for (let i = columnNumber; i < obj.records[j].length; i++) {
-            obj.records[j][i].x = i;
+        for (let j = 0; j < worksheet.records.length; j++) {
+          for (let i = columnNumber; i < worksheet.records[j].length; i++) {
+            worksheet.records[j][i].x = i;
           }
         }
 
         // Delete footers
-        if (obj.options.footers) {
-          for (let row = 0; row < obj.options.footers.length; row++) {
-            historyFooters[row] = obj.options.footers[row].splice(
+        if (worksheet.options.footers) {
+          for (let row = 0; row < worksheet.options.footers.length; row++) {
+            historyFooters[row] = worksheet.options.footers[row].splice(
               columnNumber,
               numOfColumns
             );
@@ -717,7 +715,7 @@ export const deleteColumn = function (
 
         // Remove selection
         conditionalSelectionUpdate.call(
-          obj.worksheets[0],
+          worksheet,
           0,
           columnNumber,
           columnNumber + numOfColumns - 1
@@ -725,35 +723,35 @@ export const deleteColumn = function (
 
         // Adjust nested headers
         if (
-          obj.options.nestedHeaders &&
-          obj.options.nestedHeaders.length > 0 &&
-          obj.options.nestedHeaders[0] &&
-          obj.options.nestedHeaders[0][0]
+          worksheet.options.nestedHeaders &&
+          worksheet.options.nestedHeaders.length > 0 &&
+          worksheet.options.nestedHeaders[0] &&
+          worksheet.options.nestedHeaders[0][0]
         ) {
-          for (let j = 0; j < obj.options.nestedHeaders.length; j++) {
+          for (let j = 0; j < worksheet.options.nestedHeaders.length; j++) {
             const colspan =
               parseInt(
                 String(
-                  obj.options.nestedHeaders[j]?.[
-                    obj.options.nestedHeaders[j].length - 1
+                  worksheet.options.nestedHeaders[j]?.[
+                    worksheet.options.nestedHeaders[j].length - 1
                   ]?.colspan || "1"
                 )
               ) - numOfColumns;
-            obj.options.nestedHeaders[j][
-              obj.options.nestedHeaders[j].length - 1
+            worksheet.options.nestedHeaders[j][
+              worksheet.options.nestedHeaders[j].length - 1
             ].colspan = colspan;
-            obj.thead?.children[j]?.children[
-              obj.thead.children[j].children.length - 1
+            worksheet.thead?.children[j]?.children[
+              worksheet.thead.children[j].children.length - 1
             ]?.setAttribute("colspan", String(colspan));
           }
         }
 
         // Keeping history of changes
-        setHistory.call(obj, {
+        setHistory.call(worksheet, {
           action: "deleteColumn",
           columnNumber: columnNumber,
           numOfColumns: numOfColumns,
-          insertBefore: false,
+          insertBefore: true,
           columns: columns,
           headers: historyHeaders,
           cols: historyColgroup,
@@ -762,10 +760,10 @@ export const deleteColumn = function (
           data: historyData,
         });
 
-        // Update table references
-        if (obj.worksheets && obj.worksheets[0]) {
-          updateTableReferences.call(obj.worksheets[0]);
-        }
+
+
+        // Update table references on the worksheet instance
+        updateTableReferences.call(worksheet);
 
         // Delete
         dispatch.call(obj, "ondeletecolumn", obj, removedColumns);
@@ -789,19 +787,20 @@ export const getWidth = function (
   column: number | HTMLElement
 ): number | number[] {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
   let data;
 
   if (typeof column === "undefined") {
     // Get all headers
     data = [];
-    for (let i = 0; i < obj.headers.length; i++) {
+    for (let i = 0; i < worksheet.headers.length; i++) {
       data.push(
         Number(
-          (obj.options.columns &&
-            obj.options.columns[i] &&
-            obj.options.columns[i].width) ||
-            obj.options.defaultColWidth ||
+          (worksheet.options.columns &&
+            worksheet.options.columns[i] &&
+            worksheet.options.columns[i].width) ||
+            worksheet.options.defaultColWidth ||
             100
         )
       );
@@ -812,7 +811,7 @@ export const getWidth = function (
         ? column
         : parseInt(column.getAttribute("data-x") || "0");
     data = parseInt(
-      obj.cols[columnIndex].colElement.getAttribute("width") || "0"
+      worksheet.cols[columnIndex].colElement.getAttribute("width") || "0"
     );
   }
 
@@ -833,6 +832,7 @@ export const setWidth = function (
   oldWidth?: string | number | number[]
 ): void {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
   if (width) {
     // Handle both array and non-array cases for oldWidth
@@ -856,21 +856,21 @@ export const setWidth = function (
 
         if (!oldWidthArray[i]) {
           oldWidthArray[i] = parseInt(
-            obj.cols[columnIndex].colElement.getAttribute("width") || "0"
+            worksheet.cols[columnIndex].colElement.getAttribute("width") || "0"
           );
         }
         const w = Array.isArray(width) && width[i] ? width[i] : width;
-        obj.cols[columnIndex].colElement.setAttribute("width", w);
+        worksheet.cols[columnIndex].colElement.setAttribute("width", w);
 
-        if (!obj.options.columns) {
-          obj.options.columns = [];
+        if (!worksheet.options.columns) {
+          worksheet.options.columns = [];
         }
 
-        if (!obj.options.columns[columnIndex]) {
-          obj.options.columns[columnIndex] = {};
+        if (!worksheet.options.columns[columnIndex]) {
+          worksheet.options.columns[columnIndex] = {};
         }
 
-        obj.options.columns[columnIndex].width = w;
+        worksheet.options.columns[columnIndex].width = w;
       }
 
       finalOldWidth = oldWidthArray;
@@ -883,21 +883,21 @@ export const setWidth = function (
       // Oldwidth
       if (!oldWidth) {
         oldWidth = parseInt(
-          obj.cols[columnIndex].colElement.getAttribute("width") || "0"
+          worksheet.cols[columnIndex].colElement.getAttribute("width") || "0"
         );
       }
       // Set width
-      obj.cols[columnIndex].colElement.setAttribute("width", String(width));
+      worksheet.cols[columnIndex].colElement.setAttribute("width", String(width));
 
-      if (!obj.options.columns) {
-        obj.options.columns = [];
+      if (!worksheet.options.columns) {
+        worksheet.options.columns = [];
       }
 
-      if (!obj.options.columns[columnIndex]) {
-        obj.options.columns[columnIndex] = {};
+      if (!worksheet.options.columns[columnIndex]) {
+        worksheet.options.columns[columnIndex] = {};
       }
 
-      obj.options.columns[columnIndex].width = width;
+      worksheet.options.columns[columnIndex].width = width;
     }
 
     // Keeping history of changes
@@ -905,7 +905,7 @@ export const setWidth = function (
       ? (typeof column[0] === 'number' ? column[0] : 0)
       : (typeof column === 'number' ? column : 0);
     const historyOldValue = Array.isArray(finalOldWidth) ? finalOldWidth[0] : finalOldWidth;
-    setHistory.call(obj, {
+    setHistory.call(worksheet, {
       action: "setWidth",
       column: historyColumn,
       oldValue: historyOldValue,
@@ -936,6 +936,7 @@ export const showColumn = function (
   colNumber: number | number[]
 ): void {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
   if (!Array.isArray(colNumber)) {
     colNumber = [colNumber];
@@ -944,22 +945,22 @@ export const showColumn = function (
   for (let i = 0; i < colNumber.length; i++) {
     const columnIndex = colNumber[i];
 
-    obj.headers[columnIndex].style.display = "";
-    obj.cols[columnIndex].colElement.style.display = "";
-    if (obj.filter && obj.filter.children.length > columnIndex + 1) {
-      (obj.filter.children[columnIndex + 1] as HTMLElement).style.display = "";
+    worksheet.headers[columnIndex].style.display = "";
+    worksheet.cols[columnIndex].colElement.style.display = "";
+    if (worksheet.filter && worksheet.filter.children.length > columnIndex + 1) {
+      (worksheet.filter.children[columnIndex + 1] as HTMLElement).style.display = "";
     }
-    for (let j = 0; j < (obj.options.data?.length || 0); j++) {
-      obj.records[j][columnIndex].element.style.display = "";
+    for (let j = 0; j < (worksheet.options.data?.length || 0); j++) {
+      worksheet.records[j][columnIndex].element.style.display = "";
     }
   }
 
   // Update footers
-  if (obj.options.footers) {
-    setFooter.call(obj);
+  if (worksheet.options.footers) {
+    setFooter.call(worksheet);
   }
 
-  obj.resetSelection?.();
+  worksheet.resetSelection?.();
 };
 
 /**
@@ -970,6 +971,7 @@ export const hideColumn = function (
   colNumber: number | number[]
 ): void {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
   if (!Array.isArray(colNumber)) {
     colNumber = [colNumber];
@@ -978,23 +980,23 @@ export const hideColumn = function (
   for (let i = 0; i < colNumber.length; i++) {
     const columnIndex = colNumber[i];
 
-    obj.headers[columnIndex].style.display = "none";
-    obj.cols[columnIndex].colElement.style.display = "none";
-    if (obj.filter && obj.filter.children.length > columnIndex + 1) {
-      (obj.filter.children[columnIndex + 1] as HTMLElement).style.display =
+    worksheet.headers[columnIndex].style.display = "none";
+    worksheet.cols[columnIndex].colElement.style.display = "none";
+    if (worksheet.filter && worksheet.filter.children.length > columnIndex + 1) {
+      (worksheet.filter.children[columnIndex + 1] as HTMLElement).style.display =
         "none";
     }
-    for (let j = 0; j < (obj.options.data?.length || 0); j++) {
-      obj.records[j][columnIndex].element.style.display = "none";
+    for (let j = 0; j < (worksheet.options.data?.length || 0); j++) {
+      worksheet.records[j][columnIndex].element.style.display = "none";
     }
   }
 
   // Update footers
-  if (obj.options.footers) {
-    setFooter.call(obj);
+  if (worksheet.options.footers) {
+    setFooter.call(worksheet);
   }
 
-  obj.resetSelection?.();
+  worksheet.resetSelection?.();
 };
 
 /**
@@ -1006,15 +1008,16 @@ export const getColumnData = function (
   processed?: boolean
 ): (string | number | boolean | null)[] {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
   const dataset = [];
   // Go through the rows to get the data
-  for (let j = 0; j < (obj.options.data?.length || 0); j++) {
+  for (let j = 0; j < (worksheet.options.data?.length || 0); j++) {
     if (processed) {
-      dataset.push(obj.records[j][columnNumber].element.innerHTML);
+      dataset.push(worksheet.records[j][columnNumber].element.innerHTML);
     } else {
-      const cellValue = (obj.options.data && Array.isArray(obj.options.data) && Array.isArray(obj.options.data[j]))
-        ? (obj.options.data[j] as CellValue[])[columnNumber]
+      const cellValue = (worksheet.options.data && Array.isArray(worksheet.options.data) && Array.isArray(worksheet.options.data[j]))
+        ? (worksheet.options.data[j] as CellValue[])[columnNumber]
         : undefined;
       dataset.push(cellValue);
     }
@@ -1034,13 +1037,14 @@ export const setColumnData = function (
   force?: boolean
 ): void {
   const obj = this;
+  const worksheet: import("../types/core").WorksheetInstance = (obj as any).worksheets?.[0] || obj;
 
-  for (let j = 0; j < obj.rows.length; j++) {
+  for (let j = 0; j < worksheet.rows.length; j++) {
     // Update cell
     const columnName = getColumnNameFromId([colNumber, j]);
     // Set value
     if (data[j] != null) {
-      obj.setValue?.(columnName, data[j], force);
+      worksheet.setValue?.(columnName, data[j], force);
     }
   }
 };

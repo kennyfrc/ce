@@ -369,12 +369,10 @@ describe("Paste", () => {
     expect(sheet?.getStyle?.("D4", "color")).to.eql("");
   });
 
-  it("copy and paste to another sheet", async () => {
+  it("copy and paste to another sheet", () => {
     global.document.execCommand = function execCommandMock(commandId: string, showUI?: boolean, value?: string): boolean { return true; };
 
-    let isLoaded = false;
     let sheets = jspreadsheet(root, {
-      tabs: true,
       worksheets: [
         {
           data: fixtureData(),
@@ -385,22 +383,7 @@ describe("Paste", () => {
           worksheetName: "Sheet2",
         },
       ],
-      onload: () => {
-        isLoaded = true;
-      },
     });
-
-    const awaitLoop = (resolve: (value?: unknown) => void, reject?: (reason?: any) => void) => {
-      setTimeout(() => {
-        if (isLoaded) {
-          resolve();
-        } else {
-          awaitLoop(resolve, reject);
-        }
-      }, 100);
-    };
-    // NOTE: jpreadsheet constructor is acutally async. So it waits for load events in await.
-    await new Promise(awaitLoop);
 
     const from = sheets[0];
     from?.setStyle?.("A1", "color", "red");

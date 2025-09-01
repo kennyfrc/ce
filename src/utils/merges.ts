@@ -98,17 +98,14 @@ export const isRowMerged = function (this: WorksheetInstance, y: number, insertB
  * @param rowspan
  * @param ignoreHistoryAndEvents
  */
-export const getMerge = function (this: WorksheetInstance, cellName?: string) {
+export const getMerge = function (this: WorksheetInstance, cellName?: string): [number, number] | null | Record<string, [number, number]> {
   const obj = this;
 
   if (cellName) {
     if (obj.options.mergeCells && obj.options.mergeCells[cellName]) {
       const mergeInfo = obj.options.mergeCells[cellName];
       if (!mergeInfo) return null;
-      return [
-        mergeInfo[0],
-        mergeInfo[1],
-      ] as [number, number];
+      return [mergeInfo[0], mergeInfo[1]];
     } else {
       return null;
     }
@@ -119,10 +116,7 @@ export const getMerge = function (this: WorksheetInstance, cellName?: string) {
       for (let i = 0; i < keys.length; i++) {
         const mergeInfo = obj.options.mergeCells[keys[i]];
         if (mergeInfo) {
-          data[keys[i]] = [
-            mergeInfo[0],
-            mergeInfo[1],
-          ];
+          data[keys[i]] = [mergeInfo[0], mergeInfo[1]];
         }
       }
     }
